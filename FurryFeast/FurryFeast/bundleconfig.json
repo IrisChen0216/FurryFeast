@@ -1,0 +1,20 @@
+[
+  {
+    "outputFileName": "wwwroot/css/features.min.css",
+    "inputFiles": [
+      "wwwroot/css/features.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/footers.min.css",
+    "inputFiles": [
+      "wwwroot/css/footers.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/style.min.css",
+    "inputFiles": [
+      "wwwroot/css/style.css"
+    ]
+  }
+]
