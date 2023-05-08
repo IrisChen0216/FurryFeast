@@ -11,6 +11,7 @@ namespace FurryFeast.Controllers
 {
     public class ProductsController : Controller
     {
+        // hi
         private readonly db_a989fb_furryfeastContext _context;
 
         public ProductsController(db_a989fb_furryfeastContext context)
