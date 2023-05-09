@@ -2,154 +2,242 @@
     ViewData["Title"] = "Home Page";
 }
 
+@*//test*@
+
 @section IndexHead{
-    <header class="container-fluid">
-        <div>
-            <p class="keyVisual_title -blue font_AmaticSC">FurryFeast</p>
-            <p class="keyVisual_title -yellow font_AmaticSC">all about dogs and cats</p>
-        </div>
-        <div class="col-md-4 col-12 px-0">
-            <a href="#">
-                <img src="./image/rm366-kul-poster-06-s68-s69-ps-1.png" alt="Image 1" class="header-image header-link">
-            </a>
-        </div>
-        <div class="col-md-4 col-12 px-0">
-            <a href="#">
-                <img src="./image/rm366-kul-poster-06-s68-s69-ps-cat.png" alt="Image 2" class="header-image header-link">
-            </a>
-        </div>
-        <div class="col-md-4 col-12 px-0">
-            <a href="#">
-                <img src="./image/rm366-kul-poster-06-s68-s69-ps.png" alt="Image 3" class="header-image header-link">
-            </a>
-        </div>
-    </header>
+	<header class="container-fluid p-0 full-height" data-aos="fade-up">
+		<div class="row g-0 full-height">
+			<div class="col-md-4 d-none d-md-block">
+				<div class="image-container">
+					<a href="#"><img src="image/rm366-kul-poster-06-s68-s69-ps-1.png" alt="Image 1"></a>
+				</div>
+			</div>
+			<div class="col-md-4 d-none d-md-block">
+				<div class="image-container">
+					<a href="#"><img src="image/rm366-kul-poster-06-s68-s69-ps-cat.png" alt="Image 2"></a>
+				</div>
+			</div>
+			<div class="col-md-4 d-none d-md-block">
+				<div class="image-container">
+					<a href="#"><img src="image/rm366-kul-poster-06-s68-s69-ps.png" alt="Image 3"></a>
+				</div>
+			</div>
+			<div class="col-12 d-md-none">
+				<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+					<div class="carousel-inner">
+						<div class="carousel-item active">
+							<img src="image/rm366-kul-poster-06-s68-s69-ps-1.png" class="d-block w-100" alt="Image 1">
+						</div>
+						<div class="carousel-item">
+							<img src="image/rm366-kul-poster-06-s68-s69-ps-cat.png" class="d-block w-100" alt="Image 2">
+						</div>
+						<div class="carousel-item">
+							<img src="image/rm366-kul-poster-06-s68-s69-ps.png" class="d-block w-100" alt="Image 3">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+    
+	<div class="row justify-content-center header-text" data-aos="fade-up" data-aos-delay="150">
+		<div class="col-xl-6 col-lg-8">
+			<p>FurryFeast</p>
+			<p>all about dogs n cats.</p>
+		</div>
+	</div>
+
 }
-<section id="testimonials" class="testimonials">
-    <div class="container" data-aos="fade-up">
 
-        <div class="section-header">
-            <h2>尋找浪浪</h2>
-        </div>
+@*最新消息*@
+<div class="container-fluid ">
+	<div class="row">
+		<!-- 左邊 -->
+		<div class="col-6 " style="background: white;">
+			<div class="index-header">
+				<h2>最新消息</h2>
+			</div>
+			<div class="" data-aos="fade-up" data-aos-delay="100">
+				<div class="">
+				</div><!-- End testimonial item -->
+			</div>
+		</div>
+		<!-- 右邊 -->
+		<div class="col-6">
+			<div class="row ">
+				<!-- 九宮格 -->
+				<div class="col-4 square" style="background-color: lightgreen;"></div>
+				<div class="col-4 square" style="background-color: lightyellow;"></div>
+				<div class="col-4 square" style="background-color: lightpink;"></div>
+				<div class="col-4 square" style="background-color: lightgray;"></div>
+				<div class="col-4 square" style="background-color: lightsalmon;"></div>
+				<div class="col-4 square" style="background-color: lightcyan;"></div>
+				<div class="col-4 square" style="background-color: lightcoral;"></div>
+				<div class="col-4 square" style="background-color: lightgoldenrodyellow;"></div>
+				<div class="col-4 square" style="background-color: lightgreen;"></div>
+			</div>
+		</div>
+	</div>
+</div>
 
-        <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide ">
-                    <div class="testimonial-wrap ">
-                        <div class="col ">
-                            <div class="card-new">
-                                <div class="square-img-container">
-                                    <img class=" square-img" src="image/cat/1682728095475.png" alt="">
-                                </div>
-                                <div class="card-body-new">
-                                    <p class="">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+@*浪浪區*@
+<section class="Adopt-index-area">
+	<div class="container" data-aos="fade-up">
 
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End testimonial item -->
-                <div class="swiper-slide ">
-                    <div class="testimonial-wrap ">
-                        <div class="col ">
-                            <div class="card-new">
-                                <div class="square-img-container">
-                                    <img class=" square-img" src="image/cat/1682728095475.png" alt="">
-                                </div>
-                                <div class="card-body-new">
-                                    <p class="">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+		<div class="index-header">
+			<h2>尋找浪浪</h2>
+		</div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End testimonial item -->
-                <div class="swiper-slide ">
-                    <div class="testimonial-wrap ">
-                        <div class="col ">
-                            <div class="card-new">
-                                <div class="square-img-container">
-                                    <img class=" square-img" src="image/cat/1682728095475.png" alt="">
-                                </div>
-                                <div class="card-body-new">
-                                    <p class="">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+		<div class="clients-slider swiper" data-aos="fade-up" data-aos-delay="100">
+			<div class="swiper-wrapper">
 
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End testimonial item -->
-                <div class="swiper-slide ">
-                    <div class="testimonial-wrap ">
-                        <div class="col ">
-                            <div class="card-new">
-                                <div class="square-img-container">
-                                    <img class=" square-img" src="image/cat/1682728095475.png" alt="">
-                                </div>
-                                <div class="card-body-new">
-                                    <p class="">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+				<div class="swiper-slide move-on-hover">
+					<div class="testimonial-wrap">
+						<div class="col">
+							<a href="http://">
+							<div class="card-new ">
+								<div class="square-img-container ">
+									<img src="image/cat/1682728095475.png" alt="">
+								</div>
+								<div class="card-body-new">
+									<p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+								</div>
+							</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- End testimonial item -->
+				<div class="swiper-slide move-on-hover">
+					<div class="testimonial-wrap ">
+						<div class="col">
+							<a href="http://">
+								<div class="card-new ">
+									<div class="square-img-container ">
+										<img src="image/cat/1682728095475.png" alt="">
+									</div>
+									<div class="card-body-new">
+										<p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- End testimonial item -->
+				<div class="swiper-slide move-on-hover">
+					<div class="testimonial-wrap ">
+						<div class="col">
+							<a href="http://">
+								<div class="card-new ">
+									<div class="square-img-container ">
+										<img src="image/cat/1682728095475.png" alt="">
+									</div>
+									<div class="card-body-new">
+										<p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- End testimonial item -->
+				<div class="swiper-slide move-on-hover">
+					<div class="testimonial-wrap ">
+						<div class="col">
+							<a href="http://">
+								<div class="card-new ">
+									<div class="square-img-container ">
+										<img src="image/cat/1682728095475.png" alt="">
+									</div>
+									<div class="card-body-new">
+										<p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- End testimonial item -->
+				<div class="swiper-slide move-on-hover">
+					<div class="testimonial-wrap ">
+						<div class="col">
+							<a href="http://">
+								<div class="card-new ">
+									<div class="square-img-container ">
+										<img src="image/cat/1682728095475.png" alt="">
+									</div>
+									<div class="card-body-new">
+										<p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- End testimonial item -->
+				<div class="swiper-slide move-on-hover">
+					<div class="testimonial-wrap ">
+						<div class="col">
+							<a href="http://">
+								<div class="card-new ">
+									<div class="square-img-container ">
+										<img src="image/cat/1682728095475.png" alt="">
+									</div>
+									<div class="card-body-new">
+										<p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- End testimonial item -->
+				<div class="swiper-slide move-on-hover">
+					<div class="testimonial-wrap ">
+						<div class="col">
+							<a href="http://">
+								<div class="card-new ">
+									<div class="square-img-container ">
+										<img src="image/cat/1682728095475.png" alt="">
+									</div>
+									<div class="card-body-new">
+										<p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- End testimonial item -->
+				<div class="swiper-slide move-on-hover">
+					<div class="testimonial-wrap ">
+						<div class="col">
+							<a href="http://">
+								<div class="card-new ">
+									<div class="square-img-container ">
+										<img src="image/cat/1682728095475.png" alt="">
+									</div>
+									<div class="card-body-new">
+										<p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- End testimonial item -->
+			</div>
+		</div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End testimonial item -->
-                <div class="swiper-slide ">
-                    <div class="testimonial-wrap ">
-                        <div class="col ">
-                            <div class="card-new">
-                                <div class="square-img-container">
-                                    <img class=" square-img" src="image/cat/1682728095475.png" alt="">
-                                </div>
-                                <div class="card-body-new">
-                                    <p class="">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End testimonial item -->
-                <div class="swiper-slide ">
-                    <div class="testimonial-wrap ">
-                        <div class="col ">
-                            <div class="card-new">
-                                <div class="square-img-container">
-                                    <img class=" square-img" src="image/cat/1682728095475.png" alt="">
-                                </div>
-                                <div class="card-body-new">
-                                    <p class="">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End testimonial item -->
-                <div class="swiper-slide ">
-                    <div class="testimonial-wrap ">
-                        <div class="col ">
-                            <div class="card-new">
-                                <div class="square-img-container">
-                                    <img class=" square-img" src="image/cat/1682728095475.png" alt="">
-                                </div>
-                                <div class="card-body-new">
-                                    <p class="">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- End testimonial item -->
-
-            </div>
-
-        </div>
-
-    </div>
+	</div>
 </section>
+
+<div class="container-fluid index-header">
+	<i class="bi bi-three-dots"></i>
+	<div id="btn-Adopt-index-area" class="btn border-dark border-2 rounded-pill index_btn ">
+		<a href="http://">尋找更多浪浪 </a></div>
+	<i class="bi bi-three-dots"></i>
+</div>
+
+<div style="height: 600px;"></div>

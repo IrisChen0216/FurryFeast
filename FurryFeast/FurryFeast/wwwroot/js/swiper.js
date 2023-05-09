@@ -15,21 +15,21 @@ new Swiper('.clients-slider', {
         clickable: true
     },
     breakpoints: {
-        320: {
-            slidesPerView: 2,
-            spaceBetween: 40
-        },
+        //320: {
+        //    slidesPerView: 1,
+            // spaceBetween: 40
+       // },
         480: {
-            slidesPerView: 3,
-            spaceBetween: 60
+            slidesPerView: 1,
+            // spaceBetween: 60
         },
-        640: {
-            slidesPerView: 4,
-            spaceBetween: 80
+        730: {
+            slidesPerView: 2,
+            /*spaceBetween: 30*/
         },
         992: {
-            slidesPerView: 6,
-            spaceBetween: 120
+            slidesPerView: 3,
+            spaceBetween: 30
         }
     }
 });
@@ -79,7 +79,7 @@ new Swiper('.slides-3', {
     breakpoints: {
         320: {
             slidesPerView: 1,
-            spaceBetween: 40
+            spaceBetween: 0
         },
 
         1200: {
