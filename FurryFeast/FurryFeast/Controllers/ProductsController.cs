@@ -89,6 +89,17 @@ namespace FurryFeast.Controllers
             return View(product);
         }
 
+        public async Task<IActionResult> ProductDetail(int? id)
+        {
+           
+            return View();
+        }
+
+        public async Task<IActionResult> Cart(int? id)
+        {
+
+            return View();
+        }
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
