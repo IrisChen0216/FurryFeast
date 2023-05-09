@@ -1,25 +1,7 @@
 ﻿@section Style{
-    <style>
-        .slick-product-figure{
-        margin-top:5px;
-        margin-bottom:5px;
-        }
-
-        .slick-product-figure img{
-        will-change: transform;
-        width: 100%;
-        transform: none;
-        transition: inherit;
-       
-        }
-        img{
-            overflow-clip-margin: content-box;
-            overflow: clip;
-            display: inline-block;
-            max-width: 100%;
-            height: auto;
-        }
-    </style>    
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
 }
 <a asp-action="Cart">購物車</a>
 <section class="section section-sm section-first bg-default">
@@ -31,34 +13,34 @@
                     <div class="slick-slider carousel-parent" id="carousel-parent" data-items="1" data-swipe="true" data-child="#child-carousel" data-for="#child-carousel">
                         <div class="item">
                             <div class="slick-product-figure">
-                                <img src="~/image/Product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+								<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
                             </div>
                         </div>
                         <div class="item">
                             <div class="slick-product-figure">
-                                <img src="~/image/Product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
                             </div>
                         </div>
                         <div class="item">
                             <div class="slick-product-figure">
-                                <img src="~/image/Product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
                             </div>
                         </div>
                     </div>
                     <div class="slick-slider child-carousel slick-nav-1" id="child-carousel" data-arrows="true" data-items="3" data-sm-items="3" data-md-items="3" data-lg-items="3" data-xl-items="3" data-xxl-items="3" data-md-vertical="true" data-for="#carousel-parent">
                         <div class="item">
                             <div class="slick-product-figure">
-                                <img src="~/image/Product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
                             </div>
                         </div>
                         <div class="item">
                             <div class="slick-product-figure">
-                                <img src="~/image/Product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
                             </div>
                         </div>
                         <div class="item">
                             <div class="slick-product-figure">
-                                <img src="~/image/Product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
                             </div>
                         </div>
                     </div>
@@ -66,33 +48,25 @@
             </div>
             <div class="col-lg-6">
                 <div class="single-product">
-                    <h3 class="text-transform-none font-weight-medium">PAPER FAN</h3>
+                    <h3 class="text-transform-none fw-medium">寵物外出袋</h3>
                     <div class="group-md group-middle">
-                        <div class="single-product-price">$11</div>
+                        <div class="single-product-price">$200</div>
                         <div class="single-product-rating"><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star-half"></span></div>
                     </div>
                     <p>Lorem ipsum dolor sit amet, ei impetus epicurei his, ne falli erant consequuntur est. Mei simul aperiam eu, an rebum regione ponderum mel. Facer placerat ut duo, id duis solum maiorum vis, vim autemsemper docendi cu. Pro</p>
+                    <p></p>
                     <hr class="hr-gray-100">
-                    <ul class="list list-description">
-                        <li><span>Categories:</span><span>Gifts</span></li>
-                        <li><span>Weight:</span><span> 0,44 lbs</span></li>
-                        <li><span>Size:</span><span>60 x 60 x 90 cm</span></li>
-                    </ul>
+                    
                     <div class="group-xs group-middle">
                         <div class="product-stepper">
                             <input class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
                         </div>
-                        <div><a class="button button-lg button-secondary button-zakaria" href="cart-page.html">Add to cart</a></div>
+                        <div><a class="button button-lg button-primary button-zakaria" asp-controller="Products" asp-action="ProductCart">加入購物車</a></div>
                     </div>
-                    <hr class="hr-gray-100">
-                   
+                    
                 </div>
             </div>
         </div>
        
     </div>
 </section>
-@section Scripts{
-	<script src="~/js/product/core.min.js"></script>
-	<script src="~/js/product/script.js"></script>
-}

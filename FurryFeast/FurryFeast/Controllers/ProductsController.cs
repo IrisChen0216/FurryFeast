@@ -95,7 +95,7 @@ namespace FurryFeast.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Cart(int? id)
+        public async Task<IActionResult> ProductCart(int? id)
         {
 
             return View();
