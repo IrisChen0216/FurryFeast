@@ -8,5 +8,13 @@ namespace FurryFeast.Controllers
 		{
 			return View();
 		}
+
+		public static class Controller
+		{
+			public static double CalculateRER(double weightInKg)
+			{
+				return 70 * Math.Pow(weightInKg, 0.75);
+			}
+		}
 	}
 }
