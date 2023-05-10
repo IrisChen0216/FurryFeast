@@ -1,12 +1,52 @@
 ﻿@model IEnumerable<FurryFeast.Models.Member>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "個人資料";
 }
 
-<h1>Index</h1>
 
-<p>
+<div>個人資料</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="option col-4">
+            <div>
+                <a href="./MemberData.html">個人資料</a>
+            </div>
+            <div>
+                <a href="./OrderRecord.html">訂單紀錄</a>
+            </div>
+            <div>
+                <a href="./MyCopon.html">我的優惠券</a>
+            </div>
+            <div>
+                <a href="./MyClass.html">我的課程</a>
+            </div>
+            <div>
+                <a href="./updatememberdata.html">修改資料及密碼</a>
+            </div>
+
+        </div>
+        <div class="content col-8">
+            <div>
+                <label for="">姓名:</label>
+            </div>
+            <div>
+
+                <label for="">性別:</label>
+            </div>
+            <div>
+                <label for="">生日:</label>
+            </div>
+            <div>
+                <label for="">手機號碼:</label>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@*<p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -81,3 +121,4 @@
 }
     </tbody>
 </table>
+*@
