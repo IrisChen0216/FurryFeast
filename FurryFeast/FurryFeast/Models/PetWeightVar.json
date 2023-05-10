@@ -1,0 +1,95 @@
+{
+    "dog": [{
+            "ID": "Puppy_4months",
+            "State": "出生至4個月",
+            "VariableNum": 3,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "Puppy_4mToAdult",
+            "State": "4個月齡以上至成犬\t",
+            "VariableNum": 2,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "IntactAdult",
+            "State": "成犬｜未絕育\t",
+            "VariableNum": 1.4,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "NeuteredAdult",
+            "State": "成犬｜已絕育\t",
+            "VariableNum": 1.6,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "Fat_LowExercise",
+            "State": "成犬｜低活動量\t",
+            "VariableNum": 1.2,
+            "MaxVariableNum": 1.4
+        },
+        {
+            "ID": "Active_Working",
+            "State": "成犬｜高活動量/工作犬",
+            "VariableNum": 2,
+            "MaxVariableNum": 5
+        },
+        {
+            "ID": "WeightLoss",
+            "State": "成犬｜需減重",
+            "VariableNum": 1,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "WeightGain",
+            "State": "成犬｜增重",
+            "VariableNum": 1.2,
+            "MaxVariableNum": 1.8
+        }
+    ],
+
+    "cat": [{
+            "ID": "Kitten",
+            "State": "幼貓 1歲以下",
+            "VariableNum": 2.5,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "IntactAdult",
+            "State": "成貓｜未絕育\t",
+            "VariableNum": 1.2,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "NeuteredAdult",
+            "State": "成貓｜已絕育",
+            "VariableNum": 1.4,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "LowExercise",
+            "State": "成貓｜低活動量",
+            "VariableNum": 1,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "Active_Working",
+            "State": "成貓｜高活動量",
+            "VariableNum": 0.8,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "WeightLoss",
+            "State": "成貓｜需減重",
+            "VariableNum": 0.3,
+            "MaxVariableNum": ""
+        },
+        {
+            "ID": "WeightGain",
+            "State": "成貓｜增重",
+            "VariableNum": 1.6,
+            "MaxVariableNum": ""
+        }
+    ]
+}

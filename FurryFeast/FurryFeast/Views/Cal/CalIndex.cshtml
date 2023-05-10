@@ -10,78 +10,71 @@
 }
 
 <div class="index-header">
-	<h2>每日熱量計算</h2>
-	<p>家中貓貓跟狗狗每天應該吃多少呢?</p>
+    <h2>每日熱量計算</h2>
+    <p>家中貓貓跟狗狗每天應該吃多少呢?</p>
 </div>
 <div class="container">
-	<div class="border-bottom mb-4">
-		<h3>首先.</h3>
-		<p>我們要先了解什麼是RER!</p>
-	</div>
-	<div class="row">
-		<div class="col-6">
-			<h4> RER（Resting Energy Requirement）</h4>
-			<span>指的是動物在休息狀態下維持基本生命活動所需的能量。換句話說，RER 是動物在沒有運動和消化活動時所消耗的熱量。RER 的計算有助於確定寵物的維持能量需求，從而制定合適的飲食計劃。</span>
-		</div>
-		<div class="col-6">
-			<h5> RER計算公式</h5>
-			<p class="border border-1 rounded-4 p-4 ">$$RER = 70 \times 體重(kg)^{0.75} $$</p>
-			這個公式適用於成年的犬和貓。
-			<p>*幼犬、幼貓、懷孕或哺乳期的母犬和母貓則需要不同的修正係數，以確保獲得足夠的營養。</p>
-		</div>
-	</div>
-</div >
-<div class="container">
-	
-
-
-	<div>
-		<h2>熱量計算</h2>
-	</div>
-	<div class="rounded-4 border border-2  p-3">
-		<form>
-			<div class="col-6 mb-3 mt-3">
-				<label for="WeightKg" class="form-label">體重(kg)</label>
-				<input type="text" class="form-control" id="WeightKg" value="" oninput="RERcalculator()">
-				<div id="" class="form-text">請輸入目前體重或者輸入目標體重.</div>
-			</div>
-			<div class="col-6 mb-3">
-				<label for="DailyRER" class="form-label">每日基礎熱量需求(大卡) / 水分基礎需求量(cc)</label>
-				<input type="text" class="form-control" id="DailyRER" value="" disabled>
-			</div>
-		</form>
-	</div>
-	<div class="rounded-4 border border-2  p-3 mt-3">
-		<form>
-			<label class="form-label">選擇動物種類</label>
-			<button class="btn btn-outline-primary m-3" type="button" id="Btn_DogCal">Dog</button>
-			<button class="btn btn-outline-primary" type="button" id="Btn_DogCat">Cat</button>
-			<div class="col-6 mb-3 mt-3">
-				<label for="" class="form-label">體重(kg)</label>
-				<input type="text" class="form-control" id="" aria-describedby="emailHelp" placeholder="">
-				<div id="" class="form-text">請輸入目前體重或者輸入目標體重.</div>
-			</div>
-			<div class="col-6 mb-3">
-				<label for="DailyRER" class="form-label">寵物狀態</label>
-				<select class="form-select">
-					<option selected>選擇動物狀態</option>
-					<option value="1">絕育</option>
-					<option value="2">未絕育</option>
-					<option value="3">活動力低/易胖</option>
-					<option value="4">減重</option>
-					<option value="5">離乳至四月齡</option>
-					<option value="6">四月齡至成年期間</option>
-				</select>
-			</div>
-			<div class="col-6 mb-3">
-				<label for="DailyRER" class="form-label">日常基礎熱量需求(大卡) / 水分基礎需求量(cc)</label>
-				<input type="text" class="form-control" id="" value="" disabled>
-			</div>
-		</form>
-	</div>
+    <div class="border-bottom mb-4">
+        <h3>首先.</h3>
+        <p>我們要先了解什麼是RER!</p>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <h4> RER（Resting Energy Requirement）</h4>
+            <span>指的是動物在休息狀態下維持基本生命活動所需的能量。換句話說，RER 是動物在沒有運動和消化活動時所消耗的熱量。RER 的計算有助於確定寵物的維持能量需求，從而制定合適的飲食計劃。</span>
+        </div>
+        <div class="col-6">
+            <h5> RER計算公式</h5>
+            <p class="border border-1 rounded-4 p-4 ">$$RER = 70 \times 體重(kg)^{0.75} $$</p>
+            這個公式適用於成年的犬和貓。
+            <p>*幼犬、幼貓、懷孕或哺乳期的母犬和母貓則需要不同的修正係數，以確保獲得足夠的營養。</p>
+        </div>
+    </div>
 </div>
-	
-<div class ="container mt-3 mb-3">
-	<p>RER 只是基本能量需求的估算，還需要考慮寵物的年齡、活動水平、生長狀況等因素來確定他們的實際能量需求。<br/>
-		在制定寵物的飲食計劃時，建議諮詢獸醫專業意見，以確保寵物獲得均衡的營養。</p>
+<div class="container">
+
+
+
+    <div>
+        <h2>熱量計算</h2>
+    </div>
+    <div class="rounded-4 border border-2  p-3">
+        <form>
+            <div class="col-6 mb-3 mt-3">
+                <label for="WeightKg" class="form-label">體重(kg)</label>
+                <input type="text" class="form-control" id="WeightKg" value="" oninput="RERcalculator()">
+                <div id="" class="form-text">請輸入目前體重或者輸入目標體重.</div>
+            </div>
+            <div class="col-6 mb-3">
+                <label for="DailyRER" class="form-label">每日基礎熱量需求(大卡) / 水分基礎需求量(cc)</label>
+                <input type="text" class="form-control" id="DailyRER" value="" disabled>
+            </div>
+        </form>
+    </div>
+    <div class="rounded-4 border border-2  p-3 mt-3">
+        <form>
+            <label class="form-label">選擇動物種類</label>
+            <button class="btn btn-outline-primary m-3" type="button" id="Btn_DogCal">Dog</button>
+            <button class="btn btn-outline-primary" type="button" id="Btn_CatCal">Cat</button>
+            <div class="col-6 mb-3">
+                <label for="DailyRER" class="form-label">寵物狀態</label>
+
+                <select id="PetState" class="form-select">
+                    <option id="choseTypeText" selected>選擇動物狀態</option>
+
+                </select>
+            </div>
+            <div class="col-6 mb-3">
+                <label for="DailyCal" class="form-label">日常基礎熱量需求(大卡) / 水分基礎需求量(cc)</label>
+                <input type="text" class="form-control" id="DailyCal" value="" disabled>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container mt-3 mb-3">
+    <p>
+        RER 只是基本能量需求的估算，還需要考慮寵物的年齡、活動水平、生長狀況等因素來確定他們的實際能量需求。<br />
+        在制定寵物的飲食計劃時，建議諮詢獸醫專業意見，以確保寵物獲得均衡的營養。
+    </p>
 </div>
