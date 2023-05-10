@@ -1,0 +1,39 @@
+label{
+    color: rgb(8, 8, 8);
+    font-size: small;
+}
+.title{
+    width: 400px;
+    height: 50px;
+    border: 1px solid currentColor;
+    color: black;
+    background-color: rgb(123, 232, 196);
+    margin: auto;
+    text-align: center;
+    line-height: 50px;
+   
+}
+.option{
+    
+    width: 80px;
+    height: 200px;
+    color: black;
+    line-height: 2em;
+    font-size: small;
+    padding: 30px;
+    
+}
+.content{
+    font-size: small;
+    width: auto;
+    height: auto;
+    margin: auto;
+    text-align: left;
+    padding: 50px;
+    line-height: 1em;
+   
+}
+.btn{
+    margin-left: 70px;
+}
+

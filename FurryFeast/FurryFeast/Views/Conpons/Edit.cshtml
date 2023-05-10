@@ -1,0 +1,54 @@
+﻿@model FurryFeast.Models.Conpon
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Conpon</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ConponId" />
+            <div class="form-group">
+                <label asp-for="ConponContent" class="control-label"></label>
+                <input asp-for="ConponContent" class="form-control" />
+                <span asp-validation-for="ConponContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConponName" class="control-label"></label>
+                <input asp-for="ConponName" class="form-control" />
+                <span asp-validation-for="ConponName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConponDiscount" class="control-label"></label>
+                <input asp-for="ConponDiscount" class="form-control" />
+                <span asp-validation-for="ConponDiscount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConponStartTime" class="control-label"></label>
+                <input asp-for="ConponStartTime" class="form-control" />
+                <span asp-validation-for="ConponStartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConponEndTime" class="control-label"></label>
+                <input asp-for="ConponEndTime" class="form-control" />
+                <span asp-validation-for="ConponEndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
