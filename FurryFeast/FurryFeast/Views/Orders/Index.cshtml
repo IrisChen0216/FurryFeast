@@ -1,0 +1,77 @@
+﻿@model IEnumerable<FurryFeast.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderCreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderShipDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderRecipientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderRecipientAdress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderRecipientPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderTotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderCreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderShipDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderRecipientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderRecipientAdress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderRecipientPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderTotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.MemberId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OrderId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,70 @@
+﻿@section Style{
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
+}
+
+<h3>購物車</h3>
+
+<section class="section section-xl bg-default">
+    <div class="container">
+        <!-- shopping-cart-->
+        <div class="table-custom-responsive">
+            <table class="table-custom table-cart">
+                <thead>
+                    <tr>
+                        <th>商品名稱</th>
+                        <th>商品價格</th>
+                        <th>商品數量</th>
+                        <th>小計</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a class="table-cart-figure link-img" href="single-product.html"><img src="~/image/product/single-product-1-530x480.jpg" alt="" width="328" height="330" /></a><a class="table-cart-link" href="single-product.html">寵物外出袋</a></td>
+                        <td>$23.00</td>
+                        <td>
+                            <div class="table-cart-stepper">
+                                <input class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
+                            </div>
+                        </td>
+                        <td>$230</td>
+                    </tr>
+                    <tr>
+                        <td><a class="table-cart-figure link-img" href="single-product.html"><img src="~/image/product/single-product-1-530x480.jpg" alt="" width="328" height="330" /></a><a class="table-cart-link" href="single-product.html">寵物鮮食料理包</a></td>
+                        <td>$110</td>
+                        <td>
+                            <div class="table-cart-stepper">
+                                <input class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
+                            </div>
+                        </td>
+                        <td>$110</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="group-xl group-justify justify-content-center justify-content-md-between">
+            <div>
+                <form class="rd-form rd-mailform rd-form-inline rd-form-coupon">
+                    <div class="form-wrap">
+                        <input class="form-input form-input-inverse" id="coupon-code" type="text" name="text">
+                        <label class="form-label" for="coupon-code">請輸入優惠券代碼</label>
+                    </div>
+                    <div class="form-button">
+                        <button class="button button-lg button-primary button-zakaria" type="submit">兌換</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <div class="group-xl group-middle">
+                    <div>
+                        <div class="group-md group-middle">
+                            <div class="heading-5 fw-medium text-gray-500">總計</div>
+                            <div class="heading-3 fw-normal">$340</div>
+                        </div>
+                    </div><a class="button button-lg button-primary button-zakaria" href="checkout.html">結帳</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
