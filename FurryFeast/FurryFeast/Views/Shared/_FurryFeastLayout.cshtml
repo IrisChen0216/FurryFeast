@@ -63,13 +63,13 @@
                     <li class="dropdown">
                         <a class=""><span>寵物鮮食</span><i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li class="dropdown"><a href="#"><span>鮮食食譜</span></a></li>
+                            <li class="dropdown"><a class="" asp-controller="Recipes" asp-action="Recipes"><span>鮮食食譜</span></a></li>
 	                        <li><a calss="" asp-controller="Cal" asp-action="CalIndex">每日熱量計算機</a></li>
 	                        <li><a href="#">鮮食課程報名</a></li>
                             <i class="bi bi-1-circle-fill"></i>
                         </ul>
                     </li>
-                    <li><a class="nav-link scrollto" href="#">寵物友善地圖</a></li>
+                    <li><a class="nav-link scrollto" asp-controller="PetFriendlyMap" asp-action="PetFriendlyMap">寵物友善地圖</a></li>
                     <li><a class="nav-link scrollto" href="#">FAQ</a></li>
                     <li><a class="nav-link scrollto" href="#t">聯絡我們</a></li>
                 </ul>
