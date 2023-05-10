@@ -1,0 +1,124 @@
+﻿@model IEnumerable<FurryFeast.Models.Member>
+
+@{
+    ViewData["Title"] = "個人資料";
+}
+
+
+<div>個人資料</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="option col-4">
+            <div>
+                <a href="./MemberData.html">個人資料</a>
+            </div>
+            <div>
+                <a href="./OrderRecord.html">訂單紀錄</a>
+            </div>
+            <div>
+                <a href="./MyCopon.html">我的優惠券</a>
+            </div>
+            <div>
+                <a href="./MyClass.html">我的課程</a>
+            </div>
+            <div>
+                <a href="./updatememberdata.html">修改資料及密碼</a>
+            </div>
+
+        </div>
+        <div class="content col-8">
+            <div>
+                <label for="">姓名:</label>
+            </div>
+            <div>
+
+                <label for="">性別:</label>
+            </div>
+            <div>
+                <label for="">生日:</label>
+            </div>
+            <div>
+                <label for="">手機號碼:</label>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberBirthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberAdress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberGender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberAccount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberPassord)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Conpon)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberBirthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberAdress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberGender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberPassord)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Conpon.ConponId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MemberId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MemberId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MemberId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+*@

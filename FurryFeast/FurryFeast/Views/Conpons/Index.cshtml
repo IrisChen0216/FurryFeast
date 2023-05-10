@@ -1,0 +1,59 @@
+﻿@model IEnumerable<FurryFeast.Models.Conpon>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ConponContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConponName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConponDiscount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConponStartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConponEndTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConponContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConponName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConponDiscount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConponStartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConponEndTime)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ConponId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ConponId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ConponId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

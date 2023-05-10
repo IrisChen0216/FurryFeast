@@ -16,5 +16,41 @@
     "inputFiles": [
       "wwwroot/css/style.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Product/bootstrap.min.css",
+    "inputFiles": [
+      "wwwroot/css/Product/bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Product/fonts.min.css",
+    "inputFiles": [
+      "wwwroot/css/Product/fonts.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Product/style.min.css",
+    "inputFiles": [
+      "wwwroot/css/Product/style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/PetClass/bootstrap.min.css",
+    "inputFiles": [
+      "wwwroot/css/PetClass/bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/PetClass/fonts.min.css",
+    "inputFiles": [
+      "wwwroot/css/PetClass/fonts.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/PetClass/style.min.css",
+    "inputFiles": [
+      "wwwroot/css/PetClass/style.css"
+    ]
   }
 ]
