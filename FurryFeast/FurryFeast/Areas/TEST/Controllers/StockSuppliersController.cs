@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
 
-namespace FurryFeast.Controllers
+namespace FurryFeast.Areas.TEST.Controllers
 {
+    [Area("TEST")]
     public class StockSuppliersController : Controller
     {
         private readonly db_a989fb_furryfeastContext _context;

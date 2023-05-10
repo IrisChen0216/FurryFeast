@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
 
-namespace FurryFeast.Controllers
+namespace FurryFeast.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class StockMeasureUnitsController : Controller
     {
         private readonly db_a989fb_furryfeastContext _context;
@@ -18,7 +19,7 @@ namespace FurryFeast.Controllers
             _context = context;
         }
 
-        // GET: StockMeasureUnits
+        // GET: Admin/StockMeasureUnits
         public async Task<IActionResult> Index()
         {
               return _context.StockMeasureUnits != null ? 
@@ -26,7 +27,7 @@ namespace FurryFeast.Controllers
                           Problem("Entity set 'db_a989fb_furryfeastContext.StockMeasureUnits'  is null.");
         }
 
-        // GET: StockMeasureUnits/Details/5
+        // GET: Admin/StockMeasureUnits/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.StockMeasureUnits == null)
@@ -44,13 +45,13 @@ namespace FurryFeast.Controllers
             return View(stockMeasureUnit);
         }
 
-        // GET: StockMeasureUnits/Create
+        // GET: Admin/StockMeasureUnits/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: StockMeasureUnits/Create
+        // POST: Admin/StockMeasureUnits/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +67,7 @@ namespace FurryFeast.Controllers
             return View(stockMeasureUnit);
         }
 
-        // GET: StockMeasureUnits/Edit/5
+        // GET: Admin/StockMeasureUnits/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.StockMeasureUnits == null)
@@ -82,7 +83,7 @@ namespace FurryFeast.Controllers
             return View(stockMeasureUnit);
         }
 
-        // POST: StockMeasureUnits/Edit/5
+        // POST: Admin/StockMeasureUnits/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -117,7 +118,7 @@ namespace FurryFeast.Controllers
             return View(stockMeasureUnit);
         }
 
-        // GET: StockMeasureUnits/Delete/5
+        // GET: Admin/StockMeasureUnits/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.StockMeasureUnits == null)
@@ -135,7 +136,7 @@ namespace FurryFeast.Controllers
             return View(stockMeasureUnit);
         }
 
-        // POST: StockMeasureUnits/Delete/5
+        // POST: Admin/StockMeasureUnits/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
