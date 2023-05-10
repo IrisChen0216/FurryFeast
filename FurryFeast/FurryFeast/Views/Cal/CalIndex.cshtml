@@ -3,6 +3,12 @@
     ViewData["Title"] = "CalIndex";
 }
 
+@section Scripts{
+	<script src="~/js/calcalculator.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+}
+
 <div class="index-header">
 	<h2>每日熱量計算</h2>
 	<p>家中貓貓跟狗狗每天應該吃多少呢?</p>
@@ -19,13 +25,15 @@
 		</div>
 		<div class="col-6">
 			<h5> RER計算公式</h5>
-			<p class="border border-1 rounded-4 p-4 ">RER = 70 × 體重(kg)^0.75</p>
+			<p class="border border-1 rounded-4 p-4 ">$$RER = 70 \times 體重(kg)^{0.75} $$</p>
 			這個公式適用於成年的犬和貓。
 			<p>*幼犬、幼貓、懷孕或哺乳期的母犬和母貓則需要不同的修正係數，以確保獲得足夠的營養。</p>
 		</div>
 	</div>
 </div >
 <div class="container">
+	
+
 
 	<div>
 		<h2>熱量計算</h2>
@@ -33,8 +41,8 @@
 	<div class="rounded-4 border border-2  p-3">
 		<form>
 			<div class="col-6 mb-3 mt-3">
-				<label for="" class="form-label">體重(kg)</label>
-				<input type="text" class="form-control" id="" aria-describedby="emailHelp" placeholder="">
+				<label for="WeightKg" class="form-label">體重(kg)</label>
+				<input type="text" class="form-control" id="WeightKg" value="" oninput="RERcalculator()">
 				<div id="" class="form-text">請輸入目前體重或者輸入目標體重.</div>
 			</div>
 			<div class="col-6 mb-3">
@@ -55,7 +63,7 @@
 			</div>
 			<div class="col-6 mb-3">
 				<label for="DailyRER" class="form-label">寵物狀態</label>
-				<select class="form-select" >
+				<select class="form-select">
 					<option selected>選擇動物狀態</option>
 					<option value="1">絕育</option>
 					<option value="2">未絕育</option>
