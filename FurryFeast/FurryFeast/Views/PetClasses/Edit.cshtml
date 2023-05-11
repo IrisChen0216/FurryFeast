@@ -29,14 +29,24 @@
                 <span asp-validation-for="PetClassInformation" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PetClassDate" class="control-label"></label>
+                <input asp-for="PetClassDate" class="form-control" />
+                <span asp-validation-for="PetClassDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="TeacherId" class="control-label"></label>
                 <select asp-for="TeacherId" class="form-control" asp-items="ViewBag.TeacherId"></select>
                 <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PetClassDate" class="control-label"></label>
-                <input asp-for="PetClassDate" class="form-control" />
-                <span asp-validation-for="PetClassDate" class="text-danger"></span>
+                <label asp-for="PetTypesId" class="control-label"></label>
+                <select asp-for="PetTypesId" class="form-control" asp-items="ViewBag.PetTypesId"></select>
+                <span asp-validation-for="PetTypesId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PetClassTypeId" class="control-label"></label>
+                <select asp-for="PetClassTypeId" class="form-control" asp-items="ViewBag.PetClassTypeId"></select>
+                <span asp-validation-for="PetClassTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

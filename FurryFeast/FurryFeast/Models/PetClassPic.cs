@@ -7,7 +7,7 @@ namespace FurryFeast.Models
     {
         public int PetClassPicId { get; set; }
         public byte[]? PetClassPicImage { get; set; }
-        public string PetClassId { get; set; } = null!;
+        public int PetClassId { get; set; }
 
         public virtual PetClass PetClass { get; set; } = null!;
     }

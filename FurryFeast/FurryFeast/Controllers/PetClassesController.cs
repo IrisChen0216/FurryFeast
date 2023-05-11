@@ -21,53 +21,56 @@ namespace FurryFeast.Controllers
         // GET: PetClasses
         public async Task<IActionResult> Index()
         {
-            var db_a989fb_furryfeastContext = _context.PetClasses.Include(p => p.Teacher);
-            return View(await db_a989fb_furryfeastContext.ToListAsync());
+            var db_a989fb_furryfeastContext = _context.PetClasses.Include(p => p.PetClassType).Include(p => p.PetTypes).Include(p => p.Teacher);
+            return View(db_a989fb_furryfeastContext);
+        }
+
+        public async Task<FileResult> GetPicture(int id)
+        {
+            PetClass p = await _context.PetClasses.FindAsync(id);     
+            byte[] content = p?.PetClassPics.FirstOrDefault(pc => pc.PetClassId == id).PetClassPicImage;
+            return File(content, "image/jpeg");
         }
 
         // GET: PetClasses/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> PetClassDetail(int? id)
         {
-            if (id == null || _context.PetClasses == null)
-            {
-                return NotFound();
-            }
-
             var petClass = await _context.PetClasses
+                .Include(p => p.PetClassType)
+                .Include(p => p.PetTypes)
                 .Include(p => p.Teacher)
                 .FirstOrDefaultAsync(m => m.PetClassId == id);
-            if (petClass == null)
-            {
-                return NotFound();
-            }
-
+           
             return View(petClass);
         }
 
+        public async Task<IActionResult> PetClassReservation(int? id)
+        {
+            var petClass = await _context.PetClasses
+                
+                .Include(p => p.PetClassType)
+                .Include(p => p.PetTypes)
+                .Include(p => p.Teacher)
+                .FirstOrDefaultAsync(m => m.PetClassId == id);
+
+            return View(petClass);
+        }
+        
         // GET: PetClasses/Create
         public IActionResult Create()
         {
+            ViewData["PetClassTypeId"] = new SelectList(_context.PetClassTypes, "PetClassTypeId", "PetClassTypeId");
+            ViewData["PetTypesId"] = new SelectList(_context.PetTypes, "PetTypesId", "PetTypesId");
             ViewData["TeacherId"] = new SelectList(_context.Teacheres, "TeacherId", "TeacherId");
             return View();
         }
-
-        public async Task<IActionResult> PetClassDetail()
-        {
-            
-            return View();
-        }
-        public async Task<IActionResult> PetClassReservation()
-        {
-            return View();
-        }
-        
 
         // POST: PetClasses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PetClassId,PetClassName,PetClassPrice,PetClassInformation,TeacherId,PetClassDate")] PetClass petClass)
+        public async Task<IActionResult> Create([Bind("PetClassId,PetClassName,PetClassPrice,PetClassInformation,PetClassDate,TeacherId,PetTypesId,PetClassTypeId")] PetClass petClass)
         {
             if (ModelState.IsValid)
             {
@@ -75,12 +78,14 @@ namespace FurryFeast.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PetClassTypeId"] = new SelectList(_context.PetClassTypes, "PetClassTypeId", "PetClassTypeId", petClass.PetClassTypeId);
+            ViewData["PetTypesId"] = new SelectList(_context.PetTypes, "PetTypesId", "PetTypesId", petClass.PetTypesId);
             ViewData["TeacherId"] = new SelectList(_context.Teacheres, "TeacherId", "TeacherId", petClass.TeacherId);
             return View(petClass);
         }
 
         // GET: PetClasses/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.PetClasses == null)
             {
@@ -92,6 +97,8 @@ namespace FurryFeast.Controllers
             {
                 return NotFound();
             }
+            ViewData["PetClassTypeId"] = new SelectList(_context.PetClassTypes, "PetClassTypeId", "PetClassTypeId", petClass.PetClassTypeId);
+            ViewData["PetTypesId"] = new SelectList(_context.PetTypes, "PetTypesId", "PetTypesId", petClass.PetTypesId);
             ViewData["TeacherId"] = new SelectList(_context.Teacheres, "TeacherId", "TeacherId", petClass.TeacherId);
             return View(petClass);
         }
@@ -101,7 +108,7 @@ namespace FurryFeast.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("PetClassId,PetClassName,PetClassPrice,PetClassInformation,TeacherId,PetClassDate")] PetClass petClass)
+        public async Task<IActionResult> Edit(int id, [Bind("PetClassId,PetClassName,PetClassPrice,PetClassInformation,PetClassDate,TeacherId,PetTypesId,PetClassTypeId")] PetClass petClass)
         {
             if (id != petClass.PetClassId)
             {
@@ -128,12 +135,14 @@ namespace FurryFeast.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PetClassTypeId"] = new SelectList(_context.PetClassTypes, "PetClassTypeId", "PetClassTypeId", petClass.PetClassTypeId);
+            ViewData["PetTypesId"] = new SelectList(_context.PetTypes, "PetTypesId", "PetTypesId", petClass.PetTypesId);
             ViewData["TeacherId"] = new SelectList(_context.Teacheres, "TeacherId", "TeacherId", petClass.TeacherId);
             return View(petClass);
         }
 
         // GET: PetClasses/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.PetClasses == null)
             {
@@ -141,6 +150,8 @@ namespace FurryFeast.Controllers
             }
 
             var petClass = await _context.PetClasses
+                .Include(p => p.PetClassType)
+                .Include(p => p.PetTypes)
                 .Include(p => p.Teacher)
                 .FirstOrDefaultAsync(m => m.PetClassId == id);
             if (petClass == null)
@@ -154,7 +165,7 @@ namespace FurryFeast.Controllers
         // POST: PetClasses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.PetClasses == null)
             {
@@ -170,7 +181,7 @@ namespace FurryFeast.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PetClassExists(string id)
+        private bool PetClassExists(int id)
         {
           return (_context.PetClasses?.Any(e => e.PetClassId == id)).GetValueOrDefault();
         }

@@ -7,7 +7,7 @@ namespace FurryFeast.Models
     {
         public int ClassReservetionId { get; set; }
         public int MemberId { get; set; }
-        public string PetClassId { get; set; } = null!;
+        public int PetClassId { get; set; }
         public DateTime ClassReservetionDate { get; set; }
         public string ClassReservetionState { get; set; } = null!;
 

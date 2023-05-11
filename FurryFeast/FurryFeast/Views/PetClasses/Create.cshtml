@@ -13,11 +13,6 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PetClassId" class="control-label"></label>
-                <input asp-for="PetClassId" class="form-control" />
-                <span asp-validation-for="PetClassId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PetClassName" class="control-label"></label>
                 <input asp-for="PetClassName" class="form-control" />
                 <span asp-validation-for="PetClassName" class="text-danger"></span>
@@ -33,13 +28,21 @@
                 <span asp-validation-for="PetClassInformation" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PetClassDate" class="control-label"></label>
+                <input asp-for="PetClassDate" class="form-control" />
+                <span asp-validation-for="PetClassDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="TeacherId" class="control-label"></label>
                 <select asp-for="TeacherId" class ="form-control" asp-items="ViewBag.TeacherId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="PetClassDate" class="control-label"></label>
-                <input asp-for="PetClassDate" class="form-control" />
-                <span asp-validation-for="PetClassDate" class="text-danger"></span>
+                <label asp-for="PetTypesId" class="control-label"></label>
+                <select asp-for="PetTypesId" class ="form-control" asp-items="ViewBag.PetTypesId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PetClassTypeId" class="control-label"></label>
+                <select asp-for="PetClassTypeId" class ="form-control" asp-items="ViewBag.PetClassTypeId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

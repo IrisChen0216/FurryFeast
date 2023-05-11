@@ -19,9 +19,9 @@ namespace FurryFeast.Models
         public int MemberGender { get; set; }
         public string MemberAccount { get; set; } = null!;
         public string MemberPassord { get; set; } = null!;
-        public int ConponId { get; set; }
+        public int? ConponId { get; set; }
 
-        public virtual Conpon Conpon { get; set; } = null!;
+        public virtual Conpon? Conpon { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }
 }

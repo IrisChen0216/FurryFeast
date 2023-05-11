@@ -30,21 +30,21 @@
                             <li>
                                 <label class="checkbox-inline">
                                     <input name="input-group-radio" value="checkbox-1" type="checkbox">全部課程
-                                </label><span class="list-shop-filter-number">(18)</span>
+                                </label><span class="list-shop-filter-number">(10)</span>
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-2" type="checkbox">DIY課程
+                                    <input name="input-group-radio" value="checkbox-2" type="checkbox">寵物訓練課程
                                 </label><span class="list-shop-filter-number">(9)</span>
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-3" type="checkbox">訓練課程
+                                    <input name="input-group-radio" value="checkbox-3" type="checkbox">寵物美容課程
                                 </label><span class="list-shop-filter-number">(5)</span>
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-4" type="checkbox">美容課程
+                                    <input name="input-group-radio" value="checkbox-4" type="checkbox">寵物DIY課程
                                 </label><span class="list-shop-filter-number">(8)</span>
                             </li>
                         </ul>
@@ -111,25 +111,29 @@
                 </div>
                 
                 <div class="row row-30 row-md-50 row-lg-60">
+                @foreach (var item in Model){
                     <div class="col-12">
                         <!-- Product-->
                         <article class="product-modern text-center text-sm-left">
                             <div class="unit unit-spacing-0 flex-column flex-sm-row">
-                                <div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id=""><img src="~/image/cat/class.jpg" alt="" width="250" height="300" /></a></div>
+                                @*<div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="@item.PetClassId"><img src="~/image/cat/class.jpg" alt="" width="250" height="300" /></a></div>*@
+                                      <div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="@item.PetClassId"><partial name="_ShowPictruePartial" model="@item" /></a></div>
+
                                 <div class="unit-body">
                                     <div class="product-modern-body">
-                                        <h4 class="product-modern-title"><a asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="">寵物鮮食DIY課程</a></h4>
+                                        <h4 class="product-modern-title"><a asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="@item.PetClassId">@item.PetClassName</a></h4>
                                         <div class="product-price-wrap">
-                                            <div class="product-price product-price-old">$3000</div>
-                                            <div class="product-price">$2300</div>
+                                            <div class="product-price product-price-old">$@item.PetClassPrice</div>
+                                            <div class="product-price">$@item.PetClassPrice</div>
                                         </div>
-                                        <p class="product-modern-text">Nibh sit amet commodo nulla facilisi nullam vehicula. Justo laoreet sit amet cursus sit amet dictum. Arcu non odio euismod lacinia at.</p><a class="button button-primary button-zakaria" asp-controller="PetClasses" asp-action="PetClassDetail">課程詳情</a>
+                                       <p class="product-modern-text">Nibh sit amet commodo nulla facilisi nullam vehicula. Justo laoreet sit amet cursus sit amet dictum. Arcu non odio euismod lacinia at.</p><a class="button button-primary button-zakaria" asp-controller="PetClasses" asp-action="PetClassDetail">課程詳情</a>
                                     </div>
                                 </div>
                             </div><span class="product-badge product-badge-sale">Sale</span>
                         </article>
                     </div>
-                    <div class="col-12">
+                    }
+                    @*<div class="col-12">
                         <!-- Product-->
                         <article class="product-modern text-center text-sm-left">
                             <div class="unit unit-spacing-0 flex-column flex-sm-row">
@@ -162,7 +166,7 @@
                                 </div>
                             </div>
                         </article>
-                    </div>
+                    </div>*@
                 </div>
                 <div class="pagination-wrap">
                     <!-- Bootstrap Pagination-->
