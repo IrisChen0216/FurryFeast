@@ -1,0 +1,89 @@
+﻿@model FurryFeast.Models.StockSupplier
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>StockSupplier</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SuppliersId" />
+            <div class="form-group">
+                <label asp-for="SuppliersCode" class="control-label"></label>
+                <input asp-for="SuppliersCode" class="form-control" />
+                <span asp-validation-for="SuppliersCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersDescription" class="control-label"></label>
+                <input asp-for="SuppliersDescription" class="form-control" />
+                <span asp-validation-for="SuppliersDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersStreet" class="control-label"></label>
+                <input asp-for="SuppliersStreet" class="form-control" />
+                <span asp-validation-for="SuppliersStreet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersZipCode" class="control-label"></label>
+                <input asp-for="SuppliersZipCode" class="form-control" />
+                <span asp-validation-for="SuppliersZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersCity" class="control-label"></label>
+                <input asp-for="SuppliersCity" class="form-control" />
+                <span asp-validation-for="SuppliersCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersCountry" class="control-label"></label>
+                <input asp-for="SuppliersCountry" class="form-control" />
+                <span asp-validation-for="SuppliersCountry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersNation" class="control-label"></label>
+                <input asp-for="SuppliersNation" class="form-control" />
+                <span asp-validation-for="SuppliersNation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersPhone" class="control-label"></label>
+                <input asp-for="SuppliersPhone" class="form-control" />
+                <span asp-validation-for="SuppliersPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersFax" class="control-label"></label>
+                <input asp-for="SuppliersFax" class="form-control" />
+                <span asp-validation-for="SuppliersFax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersEmail" class="control-label"></label>
+                <input asp-for="SuppliersEmail" class="form-control" />
+                <span asp-validation-for="SuppliersEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersUrl" class="control-label"></label>
+                <input asp-for="SuppliersUrl" class="form-control" />
+                <span asp-validation-for="SuppliersUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierGroupId" class="control-label"></label>
+                <select asp-for="SupplierGroupId" class="form-control" asp-items="ViewBag.SupplierGroupId"></select>
+                <span asp-validation-for="SupplierGroupId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
