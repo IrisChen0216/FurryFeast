@@ -1,0 +1,11 @@
+﻿@model Product
+
+@if (Model.ProductPicId!= null)
+{
+	<img src="@Url.Action("GetPicture","Products",new{id=Model.ProductPicId})" alt="" width="200" height="200" />
+}
+else
+{
+	<img src="@Url.Content("~/images/noimage.png")" title="尚無圖片"> @*~是網站根目錄*@
+}
+

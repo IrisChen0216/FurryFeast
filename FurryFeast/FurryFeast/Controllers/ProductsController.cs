@@ -22,7 +22,8 @@ namespace FurryFeast.Controllers
         public async Task<IActionResult> Index()
         {
             var db_a989fb_furryfeastContext = _context.Products.Include(p => p.Articles).Include(p => p.ProductType);
-            return View(await db_a989fb_furryfeastContext.ToListAsync());
+            
+            return View(db_a989fb_furryfeastContext);
         }
 
         // GET: Products/Details/5
@@ -43,6 +44,13 @@ namespace FurryFeast.Controllers
             }
 
             return View(product);
+        }
+
+        public async Task<FileResult> GetPicture(int id)
+        {
+            ProductPic p = await _context.ProductPics.FindAsync(id);
+            byte[] content = p?.ProductPicImage;//c有值才抓Picture
+            return File(content, "image/jpeg");
         }
 
         // GET: Products/Create
@@ -91,8 +99,13 @@ namespace FurryFeast.Controllers
 
         public async Task<IActionResult> ProductDetail(int? id)
         {
-           
-            return View();
+
+            var product = await _context.Products
+                .Include(p => p.Articles)
+                .Include(p => p.ProductType)
+                .FirstOrDefaultAsync(m => m.ProductId == id);
+            
+            return View(product);
         }
 
         public async Task<IActionResult> ProductCart(int? id)

@@ -568,6 +568,8 @@ namespace FurryFeast.Models
                     .HasMaxLength(20)
                     .HasColumnName("Product_Name");
 
+                entity.Property(e => e.ProductPicId).HasColumnName("ProductPic_ID");
+
                 entity.Property(e => e.ProductPrice).HasColumnName("Product_Price");
 
                 entity.Property(e => e.ProductSoldTime)
