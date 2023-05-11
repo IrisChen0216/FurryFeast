@@ -18,9 +18,10 @@ namespace FurryFeast.Models
         public string ProductDescription { get; set; } = null!;
         public int ProductState { get; set; }
         public DateTime ProductLaunchedTime { get; set; }
-        public DateTime ProductSoldTime { get; set; }
+        public DateTime? ProductSoldTime { get; set; }
         public int ProductTypeId { get; set; }
         public int ArticlesId { get; set; }
+        public int? ProductPicId { get; set; }
 
         public virtual StockArticle Articles { get; set; } = null!;
         public virtual ProductType ProductType { get; set; } = null!;
