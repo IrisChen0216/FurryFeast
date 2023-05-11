@@ -23,7 +23,8 @@
 }
 
 @Html.DropDownList("PetCategory", petCategories)
-<a href="https://forms.gle/3mp5yYQso9VVyN6M7" class="btn btn-primary">我要通報</a>
+<a href="@Url.Action("LostForm", "Article")" class="btn btn-primary">我要通報</a>
+
 
 <div class="container" data-aos="fade-up">
     <div class="index-header">

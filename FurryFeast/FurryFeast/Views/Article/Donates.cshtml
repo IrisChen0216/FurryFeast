@@ -28,7 +28,28 @@
     <p>已捐贈金額：25000元</p>
     <p>目標金額：50000元</p>
     <p>捐贈人數：XX人</p>
-    <button onclick="donate('dog')">我要捐贈</button>
+    <button onclick="donate('cat')">我要捐赠</button>
+
+    <script>
+        function donate(category) {
+            var baseUrl = window.location.origin; // 取得當前頁面的基本URL
+            var controller = 'Products'; // asp-controller的值
+            var action = 'Index'; // asp-action的值
+
+            // 建立完整的URL
+            var url = baseUrl + '/' + controller + '/' + action;
+
+            // 進行重定向到指定的URL
+            window.location.href = url;
+        }
+    </script>
+
+
+
+
+
+
+
 
     <h2>貓貓飼料</h2>
     <div class="progress-bar">
@@ -37,6 +58,28 @@
     <p>已捐贈金額：37500元</p>
     <p>捐贈人數：XX人</p>
     <button onclick="donate('cat')">我要捐赠</button>
+
+    <script>
+        function donate(category) {
+            var baseUrl = window.location.origin; // 取得當前頁面的基本URL
+            var controller = 'Products'; // asp-controller的值
+            var action = 'Index'; // asp-action的值
+
+            // 建立完整的URL
+            var url = baseUrl + '/' + controller + '/' + action;
+
+            // 進行重定向到指定的URL
+            window.location.href = url;
+        }
+    </script>
+
+
+
+
+
+
+
+
 
 
 </body>
