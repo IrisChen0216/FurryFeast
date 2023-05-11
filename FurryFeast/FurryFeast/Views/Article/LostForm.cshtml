@@ -1,0 +1,75 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>走失表單</title>
+</head>
+<body>
+    <h1>走失表單</h1>
+
+    <form method="post" action="/SubmitForm">
+        <div>
+            <label for="petName">寵物姓名<span>*</span></label>
+            <input type="text" id="petName" name="petName" required />
+        </div>
+        <div>
+            <label for="petCategory">寵物類別<span>*</span></label>
+            <select id="petCategory" name="petCategory" required>
+                <option value="狗">狗</option>
+                <option value="貓">貓</option>
+                <option value="全部">全部</option>
+            </select>
+        </div>
+        <div>
+            <label for="petGender">寵物性別<span>*</span></label>
+            <select id="petGender" name="petGender" required>
+                <option value="公">公</option>
+                <option value="母">母</option>
+                <option value="未知">未知</option>
+            </select>
+        </div>
+        <div>
+            <label for="petBreed">寵物品種<span>*</span></label>
+            <input type="text" id="petBreed" name="petBreed" required />
+        </div>
+        <div>
+            <label for="petAge">寵物年齡<span>*</span></label>
+            <input type="text" id="petAge" name="petAge" required />
+        </div>
+        <div>
+            <label for="petColor">寵物花色<span>*</span></label>
+            <input type="text" id="petColor" name="petColor" required />
+        </div>
+        <div>
+            <label for="lostLocation">走失地點<span>*</span></label>
+            <input type="text" id="lostLocation" name="lostLocation" required />
+        </div>
+        <div>
+            <label for="lostDate">走失日期<span>*</span></label>
+            <input type="date" id="lostDate" name="lostDate" required />
+            <input type="time" id="lostTime" name="lostTime" required />
+        </div>
+        <div>
+            <label for="microchipNumber">晶片編號</label>
+            <input type="text" id="microchipNumber" name="microchipNumber" />
+        </div>
+        <div>
+            <label for="petCharacteristics">寵物特性</label>
+            <textarea id="petCharacteristics" name="petCharacteristics"></textarea>
+        </div>
+
+        <div>
+            <input type="submit" value="提交表單" />
+        </div>
+    </form>
+</body>
+</html>
