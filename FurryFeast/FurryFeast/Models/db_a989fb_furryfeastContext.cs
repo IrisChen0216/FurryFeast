@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -18,7 +17,6 @@ namespace FurryFeast.Models
         }
 
         public virtual DbSet<Admin> Admins { get; set; } = null!;
-        public virtual DbSet<Animal> Animals { get; set; } = null!;
         public virtual DbSet<Article> Articles { get; set; } = null!;
         public virtual DbSet<Authority> Authorities { get; set; } = null!;
         public virtual DbSet<ClassReservetion> ClassReservetions { get; set; } = null!;
@@ -26,6 +24,7 @@ namespace FurryFeast.Models
         public virtual DbSet<GameOutcome> GameOutcomes { get; set; } = null!;
         public virtual DbSet<GameQue> GameQues { get; set; } = null!;
         public virtual DbSet<GameQuesChoice> GameQuesChoices { get; set; } = null!;
+        public virtual DbSet<LostAnimal> LostAnimals { get; set; } = null!;
         public virtual DbSet<Member> Members { get; set; } = null!;
         public virtual DbSet<MsgBoard> MsgBoards { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
@@ -40,7 +39,6 @@ namespace FurryFeast.Models
         public virtual DbSet<Recipe> Recipes { get; set; } = null!;
         public virtual DbSet<RecipesPhoto> RecipesPhotos { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
-        public virtual DbSet<Shelter> Shelters { get; set; } = null!;
         public virtual DbSet<StockArticle> StockArticles { get; set; } = null!;
         public virtual DbSet<StockGroup> StockGroups { get; set; } = null!;
         public virtual DbSet<StockImage> StockImages { get; set; } = null!;
@@ -55,8 +53,8 @@ namespace FurryFeast.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeast"));
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=SQL5110.site4now.net;Database=db_a989fb_furryfeast;User Id=db_a989fb_furryfeast_admin;Password=THM101group777;");
             }
         }
 
@@ -82,57 +80,6 @@ namespace FurryFeast.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("Admin_Password");
-            });
-
-            modelBuilder.Entity<Animal>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("Animal");
-
-                entity.Property(e => e.AnimalBreed)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("Animal_Breed");
-
-                entity.Property(e => e.AnimalFeature)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("Animal_Feature");
-
-                entity.Property(e => e.AnimalId)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("Animal_ID");
-
-                entity.Property(e => e.AnimalName)
-                    .HasMaxLength(10)
-                    .HasColumnName("Animal_Name");
-
-                entity.Property(e => e.AnimalPattern)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("Animal_Pattern");
-
-                entity.Property(e => e.AnimalSex)
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasColumnName("Animal_Sex");
-
-                entity.Property(e => e.AnimalType)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("Animal_Type");
-
-                entity.Property(e => e.FeedingMethod)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("Feeding_Method");
-
-                entity.Property(e => e.MicrochipId)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("microchip_ID");
             });
 
             modelBuilder.Entity<Article>(entity =>
@@ -309,6 +256,52 @@ namespace FurryFeast.Models
                     .HasForeignKey(d => d.QuesId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Game_QuesChoices_Game_Ques");
+            });
+
+            modelBuilder.Entity<LostAnimal>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Lost_Animal");
+
+                entity.Property(e => e.AnimalAge)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("Animal_age");
+
+                entity.Property(e => e.AnimalBreed)
+                    .HasMaxLength(10)
+                    .HasColumnName("Animal_breed");
+
+                entity.Property(e => e.AnimalFeature)
+                    .HasMaxLength(20)
+                    .HasColumnName("Animal_Feature");
+
+                entity.Property(e => e.AnimalName)
+                    .HasMaxLength(10)
+                    .HasColumnName("Animal_Name");
+
+                entity.Property(e => e.AnimalPattern)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("Animal_Pattern");
+
+                entity.Property(e => e.AnimalSex)
+                    .HasMaxLength(3)
+                    .IsUnicode(false)
+                    .HasColumnName("Animal_Sex");
+
+                entity.Property(e => e.AnimalType)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .HasColumnName("Animal_Type");
+
+                entity.Property(e => e.LostAnimalId).HasColumnName("LostAnimal_ID");
+
+                entity.Property(e => e.LostDay).HasColumnType("datetime");
+
+                entity.Property(e => e.LostPlace).HasMaxLength(50);
+
+                entity.Property(e => e.MicrochipId).HasColumnName("microchip_ID");
             });
 
             modelBuilder.Entity<Member>(entity =>
@@ -575,6 +568,8 @@ namespace FurryFeast.Models
                     .HasMaxLength(20)
                     .HasColumnName("Product_Name");
 
+                entity.Property(e => e.ProductPicId).HasColumnName("ProductPic_ID");
+
                 entity.Property(e => e.ProductPrice).HasColumnName("Product_Price");
 
                 entity.Property(e => e.ProductSoldTime)
@@ -690,31 +685,6 @@ namespace FurryFeast.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("Role_Name");
-            });
-
-            modelBuilder.Entity<Shelter>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("shelter");
-
-                entity.Property(e => e.AdoptYn)
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .HasColumnName("Adopt_YN");
-
-                entity.Property(e => e.ShelterAdress)
-                    .HasMaxLength(50)
-                    .HasColumnName("Shelter_Adress");
-
-                entity.Property(e => e.ShelterDays).HasColumnName("Shelter_Days");
-
-                entity.Property(e => e.ShelterId)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("Shelter_ID");
-
-                entity.Property(e => e.ShelterPhone).HasColumnName("Shelter_Phone");
             });
 
             modelBuilder.Entity<StockArticle>(entity =>

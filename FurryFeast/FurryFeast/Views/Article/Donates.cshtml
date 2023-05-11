@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    int totalAmount = 50000;
+    int donatedAmount = 25000; // 假設已經捐贈了25000元
+    int donorCount = 100; // 假設已經有100位捐贈者
+    int progressPercentage = (int)((double)donatedAmount / totalAmount * 100);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>捐贈糧食</title>
+</head>
+<body>
+    <div>
+        <div>
+            <img src="path_to_dog_food_image" alt="狗飼料圖片" />
+            <button>我要捐贈</button>
+        </div>
+        <div>
+            <img src="path_to_cat_food_image" alt="貓飼料圖片" />
+            <button>我要捐贈</button>
+        </div>
+    </div>
+
+    <div>
+        <p>捐贈目標: @totalAmount 元</p>
+        <p>捐贈人數: @donorCount 人</p>
+        <p>捐贈進度: @donatedAmount 元 / @totalAmount 元 (@progressPercentage %)</p>
+    </div>
+</body>
+</html>

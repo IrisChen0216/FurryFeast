@@ -74,6 +74,21 @@
                     <li><a class="nav-link scrollto" asp-controller="PetFriendlyMap" asp-action="PetFriendlyMap">寵物友善地圖</a></li>
                     <li><a class="nav-link scrollto" href="#">FAQ</a></li>
                     <li><a class="nav-link scrollto" href="#t">聯絡我們</a></li>
+
+                    <li class="dropdown">
+                        <a class=""><span>後臺管理</span><i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li class="dropdown"><a class="" asp-area="" asp-controller="StockMeasureUnits" asp-action="Index"><span>StockMeasureUnits</span></a></li>
+                            <li><a class="" asp-area="" asp-controller="StockSuppliersGroups" asp-action="Index">StockSuppliersGroups</a></li>
+                            <li><a class="" asp-area="" asp-controller="StockSuppliers" asp-action="Index">StockSuppliers</a></li>
+                            <li><a class="" asp-area="" asp-controller="StockWarehouseGroups" asp-action="Index">StockWarehouseGroups</a></li>
+                            <li><a class="" asp-area="" asp-controller="StockWarehouses" asp-action="Index">StockWarehouses</a></li>
+                            <li><a class="" asp-area="" asp-controller="StockGroups" asp-action="Index">StockGroups</a></li>
+                            <li><a class="" asp-area="" asp-controller="StockArticles" asp-action="Index">StockArticles</a></li>
+                            <li><a class="" asp-area="" asp-controller="StockImages" asp-action="Index">StockImages</a></li>
+                            <i class="bi bi-1-circle-fill"></i>
+                        </ul>
+                    </li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
