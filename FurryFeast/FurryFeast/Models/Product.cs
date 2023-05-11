@@ -18,7 +18,7 @@ namespace FurryFeast.Models
         public string ProductDescription { get; set; } = null!;
         public int ProductState { get; set; }
         public DateTime ProductLaunchedTime { get; set; }
-        public DateTime ProductSoldTime { get; set; }
+        public DateTime? ProductSoldTime { get; set; }
         public int ProductTypeId { get; set; }
         public int ArticlesId { get; set; }
 
