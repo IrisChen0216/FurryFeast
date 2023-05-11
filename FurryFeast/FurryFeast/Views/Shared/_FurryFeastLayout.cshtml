@@ -56,9 +56,9 @@
                     <li class="dropdown">
                         <a class=""><span>尋找浪浪</span><i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="#">全台動物收容所資訊</a></li>
-                            <li><a href="#">糧食捐贈</a></li>
-                            <li><a href="#">走失公告</a></li>
+                            <li><a asp-controller="Article" asp-action="Shelter">全台動物收容所資訊</a></li>
+                            <li><a asp-controller="Article" asp-action="Donates">糧食捐贈</a></li>
+                            <li><a asp-controller="Article" asp-action="Index">走失通告</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -72,8 +72,8 @@
                     </li>
 
                     <li><a class="nav-link scrollto" asp-controller="PetFriendlyMap" asp-action="PetFriendlyMap">寵物友善地圖</a></li>
-                    <li><a class="nav-link scrollto" href="#">FAQ</a></li>
-                    <li><a class="nav-link scrollto" href="#t">聯絡我們</a></li>
+                    <li><a class="nav-link scrollto" asp-controller="Article" asp-action="FAQ">FAQ</a></li>
+                    <li><a class="nav-link scrollto" asp-controller="Article" asp-action="ContactUs">聯絡我們</a></li>
 
                     <li class="dropdown">
                         <a class=""><span>後臺管理</span><i class="bi bi-chevron-down"></i></a>
