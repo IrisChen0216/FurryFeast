@@ -32,72 +32,72 @@
                 <span>
                     @Html.DisplayNameFor(model => model.MemberName):
                 </span>
-                <span>
+                <input>
                     @foreach(var item in Model)
                     {
                         @Html.DisplayFor(modelItem => item.MemberName)
                     }
-                </span>
+                </input>
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model =>model.MemberGender):
                 </span>
-                <span>
+                <input>
                     @foreach(var item in Model)
                     {
                         @Html.DisplayFor(modelItem => item.MemberGender)
                     }
-                </span>  
+                </input>  
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model => model.MemberBirthday):
                 </span>
-                <span>
+                <input>
                     @foreach(var item in Model)
                     {
                         @Html.DisplayFor(modelItem => item.MemberGender)
                     }
-                </span>
+                </input>
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model =>model.MemberPhone):
                 </span>
-                <span>
+                <input>
                     @foreach(var item in Model)
                     {
                         @Html.DisplayFor(modelItem => item.MemberPhone)
                     }
-                </span>
+                </input>
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model=>model.MemberEmail):
                 </span>
-                <span>
+                <input>
                     @foreach(var item in Model)
                     {
                         @Html.DisplayFor(modelItem=>item.MemberEmail)
                     }
-                </span>
+                </input>
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model=>model.MemberAdress):
                 </span>
-                <span>
+                <input>
                     @foreach(var item in Model)
                     {
                         @Html.DisplayFor(modelItem=>item.MemberAdress)
                     }
-                </span>
+                </input>
             </div>
             <div>
-
-                <a asp-action="" type="bottom">修改資料及密碼</a>
+                <a asp-action="Edit">修改資料及密碼</a>
             </div>
+
         </div>
 
     </div>

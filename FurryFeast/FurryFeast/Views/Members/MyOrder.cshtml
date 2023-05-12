@@ -1,11 +1,9 @@
 ﻿@model IEnumerable<FurryFeast.Models.Order>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "MyOrder";
 }
 
-<h1>Index</h1>
-
+<h1>我的訂單</h1>
 
 <div class="container-fluid">
     <div class="row">
@@ -45,10 +43,12 @@
                         @Html.DisplayFor(modelItem => item.OrderId)
                     }
                 </span>
-                <a asp-controller="OrderDetails" asp-action="Index">訂單明細</a> 
+                <a asp-controller="OrderDetails" asp-action="Index">訂單明細</a>
             </div>
         </div>
 
     </div>
 </div>
+
+
 

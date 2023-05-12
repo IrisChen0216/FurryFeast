@@ -6,6 +6,55 @@
 
 <h1>Index</h1>
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <div>
+                <a asp-action="">個人資料</a>
+            </div>
+            <div>
+                <a asp-action="">我的訂單</a>
+            </div>
+            <div>
+                <a asp-action="">我的課程</a>
+            </div>
+            <div>
+                <a asp-action="">我的優惠券</a>
+            </div>
+        </div>
+        <div class="col-8">
+            <div>
+                <span>
+                    商品名稱:
+                </span>
+                <input>
+                    @foreach (var item in Model)
+                    {
+                        @Html.DisplayFor(modelItem => item.Product)
+                    }
+                </input>
+            </div>
+            <div>
+                <span>
+                    @Html.DisplayNameFor(model =>model.OrderPrice):
+                </span>
+                <input>
+                    @foreach (var item in Model)
+                    {
+                        @Html.DisplayFor(modelItem => item.OrderQuantity)
+                    }
+                </input>
+            </div>
+           
+            <div>
+
+            <div>
+
+        </div>
+
+    </div>
+</div>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>

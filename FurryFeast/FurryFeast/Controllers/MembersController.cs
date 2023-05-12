@@ -159,6 +159,10 @@ namespace FurryFeast.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> MyOrder()
+        {
+            return View();
+        }
         private bool MemberExists(int id)
         {
           return (_context.Members?.Any(e => e.MemberId == id)).GetValueOrDefault();

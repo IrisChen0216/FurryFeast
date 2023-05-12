@@ -27,5 +27,9 @@ namespace FurryFeast.Models
         [Required(ErrorMessage = "{0}為必填欄位")]
         public int MemberGender { get; set; }
 
+        [Display(Name ="密碼")]
+        [Required(ErrorMessage ="{0}為必填欄位")]
+        public string MemberPassord { get; set; } = null!;
+
     }
 }
