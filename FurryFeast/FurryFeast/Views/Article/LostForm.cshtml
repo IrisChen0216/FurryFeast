@@ -1,75 +1,87 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@section Style{
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
 }
-@{
-    Layout = null;
-}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>走失表單</title>
-</head>
-<body>
-    <h1>走失表單</h1>
+<script>
+    $(document).ready(function () {
+        $("input").focus(function () {
+            $(this).prev("label").css("display", "none");
+        });
+        $("input").blur(function () {
+            if ($(this).val() == "") {
+                $(this).prev("label").css("display", "block");
+            }
+        });
+    });
+</script>
 
-    <form method="post" action="/SubmitForm">
-        <div>
-            <label for="petName">寵物姓名<span>*</span></label>
-            <input type="text" id="petName" name="petName" required />
-        </div>
-        <div>
-            <label for="petCategory">寵物類別<span>*</span></label>
-            <select id="petCategory" name="petCategory" required>
-                <option value="狗">狗</option>
-                <option value="貓">貓</option>
-                <option value="全部">全部</option>
-            </select>
-        </div>
-        <div>
-            <label for="petGender">寵物性別<span>*</span></label>
-            <select id="petGender" name="petGender" required>
-                <option value="公">公</option>
-                <option value="母">母</option>
-                <option value="未知">未知</option>
-            </select>
-        </div>
-        <div>
-            <label for="petBreed">寵物品種<span>*</span></label>
-            <input type="text" id="petBreed" name="petBreed" required />
-        </div>
-        <div>
-            <label for="petAge">寵物年齡<span>*</span></label>
-            <input type="text" id="petAge" name="petAge" required />
-        </div>
-        <div>
-            <label for="petColor">寵物花色<span>*</span></label>
-            <input type="text" id="petColor" name="petColor" required />
-        </div>
-        <div>
-            <label for="lostLocation">走失地點<span>*</span></label>
-            <input type="text" id="lostLocation" name="lostLocation" required />
-        </div>
-        <div>
-            <label for="lostDate">走失日期<span>*</span></label>
-            <input type="date" id="lostDate" name="lostDate" required />
-            <input type="time" id="lostTime" name="lostTime" required />
-        </div>
-        <div>
-            <label for="microchipNumber">晶片編號</label>
-            <input type="text" id="microchipNumber" name="microchipNumber" />
-        </div>
-        <div>
-            <label for="petCharacteristics">寵物特性</label>
-            <textarea id="petCharacteristics" name="petCharacteristics"></textarea>
-        </div>
+<!-- Forms-->
+<section class="section section-xxl bg-default text-md-left">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-md-5 col-xl-6 mx-auto d-flex flex-column align-items-center">
+                <h3>走失表單</h3>
+                <form class="rd-form rd-mailform w-100" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php" enctype="multipart/form-data">
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_Owner">寵物主人姓名*</label>
+                        <input class="form-input" id="Animal_Owner" type="text" name="寵物主人姓名" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_Owner_phone">寵物主人電話*</label>
+                        <input class="form-input" id="Animal_Owner_phone" type="text" name="寵物主人電話" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_Type">寵物類別*</label>
+                        <input class="form-input" id="Animal_Type" type="text" name="寵物類別" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_Sex">寵物性別*</label>
+                        <input class="form-input" id="Animal_Sex" type="text" name="寵物性別" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_breed">寵物品種*</label>
+                        <input class="form-input" id="Animal_breed" type="text" name="寵物品種" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_Name">寵物名稱*</label>
+                        <input class="form-input" id="Animal_Name" type="text" name="寵物名稱" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_age">寵物年齡*</label>
+                        <input class="form-input" id="Animal_age" type="text" name="寵物年齡" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_Pattern">寵物花色*</label>
+                        <input class="form-input" id="Animal_Pattern" type="text" name="寵物花色" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="LostPlace">走失地點*</label>
+                        <input class="form-input" id="LostPlace" type="text" name="走失地點" required />
+                    </div>
 
-        <div>
-            <input type="submit" value="提交表單" />
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="LostDay">走失日期*</label><br/>
+                        <input class="form-input" id="LostDay" type="date" name="走失日期" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_Image">上傳寵物照片*</label><br/>
+                        <input class="form-input" id="Animal_Image" type="file" name="寵物照片" accept="image/*" required />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="microchip_ID">晶片編號(選填)</label>
+                        <input class="form-input" id="microchip_ID" type="text" name="晶片編號(選填)" />
+                    </div>
+                    <div class="form-wrap w-100">
+                        <label class="form-label" for="Animal_Feature">寵物特性(選填)</label>
+                        <input class="form-input" id="Animal_Feature" type="text" name="寵物特性(選填)">
+                    </div>
+                    <button class="button button-lg button-primary button-zakaria" type="submit">送出</button>
+
+                </form>
+            </div>
         </div>
-    </form>
-</body>
-</html>
+    </div>
+</section>
