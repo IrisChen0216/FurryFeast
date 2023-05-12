@@ -201,4 +201,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\FrontEnd\Controllers\" />
+    <Folder Include="Areas\FrontEnd\Data\" />
+    <Folder Include="Areas\FrontEnd\Models\" />
+    <Folder Include="Areas\FrontEnd\Views\" />
+  </ItemGroup>
+
 </Project>
