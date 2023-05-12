@@ -21,6 +21,7 @@ namespace FurryFeast.Models
         public virtual DbSet<Authority> Authorities { get; set; } = null!;
         public virtual DbSet<ClassReservetion> ClassReservetions { get; set; } = null!;
         public virtual DbSet<Conpon> Conpons { get; set; } = null!;
+        public virtual DbSet<ContactU> ContactUs { get; set; } = null!;
         public virtual DbSet<GameOutcome> GameOutcomes { get; set; } = null!;
         public virtual DbSet<GameQue> GameQues { get; set; } = null!;
         public virtual DbSet<GameQuesChoice> GameQuesChoices { get; set; } = null!;
@@ -31,6 +32,7 @@ namespace FurryFeast.Models
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<PetClass> PetClasses { get; set; } = null!;
         public virtual DbSet<PetClassPic> PetClassPics { get; set; } = null!;
+        public virtual DbSet<PetClassType> PetClassTypes { get; set; } = null!;
         public virtual DbSet<PetFriendlyMap> PetFriendlyMaps { get; set; } = null!;
         public virtual DbSet<PetType> PetTypes { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
@@ -53,9 +55,11 @@ namespace FurryFeast.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+
 				IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
 				optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeast"));
 			}
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -162,11 +166,7 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.MemberId).HasColumnName("Member_ID");
 
-                entity.Property(e => e.PetClassId)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("PetClass_ID")
-                    .IsFixedLength();
+                entity.Property(e => e.PetClassId).HasColumnName("PetClass_ID");
 
                 entity.HasOne(d => d.PetClass)
                     .WithMany(p => p.ClassReservetions)
@@ -194,11 +194,38 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.ConponName)
                     .HasMaxLength(50)
+                    .IsUnicode(false)
                     .HasColumnName("Conpon_Name");
 
                 entity.Property(e => e.ConponStartTime)
                     .HasColumnType("datetime")
                     .HasColumnName("Conpon_StartTime");
+            });
+
+            modelBuilder.Entity<ContactU>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.GuestContext)
+                    .HasMaxLength(200)
+                    .HasColumnName("guest_context");
+
+                entity.Property(e => e.GuestEmail)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("guest_Email");
+
+                entity.Property(e => e.GuestId).HasColumnName("guest_ID");
+
+                entity.Property(e => e.GuestName)
+                    .HasMaxLength(5)
+                    .HasColumnName("guest_Name");
+
+                entity.Property(e => e.GuestPhone).HasColumnName("guest_phone");
+
+                entity.Property(e => e.GuestSubject)
+                    .HasMaxLength(20)
+                    .HasColumnName("guest_subject");
             });
 
             modelBuilder.Entity<GameOutcome>(entity =>
@@ -317,7 +344,6 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.MemberAdress)
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .HasColumnName("Member_Adress");
 
                 entity.Property(e => e.MemberBirthday)
@@ -349,7 +375,6 @@ namespace FurryFeast.Models
                 entity.HasOne(d => d.Conpon)
                     .WithMany(p => p.Members)
                     .HasForeignKey(d => d.ConponId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Members_Conpon");
             });
 
@@ -454,11 +479,7 @@ namespace FurryFeast.Models
             {
                 entity.ToTable("PetClass");
 
-                entity.Property(e => e.PetClassId)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("PetClass_ID")
-                    .IsFixedLength();
+                entity.Property(e => e.PetClassId).HasColumnName("PetClass_ID");
 
                 entity.Property(e => e.PetClassDate)
                     .HasColumnType("datetime")
@@ -474,7 +495,23 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.PetClassPrice).HasColumnName("PetClass_Price");
 
+                entity.Property(e => e.PetClassTypeId).HasColumnName("PetClassType_ID");
+
+                entity.Property(e => e.PetTypesId).HasColumnName("PetTypes_ID");
+
                 entity.Property(e => e.TeacherId).HasColumnName("Teacher_ID");
+
+                entity.HasOne(d => d.PetClassType)
+                    .WithMany(p => p.PetClasses)
+                    .HasForeignKey(d => d.PetClassTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PetClass_PetClassTypes");
+
+                entity.HasOne(d => d.PetTypes)
+                    .WithMany(p => p.PetClasses)
+                    .HasForeignKey(d => d.PetTypesId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PetClass_PetTypes");
 
                 entity.HasOne(d => d.Teacher)
                     .WithMany(p => p.PetClasses)
@@ -489,11 +526,7 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.PetClassPicId).HasColumnName("PetClassPic_ID");
 
-                entity.Property(e => e.PetClassId)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("PetClass_ID")
-                    .IsFixedLength();
+                entity.Property(e => e.PetClassId).HasColumnName("PetClass_ID");
 
                 entity.Property(e => e.PetClassPicImage).HasColumnName("PetClassPic_Image");
 
@@ -502,6 +535,16 @@ namespace FurryFeast.Models
                     .HasForeignKey(d => d.PetClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PetClassPic_PetClass");
+            });
+
+            modelBuilder.Entity<PetClassType>(entity =>
+            {
+                entity.Property(e => e.PetClassTypeId).HasColumnName("PetClassType_ID");
+
+                entity.Property(e => e.PetClassTypeName)
+                    .HasMaxLength(10)
+                    .HasColumnName("PetClassType_Name")
+                    .IsFixedLength();
             });
 
             modelBuilder.Entity<PetFriendlyMap>(entity =>

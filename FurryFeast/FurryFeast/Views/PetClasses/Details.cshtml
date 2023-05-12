@@ -35,6 +35,18 @@
             @Html.DisplayFor(model => model.PetClassDate)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PetClassType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PetClassType.PetClassTypeId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PetTypes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PetTypes.PetTypesId)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Teacher)
         </dt>
         <dd class = "col-sm-10">

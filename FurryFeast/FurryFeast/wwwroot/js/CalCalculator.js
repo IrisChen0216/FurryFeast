@@ -10,7 +10,7 @@ function RERcalculator(variableNum) {
 
     ClearOption();
 
-    DailyCal.value=  isNaN(Math.round(value*variableNum)) ? "" : Math.round(value*variableNum);
+    DailyCal.value = isNaN(Math.round(value * variableNum)) ? "" : Math.round(value * variableNum);
 }
 
 
@@ -55,9 +55,9 @@ function ChooseState(VarData) {
 }
 
 // 清空選項
-function ClearOption(){
+function ClearOption() {
 
-    while(PetState.options.length > 1){
+    while (PetState.options.length > 1) {
         PetState.remove(PetState.options.length - 1);
     }
 }
@@ -87,7 +87,7 @@ PetState.addEventListener('change', function (event) {
     let selectedOption = event.target.selectedOptions[0];
     let variableNum = selectedOption.dataset.variableNum;
     let maxVariableNum = selectedOption.dataset.maxVariableNum;
-    
+
     // 將 VariableNum 和 MaxVariableNum 傳遞給 handleVariableData 函數
     RERcalculator(variableNum);
 });

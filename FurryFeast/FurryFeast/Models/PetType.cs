@@ -8,6 +8,7 @@ namespace FurryFeast.Models
         public PetType()
         {
             GameQues = new HashSet<GameQue>();
+            PetClasses = new HashSet<PetClass>();
             ProductTypes = new HashSet<ProductType>();
             Recipes = new HashSet<Recipe>();
         }
@@ -16,6 +17,7 @@ namespace FurryFeast.Models
         public string PetTypes { get; set; } = null!;
 
         public virtual ICollection<GameQue> GameQues { get; set; }
+        public virtual ICollection<PetClass> PetClasses { get; set; }
         public virtual ICollection<ProductType> ProductTypes { get; set; }
         public virtual ICollection<Recipe> Recipes { get; set; }
     }

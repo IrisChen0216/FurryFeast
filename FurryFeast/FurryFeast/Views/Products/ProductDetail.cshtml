@@ -1,4 +1,6 @@
-﻿@section Style{
+﻿@model FurryFeast.Models.Product
+
+@section Style{
     <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
     @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
     <link href="~/css/petclass/style.css" rel="stylesheet" />
@@ -48,12 +50,12 @@
             </div>
             <div class="col-lg-6">
                 <div class="single-product">
-                    <h3 class="text-transform-none fw-medium">寵物外出袋</h3>
+                    <h3 class="text-transform-none fw-medium">@Model.ProductName</h3>
                     <div class="group-md group-middle">
-                        <div class="single-product-price">$200</div>
+                        <div class="single-product-price">$@Model.ProductPrice</div>
                         <div class="single-product-rating"><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star-half"></span></div>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, ei impetus epicurei his, ne falli erant consequuntur est. Mei simul aperiam eu, an rebum regione ponderum mel. Facer placerat ut duo, id duis solum maiorum vis, vim autemsemper docendi cu. Pro</p>
+                    <p>@Model.ProductDescription</p>
                     <p></p>
                     <hr class="hr-gray-100">
                     

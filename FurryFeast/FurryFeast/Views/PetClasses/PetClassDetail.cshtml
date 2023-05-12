@@ -1,4 +1,6 @@
-﻿@section Style{
+﻿@model PetClass
+
+@section Style{
     <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
     @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
     <link href="~/css/petclass/style.css" rel="stylesheet" />
@@ -28,17 +30,17 @@
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-2" type="checkbox">DIY課程
+                                    <input name="input-group-radio" value="checkbox-2" type="checkbox">寵物訓練課程
                                 </label><span class="list-shop-filter-number">(9)</span>
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-3" type="checkbox">訓練課程
+                                    <input name="input-group-radio" value="checkbox-3" type="checkbox">寵物美容課程
                                 </label><span class="list-shop-filter-number">(5)</span>
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-4" type="checkbox">美容課程
+                                    <input name="input-group-radio" value="checkbox-4" type="checkbox">寵物DIY課程
                                 </label><span class="list-shop-filter-number">(8)</span>
                             </li>
                         </ul>
@@ -94,26 +96,33 @@
                         <div class="col-12">
                             <article class="post post-modern box-xxl">
                                 <div class="post-modern-panel">
-                                    <div><a class="post-modern-tag" href="#">寵物DIY課程</a></div>
+                                    <div><a class="post-modern-tag" href="#">@Model.PetClassType.PetClassTypeName</a></div>
                                     <div>
-                                        <h6><a asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="">寵物餅乾DIY課程</a></h6>
+                                        <h6>@Model.PetClassName</h6>
                                     </div>
                                 </div>
                                 
                                 <div class="post-modern-figure">
-									<img src="~/image/cat/class.jpg" alt="" width="800" height="394" />
+									@*<img src="~/image/cat/class.jpg" alt="" width="800" height="394" />*@
+                                    <partial name="_ShowPictruePartial" model="@Model" />
                                 </div>
                                 @*<h3 class="post-modern-title">寵物香噴噴餅乾DIY</h3>*@
                                 <article class="quote-classic quote-classic-2">
                                     <div class="quote-classic-text">
-                                        <div class="q">寵物香噴噴餅乾DIY，等你來製作好吃的餅乾給毛小孩!</div>
+                                        <div class="q">為毛孩家長打造的專屬課程，給毛小孩最好的!</div>
                                     </div>
                                 </article>
-                                <p class="post-modern-text">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet</p>
+                                <div>
+                                    <p class="post-modern-text">@Model.PetClassInformation</p>
+                                </div>
                                 
-                                <h6>課程日期:</h6>
-                                <h6>課程地點:</h6>
-                                <h6>課程時間:</h6>
+                                <div >
+                                    <h6 class="aside-title">課程資訊</h6>
+                                    <h6>課程日期時間: @Model.PetClassDate</h6>
+                                    <h6>授課教師: @Model.Teacher.TeacherName</h6>
+                                </div>
+                                
+                                
                                 <a class="button button-sm button-primary button-zakaria" asp-controller="PetClasses" asp-action="PetClassReservation">課程預定</a>
                                 
                             </article>

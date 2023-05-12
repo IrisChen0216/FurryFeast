@@ -1,0 +1,11 @@
+﻿@model PetClass
+
+@if (Model.PetClassId!= null)
+{
+	<img src="@Url.Action("GetPicture","PetClasses",new{id=Model.PetClassId})" alt="" width="250" height="300" />
+}
+else
+{
+	<img src="@Url.Content("~/images/noimage.png")" title="尚無圖片"> @*~是網站根目錄*@
+}
+
