@@ -16,5 +16,8 @@ namespace FurryFeast.Models
         public string AnimalType { get; set; } = null!;
         public int AnimalAge { get; set; }
         public string AnimalBreed { get; set; } = null!;
+        public string AnimalOwner { get; set; } = null!;
+        public int AnimalOwnerPhone { get; set; }
+        public byte[] AnimalImage { get; set; } = null!;
     }
 }

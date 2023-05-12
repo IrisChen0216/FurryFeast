@@ -33,13 +33,11 @@ namespace FurryFeast.Models
         public virtual DbSet<PetClass> PetClasses { get; set; } = null!;
         public virtual DbSet<PetClassPic> PetClassPics { get; set; } = null!;
         public virtual DbSet<PetClassType> PetClassTypes { get; set; } = null!;
-        public virtual DbSet<PetFriendlyMap> PetFriendlyMaps { get; set; } = null!;
         public virtual DbSet<PetType> PetTypes { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ProductPic> ProductPics { get; set; } = null!;
         public virtual DbSet<ProductType> ProductTypes { get; set; } = null!;
         public virtual DbSet<Recipe> Recipes { get; set; } = null!;
-        public virtual DbSet<RecipesPhoto> RecipesPhotos { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<StockArticle> StockArticles { get; set; } = null!;
         public virtual DbSet<StockGroup> StockGroups { get; set; } = null!;
@@ -55,13 +53,9 @@ namespace FurryFeast.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
-
 				IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
 				optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeast"));
 			}
-
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -293,9 +287,7 @@ namespace FurryFeast.Models
 
                 entity.ToTable("Lost_Animal");
 
-                entity.Property(e => e.AnimalAge)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("Animal_age");
+                entity.Property(e => e.AnimalAge).HasColumnName("Animal_age");
 
                 entity.Property(e => e.AnimalBreed)
                     .HasMaxLength(10)
@@ -305,9 +297,19 @@ namespace FurryFeast.Models
                     .HasMaxLength(20)
                     .HasColumnName("Animal_Feature");
 
+                entity.Property(e => e.AnimalImage).HasColumnName("Animal_image");
+
                 entity.Property(e => e.AnimalName)
                     .HasMaxLength(10)
                     .HasColumnName("Animal_Name");
+
+                entity.Property(e => e.AnimalOwner)
+                    .HasMaxLength(5)
+                    .HasColumnName("Animal_Owner");
+
+                entity.Property(e => e.AnimalOwnerPhone)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("Animal_Owner_phone");
 
                 entity.Property(e => e.AnimalPattern)
                     .HasMaxLength(10)
@@ -420,7 +422,6 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.OrderRecipientAdress)
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .HasColumnName("Order_RecipientAdress");
 
                 entity.Property(e => e.OrderRecipientName)
@@ -450,13 +451,9 @@ namespace FurryFeast.Models
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
-                entity.Property(e => e.OrderDetailId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("OrderDetail_ID");
+                entity.Property(e => e.OrderDetailId).HasColumnName("OrderDetail_ID");
 
-                entity.Property(e => e.OrderId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("Order_ID");
+                entity.Property(e => e.OrderId).HasColumnName("Order_ID");
 
                 entity.Property(e => e.OrderPrice).HasColumnName("Order_Price");
 
@@ -547,41 +544,6 @@ namespace FurryFeast.Models
                     .HasMaxLength(10)
                     .HasColumnName("PetClassType_Name")
                     .IsFixedLength();
-            });
-
-            modelBuilder.Entity<PetFriendlyMap>(entity =>
-            {
-                entity.HasKey(e => e.MapPlaceId);
-
-                entity.ToTable("Pet_Friendly_Map");
-
-                entity.Property(e => e.MapPlaceId).HasColumnName("MapPlace_ID");
-
-                entity.Property(e => e.MapPlaceAddress).HasColumnName("MapPlace_Address");
-
-                entity.Property(e => e.MapPlaceLat)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("MapPlace_Lat");
-
-                entity.Property(e => e.MapPlaceLng)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("MapPlace_Lng");
-
-                entity.Property(e => e.MapPlaceName).HasColumnName("MapPlace_Name");
-
-                entity.Property(e => e.MapPlaceNotes).HasColumnName("MapPlace_Notes");
-
-                entity.Property(e => e.MapPlacePhone)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("MapPlace_Phone");
-
-                entity.Property(e => e.MapPlaceType)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("MapPlace_Type");
             });
 
             modelBuilder.Entity<PetType>(entity =>
@@ -682,8 +644,6 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.PetTypesId).HasColumnName("PetTypes_ID");
 
-                entity.Property(e => e.PhotoId).HasColumnName("Photo_ID");
-
                 entity.Property(e => e.RecipesData).HasColumnName("Recipes_Data");
 
                 entity.Property(e => e.RecipesDescription).HasColumnName("Recipes_Description");
@@ -701,23 +661,6 @@ namespace FurryFeast.Models
                     .HasForeignKey(d => d.PetTypesId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Recipes_PetTypes");
-
-                entity.HasOne(d => d.Photo)
-                    .WithMany(p => p.Recipes)
-                    .HasForeignKey(d => d.PhotoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Recipes_Recipes_Photos");
-            });
-
-            modelBuilder.Entity<RecipesPhoto>(entity =>
-            {
-                entity.HasKey(e => e.PhotoId);
-
-                entity.ToTable("Recipes_Photos");
-
-                entity.Property(e => e.PhotoId).HasColumnName("Photo_ID");
-
-                entity.Property(e => e.RecipesPhotos).HasColumnName("Recipes_Photos");
             });
 
             modelBuilder.Entity<Role>(entity =>
