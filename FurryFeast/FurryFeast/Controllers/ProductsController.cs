@@ -21,7 +21,9 @@ namespace FurryFeast.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
+
             var db_a989fb_furryfeastContext = _context.Products.Include(p => p.Articles).Include(p => p.ProductType).Where(p=>p.ProductState==1 && p.ProductTypeId==1);
+
             
             return View(db_a989fb_furryfeastContext);
         }
