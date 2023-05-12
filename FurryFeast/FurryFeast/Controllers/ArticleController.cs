@@ -24,5 +24,13 @@ namespace FurryFeast.Controllers
         {
             return View();
         }
+        public IActionResult LostForm()
+        {
+            return View();
+        }
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
     }
 }

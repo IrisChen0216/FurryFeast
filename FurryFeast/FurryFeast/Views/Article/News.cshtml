@@ -1,52 +1,63 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@section Style{
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>最新消息</title>
-    <style>
-        .container {
-            text-align: center;
-        }
+<!-- Post Modern-->
+<div class="col-12">
+    <!-- Post Modern-->
+    <article class="post post-modern box-xxl">
+        <div class="post-modern-panel">
+            <div><a class="post-modern-tag" href="#">News</a></div>
+            <div>
+                <time class="post-modern-time" datetime="2020-08-09">August 9, 2020</time>
+            </div>
+        </div>
+        <h3 class="post-modern-title"><a href="blog-post.html">Deciphering your cat’s language</a></h3>
+        <p class="post-modern-text">Neque ornare aenean euismod elementum nisi. Semper viverra nam libero justo. Amet est placerat in egestas erat imperdiet sed euismod nisi. Arcu odio ut sem nulla pharetra. Facilisis gravida neque convallis a. Purus non enim praesent elementum facilisis leo vel fringilla est. </p>
+        <a class="post-modern-link" href="blog-post.html">Read more</a>
+    </article>
+</div>
 
-        .news-list {
-            list-style-type: none;
-            padding: 0;
-        }
+<div class="col-12">
+    <!-- Post Modern-->
+    <article class="post post-modern box-xxl">
+        <div class="post-modern-panel">
+            <div><a class="post-modern-tag" href="#">News</a></div>
+            <div>
+                <time class="post-modern-time" datetime="2020-08-09">August 9, 2020</time>
+            </div>
+        </div>
+        <h3 class="post-modern-title"><a href="blog-post.html">Easy tricks to teach your dog</a></h3>
+        <p class="post-modern-text">Commodo viverra maecenas accumsan lacus vel. Bibendum at varius vel pharetra vel turpis nunc eget. Ullamcorper malesuada proin libero nunc consequat. Mauris in aliquam sem fringilla ut morbi tincidunt augue interdum. Accumsan sit amet nulla facilisi morbi tempus iaculis urna id. </p>
+        <a class="post-modern-link" href="blog-post.html">Read more</a>
+    </article>
+</div>
 
-        .news-list-item {
-            margin-bottom: 10px;
-        }
-
-        .read-more {
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>最新消息</h1>
-
-        <ul class="news-list">
-            <li class="news-list-item">
-                <h3>標題1</h3>
-                <p>最新消息內容1</p>
-            </li>
-
-            <li class="news-list-item">
-                <h3>標題2</h3>
-                <p>最新消息內容2</p>
-            </li>
-
-            <li class="news-list-item">
-                <h3>標題3</h3>
-                <p>最新消息內容3</p>
-            </li>
+<div class="col-12">
+    <!-- Post Modern-->
+    <article class="post post-modern box-xxl">
+        <div class="post-modern-panel">
+            <div><a class="post-modern-tag" href="#">News</a></div>
+            <div>
+                <time class="post-modern-time" datetime="2020-08-09">August 9, 2020</time>
+            </div>
+        </div>
+        <h3 class="post-modern-title"><a href="blog-post.html">8 tips for taking the perfect photo of your pet</a></h3>
+        <p class="post-modern-text">Vitae turpis massa sed elementum. Nam at lectus urna duis convallis convallis. Ipsum a arcu cursus vitae. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Imperdiet massa tincidunt nunc pulvinar. Etiam erat velit scelerisque in. </p>
+        <a class="post-modern-link" href="blog-post.html">Read more</a>
+    </article>
+</div>
+<div class="pagination-wrap">
+    <!-- Bootstrap Pagination-->
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item page-item-control disabled"><a class="page-link" href="#" aria-label="Previous"><span class="icon" aria-hidden="true"></span></a></li>
+            <li class="page-item active"><span class="page-link">1</span></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Next"><span class="icon" aria-hidden="true"></span></a></li>
         </ul>
-
-    </div>
-</body>
-</html>
+    </nav>
+</div>
+      

@@ -1,36 +1,98 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@section Style{
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
 }
-@{
-    int totalAmount = 50000;
-    int donatedAmount = 25000; // 假設已經捐贈了25000元
-    int donorCount = 100; // 假設已經有100位捐贈者
-    int progressPercentage = (int)((double)donatedAmount / totalAmount * 100);
-}
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>捐贈糧食</title>
-</head>
-<body>
-    <div>
-        <div>
-            <img src="path_to_dog_food_image" alt="狗飼料圖片" />
-            <button>我要捐贈</button>
-        </div>
-        <div>
-            <img src="path_to_cat_food_image" alt="貓飼料圖片" />
-            <button>我要捐贈</button>
+ <!-- Section Skill Bars and Time Circles-->
+<section class="section section-xl bg-default">
+    <div class="container">
+        <div class="row row-50 align-items-center justify-content-center justify-content-xl-between">
+            <div class="col-md-10 col-lg-6">
+                <!-- Linear progress bar-->
+                <article class="progress-linear">
+                    <div class="progress-header">
+                        <p>Dedication</p>
+                    </div>
+                    <div class="progress-bar-linear-wrap">
+                        <div class="progress-bar-linear"><span class="progress-value">78</span></div>
+                    </div>
+                </article>
+                <!-- Linear progress bar-->
+                <article class="progress-linear progress-red">
+                    <div class="progress-header">
+                        <p>Knowledge</p>
+                    </div>
+                    <div class="progress-bar-linear-wrap">
+                        <div class="progress-bar-linear"><span class="progress-value">69</span></div>
+                    </div>
+                </article>
+                <!-- Linear progress bar-->
+                <article class="progress-linear progress-yellow">
+                    <div class="progress-header">
+                        <p>Professionalism</p>
+                    </div>
+                    <div class="progress-bar-linear-wrap">
+                        <div class="progress-bar-linear"><span class="progress-value">78</span></div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-lg-6">
+                <div class="countdown-wrap justify-content-xl-end" data-countdown="data-countdown" data-from="2020-03-28" data-to="2021-04-29">
+                    <svg class="countdown-gradient" x="0px" y="0px" width="0" height="0" viewbox="0 0 100 100">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#ff4342"></stop>
+                                <stop offset="100%" stop-color="#ffd33b"></stop>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="countdown-circle countdown-days" data-circle-countdown="data-circle-countdown" data-units="Days">
+                        <div class="countdown-number">
+                            <svg x="0px" y="0px" width="136px" height="136px" viewbox="0 0 100 100">
+                                <clipPath class="progress-clip">
+                                    <path d=""></path>
+                                </clipPath>
+                                <circle class="countdown-bg" cx="50" cy="50" r="41"></circle>
+                                <circle class="clipped countdown-fg" cx="50" cy="50" r="48"></circle>
+                            </svg>
+                            <div class="countdown-overlay">
+                                <h4 class="countdown-counter"></h4>
+                            </div>
+                        </div>
+                        <h6 class="countdown-heading">Days</h6>
+                    </div>
+                    <div class="countdown-circle countdown-hours" data-circle-countdown="data-circle-countdown" data-units="Hours">
+                        <div class="countdown-number">
+                            <svg x="0px" y="0px" width="136px" height="136px" viewbox="0 0 100 100">
+                                <clipPath class="progress-clip">
+                                    <path d=""></path>
+                                </clipPath>
+                                <circle class="countdown-bg" cx="50" cy="50" r="41"></circle>
+                                <circle class="clipped countdown-fg" cx="50" cy="50" r="48"></circle>
+                            </svg>
+                            <div class="countdown-overlay">
+                                <h4 class="countdown-counter"></h4>
+                            </div>
+                        </div>
+                        <h6 class="countdown-heading">Hours</h6>
+                    </div>
+                    <div class="countdown-circle countdown-minutes" data-circle-countdown="data-circle-countdown" data-units="Minutes">
+                        <div class="countdown-number">
+                            <svg x="0px" y="0px" width="136px" height="136px" viewbox="0 0 100 100">
+                                <clipPath class="progress-clip">
+                                    <path d=""></path>
+                                </clipPath>
+                                <circle class="countdown-bg" cx="50" cy="50" r="41"></circle>
+                                <circle class="clipped countdown-fg" cx="50" cy="50" r="48"></circle>
+                            </svg>
+                            <div class="countdown-overlay">
+                                <h4 class="countdown-counter"></h4>
+                            </div>
+                        </div>
+                        <h6 class="countdown-heading">Minutes</h6>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div>
-        <p>捐贈目標: @totalAmount 元</p>
-        <p>捐贈人數: @donorCount 人</p>
-        <p>捐贈進度: @donatedAmount 元 / @totalAmount 元 (@progressPercentage %)</p>
-    </div>
-</body>
-</html>
+</section>
