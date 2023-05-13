@@ -19,19 +19,43 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string searchForm,string file)
+        public async Task<IActionResult> Index(string searchForm,string file,string sortProducts)
         {
+            ViewBag.NewProducts = sortProducts == "LaunchDate_Desc" ? "LaunchDate_Asc" : "LaunchDate_Desc";
+            ViewBag.ProductsPrice = sortProducts == "ProductPrice_Asc" ? "ProductPrice_Desc" : "ProductPrice_Asc";
 
             var products = _context.Products.Include(p => p.Articles).Include(p => p.ProductType).Where(p=>p.ProductState==1 && p.ProductTypeId==1);
             //if (string.IsNullOrEmpty(searchForm))
             //{
             //    searchForm = file;
             //}
+            
             if (!string.IsNullOrEmpty(searchForm))
             {
                 products = _context.Products.Where(n => n.ProductName.Contains(searchForm));
+                return View(products);
             }
             //ViewBag.filter= searchForm
+
+
+            switch (sortProducts)
+            {
+                case "LaunchDate_Desc":
+                    products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId == 1).OrderByDescending(d => d.ProductLaunchedTime);
+                    break;
+                case "LaunchDate_Asc":
+                    products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId == 1).OrderBy(d => d.ProductLaunchedTime);
+                    break;
+                case "ProductPrice_Desc":
+                    products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId == 1).OrderByDescending(p => p.ProductPrice);
+                    break;
+                case "ProductPrice_Asc":
+                    products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId == 1).OrderBy(p => p.ProductPrice);
+                    break;
+                default:
+                    products = _context.Products.Where(d => d.ProductState == 1 && d.ProductTypeId == 1);
+                    break;
+            }
 
 
             return View(products);
