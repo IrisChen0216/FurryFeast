@@ -5,17 +5,31 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Test0506</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+
+    @*原生 css*@
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />*@
+
+    @*???*@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
     @*<link rel="stylesheet" href="~/css/footers.min.css" asp-append-version="true" />*@
-   @* <link rel="stylesheet" href="~/css/features.min.css" asp-append-version="true" />*@
-    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/features.min.css" asp-append-version="true" />*@
+
+    @*???*@
+    @*<link rel="stylesheet" href="~/css/bootstrap/bootstrap.css" asp-append-version="true" />*@
+
     <!-- 引入 Bootstrap Icons CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Anton&display=swap">
+
+    @*Iris_template*@
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
     
+    @*Alfie_navBar*@
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
     @await RenderSectionAsync("Style", required: false)
 
 </head>
@@ -76,7 +90,7 @@
                     <li><a class="nav-link scrollto" asp-controller="Article" asp-action="ContactUs">聯絡我們</a></li>
 
                     <li class="dropdown">
-                        <a class=""><span>後臺管理</span><i class="bi bi-chevron-down"></i></a>
+                        <a class="" asp-area="" asp-controller="StockArticles" asp-action="Index"><span>後臺管理</span><i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li class="dropdown"><a class="" asp-area="" asp-controller="StockMeasureUnits" asp-action="Index"><span>StockMeasureUnits</span></a></li>
                             <li><a class="" asp-area="" asp-controller="StockSuppliersGroups" asp-action="Index">StockSuppliersGroups</a></li>
