@@ -1,0 +1,72 @@
+﻿@model List<FurryFeast.Models.Lostpets>
+@{
+    var petTypes = (List<string>)ViewData["PetTypes"];
+    var breeds = (List<string>)ViewData["Breeds"];
+    var colors = (List<string>)ViewData["Colors"];
+    var lostTimes = (List<string>)ViewData["LostTimes"];
+    var genders = (List<string>)ViewData["Genders"];
+}
+<style>
+    .search-button {
+        border: 1px solid #ffd33b;
+        background-color: #ffd33b;
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        text-decoration: none;
+        padding: 10px;
+        display: inline-block;
+        text-align: center;
+    }
+
+        .search-button:hover {
+            background-color: black;
+            color: white;
+        }
+</style>
+
+<div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+    <div>
+        <select id="petType" style="border: 1px solid #ffd33b;">
+            @foreach (var petType in (List<string>)ViewData["PetTypes"])
+            {
+                <option value="@petType">@petType</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <select id="gender" style="border: 1px solid #ffd33b;">
+            @foreach (var gender in (List<string>)ViewData["Genders"])
+            {
+                <option value="@gender">@gender</option>
+            }
+        </select>
+    </div>
+
+    <form style="display: flex; align-items: center;">
+        <div style="margin-right: 1px;">
+            <label for="breed">品種:</label>
+            <input type="text" id="breed" name="breed" style="border: 1px solid #ffd33b;">
+        </div>
+        <div style="margin-right: 10px;">
+            <label for="color">毛色:</label>
+            <input type="text" id="color" name="color" style="border: 1px solid #ffd33b;">
+        </div>
+        <div style="margin-right: 10px;">
+            <label for="lostTime">失蹤日期:</label>
+            <input type="date" id="lostTime" name="lostTime" style="border: 1px solid #ffd33b;">
+        </div>
+        <div style="margin-right: 10px;">
+            <label for="lostLocation">遺失地點:</label>
+            <input type="text" id="lostLocation" name="lostLocation" style="border: 1px solid #ffd33b;">
+        </div>
+        <div>
+            <input type="submit" class="search-button" value="搜尋">
+            <a href="@Url.Action("LostForm", "Article")" class="search-button">我要通報走失</a>
+        </div>
+    </form>
+
+
+
+
+</div>

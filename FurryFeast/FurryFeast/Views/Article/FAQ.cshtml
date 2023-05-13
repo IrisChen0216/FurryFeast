@@ -1,70 +1,98 @@
-﻿@section Style{
-    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
-    <link href="~/css/petclass/style.css" rel="stylesheet" />
-}
-  <!-- Tabs and Accordion-->
-<section class="section section-xl bg-default text-md-left">
-    <div class="container">
-        <div class="row row-30 justify-content-center justify-content-xl-between">
-            <div class="col-md-6">
-                <h3>Accordions</h3>
-                <!-- Bootstrap collapse-->
-                <div class="card-group-custom card-group-corporate" id="accordion1" role="tablist" aria-multiselectable="false">
-                    <!-- Bootstrap card-->
-                    <article class="card card-custom card-corporate">
-                        <div class="card-header" role="tab">
-                            <div class="card-title">
-                                <a id="accordion1-card-head-vbwxjdra" data-bs-toggle="collapse" data-parent="#accordion1" href="#accordion1-card-body-crirqsce" aria-controls="accordion1-card-body-crirqsce" aria-expanded="true" role="button">
-                                    How can I change something in my order?
-                                    <div class="card-arrow">
-                                        <div class="icon"></div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="collapse show" id="accordion1-card-body-crirqsce" aria-labelledby="accordion1-card-head-vbwxjdra" data-parent="#accordion1" role="tabpanel">
-                            <div class="card-body">
-                                <p>If you need to change something in your order, please contact us immediately. We usually process orders within 30 minutes, and once we have processed your order, we will be unable to make any changes.</p>
-                            </div>
-                        </div>
-                    </article>
-                    <!-- Bootstrap card-->
-                    <article class="card card-custom card-corporate">
-                        <div class="card-header" role="tab">
-                            <div class="card-title">
-                                <a class="collapsed" id="accordion1-card-head-ftgjxgvc" data-bs-toggle="collapse" data-parent="#accordion1" href="#accordion1-card-body-psjdgbee" aria-controls="accordion1-card-body-psjdgbee" aria-expanded="false" role="button">
-                                    How can I pay for my order?
-                                    <div class="card-arrow">
-                                        <div class="icon"></div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="collapse" id="accordion1-card-body-psjdgbee" aria-labelledby="accordion1-card-head-ftgjxgvc" data-parent="#accordion1" role="tabpanel">
-                            <div class="card-body">
-                                <p>We accept Visa, MasterCard, and American Express credit and debit cards for your convenience.</p>
-                            </div>
-                        </div>
-                    </article>
-                    <!-- Bootstrap card-->
-                    <article class="card card-custom card-corporate">
-                        <div class="card-header" role="tab">
-                            <div class="card-title">
-                                <a class="collapsed" id="accordion1-card-head-jvbkjgya" data-bs-toggle="collapse" data-parent="#accordion1" href="#accordion1-card-body-pkornmfb" aria-controls="accordion1-card-body-pkornmfb" aria-expanded="false" role="button">
-                                    How long will my order take to be delivered?
-                                    <div class="card-arrow">
-                                        <div class="icon"></div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="collapse" id="accordion1-card-body-pkornmfb" aria-labelledby="accordion1-card-head-jvbkjgya" data-parent="#accordion1" role="tabpanel">
-                            <div class="card-body">
-                                <p>Delivery times will depend on your location. Once payment is confirmed your order will be packaged. Delivery can be expected within a day.</p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-5">
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* CSS樣式 */
+        .accordion {
+            background-color: transparent;
+            color: #000000;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 20px;
+            transition: 0.4s;
+            position: relative;
+        }
+
+            .accordion:hover, .accordion.active {
+                color: white;
+                background-color: #ffd33b;
+            }
+
+            .accordion::before {
+                content: "";
+                width: 10px;
+                height: 10px;
+                background-color: #ffd33b;
+                border-radius: 50%;
+                display: inline-block;
+                position: absolute;
+                left: -20px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+        .accordion-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .panel {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            color: #000000;
+            text-align: left;
+            font-size: 20px;
+        }
+
+        h2 {
+            color: #ffd33b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="accordion-container">
+        <h2>FAQ</h2>
+
+        <button class="accordion">What is the Sun made of?</button>
+        <div class="panel">
+            <p>The Sun is primarily composed of hydrogen and helium gases.</p>
+        </div>
+
+        <button class="accordion">How far is the Moon from Earth?</button>
+        <div class="panel">
+            <p>The average distance from Earth to the Moon is about 384,400 kilometers.</p>
+        </div>
+
+        <button class="accordion">What is the speed of light?</button>
+        <div class="panel">
+            <p>The speed of light in a vacuum is approximately 299,792 kilometers per second.</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript代碼
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
