@@ -26,119 +26,105 @@
 <a href="@Url.Action("LostForm", "Article")" class="btn btn-primary">我要通報</a>
 
 
-<div class="container" data-aos="fade-up">
-    <div class="index-header">
-        <h2>尋找浪浪</h2>
-    </div>
-    <div class="row row-cols-3">
-        <!-- card -->
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
+@section Style{
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
+}
+<!-- Button Sizes-->
+<section class="section section-xl bg-default">
+    <div class="container">
+        <div class="row row-30">
+            <div class="col-sm-6 col-lg-4">
+                <!-- Post Classic-->
+                <article class="post post-classic box-md">
+                    <a class="post-classic-figure" href="blog-post.html"><img src="images/post-1-370x239.jpg" alt="" width="370" height="239" /></a>
+                    <div class="post-classic-content">
+                        <div class="post-classic-time">
+                            <time datetime="2020-08-09">August 9, 2020</time>
+                        </div>
+                        <h5 class="post-classic-title"><a href="blog-post.html">Deciphering your cat’s language</a></h5>
+                        <p class="post-classic-text">A iaculis at erat pellentesque adipiscing. Ut ornare lectus sit amet est placerat in molestie a iaculis at erat.</p>
                     </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <!-- Post Classic-->
+                <article class="post post-classic box-md">
+                    <a class="post-classic-figure" href="blog-post.html"><img src="images/post-2-370x239.jpg" alt="" width="370" height="239" /></a>
+                    <div class="post-classic-content">
+                        <div class="post-classic-time">
+                            <time datetime="2020-08-09">August 9, 2020</time>
+                        </div>
+                        <h5 class="post-classic-title"><a href="blog-post.html">Easy tricks to teach your dog</a></h5>
+                        <p class="post-classic-text">Nam at lectus urna duis convallis convallis. Sem et tortor consequat id. Lacus laoreet non curabitur gravida lectus urna duis convallis.</p>
                     </div>
-                </div>
-            </a>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <!-- Post Classic-->
+                <article class="post post-classic box-md">
+                    <a class="post-classic-figure" href="blog-post.html"><img src="images/post-3-370x239.jpg" alt="" width="370" height="239" /></a>
+                    <div class="post-classic-content">
+                        <div class="post-classic-time">
+                            <time datetime="2020-08-09">August 9, 2020</time>
+                        </div>
+                        <h5 class="post-classic-title"><a href="blog-post.html">8 tips for taking the perfect photo of your pet</a></h5>
+                        <p class="post-classic-text">Sed sed risus pretium quam vulputate. Nisl suscipit adipiscing bibendum est ultricies integer quis. </p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <!-- Post Classic-->
+                <article class="post post-classic box-md">
+                    <a class="post-classic-figure" href="blog-post.html"><img src="images/post-4-370x239.jpg" alt="" width="370" height="239" /></a>
+                    <div class="post-classic-content">
+                        <div class="post-classic-time">
+                            <time datetime="2020-08-09">August 9, 2020</time>
+                        </div>
+                        <h5 class="post-classic-title"><a href="blog-post.html">3 Holiday Staples That Your Dog Can Eat</a></h5>
+                        <p class="post-classic-text">Scelerisque fermentum dui faucibus in ornare. Penatibus et magnis dis parturient montes dolor sit.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <!-- Post Classic-->
+                <article class="post post-classic box-md">
+                    <a class="post-classic-figure" href="blog-post.html"><img src="images/post-5-370x239.jpg" alt="" width="370" height="239" /></a>
+                    <div class="post-classic-content">
+                        <div class="post-classic-time">
+                            <time datetime="2020-08-09">August 9, 2020</time>
+                        </div>
+                        <h5 class="post-classic-title"><a href="blog-post.html">Dog Friendly Summer &amp; Autumn Activities</a></h5>
+                        <p class="post-classic-text">Lectus sit amet est placerat in egestas erat. Lectus sit amet est placerat in egestas imperdiet sed.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <!-- Post Classic-->
+                <article class="post post-classic box-md">
+                    <a class="post-classic-figure" href="blog-post.html"><img src="images/post-6-370x239.jpg" alt="" width="370" height="239" /></a>
+                    <div class="post-classic-content">
+                        <div class="post-classic-time">
+                            <time datetime="2020-08-09">August 9, 2020</time>
+                        </div>
+                        <h5 class="post-classic-title"><a href="blog-post.html">Tips for Taking Your Dog to the Vet</a></h5>
+                        <p class="post-classic-text">Diam donec adipiscing tristique risus nec feugiat. Mi in nulla posuere sollicitudin aliquam faucibus.</p>
+                    </div>
+                </article>
+            </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
+        <div class="pagination-wrap">
+            <!-- Bootstrap Pagination-->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item page-item-control disabled"><a class="page-link" href="#" aria-label="Previous"><span class="icon" aria-hidden="true"></span></a></li>
+                    <li class="page-item active"><span class="page-link">1</span></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Next"><span class="icon" aria-hidden="true"></span></a></li>
+                </ul>
+            </nav>
         </div>
     </div>
-</div>
+</section>
