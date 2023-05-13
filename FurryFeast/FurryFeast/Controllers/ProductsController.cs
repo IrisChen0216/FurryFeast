@@ -19,13 +19,22 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchForm,string file)
         {
 
-            var db_a989fb_furryfeastContext = _context.Products.Include(p => p.Articles).Include(p => p.ProductType).Where(p=>p.ProductState==1 && p.ProductTypeId==1);
+            var products = _context.Products.Include(p => p.Articles).Include(p => p.ProductType).Where(p=>p.ProductState==1 && p.ProductTypeId==1);
+            //if (string.IsNullOrEmpty(searchForm))
+            //{
+            //    searchForm = file;
+            //}
+            if (!string.IsNullOrEmpty(searchForm))
+            {
+                products = _context.Products.Where(n => n.ProductName.Contains(searchForm));
+            }
+            //ViewBag.filter= searchForm
 
-            
-            return View(db_a989fb_furryfeastContext);
+
+            return View(products);
         }
 
         // GET: Products/Details/5
