@@ -22,6 +22,7 @@ namespace FurryFeast.Models
         public virtual DbSet<ClassReservetion> ClassReservetions { get; set; } = null!;
         public virtual DbSet<Conpon> Conpons { get; set; } = null!;
         public virtual DbSet<ContactU> ContactUs { get; set; } = null!;
+        public virtual DbSet<Donate> Donates { get; set; } = null!;
         public virtual DbSet<GameOutcome> GameOutcomes { get; set; } = null!;
         public virtual DbSet<GameQue> GameQues { get; set; } = null!;
         public virtual DbSet<GameQuesChoice> GameQuesChoices { get; set; } = null!;
@@ -53,9 +54,8 @@ namespace FurryFeast.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-				IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-				optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeast"));
-			}
+                IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build(); optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeast"));
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -222,6 +222,29 @@ namespace FurryFeast.Models
                 entity.Property(e => e.GuestSubject)
                     .HasMaxLength(20)
                     .HasColumnName("guest_subject");
+            });
+
+            modelBuilder.Entity<Donate>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Donate");
+
+                entity.Property(e => e.CatDonateMoney).HasColumnName("Cat_Donate_Money");
+
+                entity.Property(e => e.CatDonatePeople).HasColumnName("Cat_Donate_people");
+
+                entity.Property(e => e.CatDonateTotal)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("Cat_Donate_total");
+
+                entity.Property(e => e.DogDonateMoney).HasColumnName("Dog_Donate_Money");
+
+                entity.Property(e => e.DogDonatePeople).HasColumnName("Dog_Donate_people");
+
+                entity.Property(e => e.DogDonateTotal).HasColumnName("Dog_Donate_total");
+
+                entity.Property(e => e.DonateId).HasColumnName("Donate_ID");
             });
 
             modelBuilder.Entity<GameOutcome>(entity =>
