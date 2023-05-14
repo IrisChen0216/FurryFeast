@@ -2,7 +2,26 @@
 <html>
 <head>
     <style>
-        /* CSS樣式 */
+        /* CSS样式 */
+        .index-header {
+            background-color: transparent;
+            color: #000000;
+            text-align: center;
+            padding: 20px;
+        }
+
+            .index-header h2 {
+                color: black;
+                font-size: 32px; /* 根据你的需求设置合适的字体大小 */
+                margin: 0;
+            }
+
+        .accordion-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .accordion {
             background-color: transparent;
             color: #000000;
@@ -12,7 +31,7 @@
             border: none;
             text-align: left;
             outline: none;
-            font-size: 20px;
+            font-size: 24px;
             transition: 0.4s;
             position: relative;
         }
@@ -35,12 +54,6 @@
                 transform: translateY(-50%);
             }
 
-        .accordion-container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
         .panel {
             padding: 0 18px;
             display: none;
@@ -50,16 +63,15 @@
             font-size: 20px;
         }
 
-        h2 {
-            color: #ffd33b;
-        }
     </style>
 </head>
 <body>
 
-    <div class="accordion-container">
+    <div class="index-header">
         <h2>FAQ</h2>
+    </div>
 
+    <div class="accordion-container">
         <button class="accordion">What is the Sun made of?</button>
         <div class="panel">
             <p>The Sun is primarily composed of hydrogen and helium gases.</p>
@@ -77,7 +89,7 @@
     </div>
 
     <script>
-        // JavaScript代碼
+        // JavaScript代码
         var acc = document.getElementsByClassName("accordion");
         var i;
 

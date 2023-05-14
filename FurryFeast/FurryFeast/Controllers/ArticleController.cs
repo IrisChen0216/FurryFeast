@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Drawing;
-using FurryFeast.Models;  // 新添加的行
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FurryFeast.Models;
 
 namespace FurryFeast.Controllers
 {
@@ -10,31 +13,48 @@ namespace FurryFeast.Controllers
     {
         private static readonly HttpClient client = new HttpClient();
 
-
         public IActionResult FAQ()
         {
             return View();
         }
+
         public IActionResult News()
         {
             return View();
         }
+
         public IActionResult Donates()
         {
             return View();
         }
-        public IActionResult Shelter()
+
+        public async Task<IActionResult> Shelter()
         {
-            return View();
+            var jsonString = await client.GetStringAsync("https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL");
+            var pets = JsonConvert.DeserializeObject<List<Pet>>(jsonString);
+
+            ViewData["Species"] = pets.Select(p => p.Species).Distinct().ToList();
+            ViewData["Breeds"] = pets.Select(p => p.Breed).Distinct().ToList();
+            ViewData["ShelterLocations"] = pets.Select(p => p.ShelterLocation).Distinct().ToList();
+            ViewData["Genders"] = pets.Select(p => p.Gender).Distinct().ToList();
+            ViewData["Shelters"] = pets.Select(p => p.Shelter).Distinct().ToList();
+            ViewData["Ages"] = pets.Select(p => p.Age).Distinct().ToList();
+
+            return View(pets); // 将pets传递给视图
         }
+
+
+
         public IActionResult LostForm()
         {
             return View();
         }
+
         public IActionResult ContactUs()
         {
             return View();
         }
+
         public async Task<IActionResult> Lostpets(int? page, string petType, string gender, string breed, string color, DateTime? lostTime, string lostLocation)
         {
             var pageSize = 12;
@@ -96,8 +116,6 @@ namespace FurryFeast.Controllers
             return View(petsPaged);
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> LoadLostPets(string petType, string gender, string breed, string color, DateTime? lostTime, string lostLocation)
         {
@@ -139,9 +157,6 @@ namespace FurryFeast.Controllers
 
             return Json(pets);
         }
-
-
-
     }
 }
-
+   
