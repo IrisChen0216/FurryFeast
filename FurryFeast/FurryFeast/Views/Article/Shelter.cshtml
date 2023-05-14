@@ -37,49 +37,97 @@
         <h2>全台收容所資訊</h2>
     </div>
 
+    <style>
+        .search-button {
+            border: 1px solid #ffd33b;
+            background-color: #ffd33b;
+            color: white;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-decoration: none;
+            padding: 10px 20px; /* 調整按鈕寬度和高度 */
+            display: inline-block;
+            text-align: center;
+
+     
+        }
+
+            .search-button:hover {
+                background-color: black;
+                color: white;
+            }
+
+        .custom-select {
+            margin-right: 3px;
+        }
+
+        .form-control.custom-select {
+            width: 100px; /* 調整選項寬度 */
+        }
+    </style>
+
     <div style="text-align: center;">
         <form id="filterForm" method="get" action="/Article/Shelter">
-            <div class="form-row">
-                <select id="animal_kind" name="animal_kind">
-                    <option value="">種類</option>
-                    @foreach (var kind in ViewData["AnimalKinds"] as List<string>)
-                    {
-                        <option value="@kind">@kind</option>
-                    }
-                </select>
+            <div class="form-container">
+                <div class="form-row" style="display: inline-flex; align-items: center; gap: 3px;">
+                    <div class="custom-select">
+                        <select id="animal_kind" name="animal_kind" class="form-control custom-select">
+                            <option value="">種類</option>
+                            @foreach (var kind in ViewData["AnimalKinds"] as List<string>)
+                            {
+                                <option value="@kind">@kind</option>
+                            }
+                        </select>
+                    </div>
 
-                <input type="text" id="animal_Variety" name="animal_Variety" placeholder="請輸入品種" />
+                    <input type="text" id="animal_Variety" name="animal_Variety" placeholder="請輸入品種" class="form-control" />
 
-                <select id="shelter_name" name="shelter_name">
-                    <option value="">收容所</option>
-                    @foreach (var shelter in ViewData["ShelterNames"] as List<string>)
-                    {
-                        <option value="@shelter">@shelter</option>
-                    }
-                </select>
+                    <div class="custom-select">
+                        <select id="shelter_name" name="shelter_name" class="form-control custom-select">
+                            <option value="">收容所</option>
+                            @foreach (var shelter in ViewData["ShelterNames"] as List<string>)
+                            {
+                                <option value="@shelter">@shelter</option>
+                            }
+                        </select>
+                    </div>
 
-                <select id="animal_sex" name="animal_sex">
-                    <option value="">性別</option>
-                    @foreach (var sex in ViewData["AnimalSexes"] as List<string>)
-                    {
-                        <option value="@sex">@sex</option>
-                    }
-                </select>
+                    <div class="custom-select">
+                        <select id="animal_sex" name="animal_sex" class="form-control custom-select">
+                            <option value="">性別</option>
+                            @foreach (var sex in ViewData["AnimalSexes"] as List<string>)
+                            {
+                                <option value="@sex">@sex</option>
+                            }
+                        </select>
+                    </div>
 
-                <input type="text" id="animal_colour" name="animal_colour" placeholder="請輸入毛色" />
+                    <input type="text" id="animal_colour" name="animal_colour" placeholder="請輸入毛色" class="form-control" />
 
-                <select id="animal_age" name="animal_age">
-                    <option value="">年齡</option>
-                    @foreach (var age in ViewData["AnimalAges"] as List<string>)
-                    {
-                        <option value="@age">@age</option>
-                    }
-                </select>
+                    <div class="custom-select">
+                        <select id="animal_age" name="animal_age" class="form-control custom-select">
+                            <option value="">年齡</option>
+                            @foreach (var age in ViewData["AnimalAges"] as List<string>)
+                            {
+                                <option value="@age">@age</option>
+                            }
+                        </select>
+                    </div>
 
-                <button type="submit">搜尋</button>
+                    <input type="submit" class="search-button btn btn-primary" value="搜尋">
+                </div>
             </div>
         </form>
     </div>
+
+
+
+
+
+
+
+
+
+
 
 
     <div class="pet-container">
@@ -120,4 +168,6 @@
         </div>
     }
 </body>
+
+
 </html>
