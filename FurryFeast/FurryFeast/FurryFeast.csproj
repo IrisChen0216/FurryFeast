@@ -8,18 +8,53 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Admin\**" />
-    <Content Remove="Areas\Admin\**" />
-    <EmbeddedResource Remove="Areas\Admin\**" />
-    <None Remove="Areas\Admin\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="wwwroot\backend\css\material-dashboard.css.map" />
+    <None Include="wwwroot\backend\fonts\nucleo-icons.svg" />
+    <None Include="wwwroot\backend\fonts\nucleo-icons.woff2" />
+    <None Include="wwwroot\backend\fonts\nucleo.woff2" />
+    <None Include="wwwroot\backend\img\down-arrow-dark.svg" />
+    <None Include="wwwroot\backend\img\down-arrow-white.svg" />
+    <None Include="wwwroot\backend\img\down-arrow.svg" />
+    <None Include="wwwroot\backend\img\illustrations\pattern-tree.svg" />
+    <None Include="wwwroot\backend\img\logos\gray-logos\logo-coinbase.svg" />
+    <None Include="wwwroot\backend\img\logos\gray-logos\logo-nasa.svg" />
+    <None Include="wwwroot\backend\img\logos\gray-logos\logo-netflix.svg" />
+    <None Include="wwwroot\backend\img\logos\gray-logos\logo-pinterest.svg" />
+    <None Include="wwwroot\backend\img\logos\gray-logos\logo-spotify.svg" />
+    <None Include="wwwroot\backend\img\logos\gray-logos\logo-vodafone.svg" />
+    <None Include="wwwroot\backend\img\shapes\pattern-lines.svg" />
+    <None Include="wwwroot\backend\img\shapes\waves-white.svg" />
+    <None Include="wwwroot\backend\img\small-logos\bootstrap.svg" />
+    <None Include="wwwroot\backend\img\small-logos\creative-tim.svg" />
+    <None Include="wwwroot\backend\img\small-logos\devto.svg" />
+    <None Include="wwwroot\backend\img\small-logos\github.svg" />
+    <None Include="wwwroot\backend\img\small-logos\google-webdev.svg" />
+    <None Include="wwwroot\backend\img\small-logos\icon-bulb.svg" />
+    <None Include="wwwroot\backend\img\small-logos\logo-asana.svg" />
+    <None Include="wwwroot\backend\img\small-logos\logo-atlassian.svg" />
+    <None Include="wwwroot\backend\img\small-logos\logo-invision.svg" />
+    <None Include="wwwroot\backend\img\small-logos\logo-jira.svg" />
+    <None Include="wwwroot\backend\img\small-logos\logo-slack.svg" />
+    <None Include="wwwroot\backend\img\small-logos\logo-spotify.svg" />
+    <None Include="wwwroot\backend\img\small-logos\logo-xd.svg" />
+    <None Include="wwwroot\backend\js\core\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\backend\js\core\bootstrap.min.js" />
+    <None Include="wwwroot\backend\js\core\popper.min.js" />
+    <None Include="wwwroot\backend\js\material-dashboard.js" />
+    <None Include="wwwroot\backend\js\material-dashboard.js.map" />
+    <None Include="wwwroot\backend\js\material-dashboard.min.js" />
+    <None Include="wwwroot\backend\js\plugins\bootstrap-notify.js" />
+    <None Include="wwwroot\backend\js\plugins\Chart.extension.js" />
+    <None Include="wwwroot\backend\js\plugins\chartjs.min.js" />
+    <None Include="wwwroot\backend\js\plugins\countup.min.js" />
+    <None Include="wwwroot\backend\js\plugins\perfect-scrollbar.min.js" />
+    <None Include="wwwroot\backend\js\plugins\smooth-scrollbar.min.js" />
+    <None Include="wwwroot\backend\js\plugins\world.js" />
     <None Include="wwwroot\css\bootstrap\bootstrap-grid.css.map" />
     <None Include="wwwroot\css\bootstrap\bootstrap-grid.scss" />
     <None Include="wwwroot\css\bootstrap\bootstrap-reboot.css.map" />
@@ -206,6 +241,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.15" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
 </Project>
