@@ -29,5 +29,5 @@
     public string shelter_address { get; set; }
     public string shelter_tel { get; set; }
 
-    public string ImageUrl { get; set; }
+    public string ImageUrl => album_file; // 直接将album_file赋值给ImageUrl属性
 }
