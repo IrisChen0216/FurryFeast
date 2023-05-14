@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FurryFeast.Models;
+using System.Linq;
 
 namespace FurryFeast.Controllers
 {
@@ -28,7 +29,7 @@ namespace FurryFeast.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Shelter()
+        public async Task<IActionResult> Shelter(int? page)
         {
             var jsonString = await client.GetStringAsync("https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL");
             var pets = JsonConvert.DeserializeObject<List<Pet>>(jsonString);
@@ -40,8 +41,22 @@ namespace FurryFeast.Controllers
             ViewData["AnimalColours"] = pets.Select(p => p.animal_colour).Distinct().ToList();
             ViewData["AnimalAges"] = pets.Select(p => p.animal_age).Distinct().ToList();
 
-            return View(pets); // 将pets传递给视图
+            var pageSize = 12;
+            var totalItemCount = pets.Count;
+            var totalPageCount = (int)Math.Ceiling(totalItemCount / (double)pageSize);
+
+            var pageNumber = page ?? 1;
+            pageNumber = Math.Max(1, Math.Min(pageNumber, totalPageCount));
+
+            var petsPaged = pets.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            // 将分页相关的信息传递给视图
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageCount = totalPageCount;
+
+            return View(petsPaged);
         }
+
 
 
 

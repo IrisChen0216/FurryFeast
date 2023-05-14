@@ -29,5 +29,5 @@
     public string shelter_address { get; set; }
     public string shelter_tel { get; set; }
 
-    public string ImageUrl { get; set; } // 新增圖片URL屬性
+    public string ImageUrl { get; set; }
 }
