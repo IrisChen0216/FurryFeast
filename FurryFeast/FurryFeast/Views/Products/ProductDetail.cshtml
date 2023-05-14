@@ -15,7 +15,8 @@
                     <div class="slick-slider carousel-parent" id="carousel-parent" data-items="1" data-swipe="true" data-child="#child-carousel" data-for="#child-carousel">
                         <div class="item">
                             <div class="slick-product-figure">
-								<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+								@*<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />*@
+                                <img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="250" height="250"/>
                             </div>
                         </div>
                         <div class="item">
@@ -72,3 +73,9 @@
        
     </div>
 </section>
+
+@section Scripts{
+    <script src="~/js/product/core.min.js"></script>
+    <script src="~/js/product/script.js"></script>
+}
+

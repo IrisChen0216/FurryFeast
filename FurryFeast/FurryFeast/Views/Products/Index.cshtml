@@ -49,8 +49,8 @@
 					
 						<div class="product-figure">
                        
-                        @*<partial name="_ShowPictruePartial" model="@item.ProductPicId"></partial>*@
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
+                        <partial name="_ShowPictruePartial" model="@item"></partial>
+                        @*<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />*@
                     </div>
                     <h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="@item.ProductId">@item.ProductName</a></h5>
                     <div class="product-price-wrap">

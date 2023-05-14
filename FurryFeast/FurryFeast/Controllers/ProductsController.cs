@@ -37,7 +37,7 @@ namespace FurryFeast.Controllers
             if (!string.IsNullOrEmpty(searchForm))
             {
                 products = _context.Products.Where(n => n.ProductName.Contains(searchForm));
-                return View(products);
+                return View(products.ToPagedList());
             }
             //ViewBag.filter= searchForm
 
@@ -88,8 +88,8 @@ namespace FurryFeast.Controllers
 
         public async Task<FileResult> GetPicture(int id)
         {
-            ProductPic p = await _context.ProductPics.FindAsync(id);
-            byte[] content = p?.ProductPicImage;//c有值才抓Picture
+            Product p = await _context.Products.FindAsync(id);           
+            byte[] content = p.ProductPics.First().ProductPicImage;
             return File(content, "image/jpeg");
         }
 
