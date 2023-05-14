@@ -52,5 +52,11 @@
     "inputFiles": [
       "wwwroot/css/PetClass/style.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/PagedList.min.css",
+    "inputFiles": [
+      "wwwroot/css/PagedList.css"
+    ]
   }
 ]

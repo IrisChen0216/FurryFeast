@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
+using X.PagedList;
 
 namespace FurryFeast.Controllers
 {
@@ -19,12 +20,15 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string searchForm,string file,string sortProducts)
+        public async Task<IActionResult> Index(string searchForm,string file,string sortProducts,int? page)
         {
+            int pageNumber = (page ?? 1);
+            int pageSize = 3;
+
             ViewBag.NewProducts = sortProducts == "LaunchDate_Desc" ? "LaunchDate_Asc" : "LaunchDate_Desc";
             ViewBag.ProductsPrice = sortProducts == "ProductPrice_Asc" ? "ProductPrice_Desc" : "ProductPrice_Asc";
 
-            var products = _context.Products.Include(p => p.Articles).Include(p => p.ProductType).Where(p=>p.ProductState==1 && p.ProductTypeId==1);
+            IQueryable<Product> products = _context.Products.Where(p=>p.ProductState==1 && p.ProductTypeId==1);
             //if (string.IsNullOrEmpty(searchForm))
             //{
             //    searchForm = file;
@@ -37,7 +41,7 @@ namespace FurryFeast.Controllers
             }
             //ViewBag.filter= searchForm
 
-
+            //ViewBag.CurrentSort = sortProducts;
             switch (sortProducts)
             {
                 case "LaunchDate_Desc":
@@ -57,8 +61,9 @@ namespace FurryFeast.Controllers
                     break;
             }
 
-
-            return View(products);
+            
+            return View(products.ToPagedList(pageNumber, pageSize));
+            //return View(products);
         }
 
         // GET: Products/Details/5
