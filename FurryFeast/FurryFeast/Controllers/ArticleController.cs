@@ -33,12 +33,12 @@ namespace FurryFeast.Controllers
             var jsonString = await client.GetStringAsync("https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL");
             var pets = JsonConvert.DeserializeObject<List<Pet>>(jsonString);
 
-            ViewData["Species"] = pets.Select(p => p.Species).Distinct().ToList();
-            ViewData["Breeds"] = pets.Select(p => p.Breed).Distinct().ToList();
-            ViewData["ShelterLocations"] = pets.Select(p => p.ShelterLocation).Distinct().ToList();
-            ViewData["Genders"] = pets.Select(p => p.Gender).Distinct().ToList();
-            ViewData["Shelters"] = pets.Select(p => p.Shelter).Distinct().ToList();
-            ViewData["Ages"] = pets.Select(p => p.Age).Distinct().ToList();
+            ViewData["AnimalKinds"] = pets.Select(p => p.animal_kind).Distinct().ToList();
+            ViewData["AnimalVarieties"] = pets.Select(p => p.animal_Variety).Distinct().ToList();
+            ViewData["ShelterNames"] = pets.Select(p => p.shelter_name).Distinct().ToList();
+            ViewData["AnimalSexes"] = pets.Select(p => p.animal_sex).Distinct().ToList();
+            ViewData["AnimalColours"] = pets.Select(p => p.animal_colour).Distinct().ToList();
+            ViewData["AnimalAges"] = pets.Select(p => p.animal_age).Distinct().ToList();
 
             return View(pets); // 将pets传递给视图
         }
