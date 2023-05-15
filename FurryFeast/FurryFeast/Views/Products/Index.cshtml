@@ -1,24 +1,47 @@
-﻿@model IEnumerable<FurryFeast.Models.Product>
+﻿@model X.PagedList.IPagedList<FurryFeast.Models.Product>
+@*@model IEnumerable<FurryFeast.Models.Product>*@
+@using X.PagedList.Mvc.Core;
 
 @{
     ViewData["Title"] = "Index";
 }
-@section Style{
+@section Style{	
     <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
     @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
     <link href="~/css/petclass/style.css" rel="stylesheet" />
     <link href="~fontawesome-iconpicker/css/fontawesome-iconpicker.min.css" />
+	<link href="~/css/pagedlist.min.css" rel="stylesheet" />
 }
 <section class="section section-xxl bg-gray-1">
     <div class="container">
-        <h2 class="wow fadeScale">狗狗專區Dog Area</h2>
+        <h2 class="wow fadeScale">寵物鮮食</h2>
         <!-- Owl Carousel-->
 @*        <div class="owl-carousel owl-style-9" data-items="1" data-sm-items="2" data-md-items="3" data-lg-items="4" data-margin="30" data-dots="true">     
-*@            <!-- Product-->
+*@        
+        <!--搜尋列-->
+        <div class="row">
+            <div class="col-5">
+                <div class="form-wrap">
+        <form class="rd-search form-search" asp-controller="Products" asp-action="Index" method="post">         
+                <label class="form-label" for="searchForm">搜尋商品 ...</label>
+                <input class="form-input" id="searchForm" type="text" name="searchForm" autocomplete="on" value="@ViewBag.Filter">
+                <button class="button-search fl-bigmug-line-search74" type="submit"></button>
+        </form>
+            </div>
+            </div>
+        <!--排序功能-->
+            <div class="col-7 box-info-modern-title">
+        <a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.NewProducts">上架時間</a> |
+        <a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.ProductsPrice">價格高低</a> |
+        <a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.OrdersRank">熱門排名</a>
+            </div>
+        </div>
+
 <div class="row">
+            <!-- 商品-->
             @foreach (var item in Model)
 			{
-            
+      
             <div class="col-4"> 
             <article class="product">
                
@@ -26,8 +49,8 @@
 					
 						<div class="product-figure">
                        
-                        @*<partial name="_ShowPictruePartial" model="@item.ProductPicId"></partial>*@
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
+                        <partial name="_ShowPictruePartial" model="@item"></partial>
+                        @*<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />*@
                     </div>
                     <h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="@item.ProductId">@item.ProductName</a></h5>
                     <div class="product-price-wrap">
@@ -47,186 +70,15 @@
             </div>
             }
             </div> 
-            <!-- Product-->
-            @*<article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-						<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Zoo Fun Dog Collars</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$11.00</div>
-                    </div>
-                </div>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Glendan Dog Brush</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$17.00</div>
-                    </div>
-                </div><span class="product-badge product-badge-new">New</span>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Pet Food Bowl</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$12.00</div>
-                    </div>
-                </div>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Deep Dish Cuddler</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price product-price-old">$30.00</div>
-                        <div class="product-price">$23.00</div>
-                    </div>
-                </div><span class="product-badge product-badge-sale">Sale</span>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Zoo Fun Dog Collars</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$11.00</div>
-                    </div>
-                </div>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Glendan Dog Brush</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$17.00</div>
-                    </div>
-                </div><span class="product-badge product-badge-new">New</span>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Pet Food Bowl</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$12.00</div>
-                    </div>
-                </div>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Deep Dish Cuddler</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price product-price-old">$30.00</div>
-                        <div class="product-price">$23.00</div>
-                    </div>
-                </div><span class="product-badge product-badge-sale">Sale</span>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Zoo Fun Dog Collars</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$11.00</div>
-                    </div>
-                </div>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Glendan Dog Brush</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$17.00</div>
-                    </div>
-                </div><span class="product-badge product-badge-new">New</span>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>
-            <!-- Product-->
-            <article class="product">
-                <div class="product-body">
-                    <div class="product-figure">
-                        <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="200" height="200" />
-                    </div>
-                    <h5 class="product-title"><a href="single-product.html">Pet Food Bowl</a></h5>
-                    <div class="product-price-wrap">
-                        <div class="product-price">$12.00</div>
-                    </div>
-                </div>
-                <div class="product-button-wrap">
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-search74" href="single-product.html"></a></div>
-                    <div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" href="cart-page.html"></a></div>
-                </div>
-            </article>*@
+            
         </div>
-    @*</div>*@
+        <div style="height:auto;">
+          @*Page @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model,page=>Url.Action("Index",new{page,sortProducts=ViewBag.CurrentSort}))*@
+        <h6>
+            @Html.PagedListPager(Model,page=>Url.Action("Index",new{page}))
+        </h6>
+        </div>
 </section>
 
 @section Scripts{

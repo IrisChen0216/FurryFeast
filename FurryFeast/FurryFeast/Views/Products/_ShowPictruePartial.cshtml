@@ -1,8 +1,8 @@
 ﻿@model Product
 
-@if (Model.ProductPicId!= null)
+@if (Model.ProductId!= null)
 {
-	<img src="@Url.Action("GetPicture","Products",new{id=Model.ProductPicId})" alt="" width="200" height="200" />
+	<img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="" width="530" height="480" />
 }
 else
 {

@@ -21,7 +21,7 @@ namespace FurryFeast
             var FurryFeastDbConnectionString = builder.Configuration.GetConnectionString("FurryFeastDb") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<db_a989fb_furryfeastContext>(options =>
-                options.UseSqlServer(FurryFeastDbConnectionString));
+                options.UseLazyLoadingProxies().UseSqlServer(FurryFeastDbConnectionString));
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
+using X.PagedList;
 
 namespace FurryFeast.Controllers
 {
@@ -19,13 +20,50 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchForm,string file,string sortProducts,int? page)
         {
+            int pageNumber = (page ?? 1);
+            int pageSize = 3;
 
-            var db_a989fb_furryfeastContext = _context.Products.Include(p => p.Articles).Include(p => p.ProductType).Where(p=>p.ProductState==1 && p.ProductTypeId==1);
+            ViewBag.NewProducts = sortProducts == "LaunchDate_Desc" ? "LaunchDate_Asc" : "LaunchDate_Desc";
+            ViewBag.ProductsPrice = sortProducts == "ProductPrice_Asc" ? "ProductPrice_Desc" : "ProductPrice_Asc";
+
+            IQueryable<Product> products = _context.Products.Where(p=>p.ProductState==1 && p.ProductTypeId==1);
+            //if (string.IsNullOrEmpty(searchForm))
+            //{
+            //    searchForm = file;
+            //}
+            
+            if (!string.IsNullOrEmpty(searchForm))
+            {
+                products = _context.Products.Where(n => n.ProductName.Contains(searchForm));
+                return View(products.ToPagedList());
+            }
+            //ViewBag.filter= searchForm
+
+            //ViewBag.CurrentSort = sortProducts;
+            switch (sortProducts)
+            {
+                case "LaunchDate_Desc":
+                    products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId == 1).OrderByDescending(d => d.ProductLaunchedTime);
+                    break;
+                case "LaunchDate_Asc":
+                    products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId == 1).OrderBy(d => d.ProductLaunchedTime);
+                    break;
+                case "ProductPrice_Desc":
+                    products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId == 1).OrderByDescending(p => p.ProductPrice);
+                    break;
+                case "ProductPrice_Asc":
+                    products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId == 1).OrderBy(p => p.ProductPrice);
+                    break;
+                default:
+                    products = _context.Products.Where(d => d.ProductState == 1 && d.ProductTypeId == 1);
+                    break;
+            }
 
             
-            return View(db_a989fb_furryfeastContext);
+            return View(products.ToPagedList(pageNumber, pageSize));
+            //return View(products);
         }
 
         // GET: Products/Details/5
@@ -50,8 +88,8 @@ namespace FurryFeast.Controllers
 
         public async Task<FileResult> GetPicture(int id)
         {
-            ProductPic p = await _context.ProductPics.FindAsync(id);
-            byte[] content = p?.ProductPicImage;//c有值才抓Picture
+            Product p = await _context.Products.FindAsync(id);           
+            byte[] content = p.ProductPics.First().ProductPicImage;
             return File(content, "image/jpeg");
         }
 
