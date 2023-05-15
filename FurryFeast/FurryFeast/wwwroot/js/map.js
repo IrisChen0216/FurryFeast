@@ -1,41 +1,44 @@
-let Selection = document.getElementById('ChooseCity');
+let MapData = [];
+let selected = document.getElementById("ChooseCity");
+let selected_County = document.getElementById("ChooseCounty");
 
-let n_option;
-
-$.ajax({
+//程式進入點
+$(function () {
+    $.ajax({
         url: "https://localhost:7110/TaiwanArea.json",
-        type: "POST",
-        dataType: "json",
-        success: function (data) {
-            console.log([data]);
-            for (let i = 0; i < data.length; i++) {
-                n_option = document.createElement('option');
-                n_option.value = data[i].city;
-                Selection.appendChild(n_option);
-            }
+            type: "GET",
+            dataType: "json"
+        })
+        .done(getCityName)
+        .fail(function () {
+            console.log("error");
+        });
 
-        },
-    error: function() {
-        console.log("Error");
+    function getCityName(Data) {
+        console.log("success");
+        MapData = Data;
+        for (let i = 0; i < Data.length; i++) {
+            let Option_City = Data[i].city;
+            let MapOption = document.createElement('option') // 建立option元素
+            MapOption.setAttribute("value", Data[i].cityID);
+            MapOption.text = Option_City;
+            $(MapOption).appendTo(selected);
+        }
+    }
+})
+
+$("#ChooseCity").change(function (event) {
+    $('#ChooseCounty > :not(:first-child)').remove();
+    //清除選項
+    let option_value = event.target.value;
+    for (let i = 0; i < MapData.length; i++) {
+        if (MapData[i].cityID == option_value) {
+            for (let j = 0; j < MapData[i].county.length; j++) {
+                let countyName = MapData[i].county[j];
+                let MapOption = document.createElement('option')
+                MapOption.text = countyName;
+                $(MapOption).appendTo(selected_County);
+            }
+        }
     }
 });
-
-//$(document).ready(function() {)
-//    $("#b01").click(function() {
-
-//        htmlobj =
-//            $.ajax({ url: "https://localhost:7110/TaiwanArea.json", async: false });
-
-//        $("#myDiv").html(htmlobj.responseJSON[0].city);
-//    });
-//});
-
-
-// let Selection = document.getElementById["ChooseCity"]
-
-// for (let i = 0; i < MapData.length; i++) {
-//     let Option_City = MapData[i].city;
-//     let MapOption = document.createElement('option').value
-//     MapOption = Option_City;
-//     $(MapOption).appendTo(Selection);
-// }
