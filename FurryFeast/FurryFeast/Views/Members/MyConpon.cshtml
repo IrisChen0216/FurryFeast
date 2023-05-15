@@ -1,0 +1,40 @@
+﻿@model IEnumerable<FurryFeast.Models.Conpon>
+
+@{
+    ViewData["Title"] = "MyConpon";
+}
+
+<h1>我的優惠券</h1>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="option col-3">
+            <div>
+                <a href="./MemberData.html">個人資料</a>
+            </div>
+            <div>
+                <a href="./OrderRecord.html">訂單紀錄</a>
+            </div>
+            <div>
+                <a href="./MyCopon.html">我的優惠券</a>
+            </div>
+            <div>
+                <a href="./MyClass.html">我的課程</a>
+            </div>
+
+        </div>
+        <div class="content col-9">
+            <table>
+                <tr>
+                    <th>優惠券編號</th>
+                    <th>優惠券名稱</th>
+                    <th>優惠券折扣</th>
+                    <th>起始時間</th>
+                    <th>到期時間</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

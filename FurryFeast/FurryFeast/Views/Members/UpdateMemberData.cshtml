@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "UpdateMemberData";
+}
+
+<h1>修改個人資料</h1>
+
+<div>
+    <label>姓名</label>
+    <input name="UpdateName" value="" required />
+</div>
+<div>
+    <label>性別</label>
+    <input type="radio" name="UpdateGender" required />
+    <label>男</label>
+    <input type="radio" name="UpdateGender" required />
+    <label>女</label>
+</div>
+<div>
+    <label>生日</label>
+    <input type="date" name="UpdateBirth" required />
+</div>
+<div>
+    <label>手機號碼</label>
+    <input type="text" name="UpdatePhone" maxlength="10" required />
+</div>
+<div>
+    <label>Email</label>
+    <input type="text" name="UpdateEmail" required />
+</div>
+<div>
+    <label>住址</label>
+    <input type="text" name="UpdateAdress" />
+</div>
+<div>
+    <input type="submit" name="Update" value="修改資料"/>
+</div>
+<hr />
+<div>修改密碼</div>
+<div>
+    <input type="password" name="UpdatePassord" required/>
+</div>
+<div>
+    <input type="submit" name="UpdatePassord" value="更新密碼"/>
+</div>
