@@ -1,4 +1,6 @@
-﻿@section Style{
+﻿@model List<FurryFeast.Models.Article>
+
+@section Style{
     <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
     @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
     <link href="~/css/petclass/style.css" rel="stylesheet" />
@@ -6,61 +8,23 @@
 <div class="index-header">
     <h2>最新消息</h2>
 </div>
-<!-- Post Modern-->
-<div class="col-12">
-    <!-- Post Modern-->
-    <article class="post post-modern box-xxl">
-        <div class="post-modern-panel">
-            <div><a class="post-modern-tag" href="#">News</a></div>
-            <div>
-                <time class="post-modern-time" datetime="2020-08-09">August 9, 2020</time>
-            </div>
-        </div>
-        <h3 class="post-modern-title"><a href="blog-post.html">Deciphering your cat’s language</a></h3>
-        <p class="post-modern-text">Neque ornare aenean euismod elementum nisi. Semper viverra nam libero justo. Amet est placerat in egestas erat imperdiet sed euismod nisi. Arcu odio ut sem nulla pharetra. Facilisis gravida neque convallis a. Purus non enim praesent elementum facilisis leo vel fringilla est. </p>
-        <a class="post-modern-link" href="blog-post.html">Read more</a>
-    </article>
-</div>
 
-<div class="col-12">
-    <!-- Post Modern-->
-    <article class="post post-modern box-xxl">
-        <div class="post-modern-panel">
-            <div><a class="post-modern-tag" href="#">News</a></div>
-            <div>
-                <time class="post-modern-time" datetime="2020-08-09">August 9, 2020</time>
+@foreach (var article in Model)
+{
+    <div class="col-12">
+        <article class="post post-modern box-xxl">
+            <div class="post-modern-panel">
+                <div><a class="post-modern-tag" href="#">News</a></div>
+                <div>
+                    <time class="post-modern-time" datetime='@article.ArticleDate.ToString("yyyy-MM-dd")'>
+                        @article.ArticleDate.ToString("MMMM d, yyyy")
+                    </time>
+                </div>
             </div>
-        </div>
-        <h3 class="post-modern-title"><a href="blog-post.html">Easy tricks to teach your dog</a></h3>
-        <p class="post-modern-text">Commodo viverra maecenas accumsan lacus vel. Bibendum at varius vel pharetra vel turpis nunc eget. Ullamcorper malesuada proin libero nunc consequat. Mauris in aliquam sem fringilla ut morbi tincidunt augue interdum. Accumsan sit amet nulla facilisi morbi tempus iaculis urna id. </p>
-        <a class="post-modern-link" href="blog-post.html">Read more</a>
-    </article>
-</div>
+            <h3 class="post-modern-title" style="font-size: 20px;"><a href="blog-post.html">@article.ArticleTitle</a></h3>
+            <p class="post-modern-text">@article.ArticleText</p>
+            <a class="post-modern-link" href="blog-post.html">Read more</a>
+        </article>
+    </div>
+}
 
-<div class="col-12">
-    <!-- Post Modern-->
-    <article class="post post-modern box-xxl">
-        <div class="post-modern-panel">
-            <div><a class="post-modern-tag" href="#">News</a></div>
-            <div>
-                <time class="post-modern-time" datetime="2020-08-09">August 9, 2020</time>
-            </div>
-        </div>
-        <h3 class="post-modern-title"><a href="blog-post.html">8 tips for taking the perfect photo of your pet</a></h3>
-        <p class="post-modern-text">Vitae turpis massa sed elementum. Nam at lectus urna duis convallis convallis. Ipsum a arcu cursus vitae. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Imperdiet massa tincidunt nunc pulvinar. Etiam erat velit scelerisque in. </p>
-        <a class="post-modern-link" href="blog-post.html">Read more</a>
-    </article>
-</div>
-<div class="pagination-wrap">
-    <!-- Bootstrap Pagination-->
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li class="page-item page-item-control disabled"><a class="page-link" href="#" aria-label="Previous"><span class="icon" aria-hidden="true"></span></a></li>
-            <li class="page-item active"><span class="page-link">1</span></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Next"><span class="icon" aria-hidden="true"></span></a></li>
-        </ul>
-    </nav>
-</div>
-      

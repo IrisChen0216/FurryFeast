@@ -29,7 +29,8 @@ namespace FurryFeast.Controllers
 
         public IActionResult News()
         {
-            return View();
+            var articles = _furryFeastContext.Articles.ToList();
+            return View(articles);
         }
 
         public IActionResult Donates()
