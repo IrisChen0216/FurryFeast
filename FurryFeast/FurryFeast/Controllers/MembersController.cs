@@ -163,6 +163,16 @@ namespace FurryFeast.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> MyClass()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> MyConpon()
+        {
+            return View();
+        }
         private bool MemberExists(int id)
         {
           return (_context.Members?.Any(e => e.MemberId == id)).GetValueOrDefault();

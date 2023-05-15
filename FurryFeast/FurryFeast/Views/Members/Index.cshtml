@@ -32,67 +32,36 @@
                 <span>
                     @Html.DisplayNameFor(model => model.MemberName):
                 </span>
-                <input>
-                    @foreach(var item in Model)
-                    {
-                        @Html.DisplayFor(modelItem => item.MemberName)
-                    }
-                </input>
+
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model =>model.MemberGender):
                 </span>
-                <input>
-                    @foreach(var item in Model)
-                    {
-                        @Html.DisplayFor(modelItem => item.MemberGender)
-                    }
-                </input>  
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model => model.MemberBirthday):
                 </span>
-                <input>
-                    @foreach(var item in Model)
-                    {
-                        @Html.DisplayFor(modelItem => item.MemberGender)
-                    }
-                </input>
+                
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model =>model.MemberPhone):
                 </span>
-                <input>
-                    @foreach(var item in Model)
-                    {
-                        @Html.DisplayFor(modelItem => item.MemberPhone)
-                    }
-                </input>
+                
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model=>model.MemberEmail):
                 </span>
-                <input>
-                    @foreach(var item in Model)
-                    {
-                        @Html.DisplayFor(modelItem=>item.MemberEmail)
-                    }
-                </input>
+               
             </div>
             <div>
                 <span>
                     @Html.DisplayNameFor(model=>model.MemberAdress):
                 </span>
-                <input>
-                    @foreach(var item in Model)
-                    {
-                        @Html.DisplayFor(modelItem=>item.MemberAdress)
-                    }
-                </input>
+               
             </div>
             <div>
                 <a asp-action="Edit">修改資料及密碼</a>
