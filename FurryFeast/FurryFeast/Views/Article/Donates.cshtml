@@ -1,27 +1,151 @@
 ﻿@model FurryFeast.Models.Donate
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    .donate-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .donate-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .donate-image {
+        width: 400px;
+        height: auto;
+        margin-right: 20px;
+    }
+
+    .donate-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .donate-goal {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .donate-progress-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .donate-progress {
+        width: 120px;
+        height: 120px;
+    }
+
+    .circle-bg {
+        fill: none;
+        stroke: #eee;
+        stroke-width: 3.8;
+    }
+
+    .circle {
+        fill: none;
+        stroke: #ffd33b;
+        stroke-width: 3.8;
+        stroke-dasharray: 364.4;
+        stroke-dashoffset: 364.4;
+        transform-origin: center;
+        transition: stroke-dashoffset 1s linear;
+    }
+
+    .donate-progress-percentage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .donate-current {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .donate-people {
+        font-size: 16px;
+    }
+
+    .donate-btn {
+        border: 2px solid #ffd33b;
+        background-color: #ffd33b;
+        color: white;
+        padding: 10px;
+        margin-top: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .donate-btn:hover {
+            border-color: black;
+            background-color: black;
+            color: white;
+        }
+
+
+
+</style>
 
 <div class="donate-container">
     <div class="donate-item">
-        <img src="狗狗飼料的圖片URL" alt="狗狗飼料" />
-        <div class="donate-progress" style="background-color: #ffd33b;">
-            <div class="donate-amount">
-                @Model.DogDonateMoney / @Model.DogDonateTotal
+        <img class="donate-image" src="https://cdn.pixabay.com/photo/2018/05/26/18/06/dog-3431913_1280.jpg" alt="狗狗飼料" />
+        <div class="donate-info">
+            <div class="donate-progress-container">
+                <svg class="donate-progress" width="120" height="120">
+                    <circle class="circle-bg" r="58" cx="60" cy="60"></circle>
+                    <circle class="circle" id="dog-donate-progress-path" r="58" cx="60" cy="60"></circle>
+                </svg>
+                <div class="donate-progress-percentage" id="dog-donate-percentage"></div>
             </div>
-            <div class="donate-people">
-                @Model.DogDonatePeople 人
-            </div>
+            <div class="donate-goal">目標 NT$ @Model.DogDonateTotal</div>
+            <div class="donate-current">目前 NT$ @Model.DogDonateMoney</div>
+            <div class="donate-people">捐贈人數 @Model.DogDonatePeople 人</div>
+            <button class="donate-btn">我要捐贈</button>
         </div>
     </div>
-
     <div class="donate-item">
-        <img src="貓貓飼料的圖片URL" alt="貓貓飼料" />
-        <div class="donate-progress" style="background-color: #ffd33b;">
-            <div class="donate-amount">
-                @Model.CatDonateMoney / @Model.CatDonateTotal
+        <img class="donate-image" src="https://cdn.pixabay.com/photo/2021/10/19/10/56/cat-6723256_1280.jpg" alt="貓貓飼料" />
+        <div class="donate-info">
+            <div class="donate-progress-container">
+                <svg class="donate-progress" width="120" height="120">
+                    <circle class="circle-bg" r="58" cx="60" cy="60"></circle>
+                    <circle class="circle" id="cat-donate-progress-path" r="58" cx="60" cy="60"></circle>
+                </svg>
+                <div class="donate-progress-percentage" id="cat-donate-percentage"></div>
             </div>
-            <div class="donate-people">
-                @Model.CatDonatePeople 人
-            </div>
+            <div class="donate-goal">目標 NT$ @Model.CatDonateTotal</div>
+            <div class="donate-current">目前 NT$ @Model.CatDonateMoney</div>
+            <div class="donate-people">捐贈人數 @Model.CatDonatePeople 人</div>
+            <button class="donate-btn">我要捐贈</button>
         </div>
     </div>
 </div>
+
+
+
+<script>
+    window.onload = function () {
+        let dogDonateMoney = @Model.DogDonateMoney;
+        let dogDonateTotal = @Model.DogDonateTotal;
+        let dogDonatePercentage = Math.min(Math.floor((dogDonateMoney / dogDonateTotal) * 100), 100);
+        document.getElementById('dog-donate-progress-path').style.strokeDashoffset = ((100 - dogDonatePercentage) / 100) * 364.4;
+        document.getElementById('dog-donate-percentage').innerText = dogDonatePercentage + '%';
+
+        let catDonateMoney = @Model.CatDonateMoney;
+        let catDonateTotal = @Model.CatDonateTotal;
+        let catDonatePercentage = Math.min(Math.floor((catDonateMoney / catDonateTotal) * 100), 100);
+        document.getElementById('cat-donate-progress-path').style.strokeDashoffset = ((100 - catDonatePercentage) / 100) * 364.4;
+        document.getElementById('cat-donate-percentage').innerText = catDonatePercentage + '%';
+    }
+
+</script>
