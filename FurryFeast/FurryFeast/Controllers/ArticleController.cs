@@ -7,13 +7,21 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FurryFeast.Models;
 using System.Linq;
+using FurryFeast.Data;
 
 namespace FurryFeast.Controllers
 {
     public class ArticleController : Controller
     {
         private static readonly HttpClient client = new HttpClient();
+        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly db_a989fb_furryfeastContext _furryFeastContext;
 
+        public ArticleController(ApplicationDbContext applicationDbContext, db_a989fb_furryfeastContext furryFeastContext)
+        {
+            _applicationDbContext = applicationDbContext;
+            _furryFeastContext = furryFeastContext;
+        }
         public IActionResult FAQ()
         {
             return View();
@@ -26,6 +34,7 @@ namespace FurryFeast.Controllers
 
         public IActionResult Donates()
         {
+            var donates = _furryFeastContext.Donates.ToList();
             return View();
         }
 
