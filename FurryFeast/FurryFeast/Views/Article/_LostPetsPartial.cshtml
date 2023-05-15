@@ -1,0 +1,22 @@
+﻿@model List<FurryFeast.Models.Lostpets>
+
+<div class="row row-cols-3">
+    @foreach (var animal in Model)
+    {
+        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
+            <a href="http://">
+                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
+                    <div class="square-img-container">
+                        <img src="@animal.Picture" alt="">
+                    </div>
+                    <div class="card-body-new">
+                        <p>品種: @animal.Breed</p>
+                        <p>毛色: @animal.Color</p>
+                        <p>遺失時間: @animal.LostTime</p>
+                        <p>遺失地點: @animal.LostLocation</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>

@@ -1,142 +1,228 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Pet>
+@using FurryFeast.Models
+@using Microsoft.AspNetCore.Mvc.Routing
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
 @{
-}
-@{
-    var regions = new List<SelectListItem>
-    {
-        new SelectListItem { Text = "台北", Value = "台北" },
-        new SelectListItem { Text = "新北", Value = "新北" },
-        new SelectListItem { Text = "台中", Value = "台中" }
-    };
+    ViewData["Title"] = "Shelter";
 }
 
-@Html.DropDownList("Region", regions)
-@{
-    var petCategories = new List<SelectListItem>
-    {
-        new SelectListItem { Text = "狗", Value = "狗" },
-        new SelectListItem { Text = "貓", Value = "貓" },
-        new SelectListItem { Text = "全部", Value = "全部" }
-    };
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-row {
+            display: flex;
+            align-items: center;
+        }
 
-@Html.DropDownList("PetCategory", petCategories)
+        .form-row label {
+            margin-right: 10px;
+        }
 
-<div class="container" data-aos="fade-up">
+        .pet-container {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pet-item {
+            width: 33.33%;
+            text-align: center;
+            padding: 10px;
+            float: left;
+            overflow: hidden;
+        }
+
+        .pet-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .search-button {
+            border: 1px solid #ffd33b;
+            background-color: #ffd33b;
+            color: white;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .search-button:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .custom-select {
+            margin-right: 3px;
+        }
+
+        .form-control.custom-select {
+            width: 100px;
+        }
+
+        .card-new {
+            background: white;
+            box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+            .card-new:hover {
+                transform: scale(1.05);
+            }
+
+        .row:first-child .card-new {
+            margin-top: 40px; /* 添加第一行卡片的顶部间距 */
+        }
+    </style>
+</head>
+
+<body>
     <div class="index-header">
-        <h2>全台收容所</h2>
+        <h2>全台收容所資訊</h2>
     </div>
-    <div class="row row-cols-3">
-        <!-- card -->
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
+
+    <div style="text-align: center;">
+        <form id="filterForm" method="get" action="/Article/Shelter">
+            <div class="form-container">
+                <div class="form-row" style="display: inline-flex; align-items: center; gap: 3px;">
+                    <div class="custom-select">
+                        <select id="animal_kind" name="animal_kind" class="form-control custom-select">
+                            <option value="">種類</option>
+                            @foreach (var kind in ViewData["AnimalKinds"] as List<string>)
+                            {
+                                <option value="@kind">@kind</option>
+                            }
+                        </select>
                     </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+
+                    <input type="text" id="animal_Variety" name="animal_Variety" placeholder="請輸入品種" class="form-control" />
+
+                    <div class="custom-select">
+                        <select id="shelter_name" name="shelter_name" class="form-control custom-select">
+                            <option value="">收容所</option>
+                            @foreach (var shelter in ViewData["ShelterNames"] as List<string>)
+                            {
+                                <option value="@shelter">@shelter</option>
+                            }
+                        </select>
+                    </div>
+                                        <div class="custom-select">
+                        <select id="animal_sex" name="animal_sex" class="form-control custom-select">
+                            <option value="">性別</option>
+                            @foreach (var sex in ViewData["AnimalSexes"] as List<string>)
+                            {
+                                <option value="@sex">@sex</option>
+                            }
+                        </select>
+                    </div>
+
+                    <input type="text" id="animal_colour" name="animal_colour" placeholder="請輸入毛色" class="form-control" />
+                    <div class="custom-select">
+                        <select id="animal_age" name="animal_age" class="form-control custom-select">
+                            <option value="">年齡</option>
+                            @foreach (var age in ViewData["AnimalAges"] as List<string>)
+                            {
+                                <option value="@age">@age</option>
+                            }
+                        </select>
+                    </div>
+
+                    <input type="submit" class="search-button btn btn-primary" value="搜尋">
+                </div>
+            </div>
+        </form>
+    </div>
+
+<div class="container">
+    <div class="row">
+            @foreach (var pet in Model)
+            {
+                <div class="col-lg-4 col-md-4 col-6 mb-4">
+                    <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
+                        <div class="square-img-container">
+                            <img src="@pet.ImageUrl" alt="宠物图片">
+                        </div>
+                        <div class="card-body-new">
+                            <p class="card-title">@pet.animal_kind</p>
+                            <p class="card-text">@pet.animal_Variety</p>
+                            <p class="card-text">@pet.shelter_name</p>
+                            <!-- 其他宠物信息的显示 -->
+                        </div>
                     </div>
                 </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-            <a href="http://">
-                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                    <div class="square-img-container ">
-                        <img src="image/cat/1682728095475.png" alt="">
-                    </div>
-                    <div class="card-body-new">
-                        <p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
+            }
+
+
+
     </div>
 </div>
+
+
+
+    @if (ViewBag.PageCount > 1)
+    {
+        <div style="clear:both;"></div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="/Article/Shelter?page=@(Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 1))">&lt;&lt;</a>
+                </li>
+                <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="/Article/Shelter?page=@(Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 1))">Previous</a>
+                </li>
+
+                @for (var i = Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 5); i <= Math.Min(Convert.ToInt32(ViewBag.PageCount), Convert.ToInt32(ViewBag.PageNumber) + 5); i++)
+                {
+                    <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="/Article/Shelter?page=@i">@i</a>
+                    </li>
+                    @if (i == Math.Min(Convert.ToInt32(ViewBag.PageCount), Convert.ToInt32(ViewBag.PageNumber) + 5) && i < Convert.ToInt32(ViewBag.PageCount))
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                    }
+                }
+
+                <li class="page-item @(ViewBag.PageNumber == ViewBag.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="/Article/Shelter?page=@(Math.Min(Convert.ToInt32(ViewBag.PageNumber) + 1, Convert.ToInt32(ViewBag.PageCount)))">Next</a>
+                </li>
+                <li class="page-item @(ViewBag.PageNumber == ViewBag.PageCount ? "disabled" : "")">
+                    <a class="page-link" href="/Article/Shelter?page=@ViewBag.PageCount">>></a>
+                </li>
+            </ul>
+        </nav>
+    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 等待文档加载完成
+        document.addEventListener('DOMContentLoaded', function () {
+            // 获取所有卡片元素
+            var cards = document.querySelectorAll('.card-new');
+
+            // 遍历每个卡片
+            cards.forEach(function (card) {
+                // 为每个卡片添加点击事件监听器
+                card.addEventListener('click', function () {
+                    // 获取卡片的ID
+                    var cardId = card.id;
+
+                    // 执行所需的操作，例如重定向到新页面或显示更多信息
+                    // 您可以根据需要自定义此部分
+                    console.log('点击的卡片ID：' + cardId);
+
+                    // 示例：重定向到新页面
+                    window.location.href = '/details/' + cardId;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+                   

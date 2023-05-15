@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using FurryFeast.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Data
@@ -9,5 +10,6 @@ namespace FurryFeast.Data
             : base(options)
         {
         }
+        public DbSet<Donate> Donates { get; set; }
     }
 }
