@@ -34,8 +34,8 @@ namespace FurryFeast.Controllers
 
         public IActionResult Donates()
         {
-            var donates = _furryFeastContext.Donates.ToList();
-            return View();
+            var donate = _furryFeastContext.Donates.FirstOrDefault(); // 假設只有一筆資料
+            return View(donate);
         }
 
         public async Task<IActionResult> Shelter(int? page)

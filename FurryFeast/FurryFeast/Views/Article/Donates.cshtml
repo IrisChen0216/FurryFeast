@@ -1,1 +1,27 @@
-﻿
+﻿@model FurryFeast.Models.Donate
+
+<div class="donate-container">
+    <div class="donate-item">
+        <img src="狗狗飼料的圖片URL" alt="狗狗飼料" />
+        <div class="donate-progress" style="background-color: #ffd33b;">
+            <div class="donate-amount">
+                @Model.DogDonateMoney / @Model.DogDonateTotal
+            </div>
+            <div class="donate-people">
+                @Model.DogDonatePeople 人
+            </div>
+        </div>
+    </div>
+
+    <div class="donate-item">
+        <img src="貓貓飼料的圖片URL" alt="貓貓飼料" />
+        <div class="donate-progress" style="background-color: #ffd33b;">
+            <div class="donate-amount">
+                @Model.CatDonateMoney / @Model.CatDonateTotal
+            </div>
+            <div class="donate-people">
+                @Model.CatDonatePeople 人
+            </div>
+        </div>
+    </div>
+</div>
