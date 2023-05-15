@@ -8,6 +8,13 @@
 	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
 	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
+    <style>
+        .JQellipsiss {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
 }
 
 <section class="section section-xxl bg-default text-md-left">
@@ -29,23 +36,27 @@
                         <ul class="list-shop-filter">
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-1" type="checkbox">全部課程
-                                </label><span class="list-shop-filter-number">(10)</span>
+                                    <a name="input-group-radio"  asp-action="Index" asp-route-id="1">全部課程</a>
+                                    @*<input name="input-group-radio" value="checkbox-1" type="checkbox" asp-action="Index" asp-route-id="1">全部課程*@
+                                </label><span class="list-shop-filter-number">(@Model.Count())</span>
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-2" type="checkbox">寵物訓練課程
-                                </label><span class="list-shop-filter-number">(9)</span>
+                                    <a name="input-group-radio" asp-action="Index" asp-route-id="2">@Model.Where(n=>n.PetClassTypeId==2).Select(n=>n.PetClassType.PetClassTypeName).First()</a>
+                                    @*<input name="input-group-radio" value="checkbox-2" type="checkbox">@Model.Where(n=>n.PetClassTypeId==2).Select(n=>n.PetClassType.PetClassTypeName).First()*@
+                                    
+                                </label><span class="list-shop-filter-number">(@Model.Where(type=>type.PetClassTypeId==2).Count())</span>
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-3" type="checkbox">寵物美容課程
-                                </label><span class="list-shop-filter-number">(5)</span>
+                                    <a name="input-group-radio" asp-action="Index" asp-route-id="2">@Model.Where(n=>n.PetClassTypeId==1).Select(n=>n.PetClassType.PetClassTypeName).First()</a>
+                                    @*<input name="input-group-radio" value="checkbox-3" type="checkbox">@Model.Where(n=>n.PetClassTypeId==1).Select(n=>n.PetClassType.PetClassTypeName).First()*@
+                                </label><span class="list-shop-filter-number">(@Model.Where(type=>type.PetClassTypeId==1).Count())</span>
                             </li>
                             <li>
                                 <label class="checkbox-inline">
-                                    <input name="input-group-radio" value="checkbox-4" type="checkbox">寵物DIY課程
-                                </label><span class="list-shop-filter-number">(8)</span>
+                                    <input name="input-group-radio" value="checkbox-4" type="checkbox">寵物美容課程 @*待改*@
+                                </label><span class="list-shop-filter-number">(@Model.Where(type=>type.PetClassTypeId==3).Count())</span>
                             </li>
                         </ul>
                         
@@ -126,47 +137,14 @@
                                             <div class="product-price product-price-old">$@item.PetClassPrice</div>
                                             <div class="product-price">$@item.PetClassPrice</div>
                                         </div>
-                                       <p class="product-modern-text">Nibh sit amet commodo nulla facilisi nullam vehicula. Justo laoreet sit amet cursus sit amet dictum. Arcu non odio euismod lacinia at.</p><a class="button button-primary button-zakaria" asp-controller="PetClasses" asp-action="PetClassDetail">課程詳情</a>
+                                            <p class="product-modern-text JQellipsis">@item.PetClassInformation</p><a class="button button-primary button-zakaria" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="@item.PetClassId">課程詳情</a>
                                     </div>
                                 </div>
                             </div><span class="product-badge product-badge-sale">Sale</span>
                         </article>
                     </div>
                     }
-                    @*<div class="col-12">
-                        <!-- Product-->
-                        <article class="product-modern text-center text-sm-left">
-                            <div class="unit unit-spacing-0 flex-column flex-sm-row">
-                                <div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id=""><img src="~/image/cat/class.jpg" alt="" width="250" height="300" /></a></div>
-                                <div class="unit-body">
-                                    <div class="product-modern-body">
-                                        <h4 class="product-modern-title"><a asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="">寵物肉乾DIY課程</a></h4>
-                                        <div class="product-price-wrap">
-                                            <div class="product-price">$1100</div>
-                                        </div>
-                                        <p class="product-modern-text">In ante metus dictum at. Accumsan in nisl nisi scelerisque eu ultrices vitae. Eu non diam phasellus vestibulum tincidunt nunc pulvinar.</p><a class="button button-primary button-zakaria" asp-controller="PetClasses" asp-action="PetClassDetail">課程詳情</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-12">
-                        <!-- Product-->
-                        <article class="product-modern text-center text-sm-left">
-                            <div class="unit unit-spacing-0 flex-column flex-sm-row">
-                                <div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id=""><img src="~/image/cat/class.jpg" alt="" width="250" height="300" /></a></div>
-                                <div class="unit-body">
-                                    <div class="product-modern-body">
-                                        <h4 class="product-modern-title"><a asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="">寵物餅乾DIY課程</a></h4>
-                                        <div class="product-price-wrap">
-                                            <div class="product-price">$1700</div>
-                                        </div>
-                                        <p class="product-modern-text">Libero nunc consequat interdum varius. Arcu risus quis varius quam. Maecenas sed enim ut sem viverra aliquet eget sit ultrices euismod.</p><a class="button button-primary button-zakaria" asp-controller="PetClasses" asp-action="PetClassDetail">課程詳情</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                    </div>*@
+                    
                 </div>
                 <div class="pagination-wrap">
                     <!-- Bootstrap Pagination-->
@@ -184,3 +162,20 @@
         </div>
     </div>
 </section>
+
+@*描述文字*@
+@section Scripts{
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        $(function () {
+            var len = 50; // 超過50個字以"..."取代
+            $(".JQellipsis").each(function (i) {
+                if ($(this).text().length > len) {
+                    $(this).attr("title", $(this).text());
+                    var text = $(this).text().substring(0, len - 1) + "...";
+                    $(this).text(text);
+                }
+            });
+        });
+    </script>
+}
