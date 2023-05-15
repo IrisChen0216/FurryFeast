@@ -23,7 +23,7 @@ namespace FurryFeast.Controllers
         public async Task<IActionResult> Index(string searchForm,string file,string sortProducts,int? page)
         {
             int pageNumber = (page ?? 1);
-            int pageSize = 3;
+            int pageSize = 6;
 
             ViewBag.NewProducts = sortProducts == "LaunchDate_Desc" ? "LaunchDate_Asc" : "LaunchDate_Desc";
             ViewBag.ProductsPrice = sortProducts == "ProductPrice_Asc" ? "ProductPrice_Desc" : "ProductPrice_Asc";
