@@ -3,19 +3,25 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>會員登入</h1>
+<h3>會員登入</h3>
 
-    <div>
-        帳號: <input type="email" name="loginaccount" id="" required>
-    </div>
-    <div>密碼: <input type="password" name="loginpassord" required></div>
-        <div class="btn">
-            <a href="./register.html">註冊</a>
-            <a href="./login.html">登入</a>
-            <a href="./forgetpassord.html">忘記密碼</a>
-        </div>
-        <div class="btn">
-            <input type="button" value="Google登入" name="logingoogle">
-        </div>
+<div>
+    <label>帳號</label>
+    <input class="form-input form-control-has-validation" id="contact-first-name-2" type="email" name="name" data-constraints="Required">
+</div>
+<div>
+    <label>密碼</label>
+    <input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" name="name" data-constraints="Required">
+</div>
+<div class="btn">
+    <button class="button button-lg button-primary button-zakaria" type="submit" asp-action="Register" >註冊</button>
+    <button class="button button-lg button-primary button-zakaria" type="submit"asp-action="Index" >登入</button>
+   
+</div>
+<hr />
+<div class="btn">
+    <button class="button button-lg button-primary button-zakaria" type="submit">忘記密碼</button>
+    <button class="button button-lg button-primary button-zakaria" type="submit">GOOGLE登入</button>
+</div>
 
 
