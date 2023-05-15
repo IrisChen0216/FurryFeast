@@ -4,33 +4,37 @@
 }
 
 <h1>我的訂單</h1>
-
+<hr />
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
             <div>
-                <a asp-action="">個人資料</a>
+                <a asp-action="Index">個人資料</a>
             </div>
             <div>
-                <a asp-action="">我的訂單</a>
+                <a asp-action="MyOrder">我的訂單</a>
             </div>
             <div>
-                <a asp-action="">我的課程</a>
+                <a asp-action="MyClass">我的課程</a>
             </div>
             <div>
-                <a asp-action="">我的優惠券</a>
+                <a asp-action="Myconpon">我的優惠券</a>
             </div>
         </div>
         <div class="col-8">
+            <div>
+                <input type="search" name="OrderSearch" />
+                <input type="submit" name="OrderSearch" value="查詢" />
+            </div>
             <div>
                 <span>
                     訂單日期:
                 </span>
                 <span>
-                    @foreach (var item in Model)
+@*                    @foreach (var item in Model)
                     {
                         @Html.DisplayFor(modelItem => item.OrderCreateDate)
-                    }
+                    }*@
                 </span>
             </div>
             <div>
@@ -38,10 +42,10 @@
                     訂單編號:
                 </span>
                 <span>
-                    @foreach (var item in Model)
+@*                    @foreach (var item in Model)
                     {
                         @Html.DisplayFor(modelItem => item.OrderId)
-                    }
+                    }*@
                 </span>
                 <a asp-controller="OrderDetails" asp-action="Index">訂單明細</a>
             </div>
