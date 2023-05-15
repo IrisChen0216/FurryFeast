@@ -19,10 +19,14 @@ namespace FurryFeast.Controllers
         }
 
         // GET: PetClasses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            var db_a989fb_furryfeastContext = _context.PetClasses.Include(p => p.PetClassType).Include(p => p.PetTypes).Include(p => p.Teacher);
-            return View(db_a989fb_furryfeastContext);
+            var petClasses = _context.PetClasses.Include(p => p.PetClassType).Include(p => p.PetTypes).Include(p => p.Teacher);
+            if (id == 1)
+            {
+                petClasses = _context.PetClasses.Include(p => p.PetClassType).Include(p => p.PetTypes).Include(p => p.Teacher);               
+            }
+            return View(petClasses);
         }
 
         public async Task<FileResult> GetPicture(int id)
