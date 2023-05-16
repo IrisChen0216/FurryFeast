@@ -1,0 +1,508 @@
+/*
+*
+* Quotes
+*/
+
+//
+// Table of Contents:
+//
+// Quote Classic
+// Quote Modern
+// Quote Creative
+// Quote Minimal
+// Quote Carly
+//
+
+
+
+//
+// Quote Classic
+//
+.quote-classic {
+	text-align: center;
+}
+
+.quote-classic-2 {
+
+	.quote-classic-text { color: $gray-800; }
+}
+
+.quote-classic-text {
+	@extend %h4-size;
+	position: relative;
+	padding-top: 40px;
+	font-weight: 400;
+	letter-spacing: .05em;
+	font-family: $headings-font-family;
+
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		content: '\201C';
+		font-size: 60px;
+		line-height: 1.3;
+		font-weight: 700;
+		font-style: normal;
+		letter-spacing: 0;
+		font-family: $font-family-cursive;
+		color: rgba($secondary, .22);
+		transform: translate3d(-50%, 0, 0);
+	}
+}
+
+.quote-classic-author {
+	padding-top: 14px;
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	font-family: $headings-font-family;
+	color: $primary;
+	border-top: 1px solid $gray-100;
+}
+
+* + .quote-classic { margin-top: 20px; }
+* + .quote-classic-author { margin-top: 16px; }
+.post-modern + .quote-classic { margin-top: 20px; }
+.quote-classic + p { margin-top: 26px; }
+
+@include media-breakpoint-up(md) {
+
+	.quote-classic {
+		text-align: left;
+	}
+
+	.quote-classic-text {
+		padding-top: 0;
+
+		&::before {
+			top: 8%;
+			left: -4px;
+			font-size: 80px;
+			transform: none;
+		}
+	}
+
+	.quote-classic-author { padding-top: 24px; }
+
+	.quote-classic-text,
+	.quote-classic-author {
+		padding-left: 58px;
+	}
+
+	* + .quote-classic { margin-top: 34px; }
+	* + .quote-classic-author { margin-top: 22px; }
+	.post-modern + .quote-classic { margin-top: 40px; }
+	.quote-classic + p { margin-top: 36px; }
+}
+
+
+
+//
+// Quote Classic Big
+//
+.quote-classic-big {
+	text-align: center;
+}
+
+.quote-classic-big-text {
+	position: relative;
+	padding-top: 50px;
+	letter-spacing: .02em;
+
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		content: '\201C';
+		font-size: 60px;
+		line-height: 1.3;
+		font-weight: 700;
+		font-style: normal;
+		letter-spacing: 0;
+		font-family: $font-family-cursive;
+		color: $primary;
+		transform: translate3d(-50%, 0, 0);
+	}
+}
+
+* + .quote-classic-big { margin-top: 20px; }
+
+@include media-breakpoint-up(md) {
+
+	.quote-classic-big {
+		text-align: left;
+	}
+
+	.quote-classic-big-text { padding-top: 0;	}
+
+	.quote-classic-big-text {
+		padding-left: 70px;
+
+		&::before {
+			top: 8%;
+			left: -4px;
+			font-size: 80px;
+			transform: none;
+		}
+	}
+
+	* + .quote-classic-big { margin-top: 34px; }
+}
+
+// Extra large ≥1200px
+@include media-breakpoint-up(xl) {
+
+	.quote-classic-big-text {
+		line-height: 1.53;
+	}
+}
+
+
+
+//
+// Quote Modern
+//
+
+.quote-modern {
+	text-align: center;
+	padding: 30px 15px;
+	border-radius: 10px;
+	box-shadow: 0 0 18px 0 rgba($black, 0.13);
+	background: $white;
+}
+
+.quote-modern-2 {
+	border-radius: 60px;
+	//transition: all .4s linear;
+}
+
+.quote-modern-3 {
+
+	.quote-modern-status { color: $secondary; }
+}
+
+.quote-modern-text {
+	position: relative;
+	padding-top: 40px;
+	font-size: 16px;
+	line-height: 1.44;
+	font-weight: 400;
+	letter-spacing: .02em;
+	font-family: $headings-font-family;
+
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		content: '\201C';
+		font-size: 60px;
+		line-height: 1.3;
+		font-weight: 700;
+		font-style: normal;
+		letter-spacing: 0;
+		font-family: $font-family-cursive;
+		color: $primary;
+		transform: translate3d(-50%, 0, 0);
+	}
+}
+
+.quote-modern-figure {
+
+	img {
+		border-radius: 50%;
+	}
+}
+
+.quote-modern-author {
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	font-family: $font-family-sec;
+	color: $gray-800;
+}
+
+.quote-modern-status {
+	font-style: italic;
+	letter-spacing: .025em;
+	color: $primary;
+}
+
+.quote-modern-text + .unit { margin-top: 20px; }
+
+// Medium ≥768px
+@include media-breakpoint-up(md) {
+
+	.quote-modern {
+		.unit {
+			display: inline-flex;
+			text-align: left;
+		}
+	}
+}
+
+// Large ≥992px
+@include media-breakpoint-up(lg) {
+
+	.quote-modern {
+		padding: 45px 30px;
+	}
+
+	.quote-modern-text {
+		padding-top: 65px;
+		font-size: 18px;
+
+		&::before {
+			font-size: 100px;
+		}
+	}
+
+	.quote-modern-text + .unit { margin-top: 30px; }
+}
+
+// Extra large ≥1200px
+@include media-breakpoint-up(xl) {
+
+	.quote-modern {
+		padding: 60px 45px;
+	}
+
+	.quote-modern-2 {
+		padding: 70px 80px;
+	}
+}
+
+
+
+//
+// Quote Creative
+//
+
+.quote-creative {
+	text-align: center;
+	padding: 30px 20px;
+	border-radius: 12px;
+	box-shadow: 0 0 16px 0 rgba($black, 0.09);
+	background: $white;
+}
+
+.quote-creative-text {
+	position: relative;
+	font-size: 18px;
+	line-height: 2;
+	font-weight: 400;
+	letter-spacing: .05em;
+	font-family: $headings-font-family;
+	color: $gray-800;
+}
+
+.quote-creative-rating {
+	font-size: 0;
+	line-height: 0;
+
+	.icon {
+		font-size: 20px;
+		line-height: 1;
+		color: $orange;
+	}
+}
+
+.quote-creative-figure {
+
+	img {
+		border-radius: 50%;
+	}
+}
+
+.quote-creative-author {
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	font-family: $font-family-sec;
+	color: $primary;
+}
+
+* + .quote-creative-rating { margin-top: 10px; }
+.quote-creative-rating + .unit { margin-top: 20px; }
+
+// Large ≥768px
+@include media-breakpoint-up(md) {
+
+	.quote-creative {
+		text-align: left;
+		padding: 40px 30px;
+	}
+
+	.quote-creative-text {
+		font-size: 20px;
+	}
+
+	.quote-creative-rating {
+		.icon {
+			font-size: 24px;
+		}
+	}
+
+	* + .quote-creative-rating { margin-top: 18px; }
+	.quote-creative-rating + .unit { margin-top: 35px; }
+}
+
+// Extra large ≥1200px
+@include media-breakpoint-up(xl) {
+
+	.quote-creative {
+		padding: 50px 50px 60px;
+	}
+
+	.quote-creative-text {
+		font-size: 24px;
+	}
+}
+
+
+
+//
+// Quote Minimal
+//
+
+.quote-minimal-text {
+	font-size: 16px;
+	line-height: 2;
+	font-weight: 400;
+	letter-spacing: .02em;
+	font-family: $headings-font-family;
+}
+
+.quote-minimal-figure {
+
+	img {
+		border-radius: 50%;
+	}
+}
+
+.quote-minimal-author {
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	font-family: $font-family-sec;
+	color: $gray-800;
+}
+
+.quote-minimal-status {
+	font-style: italic;
+	letter-spacing: .025em;
+	color: $primary;
+}
+
+* + .quote-minimal-author {	margin-top: 20px; }
+
+// Medium ≥768px
+@include media-breakpoint-up(md) {
+
+	.quote-minimal-text {
+		font-size: 18px;
+	}
+}
+
+
+
+//
+// Quote Carly
+//
+.quote-carly {
+	text-align: center;
+}
+
+.quote-carly-1 {
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.quote-carly-text {
+	position: relative;
+	padding-top: 40px;
+	font-size: 16px;
+	line-height: 1.45;
+	font-weight: 400;
+	letter-spacing: .02em;
+	font-family: $headings-font-family;
+}
+
+.quote-carly-icon {
+	position: absolute;
+	top: 7px;
+	left: 0;
+}
+
+.quote-carly-figure {
+
+	img {
+		border-radius: 50%;
+	}
+}
+
+.quote-carly-author {
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+	font-family: $font-family-sec;
+	color: $gray-800;
+}
+
+.quote-carly-status {
+	font-style: italic;
+	letter-spacing: .025em;
+	color: $primary;
+}
+
+* + .quote-carly-footer {
+	margin-top: 20px;
+	padding-top: 20px;
+	border-top: 1px solid $gray-100;
+}
+
+* + .quote-carly { margin-top: 20px; }
+
+@include media-breakpoint-up(md) {
+
+	.quote-carly {
+		text-align: left;
+	}
+
+	.quote-carly-text {
+		padding-top: 0;
+		font-size: $h5-font-size;
+
+		&::before {
+			top: 6px;
+			left: 0;
+			font-size: 90px;
+			transform: none;
+		}
+	}
+
+	.quote-carly-footer,
+	.quote-carly-text {
+		padding-left: 60px;
+	}
+
+	* + .quote-carly-footer {
+		margin-top: 30px;
+		padding-top: 30px;
+	}
+}
+
+// Large ≥992px
+@include media-breakpoint-up(lg) {
+
+	.quote-carly-footer,
+	.quote-carly-text {
+		padding-left: 64px;
+	}
+}

@@ -1,0 +1,196 @@
+/*
+*
+* Counter
+*/
+
+//
+// Table of Contents:
+//
+// Counter Classic
+// Box Counter
+
+
+
+//
+// Counter Classic
+//
+
+.counter-classic {
+	text-align: center;
+}
+
+.counter-classic-2 {
+
+	.counter-classic-decor::before { background: $secondary; }
+}
+
+.counter-classic-number {
+	font-weight: 300;
+	letter-spacing: .1em;
+	text-transform: none;
+
+	.symbol {
+		@extend %h2-size;
+		letter-spacing: .1em;
+	}
+}
+
+.counter-classic-title {
+	line-height: 1.2;
+	font-weight: 400;
+	letter-spacing: .2em;
+	text-transform: uppercase;
+}
+
+.counter-classic-decor {
+	font-size: 0;
+	line-height: 0;
+
+	&::before {
+		display: inline-block;
+		content: '';
+		width: 40px;
+		height: 3px;
+		background-color: $primary;
+	}
+}
+
+// offset
+* + .counter-classic-decor { margin-top: 10px; }
+* + .counter-classic-title { margin-top: 16px; }
+
+// Medium <768px
+@include media-breakpoint-down(sm) {
+
+	.counter-classic-title {
+		font-size: 14px;
+	}
+}
+
+// Medium ≥768px
+@include media-breakpoint-up(md) {
+
+	.counter-classic-decor {
+
+		&::before {
+			width: 66px;
+		}
+	}
+
+	* + .counter-classic-decor { margin-top: 20px; }
+	* + .counter-classic-title { margin-top: 25px; }
+}
+
+// Large ≥992px
+@include media-breakpoint-up(lg) {
+
+	* + .counter-classic-decor { margin-top: 24px; }
+	* + .counter-classic-title { margin-top: 30px; }
+}
+
+// Extra large ≥1200px
+@include media-breakpoint-up(xl) {
+
+	* + .counter-classic-title { margin-top: 36px; }
+}
+
+
+
+//
+// Counter Modern
+//
+
+.counter-modern {
+	text-align: center;
+}
+
+.counter-modern-number {
+	text-transform: none;
+}
+
+.counter-modern-title {
+}
+
+.counter-modern-decor {
+	font-size: 0;
+	line-height: 0;
+
+	&::before {
+		display: inline-block;
+		content: '';
+		width: 30px;
+		height: 1px;
+		background: $primary;
+	}
+}
+
+// offset
+* + .counter-modern-decor { margin-top: 10px; }
+* + .counter-modern-title { margin-top: 12px; }
+
+// Medium <768px
+@include media-breakpoint-down(sm) {
+
+	.counter-modern-title {
+		font-size: 14px;
+	}
+}
+
+// Medium ≥768px
+@include media-breakpoint-up(md) {
+
+	.counter-modern-decor {
+
+		&::before {
+			width: 42px;
+		}
+	}
+
+	* + .counter-modern-decor { margin-top: 16px; }
+	* + .counter-modern-title { margin-top: 18px; }
+}
+
+// Large ≥992px
+@include media-breakpoint-up(lg) {
+
+	* + .counter-modern-decor { margin-top: 18px; }
+	* + .counter-modern-title { margin-top: 24px; }
+}
+
+// Context styling
+%context-dark {
+
+	.counter-modern-decor {
+
+		&::before {
+			background: $white;
+		}
+	}
+}
+
+
+
+//
+// Box Counter
+//
+.box-ordered {
+	counter-reset: div;
+
+	.box-ordered-item {
+		&::before {
+			content: counter(div, decimal-leading-zero);
+			counter-increment: div;
+		}
+	}
+}
+
+.box-ordered-2 {
+	counter-reset: div;
+
+	.box-ordered-item {
+		&::before {
+			content: counter(div, decimal);
+			counter-increment: div;
+		}
+	}
+}

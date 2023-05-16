@@ -1,0 +1,326 @@
+/**
+*
+* RD Navbar Corporate
+* =====================================================
+*/
+
+.rd-navbar-static-linked {
+	.page-header-corporate {
+		position: relative;
+		margin-bottom: -34px;
+		z-index: 10;
+	}
+}
+
+.rd-navbar-corporate {
+
+	// Static
+	&.rd-navbar-static {
+		background: transparent;
+
+		&::before {
+		  position: absolute;
+		  content: '';
+		  top: 0;
+		  right: 0;
+		  bottom: 34px;
+		  left: 0;
+			background: $white;
+			z-index: -1;
+		}
+
+		.rd-navbar-aside-outer,
+		.rd-navbar-main-outer {
+			padding-left: $grid-gutter-width / 2;
+			padding-right: $grid-gutter-width / 2;
+		}
+
+		.rd-navbar-aside-outer {
+			font-size: 12px;
+			line-height: 2;
+			letter-spacing: .1em;
+			font-family: $font-family-sec;
+			color: $white;
+			background: $gray-16;
+			border-bottom: 6px solid $gray-17;
+		}
+
+		.rd-navbar-aside,
+		.rd-navbar-main {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: $rd-navbar-static-width;
+		}
+
+		.rd-navbar-aside {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 11px 0 8px;
+
+			// Extra large ≥1200px
+			@include media-breakpoint-up(xl) {
+				padding: 15px 0 12px;
+			}
+
+			// Mega large ≥1600px
+			@include media-breakpoint-up(xxl) {
+				padding: 19px 0 16px;
+			} 
+		}
+
+		.rd-navbar-main {
+			position: relative;
+		}
+
+		.rd-navbar-main-element {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 10px 0;
+
+			> * + * { margin-left: 30px; }
+
+			// Extra large ≥1200px
+			@include media-breakpoint-up(xl) {
+				padding: 20px 0;
+			}
+
+			// Mega large ≥1600px
+			@include media-breakpoint-up(xxl) {
+				padding: 32px 0;
+			}
+		}
+
+		.rd-navbar-nav-wrap {
+			display: flex;
+			align-items: stretch;
+			flex-direction: row-reverse;
+			justify-content: space-between;
+			padding-left: 45px;
+			border-radius: 30px;
+			color: $white;
+			background: $gray-16;
+		}
+
+		.rd-navbar-nav { padding: 20px 0; }
+
+		// RD Navbar Brand
+		.rd-navbar-brand {
+			display: flex;
+			align-items: center;
+			height: 80px;
+
+			img {
+				width: auto;
+				height: auto;
+				max-width: 180px;
+				max-height: 80px;
+			}
+		}
+
+		// RD Nav item 1-st level
+		.rd-nav-item {
+
+			&.focus,
+			&.opened,
+			&.active {
+				.rd-nav-link {
+					color: $secondary;
+				}
+			}
+		}
+
+		// Rd Nav Link 1-st level
+		.rd-nav-link {
+			color: inherit;
+
+			&:hover {
+				color: $secondary;
+			}
+		}
+
+		&.rd-navbar--is-stuck,
+		&.rd-navbar--is-clone {
+
+			.rd-navbar-main-outer {
+				background: $gray-16;
+				box-shadow: $rd-navbar-shadow;
+			}
+
+			.rd-navbar-main-element { padding: 5px 0;}
+
+			.rd-navbar-main-element,
+			.rd-navbar-aside-outer { display: none; }
+		}
+
+		// Navbar Basket
+		.rd-navbar-basket {
+			color: inherit;
+
+			span {
+				color: $secondary;
+			}
+
+			&:hover {
+				color: $secondary;
+			}
+		}
+
+		.rd-navbar-basket-text {
+			position: relative;
+			top: -2px;
+			color: rgba($white, .5);
+		}
+
+		// RD Search
+		.rd-navbar-search {
+			margin-left: 40px;
+
+			&.active {
+
+				.rd-search {
+					width: 345px;
+				}
+			}
+		}
+
+		.rd-navbar-search-toggle {
+			text-align: center;
+			align-items: center;
+			border-radius: 30px;
+			color: inherit;
+			background: $gray-14;
+
+			span {
+				width: 90px;
+
+				&::after {
+					display: none;
+				}
+			}
+
+			&:hover {
+				color: $secondary;
+			}
+
+			&.active {
+
+				span {
+					&::before {
+						opacity: 1;
+						transform: none;
+						visibility: visible;
+					}
+				}
+			}
+		}
+
+		.rd-search-form-submit {
+			color: $white;
+			width: 90px;
+			
+			&:hover {
+				color: $secondary;
+			}
+		}
+
+		.rd-search {
+			width: 150px;
+
+			.form-input {
+				min-height: 64px;
+				border-width: 1px;
+				border-radius: 30px;
+				border-color: transparent;
+				background: $gray-14;
+			}
+
+			.form-label {	top: 32px; }
+
+			.form-label,
+			.form-input {
+				color: inherit;
+				padding-left: 30px;
+				padding-right: 90px;
+			}
+		}
+
+		// Contacts Amber
+		.contacts-amber {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+			text-align: left;
+			@include spacingX(88px);
+
+			li + li { border-left: 1px solid $gray-100; }
+		}
+	}
+
+	// Fixed 
+	&.rd-navbar-fixed {
+
+		.rd-navbar-aside-outer { display: none; }
+
+		.rd-navbar-collapse-toggle {
+			width: 32px;
+		}
+
+		// Navbar Search
+		.rd-navbar-search {
+			display: block;
+			padding: 0 10px;
+			margin-top: 15px;
+
+			.rd-search {
+				position: static;
+				visibility: visible;
+				transform: none;
+				opacity: 1;
+			}
+
+			.form-label,
+			.form-input {
+				padding-left: 0;
+			}
+
+			.form-input {
+				box-shadow: none;
+				border-bottom-color: $gray-100;
+			}
+		}
+
+		* + .rd-navbar-search {	margin-top: 30px; }
+		* + .rd-navbar-nav {	margin-top: 20px; }
+
+		.rd-navbar-search-toggle { display: none; }
+
+		// Navbar Basket
+		.rd-navbar-basket {
+			top: 16px;
+			right: 36px;
+			padding-right: 10px;
+		}
+
+		// Contacts Amber
+		.contacts-amber {
+		}
+	}
+}
+
+
+
+//
+// Contacts Amber
+//
+
+.contacts-amber {
+	color: $gray-800;
+	@include groupY(10px);
+
+	a {
+		@include link( inherit, $primary )
+	}
+}

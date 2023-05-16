@@ -1,0 +1,235 @@
+/*
+*
+* Grid modules
+*/
+
+//
+// Grid demonstration
+//
+.grid-demonstration {
+	$grid-heading: unquote("h5, .heading-5");
+	text-align: left;
+	line-height: 1.67;
+
+	#{$grid-heading} {
+		font-weight: 500;
+	}
+
+	// Medium <768px
+	@include media-breakpoint-down(sm) {
+		* + p { margin-top: 6px; }
+	}
+
+	// Medium <1200px
+	@include media-breakpoint-down(xl) {
+		p {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	// Extra large ≥1200px
+	@include media-breakpoint-up(xl) {
+		* + p { margin-top: 22px; }
+	}
+}
+
+.container.grid-demonstration {
+
+	// Small <576px
+	@include media-breakpoint-down(xs) {
+		[class^='col'] {
+			padding: 5px;
+		}
+	}
+}
+
+.container-fluid.grid-demonstration {
+	@include media-breakpoint-down(md) {
+		.row {
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	[class^='col'] {
+		padding: 5px;
+	}
+
+	// Medium ≥576px
+	@include media-breakpoint-up(sm) {
+		[class^='col'] {
+			padding: 10px;
+		}
+	}
+
+	@include media-breakpoint-up(md) {
+		[class^='col'] {
+			padding: 15px 10px;
+		}
+	}
+
+	@include media-breakpoint-up(lg) {
+		[class^='col'] {
+			padding: 20px;
+		}
+	}
+
+	@include media-breakpoint-up(xl) {
+		[class^='col'] {
+			padding: 30px;
+		}
+	}
+
+	@include media-breakpoint-up(xxl) {
+		.row {
+			margin-left: -35px;
+			margin-right: -35px;
+		}
+
+		[class^='col'] {
+			padding: 40px 40px 40px 60px;
+		}
+
+		.col-12,
+		.col-6 {
+			padding-right: 60px;
+		}
+	}
+
+	@media (min-width: 1800px) {
+		.row {
+			margin-left: -75px;
+			margin-right: -75px;
+		}
+
+		[class^='col'] {
+			padding: 45px 80px 45px 100px;
+		}
+
+		.col-12,
+		.col-6 {
+			padding-right: 100px;
+		}
+	}
+}
+
+//
+// Grid system bordered
+//
+.grid-system-bordered {
+	.row {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	[class*='col'] {
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+
+	.row {
+		border-bottom: 1px solid $gray-2;
+
+		&:last-child {
+			border-bottom-width: 0;
+		}
+	}
+
+	* + .row { margin-top: 20px; }
+	.row + .row { margin-top: 0; }
+
+	// Medium ≥576px
+	@include media-breakpoint-up(sm) {
+
+		* + .row { margin-top: 0; }
+	}
+	
+	// Medium ≥768px
+	@include media-breakpoint-up(md) {
+
+		[class*='col'] {
+			padding-top: 25px;
+			padding-bottom: 25px;
+		}
+	}
+
+	@include media-breakpoint-up(xl) {
+
+		[class*='col'] {
+			padding-top: 40px;
+			padding-bottom: 40px;
+		}
+	}
+}
+
+//
+// Grid system outline
+//
+.grid-system-outline {
+
+	.row {
+		border-top: 1px solid $gray-2;
+
+		&:last-child {
+			border-bottom: 1px solid $gray-2;
+		}
+	}
+
+	[class*='col']:not(:last-child) {
+		border-right: 1px solid $gray-2;
+	}
+
+	* + .row { margin-top: 30px; }
+	.row + .row { margin-top: 0; }
+
+	// Medium ≥768px
+	@include media-breakpoint-up(md) {
+		* + .row { margin-top: 45px; }
+	}
+}
+
+
+
+//
+// Container Custom
+//
+.container-fluid-inset-0 {
+
+	padding-left: 0;
+	padding-right: 0;
+}
+
+
+
+// Custom Grid
+//
+// Change $enable-grid-classes-custom: true
+// that would generate custom grid (example: 10 columns)
+
+$enable-grid-classes-custom: false;
+
+@mixin make-grid-columns-custom($columns: $grid-columns, $gutter: $grid-gutter-width, $breakpoints: $grid-breakpoints) {
+	@each $breakpoint in map-keys($breakpoints) {
+		$infix: breakpoint-infix($breakpoint, $breakpoints);
+
+		@include media-breakpoint-up($breakpoint, $breakpoints) {
+			@for $i from 1 through $columns {
+				.col#{$infix}-#{$i} {
+					@include make-col($i, $columns);
+				}
+			}
+		}
+	}
+}
+
+@if $enable-grid-classes-custom {
+	.row-ten {
+		@include make-grid-columns-custom(10);
+	}
+
+	.row-xl-ten {
+		@include make-grid-columns-custom(10, 30px, (xl: map-get($grid-breakpoints, xl), xlg: map-get($grid-breakpoints, xlg), xxl: map-get($grid-breakpoints, xxl)));
+	}
+}

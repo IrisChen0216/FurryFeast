@@ -1,0 +1,170 @@
+/**
+*
+* RD Navbar Modern
+* =====================================================
+*/
+.rd-navbar-modern {
+
+	// Static
+	&.rd-navbar-static {
+
+		.rd-navbar-aside-outer,
+		.rd-navbar-main-outer {
+			padding-left: $grid-gutter-width / 2;
+			padding-right: $grid-gutter-width / 2;
+		}
+
+		.rd-navbar-main-outer {
+			border-top: 1px solid $gray-100;
+		}
+
+		.rd-navbar-aside,
+		.rd-navbar-main {
+			position: relative;
+			display: flex;
+			justify-content: space-between;
+			margin-left: auto;
+			margin-right: auto;
+			max-width: $rd-navbar-static-width;
+		}
+
+		.rd-navbar-aside {
+			align-items: flex-end;
+			padding: 5px 0 25px;
+
+			// Extra large ≥1200px
+			@include media-breakpoint-up(xl) {
+				padding-top: 15px;
+				padding-bottom: 35px;
+			}
+
+			// Mega large ≥1600px
+			@include media-breakpoint-up(xxl) {
+				padding-top: 25px;
+				padding-bottom: 45px;
+			}
+		}
+
+		.rd-navbar-main {
+			align-items: center;
+		}
+
+		.rd-navbar-collapse,
+		.rd-navbar-button {
+			flex: 0 0 40%;
+			max-width: 40%;
+		}
+
+		.rd-navbar-collapse {
+			.button {	display: none; }
+		}
+
+		.rd-navbar-button {
+			display: block;
+			text-align: right;
+		}
+
+		.rd-navbar-panel {
+			flex: 0 0 20%;
+			max-width: 20%;
+		}
+
+		// RD Navbar Brand
+		.rd-navbar-brand {
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+			height: 70px;
+
+			img {
+				max-height: 70px;
+			}
+		}
+
+		.rd-navbar-main-element {
+			display: flex;
+			align-items: center;
+
+			> * + * { margin-left: 18px; }
+		}
+
+		.rd-navbar-nav-wrap { margin-right: 30px; }
+
+		// RD Nav item 1-st level
+		.rd-nav-item {
+			display: inline-block;
+
+			&.focus,
+			&.opened,
+			&.active {
+				.rd-nav-link {
+					color: $rd-navbar-nav-color;
+					&::before {
+						width: 100%;
+						background-color: $primary;
+					}
+				}
+			}
+		}
+
+		// Rd Nav Link 1-st level
+		.rd-nav-link {
+			padding: 25px 0;
+
+			&::before {
+				position: absolute;
+				content: '';
+				top: 0;
+				left: 50%;
+				height: 8px;
+				width: 140%;
+				background: transparent;
+				transform: translate3d(-50%, -50%, 0);
+				transition: all .25s ease;
+			}
+		}
+
+		&.rd-navbar--is-stuck,
+		&.rd-navbar--is-clone {
+			box-shadow: $rd-navbar-shadow;
+
+			.rd-navbar-main-outer { border-color: transparent }
+			.rd-navbar-aside-outer { display: none; }
+		}
+	}
+
+	// Fixed
+	&.rd-navbar-fixed {
+
+		.rd-navbar-collapse-toggle {
+			width: 32px;
+		}
+
+		// Navbar Basket
+		.rd-navbar-basket {
+			top: 16px;
+			right: 36px;
+			padding-right: 10px;
+		}
+
+		.rd-navbar-button { display: none; }
+	}
+}
+
+
+
+// Contacts Ruth
+.contacts-ruth {
+	text-align: left;
+
+	a {
+		font-size: 14px;
+		letter-spacing: .05em;
+		@include link($gray-800, $primary);
+	}
+
+	.icon {
+		font-size: 38px;
+		color: $primary;
+	}
+}

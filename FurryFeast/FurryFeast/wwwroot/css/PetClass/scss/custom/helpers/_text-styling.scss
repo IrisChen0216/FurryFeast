@@ -1,0 +1,192 @@
+/*
+* Text styling
+*/
+
+// Text styles
+.text-italic {
+	font-style: italic;
+}
+
+.text-normal {
+	font-style: normal;
+}
+
+// Text decoration
+.text-underline {
+	text-decoration: underline;
+}
+
+.text-strike {
+	text-decoration: line-through;
+}
+
+// Text weight
+.font-weight-thin {
+	font-weight: 100;
+}
+
+.font-weight-light {
+	font-weight: 300;
+}
+
+.font-weight-regular {
+	font-weight: 400;
+}
+
+.font-weight-medium {
+	font-weight: 500;
+}
+
+.font-weight-sbold {
+	font-weight: 600;
+}
+
+.font-weight-bold {
+	font-weight: 700;
+}
+
+.font-weight-ubold {
+	font-weight: 900;
+}
+
+// Text spacing
+.text-spacing-0 {
+	letter-spacing: 0;
+}
+
+.text-spacing-20 {
+	letter-spacing: .02em;
+}
+
+.text-spacing-25 {
+	letter-spacing: .025em;
+}
+
+.text-spacing-50 {
+	letter-spacing: .05em;
+}
+
+.text-spacing-75 {
+	letter-spacing: .075em;
+}
+
+.text-spacing-100 {
+	letter-spacing: .1em;
+}
+
+.text-spacing-150 {
+	letter-spacing: .15em;
+}
+
+// Text width
+.text-width-medium {
+	max-width: 500px;
+}
+
+.text-width-large {
+	max-width: 600px;
+}
+
+.text-center [class*='text-width-'] {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.text-primary {
+	color: $primary !important;
+}
+
+.text-gray-500 {
+	color: $gray-500;
+}
+
+.text-transform-none {
+	text-transform: none;
+}
+
+.text-transform-uppercase {
+	text-transform: uppercase;
+}
+
+.text-transform-capitalize {
+	text-transform: capitalize;
+}
+
+.font-family-sans-serif {
+	font-family: $font-family-sans-serif;
+}
+
+.font-family-sans-serif-1 {
+	font-family: $font-family-sans-serif-1;
+}
+
+.font-family-cursive {
+	font-family: $font-family-cursive;
+}
+
+.lt-spacing-normal {
+	letter-spacing: normal;
+}
+
+.lt-spacing-50 {
+	letter-spacing: .050em;
+}
+
+.lt-spacing-70 {
+	letter-spacing: .070em;
+}
+
+.lt-spacing-75 {
+	letter-spacing: .075em;
+}
+
+.lt-spacing-80 {
+	letter-spacing: .08em;
+}
+
+.lt-spacing-100 {
+	letter-spacing: .1em;
+}
+
+
+.text-cursive {
+	font-family: $font-family-cursive;
+}
+
+.heading-devider {
+	@include media-breakpoint-up(sm) {
+		padding-left: 25px;
+		position: relative;
+		&:before {
+			content: '';
+			position: absolute;
+			left: 0;
+
+			top: 50%;
+			transform: translateY(-50%);
+			height: 2px;
+			width: 15px;
+			background-color: $white;
+		}
+	}
+	@include media-breakpoint-up(md) {
+		&:before {
+			width: 60px;
+			left: 8px;
+		}
+		padding-left: 85px;
+	}
+}
+
+.linear-text {
+	background: linear-gradient(to right, $primary 0%, $secondary 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.ie-11, .ie-10 {
+	.linear-text {
+		color: $secondary;
+		background: none;
+	}
+}

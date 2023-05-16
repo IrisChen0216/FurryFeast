@@ -1,0 +1,253 @@
+//
+// Panel custom styles
+//
+
+// Light
+//
+$accordion-corporate-color: $gray-800;
+$accordion-corporate-background: transparent;
+$accordion-corporate-border: $gray-400;
+$accordion-corporate-content-color: $body-color;
+$accordion-corporate-arrow-color: $gray-800;
+$accordion-corporate-arrow-background: $primary;
+$accordion-corporate-shadow: -1px 2px 5px 0px rgba(#444953, 0.12);
+$accordion-corporate-border-radius: 6px;
+$accordion-corporate-header-padding: 30px 0 30px 66px;
+$accordion-corporate-content-padding: 25px 0 10px 0;
+
+// Panel groups
+.card-group-custom {
+	margin-bottom: 0;
+
+	.card-header + .collapse > .card-body,
+	.card-header + .collapse > .list-group {
+		border-top: 0;
+	}
+
+	.card + .card {
+		margin-top: 0;
+	}
+}
+
+.card-group-custom.card-group-corporate {
+	.card + .card {
+		//margin-top: 30px;
+	}
+}
+
+.card-custom {
+	text-align: left;
+	display: block;
+	margin: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	background: inherit;
+
+	a {
+		display: block;
+	}
+
+	// Panel heading
+	.card-header {
+		padding: 0;
+		border-bottom: 0;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		background: transparent;
+	}
+
+	// Panel contents
+	.card-body {
+		padding: 0;
+		border: 0;
+	}
+}
+
+* + .card-group-custom { margin-top: 20px; }
+h3 + .card-group-corporate { margin-top: 20px; }
+
+// Medium ≥992px
+@include media-breakpoint-up(lg) {
+
+	* + .card-group-custom { margin-top: 30px; }
+	* + .card-group-custom-1 { margin-top: 20px; }
+}
+
+// Panel corporate
+.card-corporate {
+	text-align: left;
+
+	&:last-child {
+
+		.card-title a.collapsed {
+			border-bottom-color: transparent;
+		}
+	}
+
+	.card-title {
+		margin-bottom: 0;
+	}
+
+	.card-title a,
+	.card-body {
+		background: $accordion-corporate-background;
+	}
+
+	.card-title a {
+		position: relative;
+		padding: 15px 0 15px 45px;
+		font-size: 14px;
+		line-height: $line-height-base;
+		font-weight: 500;
+		letter-spacing: .02em;
+		font-family: $font-family-sec;
+		color: $accordion-corporate-color;
+		border-bottom: 1px solid $gray-100;
+		z-index: 1;
+
+
+		// Collapsed state
+		&.collapsed {
+
+			.card-arrow .icon {
+				color: $primary;
+				background: $white;
+				box-shadow: 0 0 5px 0 rgba(1, 3, 4, 0.19);
+				transform: none;
+			}
+		}
+	}
+
+	// Panel arrow
+
+	.card-arrow {
+		display: flex;
+		align-items: center;
+		position: absolute;
+		text-align: center;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 2;
+
+		.icon {
+			font-size: 20px;
+			line-height: 30px;
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			color: $white;
+			background-color: $primary;
+			box-shadow: none;
+			transform: rotate(90deg);
+			transition: all .3s ease;
+
+			&::before {
+				content: '\f238';
+				font-family: $mdi;
+			}
+		}
+	}
+
+	.collapse {
+		position: relative;
+		color: $accordion-corporate-content-color;
+		border-radius: 0 0 $accordion-corporate-border-radius $accordion-corporate-border-radius;
+		z-index: 1;
+	}
+
+	.card-body {
+		padding: 15px 0 10px 0;
+	}
+
+	// Medium ≥768px
+	@include media-breakpoint-up(md) {
+
+		.card-title a {
+			padding: 25px 0 25px 56px;
+		}
+
+		.card-arrow {
+			.icon {
+				font-size: 22px;
+				line-height: 36px;
+				width: 36px;
+				height: 36px;
+			}
+		}
+
+		.card-body {
+			padding: $accordion-corporate-content-padding;
+		}
+	}
+
+	// Large ≥992px
+	@include media-breakpoint-up(lg) {
+
+		.card-title a {
+			font-size: 16px;
+		}
+	}
+
+	// Extra large ≥1200px
+	@include media-breakpoint-up(xl) {
+
+		.card-title a {
+			padding: $accordion-corporate-header-padding;
+			font-size: 18px;
+		}
+
+		.card-arrow {
+			.icon {
+				font-size: 24px;
+				line-height: 42px;
+				width: 42px;
+				height: 42px;
+			}
+		}
+	}
+}
+
+.card-corporate-2 {
+	text-align: left;
+
+	&:last-child {
+
+		// Medium <992px
+		@include media-breakpoint-down(md) {
+
+			.card-title a.collapsed {
+				border-bottom-color: $gray-100;
+			}
+		}
+	}
+}
+
+.desktop {
+	// Large ≥992px
+	@include media-breakpoint-up(lg) {
+
+		.card-corporate {
+
+			.card-title a {
+
+				&:hover {
+					.card-arrow .icon {
+						transform: rotate(-90deg);
+					}
+				}
+
+				&.collapsed {
+
+					&:hover {
+
+						.card-arrow .icon {
+							transform: rotate(90deg);
+						}
+					}
+				}
+			}
+		}
+	}
+}

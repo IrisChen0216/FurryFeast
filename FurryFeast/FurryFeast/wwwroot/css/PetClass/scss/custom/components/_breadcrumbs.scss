@@ -1,0 +1,116 @@
+/*
+* Breadcrumbs
+*/
+$breadcrumb-padding-vertical: 8px;
+$breadcrumb-padding-horizontal: 15px;
+$breadcrumb-bg: transparent;
+$breadcrumb-color: $body-color;
+$breadcrumb-active-color: $gray-800;
+$breadcrumb-separator: "\f14f";
+
+.breadcrumbs-custom {
+	position: relative;
+	text-align: center;
+}
+
+.breadcrumbs-custom-body {
+	display: flex;
+	align-items: center;
+	min-height: (477 / 1920) * 100vw;
+	padding: 40px 0;
+	background-color: $breadcrumb-bg;
+	background-position: center;
+}
+
+.breadcrumbs-custom-title {
+	text-shadow: 3px 9px 16px rgba($black, 0.18);
+}
+
+.breadcrumbs-custom-text {
+	font-weight: 400;
+	letter-spacing: .025em;
+}
+
+.breadcrumbs-custom-footer {
+	padding: 15px 0;
+	background: $gray-4;
+}
+
+.breadcrumbs-custom-path {
+	@include spacingX(34px);
+
+	a {
+		display: inline;
+
+		&,
+		&:active,
+		&:focus {
+			color: $breadcrumb-color;
+		}
+	}
+
+	li {
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		font-size: 12px;
+		line-height: 2;
+		font-weight: 600;
+		letter-spacing: .13em;
+		font-family: $font-family-sec;
+		text-transform: uppercase;
+
+		&::after {
+			display: inline-block;
+			position: absolute;
+			content: $breadcrumb-separator;
+			top: 48%;
+			right: 0;
+			font-size: 14px;
+			line-height: 1;
+			font-family: $mdi;
+			color: $breadcrumb-active-color;
+			transform: translate3d(50%, -50%, 0);
+		}
+	}
+
+	li:last-child {
+
+		&:after {
+			display: none;
+		}
+	}
+
+	a:hover,
+	li.active {
+		color: $breadcrumb-active-color;
+	}
+}
+
+* + .breadcrumbs-custom-path { margin-top: 14px; }
+
+@include media-breakpoint-up(sm) {
+	.breadcrumbs-custom-body { padding: 70px 0; }
+}
+
+// Medium ≥768px
+@include media-breakpoint-up(md) {
+
+	* + .breadcrumbs-custom-text { margin-top: 20px; }
+}
+
+@include media-breakpoint-up(lg) {
+
+	.breadcrumbs-custom-body { padding: 100px 0; }
+
+	* + .breadcrumbs-custom-text { margin-top: 30px; }
+}
+
+.ie-10,
+.ie-11,
+.ie-edge {
+
+	.breadcrumbs-custom-body {
+		height: (477 / 1920) * 100vw;
+	}
+}

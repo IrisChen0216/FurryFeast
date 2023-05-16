@@ -1,0 +1,96 @@
+/*
+* Element groups
+*/
+
+html {
+	.group {
+		@include group(10px, 10px);
+	}
+
+	.group-xs {
+		@include group(15px, 15px);
+		.offset-bottom-0{
+			margin-bottom: 0;
+		}
+	}
+
+	.group-sm {
+		@include group(20px, 10px);
+	}
+
+	.group-md {
+		@include group(25px, 20px);
+	}
+
+	.group-lg {
+		@include group(30px, 20px);
+	}
+
+	.group-xl {
+		@include group(40px, 30px);
+	}
+
+	.group-middle {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.group-button-1 {
+		display: flex;
+	}
+
+	.group-justify {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.group-custom {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		max-width: 100%;
+
+		> * {
+			flex: 0 1 100%;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+
+		@include media-breakpoint-up(sm) {
+			flex-wrap: nowrap;
+
+			> * {
+				flex: 1 1 auto;
+			}
+		}
+	}
+}
+
+.group-button-1 {
+
+	.button {
+		flex-grow: 1;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+
+
+
+* + .group { margin-top: 30px; }
+* + .group-xs { margin-top: 30px; }
+* + .group-sm { margin-top: 30px; }
+* + .group-md { margin-top: 30px; }
+* + .group-lg { margin-top: 30px; }
+* + .group-xl { margin-top: 30px; }
+
+// Large ≥992px
+@include media-breakpoint-up(lg) {
+
+	h3 + .group-xs { margin-top: 45px; }
+}

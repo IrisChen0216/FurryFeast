@@ -1,0 +1,396 @@
+/*
+*
+* Isotope
+*/
+
+$isotope-default-color: $gray-300;
+$isotope-default-color-active: $primary;
+$isotope-default-border: $isotope-default-color-active;
+$isotope-nav-spacing: 5px;
+
+$isotope-inverse-color: $white;
+$isotope-inverse-color-active: $primary;
+$isotope-inverse-border: $isotope-inverse-color-active;
+
+//
+// Isotope animations
+//
+@keyframes sprite-animation {
+	from {
+		background-position: 0 0;
+	}
+}
+
+[data-isotope-layout] {
+	z-index: 0;
+	display: block;
+	min-height: 160px;
+	margin-left: -15px;
+	margin-right: -15px;
+	transition: .4s all ease;
+
+	.row {
+		margin-bottom: -30px;
+
+		> [class*="col-"] {
+			margin-top: 30px;
+		}
+	}
+
+	.row-narrow {
+		margin-bottom: -$grid-gutter-width-narrow;
+
+		> [class*="col-"] {
+			margin-top: $grid-gutter-width-narrow;
+		}
+	}
+
+	.row-condensed {
+		margin-bottom: 0;
+
+		> [class*="col-"] {
+			margin-top: 0;
+		}
+	}
+
+	[class*="col-"] {
+		display: block;
+		will-change: transform;
+		backface-visibility: hidden;
+		transition: .1s opacity ease-in;
+
+		@include media-breakpoint-down(sm) {
+			max-width: 100%;
+		}
+	}
+
+	&.isotope--loaded {
+		[class*="col-"] {
+			opacity: 1;
+		}
+
+		&:after {
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
+}
+
+// Isotope defaults
+.isotope-filters {
+	position: relative;
+	$value: 10px;
+
+	> * {
+		margin-top: 0;
+		vertical-align: middle;
+	}
+
+	.inline-list {
+		position: relative;
+		word-spacing: 0;
+
+		li {
+			display: inline-block;
+		}
+
+		a {
+			position: relative;
+			transition: .3s;
+			color: $isotope-default-color;
+		}
+
+		.isotope-filters-trigger {
+			display: none;
+		}
+	}
+}
+
+.isotope-filters-modern {
+	.inline-list {
+		@include spacing(20px, 10px);
+
+		> li {
+			font-family: $font-family-sec;
+			font-size: 18px;
+		}
+
+		a {
+			position: relative;
+			padding-bottom: 10px;
+
+			&::after {
+				content: '';
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				width: 0;
+				height: 2px;
+				transition: .4s;
+				background: $primary;
+			}
+		}
+
+		a:hover {
+			color: $isotope-default-color-active;
+		}
+
+		a.active {
+			&::after {
+				width: 100%;
+			}
+		}
+
+		@include media-breakpoint-up(lg) {
+			@include spacing(45px, 10px);
+		}
+	}
+}
+
+.isotope-modern-wrap {
+	[class*='col'] {
+		margin-top: 30px;
+	}
+
+	@include media-breakpoint-down(sm) {
+		[class*='col'] {
+			width: 100%;
+			max-width: 100%;
+		}
+	}
+
+	html:not(.tablet):not(.mobile) & {
+		@include media-breakpoint-up(lg) {
+			[class*='col'] {
+				margin-top: 0;
+			}
+		}
+	}
+}
+
+.isotope-condensed {
+	margin-left: 0;
+	margin-right: 0;
+	.row > * {
+		margin-top: -1px;
+		margin-bottom: -1px;
+	}
+}
+
+* + .isotope { margin-top: 30px; }
+* + .isotope-wrap { margin-top: 30px; }
+
+* + .isotope-condensed {
+	margin-top: 30px;
+}
+
+@include media-breakpoint-down(md) {
+	.isotope-condensed {
+		padding: 0 0 30px;
+		margin-left: 0;
+		margin-right: 0;
+		.row.row-condensed > [class*='col'] {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+
+		.row.row-condensed > [class*='col'] + [class*='col'] {
+			margin-top: 25px;
+		}
+
+	}
+}
+
+@include media-breakpoint-up(md) {
+
+	* + .isotope { margin-top: 50px; }
+	* + .isotope-wrap { margin-top: 44px; }
+}
+
+
+
+// Isotope Filter List
+
+.isotope-filters-list {
+	position: absolute;
+	top: calc(100% + 20px);
+	left: 50%;
+	width: 100%;
+	max-width: 280px;
+	padding: 15px;
+	background: $white;
+	box-shadow: 0 0 10px 0 rgba($black, 0.17);
+	transform: translate3d(-50%, 0, 0);
+	opacity: 0;
+	visibility: hidden;
+	transition: all .3s ease-in-out;
+	z-index: 2;
+
+	a {
+		position: relative;
+		text-align: center;
+		vertical-align: middle;
+		display: block;
+		padding: 5px 10px;
+		font-size: 14px;
+		line-height: 1;
+		font-weight: 600;
+		letter-spacing: .02em;
+		font-family: $font-family-sec;
+		text-transform: uppercase;
+		color: $gray-500;
+
+		&.active {
+			color: $primary;
+		}
+	}
+
+	&.active {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+.isotope-filters-toggle {
+
+	.icon {
+		transition: transform .25s ease;
+	}
+
+	&.active {
+		.icon {
+			transform: rotate(180deg);
+		}
+	}
+}
+
+// Medium ≥768px
+@include media-breakpoint-up(md) {
+
+	.isotope-filters-list-wrap {
+		display: inline-block;
+		position: relative;
+		padding-bottom: 4px;
+
+		&::before {
+			position: absolute;
+			content: '';
+			bottom: 0;
+			left: 0;
+			height: 4px;
+			width: 100%;
+			border-radius: 6px;
+			background: $gray-200;
+		}
+	}
+
+	.isotope-filters-list {
+		position: static;
+		display: flex;
+		justify-content: space-between;
+		max-width: none;
+		top: auto;
+		left: auto;
+		width: auto;
+		padding: 0;
+		box-shadow: none;
+		background: transparent;
+		transform: none;
+		visibility: visible;
+		opacity: 1;
+
+		@include spacingX(60px);
+
+		a {
+			display: inline-block;
+			padding: 0 0 16px;
+
+			&::after {
+				position: absolute;
+				content: '';
+				bottom: -4px;
+				left: 50%;
+				width: 130%;
+				height: 4px;
+				border-radius: 6px;
+				background: $primary;
+				transform: translate3d(-50%, 0, 0);
+				opacity: 0;
+				transition: all .25s ease;
+			}
+
+			&.active,
+			&:hover {
+
+				&::after {
+					width: 100%;
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	.isotope-filters-toggle {
+		display: none;
+	}
+}
+
+
+
+//
+// Isotope custom style
+//
+
+.isotope-custom-1 {
+
+	// Small <576px
+	@include media-breakpoint-down(xs) {
+
+		[class*='col'] > * {
+			max-width: 270px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+}
+
+.mobile,
+.tablet {
+
+	// Large 992  ≤ 1200 Extra Large
+	@include media-breakpoint-between(lg, lg) {
+
+		.isotope-custom-1 {
+
+			.col-lg-8 {
+				flex: 0 0 33.33333%;
+				max-width: 33.33333%;
+			}
+		}
+	}
+}
+
+.desktop {
+
+	// Large ≥992px
+	@include media-breakpoint-up(lg) {
+
+		.isotope-custom-2 {
+			padding-left: 0;
+			padding-right: 0;
+
+			.row {
+				margin-right: 0;
+				margin-left: 0;
+				margin-bottom: 0;
+
+				> .col,
+				> [class*="col-"] {
+					padding-right: 0;
+					padding-left: 0;
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,355 @@
+/*
+* Lists
+*/
+
+/*
+* Vertical list
+*/
+.list {
+	> li + li {
+		margin-top: 5px;
+	}
+}
+
+.list-xs > li + li {
+	margin-top: 10px;
+}
+
+.list-sm > li + li {
+	margin-top: 15px;
+}
+
+.list-md > li + li {
+	margin-top: 20px;
+}
+
+.list-lg > li + li {
+	margin-top: 25px;
+}
+
+.list-xl > li + li {
+	margin-top: 30px;
+}
+
+@include media-breakpoint-up(md) {
+
+	.list-xl > li + li {
+		margin-top: 50px;
+	}
+}
+
+
+
+/*
+* List inline
+*/
+.list-inline {
+	> li {
+		display: inline-block;
+	}
+}
+
+html {
+
+	.list-inline-xs {
+		@include spacing(8px);
+	}
+
+	.list-inline-sm {
+		@include spacing(10px);
+	}
+
+	.list-inline-md {
+		@include spacing(16px, 10px);
+	}
+
+	.list-inline-lg {
+		@include spacing(20px, 10px);
+	}
+
+	.list-inline-xl {
+		@include spacing(30px, 10px);
+	}
+}
+
+
+
+/*
+* List terms
+*/
+.list-terms {
+	dt + dd { margin-top: 12px; }
+	dd + dt { margin-top: 25px; }
+}
+
+.list-terms-1 {
+	dt {
+		font-weight: 400;
+		letter-spacing: 0;
+		text-transform: none;
+	}
+}
+
+* + .list-terms { margin-top: 25px; }
+
+// Medium ≥768px
+@include media-breakpoint-up(md) {
+
+	.list-terms {
+		dd + dt { margin-top: 45px; }
+	}
+}
+
+
+
+/*
+* Index list
+*/
+.index-list {
+	counter-reset: li;
+
+	> li {
+		.list-index-counter {
+			&:before {
+				content: counter(li, decimal-leading-zero);
+				counter-increment: li;
+			}
+		}
+	}
+}
+
+//
+// Marked list
+//
+.list-marked {
+	text-align: left;
+
+	> li {
+		text-indent: -24px;
+		padding-left: 24px;
+
+		&::before {
+			position: relative;
+			display: inline-block;
+			left: 0;
+			top: 0;
+			content: '';
+			height: 9px;
+			width: 9px;
+			margin-right: 15px;
+			border-radius: 50%;
+			background: $gray-200;
+		}
+	}
+
+	> li + li {
+		margin-top: 10px;
+	}
+}
+
+// Offsets
+* + .list-marked { margin-top: 15px; }
+p + .list-marked { margin-top: 10px; }
+
+
+
+//
+// Ordered List
+//
+.list-ordered {
+	counter-reset: li;
+	text-align: left;
+
+	> li {
+		position: relative;
+		text-indent: -18px;
+		padding-left: 18px;
+
+		&:before {
+			content: counter(li, decimal) '.';
+			counter-increment: li;
+			display: inline-block;
+			top: 0;
+			left: 0;
+			text-indent: 0;
+			min-width: 18px;
+			color: inherit;
+		}
+	}
+
+	> li + li {
+		margin-top: 10px;
+	}
+}
+
+* + .list-ordered {margin-top: 15px;}
+
+
+
+//
+// List Categories
+//
+.list-categories {
+	letter-spacing: .1em;
+	color: $gray-800;
+
+	li {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	a {
+		@include link(inherit, $primary);
+	}
+
+	li + li {	margin-top: 12px; }
+}
+
+.list-categories-number {
+	color: $body-color;
+}
+
+* + .list-categories {	margin-top: 24px; }
+
+
+
+//
+// List Archives
+//
+.list-archives {
+	color: $gray-800;
+
+	> li {
+		letter-spacing: .1em;
+
+		&::before {
+			background: $secondary;
+		}
+	}
+
+	a {
+		@include link(inherit, $primary)
+	}
+
+	li + li {	margin-top: 12px; }
+}
+
+* + .list-archives {	margin-top: 24px; }
+
+
+
+//
+// Social List
+//
+.list-social {
+	color: $gray-800;
+
+	.icon {
+		vertical-align: middle;
+		font-size: 18px;
+		line-height: 25px;
+	}
+
+	.mdi-google-plus { font-size: 25px; }
+
+	a {
+		@include link(inherit, $primary);
+	}
+}
+
+// List Social 2
+.list-social-2 {
+	color: $gray-800;
+
+	.icon {
+		vertical-align: middle;
+		font-size: 20px;
+		line-height: 28px;
+	}
+
+	.mdi-google-plus { font-size: 28px; }
+
+	a {
+		@include link(inherit, $primary);
+	}
+}
+
+.list-social-title {
+	font-size: $font-size-body;
+	letter-spacing: 0;
+}
+
+// Context styling
+%context-dark {
+
+	.list-social { color: inherit; }
+}
+
+// List Social 3
+.list-social-3 {
+	color: $gray-12;
+
+	.icon {
+		text-align: center;
+		vertical-align: middle;
+		width: 41px;
+		height: 41px;
+		font-size: 18px;
+		line-height: 39px;
+		border-radius: 50%;
+		border: 1px solid;
+	}
+
+	.mdi-google-plus { font-size: 25px; }
+	.mdi-skype {	font-size: 24px; }
+
+	a {
+		@include link(inherit, $primary);
+	}
+}
+
+* + .list-social-3 { margin-top: 26px; }
+
+// Context styling
+%context-dark {
+
+	.list-social-3 { color: rgba($white, .5); }
+}
+
+// List Social 4
+.list-social-4 {
+	color: inherit;
+
+	.icon {
+		text-align: center;
+		vertical-align: middle;
+		width: 36px;
+		height: 36px;
+		font-size: 14px;
+		line-height: 34px;
+		border-radius: 50%;
+		border: 1px solid;
+	}
+
+	.mdi-google-plus { font-size: 21px; }
+	.mdi-skype {	font-size: 20px; }
+
+	a {
+		@include link(inherit, $primary);
+	}
+}
+
+* + .list-social-4 { margin-top: 26px; }
+
+// Context styling
+%context-dark {
+
+	.list-social-4 {
+		color: rgba($white, .5);
+
+		a:hover {
+			color: $white;
+		}
+	}
+}

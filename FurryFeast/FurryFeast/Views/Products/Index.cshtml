@@ -9,8 +9,13 @@
 	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
-	@*<link href="~fontawesome-iconpicker/css/fontawesome-iconpicker.min.css" />*@
 	<link href="~/css/pagedlist.min.css" rel="stylesheet" />
+	<style>
+		a{
+			color:black;
+			
+		}
+	</style>
 }
 
 <div class="index-header">
@@ -46,40 +51,30 @@
 						</div>
 					</div>
 				</div>
-				<!-- 搜尋列-->
-				<div class="aside-item col-12">
-					<form class="rd-search form-search" asp-controller="Products" asp-action="Index" method="post">
-						<h6 class="aside-title">搜尋商品</h6>
-						<div class="form-wrap">
-							<label class="form-label" for="searchForm">搜尋商品 ...</label>
-							<input class="form-input" id="searchForm" type="text" name="searchForm" autocomplete="on" value="@ViewBag.Filter">
-							<button class="button-search fl-bigmug-line-search74" type="submit"></button>
-						</div>
-					</form>
-				</div>
+
 				<div class="aside-item col-sm-6 col-md-5 col-lg-12">
 					<h6 class="aside-title">Categories</h6>
 					<ul class="list-shop-filter">
 						<li>
 							<label class="checkbox-inline">
-								<input name="input-group-radio" value="checkbox-1" type="checkbox">All
-							</label><span class="list-shop-filter-number">(18)</span>
+								<a asp-controller="Products" asp-action="Index">全部商品</a>
+							</label><span class="list-shop-filter-number">(@Model.Count())</span>
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<input name="input-group-radio" value="checkbox-2" type="checkbox">Balloons
-							</label><span class="list-shop-filter-number">(9)</span>
+							<input name="input-group-radio" value="checkbox-4" type="button">鮮食專區
+							</label><span class="list-shop-filter-number">(8)</span> @*待補*@
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<input name="input-group-radio" value="checkbox-3" type="checkbox">Gifts
-							</label><span class="list-shop-filter-number">(5)</span>
+								<a asp-controller="Products" asp-action="Index">狗狗專區</a>
+							</label><span class="list-shop-filter-number">(@Model.Where(t=>t.ProductTypeId==1).Count())</span>
 						</li>
 						<li>
-							<label class="checkbox-inline">
-								<input name="input-group-radio" value="checkbox-4" type="checkbox">Postcards
-							</label><span class="list-shop-filter-number">(8)</span>
-						</li>
+							<label class="checkbox-inline">								
+								<a asp-controller="Products" asp-action="Index">貓咪專區</a>
+							</label><span class="list-shop-filter-number">(@Model.Where(t=>t.ProductTypeId==2).Count())</span>
+						</li>				
 					</ul>
 
 				</div>
@@ -92,22 +87,33 @@
 			<div class="row row-30 row-md-50 row-lg-60">
 				<div class="col-12">
 					<div class="row">
-						<div class="col col-6"></div>
-					<!--排序功能-->
-					<div class="col col-6 box-info-modern-title">
-						<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.NewProducts">上架時間</a> |
-						<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.ProductsPrice">價格高低</a> |
-						<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.OrdersRank">熱門排名</a>
-								@*待補連結*@
-					</div>
+						<!-- 搜尋列-->
+						<div class="col col-6">
+							<form class="rd-search form-search" asp-controller="Products" asp-action="Index" method="post">
+								@*<h6 class="aside-title">搜尋商品</h6>*@
+								<div class="form-wrap">
+									<label class="form-label" for="searchForm">搜尋商品 ...</label>
+									<input class="form-input" id="searchForm" type="text" name="searchForm" autocomplete="on" value="@ViewBag.Filter">
+									<button class="button-search fl-bigmug-line-search74" type="submit"></button>
+								</div>
+							</form>
+						</div>
+						<!--排序功能-->
+						<div class="col col-6 box-info-modern-title">
+							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.NewProducts">上架時間</a> |
+							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.ProductsPrice">價格高低</a> |
+							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.OrdersRank">熱門排名</a>
+							@*待補連結*@
+						</div>
+						
 					</div>
 					<!-- 商品-->
 					<div class="row">
 
 						@foreach (var item in Model)
 						{
-							<div class="col col-4">
-								<article class="product">
+							<div class="col col-4 ">
+								<article class="product" style="margin-bottom:30px">
 									<div class="product-body">
 										<div class="product-figure">
 											<partial name="_ShowPictruePartial" model="@item"></partial>
