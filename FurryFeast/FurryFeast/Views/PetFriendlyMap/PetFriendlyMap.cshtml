@@ -4,49 +4,35 @@
 }
 
 <div class="index-header">
-    <h2>寵物友善地圖</h2>
+	<h2>寵物友善地圖</h2>
+</div>
+<div class="container pb-4 mb-4 border-bottom">
+	<div id="form" class="row">
+		<div class="col">
+			<select id="ChooseCity" class="form-select">
+				<option selected>選擇縣市</option>
+			</select>
+		</div>
+		<div class="col">
+			<select id="ChooseCounty" class="form-select">
+				<option selected>選擇鄉鎮/區</option>
+			</select>
+		</div>
+		<div class="col">
+			<select class="form-select">
+				<option selected>選擇地點類別</option>
+			</select>
+		</div>
+		<div class="col">
+			<button id="search" type="button">搜尋</button>
+		</div>
+	</div>
 </div>
 <div class="container">
-    <form class="border border-2 p-3" action="">
-        <div id="form" class="row">
-            <div class="col">
-                <select id="ChooseCity" class="form-select">
-                    <option selected>選擇縣市</option>
-                </select>
-            </div>
-            <div class="col">
-                <select id="ChooseCounty" class="form-select">
-                    <option selected>選擇鄉鎮/區</option>
-                </select>
-            </div>
-            <div class="col">
-                <select class="form-select">
-                    <option selected>選擇地點類別</option>
-                </select>
-            </div>
-            <div class="col">
-                <button type="button" onclick="">搜尋</button>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="container ">
-	<div class="row ">
-		<div id="map" class="col rounded-3 p-3 m-3 " style="height: 600px; width: 65%;"></div>
-		<div class="col p-3" style="width: 35%;">
-			<!-- <div class=" index-header border border-2 p-3 rounded-3">
-				<h4>地點資訊</h4>
-			</div> -->
-			<div class="col border border-2 p-3 rounded-3 mt-3">
-				<img style="width: 100%; height: 100%; object-fit: cover;" src="/image/cat/1682736762142.png" alt="">
-				<div class="m-3">
-					<!-- <div><label for="">店家名稱</label> <label for="">店家名稱</label></div>
-					<div><label for="">店家名稱</label> <label for="">店家名稱</label></div>
-					<div><label for="">店家名稱</label> <label for="">店家名稱</label></div>
-					<div><label for="">店家名稱</label> <label for="">店家名稱</label></div>
-					<div><label for="">店家名稱</label> <label for="">店家名稱</label></div> -->
-				</div>
-			</div>
+	<div class="row" style="height: 500px;">
+		<div id="map" class="col-8 border border-2 p-3" style= "max-width:100%;"></div>
+		<div class="col-4 border border-2 p-3">
+			<h2>1234</h2>
 		</div>
 	</div>
 </div>
@@ -55,4 +41,5 @@
 @section Scripts
 {
 	<script src="~/js/map.js"></script>
+	<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwGI7BGNrDL_AtaZNvS9jHWweUj1IJsT0&callback=initMap&libraries=maps,marker&v=beta"></script>
 }
