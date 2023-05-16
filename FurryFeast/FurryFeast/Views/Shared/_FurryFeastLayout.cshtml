@@ -2,6 +2,7 @@
 @using System;
 @inject IHttpContextAccessor HttpContextAccessor;
 @{
+    // 取得當前 controller 和 index 名稱, 把 / 去掉
     var temp = HttpContextAccessor.HttpContext.Request.Path.Value.Replace("/", "");    
 }
 <!DOCTYPE html>
@@ -42,16 +43,21 @@
 <body>
 
     @await RenderSectionAsync("IndexHead", required: false)
-    
+
+    @*測試頁面字串*@
+    @*<div>@temp</div>*@
+
     <div id="menubar" class="menubar shadow-sm">
         <div class="container d-flex align-items-center justify-content-lg-between">
             <p class="logo me-auto me-lg-0"></p>
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
+                    <li><a class="nav-link scrollto @Html.Raw(temp == ""? "active" :"")" asp-controller="Home" asp-action="index">首頁</a></li>
+
                     <li><a class="nav-link scrollto @Html.Raw(temp == "ArticleNews"? "active" :"")" asp-controller="Article" asp-action="News">最新消息</a></li>
                     </li>
                     <li class="dropdown">
-                        <a class="" asp-area="" asp-controller="Products" asp-action="Index"><span>寵物商城</span><i class="bi bi-chevron-down"></i></a>
+                        <a class="@Html.Raw(temp == "Products"? "active" :"")" asp-area="" asp-controller="Products" asp-action="Index"><span>寵物商城</span><i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">寵物鮮食專區</a></li>
 
@@ -91,11 +97,11 @@
                         </ul>
                     </li>
 
-                    <li><a class="nav-link scrollto" asp-controller="PetFriendlyMap" asp-action="PetFriendlyMap">寵物友善地圖</a></li>
-                    <li><a class="nav-link scrollto" asp-controller="Article" asp-action="FAQ">FAQ</a></li>
+                    <li><a class="nav-link scrollto @Html.Raw(temp == "PetFriendlyMapPetFriendlyMap"? "active" :"")" asp-controller="PetFriendlyMap" asp-action="PetFriendlyMap">寵物友善地圖</a></li>
+                    <li><a class="nav-link scrollto @Html.Raw(temp == "ArticleFAQ"? "active" :"")" asp-controller="Article" asp-action="FAQ">FAQ</a></li>
                     <li><a class="nav-link scrollto @Html.Raw(temp == "ArticleContactUs"? "active" :"")" asp-controller="Article" asp-action="ContactUs">聯絡我們</a></li>
 
-                    <li class="dropdown">
+@*                    <li class="dropdown">
                         <a class="" asp-area="" asp-controller="StockArticles" asp-action="Index"><span>後臺管理</span><i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li class="dropdown"><a class="" asp-area="" asp-controller="StockMeasureUnits" asp-action="Index"><span>StockMeasureUnits</span></a></li>
@@ -108,9 +114,11 @@
                             <li><a class="" asp-area="" asp-controller="StockImages" asp-action="Index">StockImages</a></li>
                             <i class="bi bi-1-circle-fill"></i>
                         </ul>
-                    </li>
+                    </li>*@
 
-                    <li><a class="nav-link scrollto @Html.Raw(temp == "PetClassesIndex"? "active" :"")" asp-area="" asp-controller="PetClasses" asp-action="Index">寵物課程</a></li>
+                    <li><a class="nav-link scrollto @Html.Raw(temp == "PetClasses"? "active" :"")" asp-area="" asp-controller="PetClasses" asp-action="Index">寵物課程</a></li>
+
+                    <li><a class="nav-link scrollto" asp-area="Admin" asp-controller="Home" asp-action="Index">後臺管理</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
@@ -118,14 +126,23 @@
             <!-- navbar-login -->
             <nav class="p-1">
                 <button id="btn" class="btn btn-dark"><i class="bi bi-person-circle" ></i></button>
-                
                 <button id="btn" class="btn btn-dark"><i class="bi bi-cart"></i></button>
             </nav>
 
         </div>
     </div>
+
 	<div class="container">
         <main role="main" class="pb-3">
+
+            @*TODO*@
+            @*麵包屑屑*@
+@*            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">首頁</a></li>
+                <li class="breadcrumb-item"><a href="">部門</a></li>
+                <li class="breadcrumb-item active">研發</li>
+            </ol>*@
+
             @RenderBody()
         </main>
     </div>
