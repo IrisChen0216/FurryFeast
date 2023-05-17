@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
 using X.PagedList;
+using FurryFeast.Helper;
 
 namespace FurryFeast.Controllers
 {
@@ -91,11 +92,15 @@ namespace FurryFeast.Controllers
 
         public async Task<IActionResult> ProductCart(int? id)
         {
+            List<CartItem> cartItems = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session,"cart");
 
-            return View();
+            return View(cartItems);
         }
-        
-        private bool ProductExists(int id)
+
+		
+		
+
+		private bool ProductExists(int id)
         {
           return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
         }

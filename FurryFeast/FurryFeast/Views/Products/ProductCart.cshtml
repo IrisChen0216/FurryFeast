@@ -1,4 +1,5 @@
-﻿@section Style{
+﻿@model FurryFeast.Helper.CartItem
+@section Style{
     <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
     @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
     <link href="~/css/petclass/style.css" rel="stylesheet" />
@@ -21,14 +22,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a class="table-cart-figure link-img" href="single-product.html"><img src="~/image/product/single-product-1-530x480.jpg" alt="" width="328" height="330" /></a><a class="table-cart-link" href="single-product.html">寵物外出袋</a></td>
-                        <td>$23.00</td>
+                        <td><a class="table-cart-figure link-img" href="single-product.html"><img src="~/image/product/single-product-1-530x480.jpg" alt="" width="328" height="330" /></a><a class="table-cart-link" href="single-product.html">@Model.ProductName</a></td>
+                        <td>$@Model.Subtotal</td>
                         <td>
                             <div class="table-cart-stepper">
                                 <input class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
                             </div>
                         </td>
-                        <td>$230</td>
+                        <td>$@Model.Subtotal</td>
                     </tr>
                     <tr>
                         <td><a class="table-cart-figure link-img" href="single-product.html"><img src="~/image/product/single-product-1-530x480.jpg" alt="" width="328" height="330" /></a><a class="table-cart-link" href="single-product.html">寵物鮮食料理包</a></td>

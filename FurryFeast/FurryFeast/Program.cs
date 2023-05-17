@@ -29,6 +29,16 @@ namespace FurryFeast
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
+            //加入購物車要用的Session
+            builder.Services.AddSession(option =>
+            {
+                option.Cookie.Name = ".FurryFeastCart.Session";
+                option.IdleTimeout=TimeSpan.FromDays(365);
+                option.Cookie.IsEssential = true;
+                option.Cookie.HttpOnly = true;
+                option.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -47,6 +57,8 @@ namespace FurryFeast
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
