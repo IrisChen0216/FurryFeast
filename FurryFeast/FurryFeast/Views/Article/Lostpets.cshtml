@@ -2,59 +2,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha512-XXXXXXX" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js" integrity="sha512-XXXXXXX" crossorigin="anonymous"></script>
 
+@model List<FurryFeast.Models.Lostpets>
+
 <div class="index-header">
     <h4>寵物遺失啟事</h4>
 </div>
-@model List<FurryFeast.Models.Lostpets>
-@{
-
-    var petTypes = (List<string>)ViewData["PetTypes"];
-    var breeds = (List<string>)ViewData["Breeds"];
-    var colors = (List<string>)ViewData["Colors"];
-    var lostTimes = (List<string>)ViewData["LostTimes"];
-    var genders = (List<string>)ViewData["Genders"];
-}
 <style>
-    .search-button {
-        border: 1px solid #ffd33b;
-        background-color: #ffd33b;
-        color: white;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        text-decoration: none;
-        padding: 10px;
-        display: inline-block;
-        text-align: center;
-        border-radius: 6px; /* 设置圆角 */
+    .rounded-button {
+        border-radius: 6px;
     }
-
-        .search-button:hover {
-            background-color: black;
-            color: white;
-        }
 </style>
-
 <div class="form-group" style="display: flex; align-items: center; gap: 1px;">
     <form id="filterForm" style="display: flex; align-items: center; gap: 1px;">
         <div style="margin-right: 5px;">
             <select id="petType" name="petType" class="form-control">
                 <option value="">種類</option>
-                @foreach (var petType in petTypes)
+                @foreach (var petType in (List<string>)ViewData["PetTypes"])
                 {
                     <option value="@petType">@petType</option>
                 }
             </select>
         </div>
-
         <div style="margin-right: 5px;">
             <select id="gender" name="gender" class="form-control">
                 <option value="">性別</option>
-                @foreach (var gender in genders)
+                @foreach (var gender in (List<string>)ViewData["Genders"])
                 {
                     <option value="@gender">@gender</option>
                 }
             </select>
         </div>
-
         <div style="margin-right: 5px;">
             <input type="text" id="breed" name="breed" class="form-control" placeholder="請輸入品種">
         </div>
@@ -68,53 +45,35 @@
             <input type="text" id="lostLocation" name="lostLocation" class="form-control" placeholder="請輸入遺失地點">
         </div>
         <div>
-            <input type="submit" class="search-button btn btn-primary" value="搜尋">
+            <input type="submit" class="search-button btn btn-primary rounded-button" value="搜尋">
         </div>
     </form>
-    <a href="@Url.Action("LostForm", "Article")" class="search-button btn btn-primary">我要通報走失</a>
+    <a href="@Url.Action("LostForm", "Article")" class="search-button btn btn-primary rounded-button">我要通報走失</a>
 </div>
-
-
-
-
-
-
-
-
-
 
 <div class="row row-cols-3">
     @foreach (var animal in Model)
     {
-        @if (!string.IsNullOrEmpty(animal.Picture))
-        {
-            <div class="col-lg-4 col-md-4 col-6 move-on-hover test">
-                <a href="http://">
-                    <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                        <div class="square-img-container">
-                            <img src="@animal.Picture" alt="" onerror="this.onerror=null; this.src='https://images.pexels.com/photos/16652416/pexels-photo-16652416.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';">
-
-                        </div>
-                        <div class="card-body-new">
-                            <p>品種: @animal.Breed</p>
-                            <p>毛色: @animal.Color</p>
-                            <p>遺失時間: @animal.LostTime</p>
-                            <p>遺失地點: @animal.LostLocation</p>
-                        </div>
+        <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
+            <a href="http://">
+                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
+                    <div class="square-img-container">
+                        <img src="@animal.Picture" alt="" onerror="this.onerror=null; this.src='https://cdn.pixabay.com/photo/2019/07/30/05/53/dog-4372036_960_720.jpg';">
                     </div>
-                </a>
-            </div>
-        }
+                    <div class="card-body-new">
+                        <p>品種: @animal.Breed</p>
+                        <p>毛色: @animal.Color</p>
+                        <p>遺失時間: @animal.LostTime</p>
+                        <p>遺失地點: @animal.LostLocation</p>
+                    </div>
+                </div>
+            </a>
+        </div>
     }
 </div>
 
-
-
-
-
-
-
 @section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#filterForm').on('submit', function (e) {
@@ -126,18 +85,37 @@
                     type: 'POST',
                     data: formData,
                     success: function (data) {
-                        $('.row-cols-3').html(data);
+                        var html = '';
+
+                        // 根据返回的JSON数据生成HTML
+                        for (var i = 0; i < data.length; i++) {
+                            var animal = data[i];
+                            html += '<div class="col-lg-4 col-md-6 col-12 move-on-hover test">';
+                            html += '<a href="http://">';
+                            html += '<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">';
+                            html += '<div class="square-img-container">';
+                            html += '<img src="' + animal.PICTURE + '" alt="">';
+                            html += '</div>';
+                            html += '<div class="card-body-new">';
+                            html += '<p>品種: ' + animal.品種 + '</p>';
+                            html += '<p>毛色: ' + animal.毛色 + '</p>';
+                            html += '<p>遺失時間: ' + animal.遺失時間 + '</p>';
+                            html += '<p>遺失地點: ' + animal.遺失地點 + '</p>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</a>';
+                            html += '</div>';
+                        }
+
+                        $('.row').html(html);
+                    }
+
                     }
                 });
             });
         });
     </script>
 }
-
-
-
-
-
 <nav aria-label="Page navigation">
     <ul class="pagination">
         <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
@@ -168,7 +146,3 @@
         </li>
     </ul>
 </nav>
-
-
-
-

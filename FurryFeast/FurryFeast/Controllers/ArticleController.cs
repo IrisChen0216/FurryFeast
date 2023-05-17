@@ -97,6 +97,8 @@ namespace FurryFeast.Controllers
             return View();
         }
 
+        // ArticleController.cs
+
         public async Task<IActionResult> Lostpets(int? page, string petType, string gender, string breed, string color, DateTime? lostTime, string lostLocation)
         {
             var pageSize = 12;
@@ -158,6 +160,7 @@ namespace FurryFeast.Controllers
             return View(petsPaged);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> LoadLostPets(string petType, string gender, string breed, string color, DateTime? lostTime, string lostLocation)
         {
@@ -201,4 +204,5 @@ namespace FurryFeast.Controllers
         }
     }
 }
+    
    
