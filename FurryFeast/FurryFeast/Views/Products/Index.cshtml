@@ -10,25 +10,49 @@
 	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
 	<link href="~/css/pagedlist.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 	<style>
 		a{
-			color:black;
-			
+			color:black;			
 		}
+		.product{
+			box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.1);
+			border-radius: 6px;
+			border:solid 2px;
+			border-color:antiquewhite;
+		}
+
+		.slick-dots{
+			position:absolute;
+			bottom:15px;
+		}
+
 	</style>
 }
 
-<div class="index-header">
-	<h2>寵物商城</h2>
+
+<div class="container">
+	<div class="slider productsTitleSlick">
+		<div>			
+			<img src="~/image/product/home-bg-1.jpg" width="100%" />			
+		</div>
+		<div>
+			<img src="~/image/product/home-bg-1.jpg" width="100%" />
+		</div>
+		<div>
+			<img src="~/image/product/home-bg-1.jpg" width="100%" />
+		</div>
+	</div>
 </div>
 
 <div class="container">
 	<div class="row row-50">
 		<div class="col-lg-4 col-xl-3">
-			<div class="aside row row-30 row-md-50 justify-content-md-between">
+			@*待固定*@
+			<div class="aside row row-30 row-md-50 justify-content-md-between" style="position:sticky;top:100px">
 
 				<div class="aside-item col-12">
-					<h6 class="aside-title">Filter by Price</h6>
+					<h6 class="aside-title">商 品 價 格</h6>
 					<!-- RD Range-->
 					<div class="rd-range" data-min="0" data-max="999" data-min-diff="100" data-start="[66, 635]" data-step="1" data-tooltip="false" data-input=".rd-range-input-value-1" data-input-2=".rd-range-input-value-2"></div>
 					<div class="group-xs group-justify">
@@ -53,11 +77,11 @@
 				</div>
 
 				<div class="aside-item col-sm-6 col-md-5 col-lg-12">
-					<h6 class="aside-title">Categories</h6>
+					<h6 class="aside-title">商 品 分 類</h6>
 					<ul class="list-shop-filter">
 						<li>
 							<label class="checkbox-inline">
-								<a asp-controller="Products" asp-action="Index">全部商品</a>
+								<a asp-controller="Products" asp-action="Index" asp-route-type="@ViewBag.AllProducts">全部商品</a>
 							</label><span class="list-shop-filter-number">(@Model.Count())</span>
 						</li>
 						<li>
@@ -67,12 +91,12 @@
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<a asp-controller="Products" asp-action="Index">狗狗專區</a>
+								<a asp-controller="Products" asp-action="DogProducts">狗狗專區</a>
 							</label><span class="list-shop-filter-number">(@Model.Where(t=>t.ProductTypeId==1).Count())</span>
 						</li>
 						<li>
 							<label class="checkbox-inline">								
-								<a asp-controller="Products" asp-action="Index">貓咪專區</a>
+								<a asp-controller="Products" asp-action="Index" asp-route-type="@ViewBag.CatProducts">貓咪專區</a>
 							</label><span class="list-shop-filter-number">(@Model.Where(t=>t.ProductTypeId==2).Count())</span>
 						</li>				
 					</ul>
@@ -153,4 +177,19 @@
 @section Scripts{
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
+	
+	<script src="~/js/slick.min.js"></script>
+	<script>
+		
+		$('.productsTitleSlick').slick({
+			dots: true,
+			infinite: true,
+			speed: 300,
+			slidesToShow: 1,
+			adaptiveHeight: true
+		});
+		$(".slick-prev.slick-arrow").text("");
+		$(".slick-next.slick-arrow").text("");
+
+	</script>
 }

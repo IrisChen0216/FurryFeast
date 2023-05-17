@@ -20,21 +20,22 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index(string searchForm,string file,string sortProducts,int? page)
+        public async Task<IActionResult> Index(string type,string searchForm,string file,string sortProducts,int? page)
         {
-            int pageNumber = (page ?? 1);
-            int pageSize = 6;
+            IQueryable<Product> products = _context.Products.Where(p => p.ProductState == 1);
+
+			int pageNumber = (page ?? 1);
+            int pageSize = 6;          
 
             ViewBag.NewProducts = sortProducts == "LaunchDate_Desc" ? "LaunchDate_Asc" : "LaunchDate_Desc";
             ViewBag.ProductsPrice = sortProducts == "ProductPrice_Asc" ? "ProductPrice_Desc" : "ProductPrice_Asc";
-
-            IQueryable<Product> products = _context.Products.Where(p=>p.ProductState==1 && p.ProductTypeId==1);
-            //if (string.IsNullOrEmpty(searchForm))
-            //{
-            //    searchForm = file;
-            //}
-            
-            if (!string.IsNullOrEmpty(searchForm))
+			
+			//if (string.IsNullOrEmpty(searchForm))
+			//{
+			//    searchForm = file;
+			//}
+			
+			if (!string.IsNullOrEmpty(searchForm))
             {
                 products = _context.Products.Where(n => n.ProductName.Contains(searchForm));
                 return View(products.ToPagedList());
@@ -60,13 +61,16 @@ namespace FurryFeast.Controllers
                     products = _context.Products.Where(d => d.ProductState == 1 && d.ProductTypeId == 1);
                     break;
             }
-
-            
+                     
             return View(products.ToPagedList(pageNumber, pageSize));
             //return View(products);
         }
 
-       
+        public async Task<IActionResult> DogProducts()
+        {
+			IQueryable<Product> products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId==1);
+			return View(products);
+        }
         public async Task<FileResult> GetPicture(int id)
         {
             Product p = await _context.Products.FindAsync(id);           

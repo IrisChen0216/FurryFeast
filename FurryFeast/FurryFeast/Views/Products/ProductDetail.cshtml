@@ -5,9 +5,9 @@
     @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
     <link href="~/css/petclass/style.css" rel="stylesheet" />
 }
-<a asp-action="Cart">購物車</a>
-<section class="section section-sm section-first bg-default">
-    <div class="container">
+
+@*<section class="section section-sm section-first bg-default">*@
+    <div class="container" style="padding:100px">
         <div class="row row-30">
             <div class="col-lg-6">
                 <div class="slick-vertical slick-product">
@@ -16,7 +16,7 @@
                         <div class="item">
                             <div class="slick-product-figure">
 								@*<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />*@
-                                <img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="250" height="250"/>
+                                <img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="530" height="480"/>
                             </div>
                         </div>
                         <div class="item">
@@ -32,8 +32,8 @@
                     </div>
                     <div class="slick-slider child-carousel slick-nav-1" id="child-carousel" data-arrows="true" data-items="3" data-sm-items="3" data-md-items="3" data-lg-items="3" data-xl-items="3" data-xxl-items="3" data-md-vertical="true" data-for="#carousel-parent">
                         <div class="item">
-                            <div class="slick-product-figure">
-                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+                        <div class="slick-product-figure">
+                            <img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="530" height="480"/>
                             </div>
                         </div>
                         <div class="item">
@@ -72,7 +72,7 @@
         </div>
        
     </div>
-</section>
+@*</section>*@
 
 @section Scripts{
     <script src="~/js/product/core.min.js"></script>
