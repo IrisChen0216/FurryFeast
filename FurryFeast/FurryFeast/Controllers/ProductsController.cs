@@ -103,7 +103,7 @@ namespace FurryFeast.Controllers
             else { 
                 ViewBag.Total = 0; 
             }
-
+          
             return View(cartItems);
         }
 

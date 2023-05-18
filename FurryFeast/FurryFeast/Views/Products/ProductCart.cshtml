@@ -29,9 +29,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if(Model!=null){
                     @foreach (var item in Model)
                     {
-                        <tr> @*圖片顯示待補*@
+                        <tr>
+                            @*圖片顯示待補*@
                             <td><a class="table-cart-figure link-img" href="single-product.html">@item.ProductImage</a><a class="table-cart-link" href="single-product.html">@item.ProductName</a></td>
                             <td>$@item.Price</td>
                             <td>
@@ -39,14 +41,16 @@
                                     <input class="form-input" type="number" data-zeros="true" value="@item.Amount" min="1" max="1000">
                                 </div>
                             </td>
-                            <td>$@((@item.Amount)*(@item.Price))</td>
+                            <td>$@((@item.Amount) * (@item.Price))</td>
                             <td>
                                 <form name="removeProduct" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductID">
-                                <button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit"><i class="bi bi-trash"></i></button>
+                                    <button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit"><i class="bi bi-trash"></i></button>
                                 </form>
                             </td>
                         </tr>
                     }
+                    }
+                    @*顯示目前沒有商品*@
                     
                 </tbody>
             </table>

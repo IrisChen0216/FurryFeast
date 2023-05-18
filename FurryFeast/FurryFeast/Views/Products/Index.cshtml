@@ -27,6 +27,11 @@
 			bottom:15px;
 		}
 
+		.form-input{
+			display:inline;
+			width:80%;
+		}
+
 	</style>
 }
 
@@ -117,8 +122,8 @@
 								@*<h6 class="aside-title">搜尋商品</h6>*@
 								<div class="form-wrap">
 									<label class="form-label" for="searchForm">搜尋商品 ...</label>
-									<input class="form-input" id="searchForm" type="text" name="searchForm" autocomplete="on" value="@ViewBag.Filter">
-									<button class="button-search fl-bigmug-line-search74" type="submit"></button>
+									<input class="form-input" id="searchForm" type="text" name="searchForm" autocomplete="on" value="@ViewBag.Filter" style="width:contain">
+									<button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
 								</div>
 							</form>
 						</div>
