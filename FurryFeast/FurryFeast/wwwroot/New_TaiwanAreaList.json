@@ -2,6 +2,8 @@
   {
     "city": "台北市",
     "cityID": "TaipeiCity",
+    "cityLng": 25.09108,
+    "cityLat": 121.5598,
     "county": [
       "中正區",
       "大同區",
@@ -34,6 +36,8 @@
   {
     "city": "基隆市",
     "cityID": "KeelungCity",
+    "cityLng": 25.10898,
+    "cityLat": 121.7081,
     "county": [
       "仁愛區",
       "信義區",
@@ -56,6 +60,8 @@
   {
     "city": "新北市",
     "cityID": "NewTaipei",
+    "cityLng": 24.91571,
+    "cityLat": 121.6739,
     "county": [
       "萬里區",
       "金山區",
@@ -122,6 +128,8 @@
   {
     "city": "連江縣",
     "cityID": "LienchiangCity",
+    "cityLng": 26.19737,
+    "cityLat": 119.5397,
     "county": [
       "南竿鄉",
       "北竿鄉",
@@ -138,6 +146,8 @@
   {
     "city": "宜蘭縣",
     "cityID": "YilanCounty",
+    "cityLng": 24.69295,
+    "cityLat": 121.7195,
     "county": [
       "宜蘭市",
       "頭城鎮",
@@ -170,6 +180,8 @@
   {
     "city": "新竹市",
     "cityID": "HsinchuCity",
+    "cityLng": 24.80395,
+    "cityLat": 120.9647,
     "county": [
       "東區",
       "北區",
@@ -184,6 +196,8 @@
   {
     "city": "新竹縣",
     "cityID": "HsinchuCounty",
+    "cityLng": 24.70328,
+    "cityLat": 121.1252,
     "county": [
       "竹北市",
       "湖口鄉",
@@ -218,6 +232,8 @@
   {
     "city": "桃園市",
     "cityID": "TaoyuanCity",
+    "cityLng": 24.93759,
+    "cityLat": 121.2168,
     "county": [
       "中壢區",
       "平鎮區",
@@ -252,6 +268,8 @@
   {
     "city": "苗栗縣",
     "cityID": "MiaoliCounty",
+    "cityLng": 24.48927,
+    "cityLat": 120.9417,
     "county": [
       "竹南鎮",
       "頭份市",
@@ -296,6 +314,8 @@
   {
     "city": "台中市",
     "cityID": "TaichungCity",
+    "cityLng": 24.23321,
+    "cityLat": 120.9417,
     "county": [
       "中區",
       "東區",
@@ -362,6 +382,8 @@
   {
     "city": "彰化縣",
     "cityID": "ChanghuaCounty",
+    "cityLng": 23.99297,
+    "cityLat": 120.4818,
     "county": [
       "彰化市",
       "芬園鄉",
@@ -422,6 +444,8 @@
   {
     "city": "南投縣",
     "cityID": "NantouCounty",
+    "cityLng": 23.83876,
+    "cityLat": 120.9876,
     "county": [
       "南投市",
       "中寮鄉",
@@ -456,6 +480,8 @@
   {
     "city": "嘉義市",
     "cityID": "ChiayiCity",
+    "cityLng": 23.47545,
+    "cityLat": 120.4473,
     "county": [
       "東區",
       "西區"
@@ -468,6 +494,8 @@
   {
     "city": "嘉義縣",
     "cityID": "ChiayiCounty",
+    "cityLng": 23.45889,
+    "cityLat": 120.574,
     "county": [
       "番路鄉",
       "梅山鄉",
@@ -512,6 +540,8 @@
   {
     "city": "雲林縣",
     "cityID": "YunlinCounty",
+    "cityLng": 120.3897,
+    "cityLat": 23.75585,
     "county": [
       "斗南鎮",
       "大埤鄉",
@@ -560,6 +590,8 @@
   {
     "city": "台南市",
     "cityID": "TainanCity",
+    "cityLng": 23.1417,
+    "cityLat": 120.2513,
     "county": [
       "中西區",
       "東區",
@@ -642,6 +674,8 @@
   {
     "city": "高雄市",
     "cityID": "KaohsiungCity",
+    "cityLng": 23.01087,
+    "cityLat": 120.666,
     "county": [
       "新興區",
       "前金區",
@@ -730,6 +764,8 @@
   {
     "city": "澎湖縣",
     "cityID": "PenghuCounty",
+    "cityLng": 23.56548,
+    "cityLat": 119.6151,
     "county": [
       "馬公市",
       "西嶼鄉",
@@ -751,6 +787,8 @@
   {
     "city": "金門縣",
     "cityID": "KinmenCounty",
+    "cityLng": 24.43679,
+    "cityLat": 118.3186,
     "county": [
       "金沙鎮",
       "金湖鎮",
@@ -771,6 +809,8 @@
   {
     "city": "屏東縣",
     "cityID": "PingtungCounty",
+    "cityLng": 22.54951,
+    "cityLat": 120.62,
     "county": [
       "屏東市",
       "三地門鄉",
@@ -845,6 +885,8 @@
   {
     "city": "台東縣",
     "cityID": "TaitungCounty",
+    "cityLng": 22.98461,
+    "cityLat": 120.9876,
     "county": [
       "臺東市",
       "綠島鄉",
@@ -885,6 +927,8 @@
   {
     "city": "花蓮縣",
     "cityID": "HualienCounty",
+    "cityLng": 23.7569,
+    "cityLat": 121.3542,
     "county": [
       "花蓮市",
       "新城鄉",

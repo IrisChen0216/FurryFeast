@@ -2,11 +2,15 @@
 @{
     ViewData["Title"] = "PetFriendlyMap";
 }
+@section Style
+{
+	<link href="~/css/map/mapstyle.css" rel="stylesheet" />
+}
 
 <div class="index-header">
 	<h2>寵物友善地圖</h2>
 </div>
-<div class="container pb-4 mb-4 border-bottom">
+<div class="container pb-4 mb-4">
 	<div id="form" class="row">
 		<div class="col">
 			<select id="ChooseCity" class="form-select">
@@ -29,10 +33,19 @@
 	</div>
 </div>
 <div class="container">
-	<div class="row" style="height: 500px;">
-		<div id="map" class="col-8 border border-2 p-3" style= "max-width:100%;"></div>
-		<div class="col-4 border border-2 p-3">
-			<h2>1234</h2>
+
+	<div class="row" style="height: 600px;">
+		<div id="map" class="col-7 m-0 p-3 rounded" style="max-width:100%;"></div>
+		<div class="col-5">
+			<div class="index-header m-0">
+			</div>
+			<button type="button" id="btn_StreetView" class="btn btn-danger visually-hidden">觀看街景地圖</button>
+			<div id="InfoBox" class="col">
+			</div>
+			<div id="InfoBoxBody" class="p-3 lh-lg">
+			</div>
+			<button type="button" id="btn_StreetView" class="btn btn-danger visually-hidden">觀看街景地圖</button>
+
 		</div>
 	</div>
 </div>

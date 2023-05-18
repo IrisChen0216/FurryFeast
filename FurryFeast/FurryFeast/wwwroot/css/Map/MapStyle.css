@@ -1,0 +1,22 @@
+.ratings {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    color: #ddd;
+    /*背景星星顏色*/
+    overflow: hidden;
+    font-size: 20px;
+    /*調整字體大小可放大縮小星星*/
+}
+
+.full_star {
+    /* width: 90%; */
+    /*調整寬度可變更星等*/
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #ffd900;
+    /*前景星星顏色*/
+}
