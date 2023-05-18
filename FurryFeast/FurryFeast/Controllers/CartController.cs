@@ -21,9 +21,11 @@ namespace FurryFeast.Controllers
 			Amount = 1,
 			Subtotal = _context.Products.Single(p => p.ProductId == id).ProductPrice
 				};
+		
 
 			if (SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session,"cart")==null)
 			{
+				
 				List <CartItem> cart = new List <CartItem>();
 				cart.Add(cartItem);
 				SessionHelper.SetProductCartSession(HttpContext.Session,"cart",cart);
