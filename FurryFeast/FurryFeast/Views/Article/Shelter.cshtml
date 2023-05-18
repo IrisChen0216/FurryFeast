@@ -1,26 +1,21 @@
-﻿@model List<Pet>
-@using FurryFeast.Models
-@using Microsoft.AspNetCore.Mvc.Routing
-@using Microsoft.AspNetCore.Mvc.ViewFeatures
-@{
-    ViewData["Title"] = "Shelter";
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Make sure to include the above stylesheet in your HTML -->
+
     <style>
         .form-row {
             display: flex;
             align-items: center;
         }
 
-        .form-row label {
-            margin-right: 10px;
-        }
+            .form-row label {
+                margin-right: 10px;
+            }
 
         .pet-container {
             width: 1000px;
@@ -50,13 +45,13 @@
             padding: 10px 20px;
             display: inline-block;
             text-align: center;
-            border-radius: 6px; /* 设置圆角 */
+            border-radius: 6px;
         }
 
-        .search-button:hover {
-            background-color: black;
-            color: white;
-        }
+            .search-button:hover {
+                background-color: black;
+                color: white;
+            }
 
         .custom-select {
             margin-right: 3px;
@@ -77,11 +72,65 @@
             }
 
         .row:first-child .card-new {
-            margin-top: 40px; /* 添加第一行卡片的顶部间距 */
+            margin-top: 40px;
         }
+
+        /* Dropdown styles */
+        .custom-select select {
+            border: none;
+            background-color: transparent;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-weight: normal;
+        }
+
+        .custom-select option {
+            background-color: white;
+            color: black;
+        }
+
+            .custom-select option:hover {
+                background-color: #ffd33b;
+                color: white;
+            }
+
+        .custom-select:focus {
+            background-color: #ffd33b;
+            color: #000;
+        }
+
+        .custom-select::after {
+            content: "\f078";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #ffd33b;
+            font-size: 1rem;
+        }
+
+        .custom-select select option {
+            background-color: #fff;
+            color: #000;
+        }
+
+            .custom-select select option:hover {
+                background-color: #ffd33b;
+                color: #fff;
+            }
+
+            .custom-select select option:checked {
+                background-color: #ffd33b;
+                color: #fff;
+            }
     </style>
 </head>
-
 <body>
     <div class="index-header">
         <h2>全台收容所資訊</h2>
@@ -96,39 +145,57 @@
                             <option value="">種類</option>
                             @foreach (var kind in ViewData["AnimalKinds"] as List<string>)
                             {
-                                <option value="@kind">@kind</option>
+                                <option value="@kind" style="background-color: white; color: black;">@kind</option>
                             }
                         </select>
                     </div>
 
-                    <input type="text" id="animal_Variety" name="animal_Variety" placeholder="請輸入品種" class="form-control" />
+                    <div class="custom-select">
+                        <select id="animal_Variety" name="animal_Variety" class="form-control custom-select">
+                            <option value="">品種</option>
+                            @foreach (var variety in ViewData["AnimalVarieties"] as List<string>)
+                            {
+                                <option value="@variety" style="background-color: white; color: black;">@variety</option>
+                            }
+                        </select>
+                    </div>
 
                     <div class="custom-select">
                         <select id="shelter_name" name="shelter_name" class="form-control custom-select">
                             <option value="">收容所</option>
                             @foreach (var shelter in ViewData["ShelterNames"] as List<string>)
                             {
-                                <option value="@shelter">@shelter</option>
-                            }
-                        </select>
-                    </div>
-                                        <div class="custom-select">
-                        <select id="animal_sex" name="animal_sex" class="form-control custom-select">
-                            <option value="">性別</option>
-                            @foreach (var sex in ViewData["AnimalSexes"] as List<string>)
-                            {
-                                <option value="@sex">@sex</option>
+                                <option value="@shelter" style="background-color: white; color: black;">@shelter</option>
                             }
                         </select>
                     </div>
 
-                    <input type="text" id="animal_colour" name="animal_colour" placeholder="請輸入毛色" class="form-control" />
+                    <div class="custom-select">
+                        <select id="animal_sex" name="animal_sex" class="form-control custom-select">
+                            <option value="">性別</option>
+                            @foreach (var sex in ViewData["AnimalSexes"] as List<string>)
+                            {
+                                <option value="@sex" style="background-color: white; color: black;">@sex</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="custom-select">
+                        <select id="animal_colour" name="animal_colour" class="form-control custom-select">
+                            <option value="">毛色</option>
+                            @foreach (var colour in ViewData["AnimalColours"] as List<string>)
+                            {
+                                <option value="@colour" style="background-color: white; color: black;">@colour</option>
+                            }
+                        </select>
+                    </div>
+
                     <div class="custom-select">
                         <select id="animal_age" name="animal_age" class="form-control custom-select">
                             <option value="">年齡</option>
                             @foreach (var age in ViewData["AnimalAges"] as List<string>)
                             {
-                                <option value="@age">@age</option>
+                                <option value="@age" style="background-color: white; color: black;">@age</option>
                             }
                         </select>
                     </div>
@@ -139,8 +206,8 @@
         </form>
     </div>
 
-<div class="container">
-    <div class="row">
+    <div class="container">
+        <div class="row">
             @foreach (var pet in Model)
             {
                 <div class="col-lg-4 col-md-4 col-6 mb-4">
@@ -157,13 +224,8 @@
                     </div>
                 </div>
             }
-
-
-
+        </div>
     </div>
-</div>
-
-
 
     @if (ViewBag.PageCount > 1)
     {
@@ -225,5 +287,3 @@
     </script>
 </body>
 </html>
-
-                   
