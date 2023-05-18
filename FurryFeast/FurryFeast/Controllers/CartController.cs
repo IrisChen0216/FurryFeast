@@ -1,10 +1,11 @@
 ﻿using FurryFeast.Helper;
 using FurryFeast.Models;
+using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FurryFeast.Controllers
 {
-	public class CartController : Controller
+    public class CartController : Controller
 	{
 		private readonly db_a989fb_furryfeastContext _context;
 
@@ -15,28 +16,29 @@ namespace FurryFeast.Controllers
 
 		public async Task<IActionResult> CartAdd(int? id)
 		{
-			CartItem cartItem = new CartItem {
-			ProductID = _context.Products.Single(p => p.ProductId == id).ProductId,
-			ProductName = _context.Products.Single(p=>p.ProductId == id).ProductName,
-			Amount = 1,
-			Subtotal = _context.Products.Single(p => p.ProductId == id).ProductPrice
-				};
+			CartViewModel cartItem = new CartViewModel {
+				ProductID = _context.Products.Single(p => p.ProductId == id).ProductId,
+				ProductName = _context.Products.Single(p => p.ProductId == id).ProductName,
+				Amount = 1,
+				Price = _context.Products.Single(p => p.ProductId == id).ProductPrice,
+				Subtotal = _context.Products.Single(p => p.ProductId == id).ProductPrice,
+            };
 		
 
-			if (SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session,"cart")==null)
+			if (SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session,"cart")==null)
 			{
 				
-				List <CartItem> cart = new List <CartItem>();
+				List <CartViewModel> cart = new List <CartViewModel>();
 				cart.Add(cartItem);
 				SessionHelper.SetProductCartSession(HttpContext.Session,"cart",cart);
 			}
 			else
 			{
-				List<CartItem> cart = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
+				List<CartViewModel> cart = SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session, "cart");
 				int productIndex = cart.FindIndex(p=>p.ProductID==id);
 				if (productIndex >= 0)
 				{
-					cart[productIndex].Amount += 1;
+					cart[productIndex].Amount += cartItem.Amount;
 					cart[productIndex].Subtotal += cartItem.Subtotal;
 				}
 				else
@@ -48,5 +50,24 @@ namespace FurryFeast.Controllers
 			
 			return NoContent();
 		}
-	}
+
+        public async Task<IActionResult> Remove(int? id)
+		{
+            List<CartViewModel> cart = SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session, "cart");
+
+			int productIndex = cart.FindIndex(c => c.ProductID == id);
+			cart.RemoveAt(productIndex);
+
+			if(cart.Count <= 0)
+			{
+				SessionHelper.RemoveProductCartSession(HttpContext.Session,"cart");				
+			}
+			else
+			{
+                SessionHelper.SetProductCartSession(HttpContext.Session, "cart", cart);
+            }
+			return RedirectToAction("ProductCart","Products");
+        }
+
+    }
 }

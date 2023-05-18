@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
     @await RenderSectionAsync("Style", required: false)
-
+    
 </head>
 <body>
 
@@ -117,9 +117,12 @@
 
             <!-- navbar-login -->
             <nav class="p-1">
-                <button id="btn" class="btn btn-dark"><i class="bi bi-person-circle" ></i></button>
-                
-                <button id="btn" class="btn btn-dark"><a asp-controller="Products" asp-action="ProductCart"></a><i class="bi bi-cart"></i></button>
+                <form id="Login" name="login" asp-controller="控制器" asp-action="登入方法" method="post">
+                <button class="btn btn-dark"><i class="bi bi-person-circle" ></i></button>
+                </form>
+                <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCart" method="post">
+                    <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
+                </form>
             </nav>
 
         </div>
@@ -174,6 +177,14 @@
 	<script src="~/js/navbar.js"></script>
     <script src="~/js/swiper.js"></script>
     <script src="~/js/bootstrap.bundle.js"></script>
+    <script>
+        document.getElementById('Login').addEventListener('submit', function () {
+            window.location.href=this.action;
+        })
+        document.getElementById('Cart').addEventListener('submit', function () {
+            window.location.href = this.action;
+        })
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
 using X.PagedList;
 using FurryFeast.Helper;
+using FurryFeast.ViewModels;
 
 namespace FurryFeast.Controllers
 {
@@ -92,7 +93,16 @@ namespace FurryFeast.Controllers
 
         public async Task<IActionResult> ProductCart(int? id)
         {
-            List<CartItem> cartItems = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session,"cart");
+            List<CartViewModel> cartItems = SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session,"cart");
+
+            if (cartItems != null)
+            {
+                ViewBag.Total = cartItems.Sum(s=>s.Subtotal);
+                
+            }
+            else { 
+                ViewBag.Total = 0; 
+            }
 
             return View(cartItems);
         }
