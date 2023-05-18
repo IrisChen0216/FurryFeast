@@ -197,12 +197,14 @@ function OutputInfo() {
     let RatingBox = $("<div></div>").addClass("text-center");
     $(RatingBox).appendTo("#InfoBox");
 
-    $('<p class="px-2 py-0 m-0 fs-1 fw-bold">' + ClickMarkerDetail.Rating + '</p>' +
-        '<div class="ratings">' +
-        '<div class="empty_star">★★★★★</div>' +
-        '<div class="full_star" style="width:' + StarNum + '%">★★★★★</div> ' +
-        '<p style="font-size:12px; color:#adadad;">' + ClickMarkerDetail.User_ratings_total + '人評分</p>' +
-        '</div>').appendTo("#InfoBox > :first-child");
+    let strHTML = `<p class="px-2 py-0 m-0 fs-1 fw-bold">${ClickMarkerDetail.Rating}</p>
+                    <div class="ratings">
+                        <div class="empty_star">★★★★★</div>
+                        <div class="full_star" style="width:${StarNum}%">★★★★★</div>
+                        <p style="font-size:12px; color:#adadad;">${ClickMarkerDetail.User_ratings_total}人評分</p>
+                    </div>`;
+
+        $("#InfoBox > :first-child").append(strHTML);
 
     $(".index-header.m-0").append('<h4 class="index-header py-4">' + ClickMarkerDetail.Name + '</h4>');
     $("#InfoBoxBody").append('<div class="fs-6"><i class="bi bi-telephone-fill"></i><a href="tel:' + ClickMarkerDetail.PhoneNumber + '">' + ClickMarkerDetail.PhoneNumber + '</a></div>');
