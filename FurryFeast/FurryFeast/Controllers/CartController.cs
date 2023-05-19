@@ -14,12 +14,13 @@ namespace FurryFeast.Controllers
 			_context = context;
 		}
 
-		public async Task<IActionResult> CartAdd(int? id)
+		public async Task<IActionResult> CartAdd(int? id ,int amount)
 		{
+			int finalAnount = amount == 0 ? 1 : amount;
 			CartViewModel cartItem = new CartViewModel {
 				ProductID = _context.Products.Single(p => p.ProductId == id).ProductId,
 				ProductName = _context.Products.Single(p => p.ProductId == id).ProductName,
-				Amount = 1,
+				Amount = finalAnount,
 				Price = _context.Products.Single(p => p.ProductId == id).ProductPrice,
 				Subtotal = _context.Products.Single(p => p.ProductId == id).ProductPrice,
             };

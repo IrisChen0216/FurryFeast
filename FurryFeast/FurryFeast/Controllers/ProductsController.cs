@@ -31,13 +31,13 @@ namespace FurryFeast.Controllers
 
             ViewBag.NewProducts = sortProducts == "LaunchDate_Desc" ? "LaunchDate_Asc" : "LaunchDate_Desc";
             ViewBag.ProductsPrice = sortProducts == "ProductPrice_Asc" ? "ProductPrice_Desc" : "ProductPrice_Asc";
-			
-			//if (string.IsNullOrEmpty(searchForm))
-			//{
-			//    searchForm = file;
-			//}
-			
-			if (!string.IsNullOrEmpty(searchForm))
+            
+            //if (string.IsNullOrEmpty(searchForm))
+            //{
+            //    searchForm = file;
+            //}
+
+            if (!string.IsNullOrEmpty(searchForm))
             {
                 products = _context.Products.Where(n => n.ProductName.Contains(searchForm));
                 return View(products.ToPagedList());
