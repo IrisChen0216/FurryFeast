@@ -29,7 +29,8 @@ namespace FurryFeast.Controllers
 
         public IActionResult News()
         {
-            return View();
+            var articles = _furryFeastContext.Articles.ToList();
+            return View(articles);
         }
 
         public IActionResult Donates()
@@ -38,10 +39,24 @@ namespace FurryFeast.Controllers
             return View(donate);
         }
 
-        public async Task<IActionResult> Shelter(int? page)
+        public async Task<IActionResult> Shelter(
+    int? page,
+    string? animal_kind,
+    string? animal_Variety,
+    string? shelter_name,
+    string? animal_sex,
+    string? animal_colour,
+    string? animal_age)
         {
             var jsonString = await client.GetStringAsync("https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL");
             var pets = JsonConvert.DeserializeObject<List<Pet>>(jsonString);
+
+            // 在这里过滤数据
+            if (!string.IsNullOrEmpty(animal_kind))
+            {
+                pets = pets.Where(p => p.animal_kind == animal_kind).ToList();
+            }
+            // 重复以上的过滤步骤，对其他的查询参数进行同样的处理
 
             ViewData["AnimalKinds"] = pets.Select(p => p.animal_kind).Distinct().ToList();
             ViewData["AnimalVarieties"] = pets.Select(p => p.animal_Variety).Distinct().ToList();
@@ -49,6 +64,10 @@ namespace FurryFeast.Controllers
             ViewData["AnimalSexes"] = pets.Select(p => p.animal_sex).Distinct().ToList();
             ViewData["AnimalColours"] = pets.Select(p => p.animal_colour).Distinct().ToList();
             ViewData["AnimalAges"] = pets.Select(p => p.animal_age).Distinct().ToList();
+            if (!string.IsNullOrEmpty(shelter_name))
+            {
+                pets = pets.Where(p => p.shelter_name.ToLower() == shelter_name.ToLower()).ToList();
+            }
 
             var pageSize = 12;
             var totalItemCount = pets.Count;
@@ -77,6 +96,8 @@ namespace FurryFeast.Controllers
         {
             return View();
         }
+
+        // ArticleController.cs
 
         public async Task<IActionResult> Lostpets(int? page, string petType, string gender, string breed, string color, DateTime? lostTime, string lostLocation)
         {
@@ -139,6 +160,7 @@ namespace FurryFeast.Controllers
             return View(petsPaged);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> LoadLostPets(string petType, string gender, string breed, string color, DateTime? lostTime, string lostLocation)
         {
@@ -182,4 +204,5 @@ namespace FurryFeast.Controllers
         }
     }
 }
+    
    

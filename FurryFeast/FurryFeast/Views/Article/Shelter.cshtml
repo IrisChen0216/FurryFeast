@@ -1,85 +1,28 @@
-﻿@model List<Pet>
-@using FurryFeast.Models
-@using Microsoft.AspNetCore.Mvc.Routing
-@using Microsoft.AspNetCore.Mvc.ViewFeatures
-@{
-    ViewData["Title"] = "Shelter";
-}
-
-<!DOCTYPE html>
+﻿@*<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width" />*@
     <title>@ViewData["Title"]</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+
     <style>
-        .form-row {
-            display: flex;
-            align-items: center;
-        }
-
-        .form-row label {
-            margin-right: 10px;
-        }
-
-        .pet-container {
-            width: 1000px;
-            margin: 0 auto;
-        }
-
-        .pet-item {
-            width: 33.33%;
-            text-align: center;
-            padding: 10px;
-            float: left;
-            overflow: hidden;
-        }
-
-        .pet-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .search-button {
-            border: 1px solid #ffd33b;
-            background-color: #ffd33b;
-            color: white;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            text-decoration: none;
-            padding: 10px 20px;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .search-button:hover {
-            background-color: black;
-            color: white;
-        }
-
-        .custom-select {
-            margin-right: 3px;
-        }
-
-        .form-control.custom-select {
-            width: 100px;
-        }
-
         .card-new {
-            background: white;
-            box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s; /* 添加过渡效果 */
         }
 
             .card-new:hover {
-                transform: scale(1.05);
+                transform: scale(1.05); /* 悬停时微微放大 */
             }
-
-        .row:first-child .card-new {
-            margin-top: 40px; /* 添加第一行卡片的顶部间距 */
-        }
     </style>
-</head>
+@*</head>*@
+
+@section Style{
+    <link rel="icon" href="images/favicon.ico" type="~/image/x-icon">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+}
 
 <body>
     <div class="index-header">
@@ -87,59 +30,50 @@
     </div>
 
     <div style="text-align: center;">
-        <form id="filterForm" method="get" action="/Article/Shelter">
-            <div class="form-container">
-                <div class="form-row" style="display: inline-flex; align-items: center; gap: 3px;">
-                    <div class="custom-select">
-                        <select id="animal_kind" name="animal_kind" class="form-control custom-select">
-                            <option value="">種類</option>
-                            @foreach (var kind in ViewData["AnimalKinds"] as List<string>)
-                            {
-                                <option value="@kind">@kind</option>
-                            }
-                        </select>
-                    </div>
+        <div class="group-sm group-middle">
+            <div class="product-top-panel-sorting">
+                <select id="select-category" data-minimum-results-for-search="Infinity">
+                    <option value="">種類</option>
+                    <option value="狗">狗</option>
+                    <option value="貓">貓</option>
+                    <option value="其他">其他</option>
 
-                    <input type="text" id="animal_Variety" name="animal_Variety" placeholder="請輸入品種" class="form-control" />
 
-                    <div class="custom-select">
-                        <select id="shelter_name" name="shelter_name" class="form-control custom-select">
-                            <option value="">收容所</option>
-                            @foreach (var shelter in ViewData["ShelterNames"] as List<string>)
-                            {
-                                <option value="@shelter">@shelter</option>
-                            }
-                        </select>
-                    </div>
-                                        <div class="custom-select">
-                        <select id="animal_sex" name="animal_sex" class="form-control custom-select">
-                            <option value="">性別</option>
-                            @foreach (var sex in ViewData["AnimalSexes"] as List<string>)
-                            {
-                                <option value="@sex">@sex</option>
-                            }
-                        </select>
-                    </div>
-
-                    <input type="text" id="animal_colour" name="animal_colour" placeholder="請輸入毛色" class="form-control" />
-                    <div class="custom-select">
-                        <select id="animal_age" name="animal_age" class="form-control custom-select">
-                            <option value="">年齡</option>
-                            @foreach (var age in ViewData["AnimalAges"] as List<string>)
-                            {
-                                <option value="@age">@age</option>
-                            }
-                        </select>
-                    </div>
-
-                    <input type="submit" class="search-button btn btn-primary" value="搜尋">
-                </div>
+                </select>
             </div>
-        </form>
+            <div class="product-top-panel-sorting">
+                <select id="select-variety" data-minimum-results-for-search="Infinity">
+                    <option value="">品種</option>
+                </select>
+            </div>
+            <div class="product-top-panel-sorting">
+                <select id="select-shelter" data-minimum-results-for-search="Infinity">
+                    <option value="">收容所</option>
+                </select>
+            </div>
+            <div class="product-top-panel-sorting">
+                <select id="select-gender" data-minimum-results-for-search="Infinity">
+                    <option value="">性別</option>
+                </select>
+            </div>
+            <div class="product-top-panel-sorting">
+                <select id="select-color" data-minimum-results-for-search="Infinity">
+                    <option value="">毛色</option>
+                </select>
+            </div>
+            <div class="product-top-panel-sorting">
+                <select id="select-age" data-minimum-results-for-search="Infinity">
+                    <option value="">年齡</option>
+                </select>
+            </div>
+            <input type="submit" class="search-button btn btn-primary" id="search" value="搜尋">
+        </div>
     </div>
 
-<div class="container">
-    <div class="row">
+
+
+    <div class="container">
+        <div class="row">
             @foreach (var pet in Model)
             {
                 <div class="col-lg-4 col-md-4 col-6 mb-4">
@@ -156,13 +90,8 @@
                     </div>
                 </div>
             }
-
-
-
+        </div>
     </div>
-</div>
-
-
 
     @if (ViewBag.PageCount > 1)
     {
@@ -198,31 +127,71 @@
             </ul>
         </nav>
     }
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // 等待文档加载完成
-        document.addEventListener('DOMContentLoaded', function () {
-            // 获取所有卡片元素
-            var cards = document.querySelectorAll('.card-new');
 
-            // 遍历每个卡片
-            cards.forEach(function (card) {
-                // 为每个卡片添加点击事件监听器
-                card.addEventListener('click', function () {
-                    // 获取卡片的ID
-                    var cardId = card.id;
 
-                    // 执行所需的操作，例如重定向到新页面或显示更多信息
-                    // 您可以根据需要自定义此部分
-                    console.log('点击的卡片ID：' + cardId);
 
-                    // 示例：重定向到新页面
-                    window.location.href = '/details/' + cardId;
+    @section Scripts {
+		<script src="~/js/product/core.min.js"></script>
+		<script src="~/js/product/script.js"></script>
+        <script>
+            // 等待文档加载完成
+            document.addEventListener('DOMContentLoaded', function () {
+                // 获取所有卡片元素
+                var cards = document.querySelectorAll('.card-new');
+
+                // 遍历每个卡片
+                cards.forEach(function (card) {
+                    // 为每个卡片添加点击事件监听器
+                    card.addEventListener('click', function () {
+                        // 获取卡片的ID
+                        var cardId = card.id;
+
+                        // 执行所需的操作，例如重定向到新页面或显示更多信息
+                        // 您可以根据需要自定义此部分
+                        console.log('点击的卡片ID：' + cardId);
+
+                        // 示例：重定向到新页面
+                        window.location.href = '/details/' + cardId;
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var cards = document.querySelectorAll('.card-new');
+
+                            cards.forEach(function (card) {
+                                card.addEventListener('click', function () {
+                                    var cardId = card.id;
+                                    console.log('点击的卡片ID：' + cardId);
+                                    window.location.href = '/details/' + cardId;
+                                });
+                            });
+                        });
+                    });
                 });
             });
-        });
-    </script>
+
+            $(function () {
+                $("#search").bind("click", Search);
+
+                function Search() {
+                    //alert("sss");
+
+                    let animal_kind = $("#select-category").val();
+                    console.log(animal_kind)
+
+                    let url = `https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&animal_kind=${animal_kind}`;
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        dataType: "json"
+                    }).done(data => {
+                        console.log(data);
+                    }).fail(error => {
+                        alert(`${err.statusCode}: ${err.stutsText}`);
+                    });
+                }
+            });
+
+        </script>
+    }
+
 </body>
 </html>
-
-                   
