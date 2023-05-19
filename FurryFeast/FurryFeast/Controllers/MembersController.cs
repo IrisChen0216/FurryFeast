@@ -200,9 +200,9 @@ namespace FurryFeast.Controllers
                 ViewBag.Error = "帳號密碼錯誤!";
                 return View("Login");
             }
-
+            //return Ok(model.MemberAccount + model.MemberPassord);
             var Claims = new Claim(ClaimTypes.Name, Member.MemberName);
-            var ClaimIndentity = new ClaimsIdentity((IEnumerable<Claim>?)Claims,CookieAuthenticationDefaults.AuthenticationScheme);
+            var ClaimIndentity = new ClaimsIdentity((IEnumerable<Claim>?)Claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
             await HttpContext.SignInAsync(ClaimPrincipal);
             return RedirectToAction("Index", "Members");
