@@ -11,5 +11,6 @@ namespace FurryFeast.Data
         {
         }
         public DbSet<Donate> Donates { get; set; }
+        public DbSet<Article> Articles { get; set; }
     }
 }
