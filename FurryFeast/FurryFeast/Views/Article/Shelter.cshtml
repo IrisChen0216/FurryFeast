@@ -1,21 +1,15 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewData["Title"]</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+﻿<head>
 
-    <style>
-        .card-new {
-            transition: transform 0.3s; /* 添加过渡效果 */
-        }
 
-            .card-new:hover {
-                transform: scale(1.05); /* 悬停时微微放大 */
-            }
-    </style>
+    @section Style{
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/fonts.css">
+        <link rel="stylesheet" href="css/style.css">
+    }
 </head>
+
 <body>
     <div class="index-header">
         <h2>全台收容所資訊</h2>
@@ -24,143 +18,65 @@
     <div style="text-align: center;">
         <div class="group-sm group-middle">
             <div class="product-top-panel-sorting">
-                <select id="select-category" data-minimum-results-for-search="Infinity">
+                <select data-minimum-results-for-search="Infinity">
                     <option value="">種類</option>
                     <option value="狗">狗</option>
                     <option value="貓">貓</option>
                     <option value="其他">其他</option>
-                    
-
                 </select>
             </div>
             <div class="product-top-panel-sorting">
-                <select id="select-variety" data-minimum-results-for-search="Infinity">
+                <select data-minimum-results-for-search="Infinity">
                     <option value="">品種</option>
+                    <option value="柴犬">柴犬</option>
+                    <option value="金毛">金毛</option>
+                    <option value="波斯貓">波斯貓</option>
+                    <option value="英國短毛貓">英國短毛貓</option>
                 </select>
             </div>
             <div class="product-top-panel-sorting">
-                <select id="select-shelter" data-minimum-results-for-search="Infinity">
+                <select data-minimum-results-for-search="Infinity">
                     <option value="">收容所</option>
+                    <option value="收容所1">收容所1</option>
+                    <option value="收容所2">收容所2</option>
+                    <option value="收容所3">收容所3</option>
                 </select>
             </div>
             <div class="product-top-panel-sorting">
-                <select id="select-gender" data-minimum-results-for-search="Infinity">
+                <select data-minimum-results-for-search="Infinity">
                     <option value="">性別</option>
+                    <option value="公">公</option>
+                    <option value="母">母</option>
                 </select>
             </div>
             <div class="product-top-panel-sorting">
-                <select id="select-color" data-minimum-results-for-search="Infinity">
+                <select data-minimum-results-for-search="Infinity">
                     <option value="">毛色</option>
+                    <option value="黑色">黑色</option>
+                    <option value="白色">白色</option>
+                    <option value="棕色">棕色</option>
+                    <option value="灰色">灰色</option>
                 </select>
             </div>
             <div class="product-top-panel-sorting">
-                <select id="select-age" data-minimum-results-for-search="Infinity">
+                <select data-minimum-results-for-search="Infinity">
                     <option value="">年齡</option>
+                    <option value="幼年">幼年</option>
+                    <option value="成年">成年</option>
+                    <option value="老年">老年</option>
                 </select>
             </div>
-            <input type="submit" class="search-button btn btn-primary" id="search" value="搜尋">
         </div>
+        <input type="submit" class="search-button btn btn-primary" id="search" value="搜尋">
     </div>
-            
- 
-
-    <div class="container">
-        <div class="row">
-            @foreach (var pet in Model)
-            {
-                <div class="col-lg-4 col-md-4 col-6 mb-4">
-                    <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                        <div class="square-img-container">
-                            <img src="@pet.ImageUrl" alt="宠物图片">
-                        </div>
-                        <div class="card-body-new">
-                            <p class="card-title">@pet.animal_kind</p>
-                            <p class="card-text">@pet.animal_Variety</p>
-                            <p class="card-text">@pet.shelter_name</p>
-                            <!-- 其他宠物信息的显示 -->
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-
-    @if (ViewBag.PageCount > 1)
-    {
-        <div style="clear:both;"></div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
-                    <a class="page-link" href="/Article/Shelter?page=@(Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 1))">&lt;&lt;</a>
-                </li>
-                <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
-                    <a class="page-link" href="/Article/Shelter?page=@(Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 1))">Previous</a>
-                </li>
-
-                @for (var i = Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 5); i <= Math.Min(Convert.ToInt32(ViewBag.PageCount), Convert.ToInt32(ViewBag.PageNumber) + 5); i++)
-                {
-                    <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
-                        <a class="page-link" href="/Article/Shelter?page=@i">@i</a>
-                    </li>
-                    @if (i == Math.Min(Convert.ToInt32(ViewBag.PageCount), Convert.ToInt32(ViewBag.PageNumber) + 5) && i < Convert.ToInt32(ViewBag.PageCount))
-                    {
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">...</a>
-                        </li>
-                    }
-                }
-
-                <li class="page-item @(ViewBag.PageNumber == ViewBag.PageCount ? "disabled" : "")">
-                    <a class="page-link" href="/Article/Shelter?page=@(Math.Min(Convert.ToInt32(ViewBag.PageNumber) + 1, Convert.ToInt32(ViewBag.PageCount)))">Next</a>
-                </li>
-                <li class="page-item @(ViewBag.PageNumber == ViewBag.PageCount ? "disabled" : "")">
-                    <a class="page-link" href="/Article/Shelter?page=@ViewBag.PageCount">>></a>
-                </li>
-            </ul>
-        </nav>
-    }
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // 等待文档加载完成
-        document.addEventListener('DOMContentLoaded', function () {
-            // 获取所有卡片元素
-            var cards = document.querySelectorAll('.card-new');
-
-            // 遍历每个卡片
-            cards.forEach(function (card) {
-                // 为每个卡片添加点击事件监听器
-                card.addEventListener('click', function () {
-                    // 获取卡片的ID
-                    var cardId = card.id;
-
-                    // 执行所需的操作，例如重定向到新页面或显示更多信息
-                    // 您可以根据需要自定义此部分
-                    console.log('点击的卡片ID：' + cardId);
-
-                    // 示例：重定向到新页面
-                    window.location.href = '/details/' + cardId;
-                    document.addEventListener('DOMContentLoaded', function () {
-                        var cards = document.querySelectorAll('.card-new');
-
-                        cards.forEach(function (card) {
-                            card.addEventListener('click', function () {
-                                var cardId = card.id;
-                                console.log('点击的卡片ID：' + cardId);
-                                window.location.href = '/details/' + cardId;
-                            });
-                        });
-                    });
-                });
-            });
-        });
-        $(function({
-            $("#search").bind("click", Search());
-        
-            function Search(){
-                alert("sss")
-            }
-        }))
-
-    </script>
 </body>
-</html>
+
+@section Scripts{
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+     $("#search").bind("click", Search());
+
+        function Search() {
+            alert("sss")
+        }
+}
