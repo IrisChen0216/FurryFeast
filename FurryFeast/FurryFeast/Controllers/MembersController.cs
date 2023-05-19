@@ -187,7 +187,7 @@ namespace FurryFeast.Controllers
         {
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
 
@@ -205,7 +205,7 @@ namespace FurryFeast.Controllers
             var ClaimIndentity = new ClaimsIdentity((IEnumerable<Claim>?)Claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
             await HttpContext.SignInAsync(ClaimPrincipal);
-            return RedirectToAction("Index", "Members");
+            return RedirectToAction("Index", "Home");
         }
 
 

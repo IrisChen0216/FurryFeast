@@ -1,46 +1,57 @@
-﻿
-@{
-    ViewData["Title"] = "Login";
+﻿@{
+	ViewData["Title"] = "Login";
+	if (ViewBag.Error != "")
+	{
+		<h1>@ViewBag.Error</h1>
+	}
 }
+
+
 
 @section Style{
 	<link href="~/css/login.css" rel="stylesheet" />
 }
 <h3>會員登入</h3>
+<form action="/Members/Login" method="post">
 <div class="Login">
-<div>
-    <label>帳號</label>
-    <input class="form-input form-control-has-validation" placeholder="請輸入帳號" id="contact-first-name-2" type="email" name="name" data-constraints="Required">
-</div>
-<div>
-    <label>密碼</label>
-    <input class="form-input form-control-has-validation" placeholder="請輸入密碼" id="contact-first-name-2" type="password" name="name" data-constraints="Required">
-</div>
-<div class="btn container-fluid">
-    <div class="row">
-        <div class="col">
-                <button class="button button-lg button-primary button-zakaria" type="submit" asp-action="Register">註冊</button>
-        </div>
-        <div class="col">
-                <button class="button button-lg button-primary button-zakaria" type="submit">登入</button>
-        </div>
+	
+		<div>
+			<label>帳號</label>
+			<input class="form-input form-control-has-validation" placeholder="請輸入帳號" id="contact-first-name-2" type="email" name="account" data-constraints="Required">
+		</div>
+		<div>
+			<label>密碼</label>
+			<input class="form-input form-control-has-validation" placeholder="請輸入密碼" id="contact-first-name-2" type="password" name="password" data-constraints="Required">
+		</div>
+		<div class="btn container-fluid">
+			<div class="row">
+				<div class="col">
+					<button class="button button-lg button-primary button-zakaria" type="submit" asp-action="Register">註冊</button>
+				</div>
+				<div class="col">
 
-    </div>
-    
+					<button class="button button-lg button-primary button-zakaria" type="submit">登入</button>
+
+
+				</div>
+
+			</div>
+		</div>
+	
 </div>
+</form>
 <hr />
 <div class="btn container-fluid">
-    <div class="row">
-        <div class="col">
-            <button class="button button-lg button-primary button-zakaria" type="submit">忘記密碼</button>
-        </div>
-        <div class="col">
-            <button class="button button-lg button-primary button-zakaria" type="submit">GOOGLE登入</button>
-        </div>
-        
-    </div>
-    
-</div>
+	<div class="row">
+		<div class="col">
+			<button class="button button-lg button-primary button-zakaria" type="submit">忘記密碼</button>
+		</div>
+		<div class="col">
+			<button class="button button-lg button-primary button-zakaria" type="submit">GOOGLE登入</button>
+		</div>
+
+	</div>
 
 </div>
+
 
