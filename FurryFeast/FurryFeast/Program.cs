@@ -1,5 +1,6 @@
 using FurryFeast.Data;
 using FurryFeast.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
@@ -12,7 +13,7 @@ namespace FurryFeast
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Add services to the DI container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -22,6 +23,15 @@ namespace FurryFeast
 
             builder.Services.AddDbContext<db_a989fb_furryfeastContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(FurryFeastDbConnectionString));
+
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
+                AddCookie(opt =>
+                {
+                    opt.LoginPath = "/Members/Index";
+                    opt.AccessDeniedPath = "/Home/AcessDenied";
+                    opt.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                });
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

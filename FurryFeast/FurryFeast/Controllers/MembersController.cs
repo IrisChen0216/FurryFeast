@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
+using FurryFeast.ViewModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace FurryFeast.Controllers
 {
@@ -179,12 +183,38 @@ namespace FurryFeast.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+
+        { 
+            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == model.MemberAccount
+            && x.MemberPassord == model.MemberPassord);
+
+            if (Member == null)
+            {
+                ViewBag.Error = "帳號密碼錯誤!";
+                return View("Login");
+            }
+            //return Ok(model.MemberAccount + model.MemberPassord);
+            var Claims = new Claim(ClaimTypes.Name, Member.MemberName);
+            var ClaimIndentity = new ClaimsIdentity((IEnumerable<Claim>?)Claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
+            await HttpContext.SignInAsync(ClaimPrincipal);
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        public async Task<IActionResult> UpdateMemberData()
         {
             return View();
         }
 
-        public async Task<IActionResult> UpdateMemberData()
+        public async Task<IActionResult> ForgetPassord()
         {
             return View();
         }
@@ -193,4 +223,6 @@ namespace FurryFeast.Controllers
           return (_context.Members?.Any(e => e.MemberId == id)).GetValueOrDefault();
         }
     }
+
+	
 }

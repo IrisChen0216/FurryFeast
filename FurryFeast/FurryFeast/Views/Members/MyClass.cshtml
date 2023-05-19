@@ -4,11 +4,12 @@
     ViewData["Title"] = "MyClass";
 }
 
-<h1>我的課程</h1>
-
+<h3 class="index-header">我的課程</h3>
+<hr />
 <div class="container-fluid">
     <div class="row">
-         <div class="title col-4" >
+         <div class="col-4" >
+             <div>
                 <a asp-action="Index">個人資料</a>
             </div>
             <div>
@@ -19,11 +20,21 @@
             </div>
             <div>
                 <a asp-action="Myconpon">我的優惠券</a>
-          </div>
+            </div>
+            </div>
           <div class="content col-8">
-                <span>
+            <table>
+            <tr>
+                <th>課程代碼</th>
+                <th>課程名稱</th>
+                <th>課程價格</th>
+                <th>課程日期</th>
+                <th>課程資訊</th>
+            </tr>
+            </table>
+           @*<span>
                     課程代碼
-                </span>
+           </span>
                 <span>
                     課程名稱
                 </span>
@@ -35,7 +46,7 @@
                 </span>
                 <span>
                     課程資訊
-                </span>
+                </span>*@
           </div>
     </div>
 

@@ -2,44 +2,50 @@
 @{
     ViewData["Title"] = "UpdateMemberData";
 }
-
-<h1>修改個人資料</h1>
+@section Style{
+	<link href="~/css/button.css" rel="stylesheet" />
+}
+<h2>修改個人資料</h2>
 
 <div>
     <label>姓名</label>
-    <input name="UpdateName" value="" required />
+    <input name="UpdateName" value="" />
 </div>
 <div>
     <label>性別</label>
-    <input type="radio" name="UpdateGender" required />
+    <input type="radio" name="UpdateGender"  />
     <label>男</label>
-    <input type="radio" name="UpdateGender" required />
+    <input type="radio" name="UpdateGender"  />
     <label>女</label>
 </div>
 <div>
     <label>生日</label>
-    <input type="date" name="UpdateBirth" required />
+    <input type="date" name="UpdateBirth"  />
 </div>
 <div>
     <label>手機號碼</label>
-    <input type="text" name="UpdatePhone" maxlength="10" required />
+    <input type="tel" name="UpdatePhone" maxlength="10"  />
 </div>
 <div>
     <label>Email</label>
-    <input type="text" name="UpdateEmail" required />
+    <input type="email" name="UpdateEmail" />
 </div>
 <div>
     <label>住址</label>
     <input type="text" name="UpdateAdress" />
 </div>
 <div>
-    <input type="submit" name="Update" value="修改資料"/>
+    <button class="button button-lg button-primary button-zakaria" type="submit">修改資料</button>
 </div>
 <hr />
+<br />
 <div>修改密碼</div>
 <div>
     <input type="password" name="UpdatePassord" required/>
 </div>
 <div>
-    <input type="submit" name="UpdatePassord" value="更新密碼"/>
+    <button class="button button-lg button-primary button-zakaria" type="submit">更新密碼</button>
+</div>
+<div>
+    <button class="button button-lg button-primary button-zakaria" asp-action="Index">回到上一頁</button>
 </div>
