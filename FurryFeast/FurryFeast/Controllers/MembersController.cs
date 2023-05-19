@@ -201,7 +201,7 @@ namespace FurryFeast.Controllers
                 return View("Login");
             }
 
-            Claim Claims = new Claim(ClaimTypes.Name, Member.MemberName);
+            var Claims = new Claim(ClaimTypes.Name, Member.MemberName);
             var ClaimIndentity = new ClaimsIdentity((IEnumerable<Claim>?)Claims,CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
             await HttpContext.SignInAsync(ClaimPrincipal);
