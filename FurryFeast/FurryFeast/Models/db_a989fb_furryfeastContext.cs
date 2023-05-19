@@ -54,7 +54,7 @@ namespace FurryFeast.Models
             if (!optionsBuilder.IsConfigured)
             {
                 IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeast"));
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeastDb"));
             }
         }
 
