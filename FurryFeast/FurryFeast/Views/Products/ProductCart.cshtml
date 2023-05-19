@@ -7,6 +7,9 @@
         .table-custom th{
             padding:4px 10px;
         }
+        .col{
+            text-align:center;
+        }
     </style>
 }
 
@@ -34,7 +37,7 @@
                     {
                         <tr>
                             @*圖片顯示待補*@
-                            <td><a class="table-cart-figure link-img" href="single-product.html">@item.ProductImage</a><a class="table-cart-link" href="single-product.html">@item.ProductName</a></td>
+                            <td><a class="table-cart-figure link-img" asp-controller="Products" asp-action="ProductDetail" asp-route-id="@item.ProductID">@item.ProductImage</a><a class="table-cart-link" asp-controller="Products" asp-action="ProductDetail" asp-route-id="@item.ProductID">@item.ProductName</a></td>
                             <td>$@item.Price</td>
                             <td>
                                 <div class="table-cart-stepper">
@@ -50,7 +53,19 @@
                         </tr>
                     }
                     }
-                    @*顯示目前沒有商品*@
+                    else{
+                        <tr>
+                        <td class="col" colspan="5">
+                            <h4>目前購物車沒有商品唷!</h4>                                                                                           
+                            </td>                            
+                        </tr>
+                        <tr>
+                        <td class="col" colspan="5">
+                            <h6><a asp-controller="Products" asp-action="Index">手刀為毛寶貝添購</a></h6>
+                        </td>
+                        </tr>
+                        
+                    }
                     
                 </tbody>
             </table>
