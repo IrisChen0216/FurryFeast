@@ -194,6 +194,7 @@ namespace FurryFeast.Controllers
         { 
             var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == model.MemberAccount
             && x.MemberPassord == model.MemberPassord);
+
             if (Member == null)
             {
                 ViewBag.Error = "帳號密碼錯誤!";
@@ -201,7 +202,7 @@ namespace FurryFeast.Controllers
             }
 
             Claim Claims = new Claim(ClaimTypes.Name, Member.MemberName);
-            var ClaimIndentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            var ClaimIndentity = new ClaimsIdentity((IEnumerable<Claim>?)Claims,CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
             await HttpContext.SignInAsync(ClaimPrincipal);
             return RedirectToAction("Index", "Members");

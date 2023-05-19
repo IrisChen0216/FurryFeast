@@ -24,6 +24,7 @@ namespace FurryFeast
             builder.Services.AddDbContext<db_a989fb_furryfeastContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(FurryFeastDbConnectionString));
 
+
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
                 AddCookie(opt =>
                 {
