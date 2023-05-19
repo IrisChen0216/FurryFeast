@@ -3,8 +3,11 @@
     ViewData["Title"] = "Login";
 }
 
+@section Style{
+	<link href="~/css/login.css" rel="stylesheet" />
+}
 <h3>會員登入</h3>
-
+<div class="Login">
 <div>
     <label>帳號</label>
     <input class="form-input form-control-has-validation" placeholder="請輸入帳號" id="contact-first-name-2" type="email" name="name" data-constraints="Required">
@@ -13,16 +16,31 @@
     <label>密碼</label>
     <input class="form-input form-control-has-validation" placeholder="請輸入密碼" id="contact-first-name-2" type="password" name="name" data-constraints="Required">
 </div>
-<div class="btn">
-    <button class="button button-lg button-primary button-zakaria" type="submit" asp-action="Register" >註冊</button>
-    <button class="button button-lg button-primary button-zakaria" type="submit"asp-action="Index" >登入</button>
-   
+<div class="btn container-fluid">
+    <div class="row">
+        <div class="col">
+                <button class="button button-lg button-primary button-zakaria" type="submit" asp-action="Register">註冊</button>
+        </div>
+        <div class="col">
+                <button class="button button-lg button-primary button-zakaria" type="submit">登入</button>
+        </div>
+
+    </div>
+    
 </div>
 <hr />
-<div class="btn">
-    <button class="button button-lg button-primary button-zakaria" type="submit">忘記密碼</button>
-    <a asp-action="ForgetPassword" class="button button-lg button-primary button-zakaria">忘記密碼</a>
-    <button class="button button-lg button-primary button-zakaria" type="submit">GOOGLE登入</button>
+<div class="btn container-fluid">
+    <div class="row">
+        <div class="col">
+            <button class="button button-lg button-primary button-zakaria" type="submit">忘記密碼</button>
+        </div>
+        <div class="col">
+            <button class="button button-lg button-primary button-zakaria" type="submit">GOOGLE登入</button>
+        </div>
+        
+    </div>
+    
 </div>
 
+</div>
 

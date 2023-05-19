@@ -9,11 +9,11 @@
 
     </style>
 }
-<h1>個人資料</h1>
+<h3>個人資料</h3>
 <hr />
 <div class="container-fluid">
     <div class="row">
-        <div class="col-4">
+        <div class="col-5">
             <div>
                 <a asp-action="Index">個人資料</a>
             </div>
@@ -27,7 +27,7 @@
                 <a asp-action="MyConpon">我的優惠券</a>
             </div>
         </div>
-        <div class="col-8">
+        <div class="col-5 ">
             <div>
                 <span>
                     @Html.DisplayNameFor(model => model.MemberName):
@@ -64,7 +64,7 @@
                
             </div>
             <div>
-                <a asp-action="Edit">修改資料及密碼</a>
+                <a asp-action="UpdateMemberData">修改資料及密碼</a>
             </div>
 
         </div>
