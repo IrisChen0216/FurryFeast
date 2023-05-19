@@ -1,81 +1,94 @@
 ﻿@model FurryFeast.Models.Product
 
 @section Style{
-    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
-    <link href="~/css/petclass/style.css" rel="stylesheet" />
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
 }
 
 @*<section class="section section-sm section-first bg-default">*@
-    <div class="container" style="padding:100px">
-        <div class="row row-30">
-            <div class="col-lg-6">
-                <div class="slick-vertical slick-product">
-                    <!-- Slick Carousel-->
-                    <div class="slick-slider carousel-parent" id="carousel-parent" data-items="1" data-swipe="true" data-child="#child-carousel" data-for="#child-carousel">
-                        <div class="item">
-                            <div class="slick-product-figure">
-								@*<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />*@
-                                <img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="530" height="480"/>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="slick-product-figure">
-                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="slick-product-figure">
-                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slick-slider child-carousel slick-nav-1" id="child-carousel" data-arrows="true" data-items="3" data-sm-items="3" data-md-items="3" data-lg-items="3" data-xl-items="3" data-xxl-items="3" data-md-vertical="true" data-for="#carousel-parent">
-                        <div class="item">
-                        <div class="slick-product-figure">
-                            <img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="530" height="480"/>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="slick-product-figure">
-                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="slick-product-figure">
-                                <img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="single-product">
-                    <h3 class="text-transform-none fw-medium">@Model.ProductName</h3>
-                    <div class="group-md group-middle">
-                        <div class="single-product-price">$@Model.ProductPrice</div>
-                        <div class="single-product-rating"><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star-half"></span></div>
-                    </div>
-                    <p>@Model.ProductDescription</p>
-                    <p></p>
-                    <hr class="hr-gray-100">
-                    
-                    <div class="group-xs group-middle">
-                        <div class="product-stepper">
-                            <input class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
-                        </div>
-                        <div><a class="button button-lg button-primary button-zakaria" asp-controller="Products" asp-action="ProductCart">加入購物車</a></div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-       
-    </div>
+<div class="container" style="padding:100px">
+	<div class="row row-30">
+		<div class="col-lg-6">
+			<div class="slick-vertical slick-product">
+				<!-- Slick Carousel-->
+				<div class="slick-slider carousel-parent" id="carousel-parent" data-items="1" data-swipe="true" data-child="#child-carousel" data-for="#child-carousel">
+					<div class="item">
+						<div class="slick-product-figure">
+							@*<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />*@
+							<img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="530" height="480" />
+						</div>
+					</div>
+					<div class="item">
+						<div class="slick-product-figure">
+							<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+						</div>
+					</div>
+					<div class="item">
+						<div class="slick-product-figure">
+							<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+						</div>
+					</div>
+				</div>
+				<div class="slick-slider child-carousel slick-nav-1" id="child-carousel" data-arrows="true" data-items="3" data-sm-items="3" data-md-items="3" data-lg-items="3" data-xl-items="3" data-xxl-items="3" data-md-vertical="true" data-for="#carousel-parent">
+					<div class="item">
+						<div class="slick-product-figure">
+							<img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="530" height="480" />
+						</div>
+					</div>
+					<div class="item">
+						<div class="slick-product-figure">
+							<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+						</div>
+					</div>
+					<div class="item">
+						<div class="slick-product-figure">
+							<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="single-product">
+				<h3 class="text-transform-none fw-medium">@Model.ProductName</h3>
+				<div class="group-md group-middle">
+					<div class="single-product-price">$@Model.ProductPrice</div>
+					<div class="single-product-rating"><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star-half"></span></div>
+				</div>
+				<p>@Model.ProductDescription</p>
+				<p></p>
+				<hr class="hr-gray-100">
+
+				<div class="group-xs group-middle">
+
+					<div class="product-stepper">
+						<input id="ProductAmount" class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
+					</div>
+					<div>
+						<a class="button button-lg button-primary button-zakaria Amount asp-controller=" Products" asp-action="ProductCart" asp-route-id="@Model.ProductId"  onclick="Amount()">加入購物車</a>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
 @*</section>*@
 
 @section Scripts{
-    <script src="~/js/product/core.min.js"></script>
-    <script src="~/js/product/script.js"></script>
+	<script src="~/js/product/core.min.js"></script>
+	<script src="~/js/product/script.js"></script>
+	<script>
+
+
+		function Amount() {
+			return document.getElementById('ProductAmount').value;
+		}
+		let amount = Amount();
+		
+	</script>
 }
 

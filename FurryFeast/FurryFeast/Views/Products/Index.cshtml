@@ -157,7 +157,7 @@
 									@*<span class="product-badge product-badge-sale">Sale</span>*@
 									<div class="product-button-wrap">
 										<div class="product-button"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="@item.ProductId" class="button button-secondary button-zakaria fl-bigmug-line-search74"></a></div>
-										<div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" asp-controller="Cart" asp-action="CartAdd" asp-route-id="@item.ProductId" onclick="CartAddShow()"></a></div>
+										<div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" asp-controller="Cart" asp-action="CartAdd" asp-route-id="@item.ProductId" asp-route-amount="1" onclick="CartAddShow()"></a></div>
 									</div>
 								</article>
 							</div>
