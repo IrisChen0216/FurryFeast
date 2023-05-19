@@ -1,4 +1,4 @@
-// google map
+ï»¿// google map
 
 let map;
 
@@ -6,9 +6,9 @@ let MapData = [];
 let selected = document.getElementById("ChooseCity");
 let selected_County = document.getElementById("ChooseCounty");
 
-//µ{¦¡¶i¤JÂI
+//ç¨‹å¼é€²å…¥é»
 $(function () {
-    // ¥xÆW¦æ¬F°Ï
+    // å°ç£è¡Œæ”¿å€
     $.ajax({
         url: "https://localhost:7110/New_TaiwanAreaList.json",
         type: "GET",
@@ -19,7 +19,7 @@ $(function () {
             console.log("error");
         });
 
-    // ¥xÆW¤Íµ½¦aÂI
+    // å°ç£å‹å–„åœ°é»
     $.ajax({
         url: "https://localhost:7110/pet_friendly_places_new.json",
         type: "GET",
@@ -33,12 +33,12 @@ $(function () {
 
 })
 
-//¨ú±o«°¥«¦WºÙ
+//å–å¾—åŸå¸‚åç¨±
 function getCityName(Data) {
     MapData = Data;
     for (let i = 0; i < Data.length; i++) {
         let Option_City = Data[i].city;
-        let MapOption = document.createElement('option') // «Ø¥ßoption¤¸¯À
+        let MapOption = document.createElement('option') // å»ºç«‹optionå…ƒç´ 
         MapOption.setAttribute("value", Data[i].cityID);
         MapOption.text = Option_City;
         $(MapOption).appendTo(selected);
@@ -47,10 +47,10 @@ function getCityName(Data) {
 
 let MapCenter;
 
-//ÀHµÛ«°¥«¦WºÙ¿ï¾Ü§ïÅÜ ÅÜ¤Æ¹ïÀ³ªº¶mÂí
+//éš¨è‘—åŸå¸‚åç¨±é¸æ“‡æ”¹è®Š è®ŠåŒ–å°æ‡‰çš„é„‰é®
 $("#ChooseCity").change(function (event) {
     $('#ChooseCounty > :not(:first-child)').remove();
-    //²M°£¿ï¶µ
+    //æ¸…é™¤é¸é …
     let option_value = event.target.value;
     for (let i = 0; i < MapData.length; i++) {
         if (MapData[i].cityID == option_value) {
@@ -65,7 +65,7 @@ $("#ChooseCity").change(function (event) {
             }
         }
     }
-    //¦a¹Ï²¾°Ê¨ì©Ò¿ï«°¥«
+    //åœ°åœ–ç§»å‹•åˆ°æ‰€é¸åŸå¸‚
     map.setZoom(9);
     map.panTo(MapCenter);
 
@@ -79,15 +79,15 @@ $("#ChooseCity").change(function (event) {
 //     }, 2000);
 // });
 
-// ¨ú±oÃdª«¤Íµ½¦aÂI²M³æ
+// å–å¾—å¯µç‰©å‹å–„åœ°é»æ¸…å–®
 let PlaceData;
 function getAreaPlace(data) {
     console.log('AreaPlace_got_it!');
     PlaceData = data;
 }
 
-// ¨ú±o©Ò¿ï¶mÂíªº¶l»¼°Ï¸¹
-// ¹ï·Ó«á¨ú±o¸Ó¶mÂíªºÃdª«¤Íµ½¦aÂI
+// å–å¾—æ‰€é¸é„‰é®çš„éƒµéå€è™Ÿ
+// å°ç…§å¾Œå–å¾—è©²é„‰é®çš„å¯µç‰©å‹å–„åœ°é»
 let area = [];
 $("#ChooseCounty").change(function (e) {
     area = [];
@@ -100,7 +100,7 @@ $("#ChooseCounty").change(function (e) {
     PlaceLatLng();
 });
 
-//¬ö¿ıÃdª«¤Íµ½¦aÂIªº¸g½n«×
+//ç´€éŒ„å¯µç‰©å‹å–„åœ°é»çš„ç¶“ç·¯åº¦
 let AreaLatLng = [];
 
 function PlaceLatLng() {
@@ -120,14 +120,14 @@ function PlaceLatLng() {
     }
 }
 
-// ·j´M«ö¶s
-// ÂIÀ»«Ø¥ßmarkers
+// æœå°‹æŒ‰éˆ•
+// é»æ“Šå»ºç«‹markers
 document.getElementById("search").addEventListener("click", drop);
 
 let markers = [];
 let marker;
 
-//marker±¼¸¨°Êµe
+//markeræ‰è½å‹•ç•«
 function drop() {
     deleteMarkers();
     for (let i = 0; i < AreaLatLng.length; i++) {
@@ -139,7 +139,7 @@ function drop() {
 
 let placeID;
 
-// «Ø¥ß·sMarker
+// å»ºç«‹æ–°Marker
 function CreateMarkers() {
     AreaLatLng.forEach((AreaLatLng, timeout) => {
         marker = new google.maps.Marker({
@@ -149,7 +149,7 @@ function CreateMarkers() {
             animation: google.maps.Animation.DROP
         }, timeout);
 
-        //markerªººÊÅ¥¨Æ¥ó
+        //markerçš„ç›£è½äº‹ä»¶
         marker.addListener("click", () => {
             placeID = AreaLatLng[1].PlaceID;
             MarkerDetail();
@@ -169,7 +169,7 @@ let ClickMarkerDetail;
 function MarkerDetail() {
     request = {
         place_id: placeID,
-        fields: ["name", "formatted_address", "place_id"],
+        fields: ["name", "formatted_address", "place_id"]
     };
     for (let i = 0; i < area.length; i++) {
         if (request.place_id == area[i].place_id) {
@@ -187,7 +187,7 @@ function MarkerDetail() {
     OutputInfo();
 }
 
-// ¿é¥X°Ó®a²Ó¸`
+// è¼¸å‡ºå•†å®¶ç´°ç¯€
 function OutputInfo() {
     let StarNum = ClickMarkerDetail.Rating * 20;
 
@@ -197,11 +197,11 @@ function OutputInfo() {
     let RatingBox = $("<div></div>").addClass("text-center");
     $(RatingBox).appendTo("#InfoBox");
 
-    let strHTML = `<p class="px-2 py-0 m-0 fs-1 fw-bold">${ClickMarkerDetail.Rating}</p>
+    let strHTML = `<p class="py-0 m-0 fw-bold" style="font-size:3rem">${ClickMarkerDetail.Rating}</p>
                     <div class="ratings">
-                        <div class="empty_star">¡¹¡¹¡¹¡¹¡¹</div>
-                        <div class="full_star" style="width:${StarNum}%">¡¹¡¹¡¹¡¹¡¹</div>
-                        <p style="font-size:12px; color:#adadad;">${ClickMarkerDetail.User_ratings_total}¤Hµû¤À</p>
+                        <div class="empty_star">â˜…â˜…â˜…â˜…â˜…</div>
+                        <div class="full_star" style="width:${StarNum}%">â˜…â˜…â˜…â˜…â˜…</div>
+                        <p style="font-size:12px; color:#adadad; margin:0;">${ClickMarkerDetail.User_ratings_total}äººè©•åˆ†</p>
                     </div>`;
 
         $("#InfoBox > :first-child").append(strHTML);
@@ -212,7 +212,7 @@ function OutputInfo() {
 }
 
 
-//§R°£¼Ğ°O
+//åˆªé™¤æ¨™è¨˜
 function deleteMarkers() {
     for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
@@ -220,7 +220,7 @@ function deleteMarkers() {
     markers = [];
 }
 
-// ªì©l¤Æ¨Ã¥[¤J¦a¹Ï
+// åˆå§‹åŒ–ä¸¦åŠ å…¥åœ°åœ–
 function initMap() {
     const TaiwanCenter = {
         lat: 23.973875,
@@ -251,7 +251,7 @@ function initStreetView() {
     });
 }
 
-//ªì©l¤Æµó´º¦a¹Ï
+//åˆå§‹åŒ–è¡—æ™¯åœ°åœ–
 function view() {
 
     //
