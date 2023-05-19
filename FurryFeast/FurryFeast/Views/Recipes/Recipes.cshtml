@@ -25,15 +25,6 @@
 
 		<div class="col p-3 ms-3 border border-2 rounded-4">
 			<div class="row">
-				@*				<div class="col">
-					<img src="/image/cat/1682729697786.png" class="border border-0" style="position: relative; max-width: 100%; border-radius: 1rem; padding: 1rem;" alt="...">
-				</div>
-				<div class="row justify-content-center header-text" data-aos="fade-up" data-aos-delay="150">
-					<div class="col-xl-6 col-lg-8">
-						<p>FurryFeast</p>
-						<p style="position: absolute; bottom: 4rem; text-align: center; color: white;opacity: 0.5;">義式番茄糙米燉飯.</p>
-					</div>
-				</div>*@
 				<div class="my-4" style=" text-align: center; font-size:30px;">義式番茄糙米燉飯</div>
 			</div>
 			<div class="row m-3">
@@ -70,24 +61,34 @@
 		</div>
 	</div>
 </div>
-<div class="container text-center">
-	<h2 class="index-header">留言板</h2>
+<div class="container text-center mb-2">
+	<h4 class="index-header">回應區</h4>
+
+	<form class="input-group" asp-action="AddComment" asp-route-Id="">
+		<textarea class="form-control" type="text" placeholder="請先登入再留言" name="UserComment"></textarea>
+		<input class="btn btn-sm btn-primary" type="submit" value="送出" />
+	</form>
+
 	<div class="border border-2 m-4 p-4">
 		<p>您尚未登入會員</p>
 		<a href="#"><button class="btn btn-dark" type="button">登入會員</button></a>
 	</div>
 </div>
 <div class="container mt-0">
-	<div class="border border-2 p-3 position-relative m-4" style="font-size: 20px;">
-		<span class="col" style="position: absolute; left: 10px;">UserName</span>
-		<span style="position: absolute; right:10px;">PostTime:2023/05/14</span>
-		<button class="btn btn-dark" type="button">edit</button>
-		<button class="btn btn-danger" type="button">delete</button>
-	</div>
-	<div class="position-relative border border-2 rounded-4 p-4 m-4" style="height: 200px;">
-		<p>內容</p>
-		<div class="position-absolute" style="right: 20px; bottom:10px;">
-			<a style="color:gray;" href="http://">已編輯</a>
+@*	@foreach (var comment in Model.MsgBoard.comment)
+	{
+		<div class="border border-2 p-3 position-relative m-4" style="font-size: 20px;">
+			<span class="col" style="position: absolute; left: 10px;">@comment.UserID</span>
+			<span style="position: absolute; right: 10px;">@comment.MsgDateTime</span>
+			<button class="btn btn-dark" type="button">edit</button>
+			<button class="btn btn-danger" type="button">delete</button>
 		</div>
-	</div>
+	@*所有留言*@
+@*		<div class="position-relative border border-2 rounded-4 p-4 m-4" style="height: 200px;">
+			<p>@comment.MsgContent</p>*@
+			@*	<div class="position-absolute" style="right: 20px; bottom: 10px;">
+				<a style="color: gray;" href="http://">已編輯</a>
+			</div>*@
+@*		</div>
+	}*@
 </div>
