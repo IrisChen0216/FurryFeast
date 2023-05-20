@@ -1,12 +1,8 @@
-﻿// google map
-
-let map;
-
+﻿let map;
 let MapData = [];
-let selected = document.getElementById("ChooseCity");
-let selected_County = document.getElementById("ChooseCounty");
+let MapCenter;
 
-//程式進入點
+// //程式進入點
 $(function () {
     // 台灣行政區
     $.ajax({
@@ -25,80 +21,93 @@ $(function () {
         type: "GET",
         dataType: "json"
     })
+
         .done(getAreaPlace)
         .fail(function () {
             console.log("errorrrrrrr");
         });
-
-
 })
 
-//取得城市名稱
-function getCityName(Data) {
-    MapData = Data;
-    for (let i = 0; i < Data.length; i++) {
-        let Option_City = Data[i].city;
-        let MapOption = document.createElement('option') // 建立option元素
-        MapOption.setAttribute("value", Data[i].cityID);
-        MapOption.text = Option_City;
-        $(MapOption).appendTo(selected);
-    }
+//dropdown getCityName
+function getCityName(data) {
+    MapData = data;
+    $.each(MapData, function (i, item) {
+        $('#ChooseCity').append($('<option>', {
+            value: item.cityID,
+            text: item.city
+        }));
+    });
+
+    //地圖移動到所選城市
+    // map.setZoom(9);
+    // map.panTo();
+
+    // 下拉美化
+    DropDownStyle('#ChooseCity');
+    DropDownStyle('#ChooseCounty');
+
 }
 
-let MapCenter;
 
-//隨著城市名稱選擇改變 變化對應的鄉鎮
+//dropdown ChooseCity
 $("#ChooseCity").change(function (event) {
-    $('#ChooseCounty > :not(:first-child)').remove();
-    //清除選項
+    DropDownStyle("#ChooseCounty");
+
     let option_value = event.target.value;
+    // 清除選項
+    $('#ChooseCounty > :not(:first-child)').remove();
+
     for (let i = 0; i < MapData.length; i++) {
         if (MapData[i].cityID == option_value) {
             for (let j = 0; j < MapData[i].county.length; j++) {
-                let countyName = MapData[i].county[j];
-                let MapOption = document.createElement('option');
-                MapOption.setAttribute("value", MapData[i].PostCode[j]);
-                MapOption.text = countyName;
-                $(MapOption).appendTo(selected_County);
-
+                $("#ChooseCounty").append($('<option>', {
+                    value: MapData[i].PostCode[j],
+                    text: MapData[i].county[j]
+                }))
                 MapCenter = new google.maps.LatLng(MapData[i].cityLng, MapData[i].cityLat);
+
             }
         }
     }
-    //地圖移動到所選城市
+    console.log("選擇了" + option_value);
+
+    checkDropdown("#ChooseCounty");
+    DropDownStyle("#ChooseCounty");
+
+    //地圖移動到所選城市中心
     map.setZoom(9);
     map.panTo(MapCenter);
 
+    deleteMarkers()
+    $("#PlaceName.mt-2").empty();
+    $("#InfoBox > :first").empty();
+    $("#InfoBoxBody").empty();
+    if (!$('#btn_StreetView').hasClass("visually-hidden")) {
+        $('#btn_StreetView').addClass("visually-hidden");
+    }
 });
-
-// map.addListener("center_changed", () => {
-//     // 3 seconds after the center of the map has changed, pan back to the
-//     // marker.
-//     window.setTimeout(() => {
-//         map.panTo(marker.getPosition());
-//     }, 2000);
-// });
-
-// 取得寵物友善地點清單
-let PlaceData;
-function getAreaPlace(data) {
-    console.log('AreaPlace_got_it!');
-    PlaceData = data;
-}
 
 // 取得所選鄉鎮的郵遞區號
 // 對照後取得該鄉鎮的寵物友善地點
 let area = [];
 $("#ChooseCounty").change(function (e) {
     area = [];
-    let PostCode = e.target.value;
+    let Value = e.target.value;
     for (let i = 0; i < PlaceData.length; i++) {
-        if (PostCode == PlaceData[i].postCode) {
+        if (Value == PlaceData[i].postCode) {
+
             area.push(PlaceData[i]);
         }
     }
+    console.log("選擇地區的郵遞區號是" + Value);
     PlaceLatLng();
 });
+
+//取得寵物友善地點清單
+function getAreaPlace(data) {
+    console.log('AreaPlace_got_it!')
+    PlaceData = data;
+}
 
 //紀錄寵物友善地點的經緯度
 let AreaLatLng = [];
@@ -120,26 +129,24 @@ function PlaceLatLng() {
     }
 }
 
-// 搜尋按鈕
-// 點擊建立markers
+//BTN_Search CreateMarkers
 document.getElementById("search").addEventListener("click", drop);
 
 let markers = [];
 let marker;
 
-//marker掉落動畫
+// Marker animation
 function drop() {
     deleteMarkers();
     for (let i = 0; i < AreaLatLng.length; i++) {
         CreateMarkers(AreaLatLng[i], i * 200);
     }
-    // map.setCenter(markers[1].getPosition());
+
+    map.setZoom(13);
+    map.setCenter(MapCenter);
 }
 
-
-let placeID;
-
-// 建立新Marker
+// CreateMarkers Method
 function CreateMarkers() {
     AreaLatLng.forEach((AreaLatLng, timeout) => {
         marker = new google.maps.Marker({
@@ -149,27 +156,38 @@ function CreateMarkers() {
             animation: google.maps.Animation.DROP
         }, timeout);
 
+        MapCenter = marker.position;
+
         //marker的監聽事件
         marker.addListener("click", () => {
             placeID = AreaLatLng[1].PlaceID;
             MarkerDetail();
             $('#btn_StreetView').removeClass("visually-hidden");
-            map.setZoom(12);
-            map.setCenter(marker.position);
             initStreetView();
+
+            console.log("點擊了" + placeID);
         });
+
         markers.push(marker);
     });
 }
 
+// Delete Markers
+function deleteMarkers() {
+    for (let i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    markers = [];
+}
 
+// 取得點擊店家資訊
 let request;
 let ClickMarkerDetail;
 
 function MarkerDetail() {
     request = {
         place_id: placeID,
-        fields: ["name", "formatted_address", "place_id"]
+        fields: ["name", "formatted_address", "place_id"],
     };
     for (let i = 0; i < area.length; i++) {
         if (request.place_id == area[i].place_id) {
@@ -189,36 +207,90 @@ function MarkerDetail() {
 
 // 輸出商家細節
 function OutputInfo() {
-    let StarNum = ClickMarkerDetail.Rating * 20;
+    let StarWidth = ClickMarkerDetail.Rating * 20;
 
-    $(".index-header.m-0").empty();
+    $("#PlaceName.mt-2").empty();
     $("#InfoBox > :first").empty();
     $("#InfoBoxBody").empty();
     let RatingBox = $("<div></div>").addClass("text-center");
     $(RatingBox).appendTo("#InfoBox");
 
-    let strHTML = `<p class="py-0 m-0 fw-bold" style="font-size:3rem">${ClickMarkerDetail.Rating}</p>
+    let strHTML = `<p class="py-0 m-0 fw-bold" style="font-size:40px;">${ClickMarkerDetail.Rating}</p>
                     <div class="ratings">
                         <div class="empty_star">★★★★★</div>
-                        <div class="full_star" style="width:${StarNum}%">★★★★★</div>
-                        <p style="font-size:12px; color:#adadad; margin:0;">${ClickMarkerDetail.User_ratings_total}人評分</p>
+                        <div class="full_star" style="width:${StarWidth}%">★★★★★</div>
+                        <p class="m-0" style="font-size:12px; color:#adadad;">${ClickMarkerDetail.User_ratings_total}人評分</p>
                     </div>`;
 
-        $("#InfoBox > :first-child").append(strHTML);
+    $("#InfoBox > :first-child").append(strHTML);
 
-    $(".index-header.m-0").append('<h4 class="index-header py-4">' + ClickMarkerDetail.Name + '</h4>');
-    $("#InfoBoxBody").append('<div class="fs-6"><i class="bi bi-telephone-fill"></i><a href="tel:' + ClickMarkerDetail.PhoneNumber + '">' + ClickMarkerDetail.PhoneNumber + '</a></div>');
-    $("#InfoBoxBody").append('<div class ="fs-6" ><i class="bi bi-house-fill"></i>' + ClickMarkerDetail.Address + "</div>");
+
+    $("#PlaceName.mt-2").append('<h4 class="p-4" style="color:white";>' + ClickMarkerDetail.Name + '</h4>');
+    $("#InfoBoxBody").append('<div class="fs-6"><a href="tel:' + ClickMarkerDetail.PhoneNumber + '">' + ClickMarkerDetail.PhoneNumber + '</a></div>');
+    $("#InfoBoxBody").append('<div class ="fs-6" >' + ClickMarkerDetail.Address + "</div>");
 }
 
-
-//刪除標記
-function deleteMarkers() {
-    for (let i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
+// 重置下拉選單樣式
+function checkDropdown(target) {
+    if ($(target).parent().hasClass('select')) {
+        $(target).unwrap();
+        $(target).siblings().remove();
     }
-    markers = [];
 }
+
+//美化 dropdown
+function DropDownStyle(target) {
+
+    var $this = $(target),
+        numberOfOptions = $(target).children('option').length;
+
+    $this.addClass('select-hidden');
+    $this.wrap('<div class="select"></div>');
+    $this.after('<div class="select-styled"></div>');
+
+    var $styledSelect = $this.next('div.select-styled');
+    $styledSelect.text($this.children('option').eq(0).text());
+
+    var $list = $('<ul />', {
+        'class': 'select-options'
+    }).
+        insertAfter($styledSelect);
+
+    for (var i = 0; i < numberOfOptions; i++) {
+        $('<li />', {
+            text: $this.children('option').eq(i).text(),
+            rel: $this.children('option').eq(i).val()
+        }).
+            appendTo($list);
+    }
+
+    var $listItems = $list.children('li');
+
+    $styledSelect.click(function (e) {
+        e.stopPropagation();
+        $('div.select-styled.active').not(this).each(function () {
+            $(this).removeClass('active').next('ul.select-options').hide();
+        });
+        $(this).toggleClass('active').next('ul.select-options').toggle();
+    });
+
+    $listItems.click(function (e) {
+        e.stopPropagation();
+        $styledSelect.text($(this).text()).removeClass('active');
+        $this.val($(this).attr('rel'));
+        $this.change();
+        $list.hide();
+        //console.log($this.val());
+    });
+
+    $(document).click(function () {
+        $styledSelect.removeClass('active');
+        $list.hide();
+    });
+}
+
+// Btn_StreetView
+document.getElementById("btn_StreetView").addEventListener("click", view);
 
 // 初始化並加入地圖
 function initMap() {
@@ -232,6 +304,19 @@ function initMap() {
         zoom: 7,
         center: TaiwanCenter,
     });
+}
+
+//初始化街景地圖
+function view() {
+
+    //
+    let toggle = panorama.getVisible();
+
+    if (toggle == false) {
+        panorama.setVisible(true);
+    } else {
+        panorama.setVisible(false);
+    }
 }
 
 let panorama;
@@ -250,17 +335,3 @@ function initStreetView() {
         visible: false
     });
 }
-
-//初始化街景地圖
-function view() {
-
-    //
-    let toggle = panorama.getVisible();
-
-    if (toggle == false) {
-        panorama.setVisible(true);
-    } else {
-        panorama.setVisible(false);
-    }
-}
-document.getElementById("btn_StreetView").addEventListener("click", view);
