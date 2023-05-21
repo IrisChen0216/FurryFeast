@@ -70,5 +70,25 @@ namespace FurryFeast.Controllers
 			return RedirectToAction("ProductCart","Products");
         }
 
+        public async Task<IActionResult> CartUpdate(int? id, int amount)
+        {
+            
+            List<CartViewModel> cart = SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session, "cart");
+
+            int productIndex = cart.FindIndex(c => c.ProductID == id);
+			cart[productIndex].Amount = amount;
+            cart[productIndex].Subtotal = (amount * cart[productIndex].Price);
+			
+            if (cart.Count <= 0)
+            {
+                SessionHelper.RemoveProductCartSession(HttpContext.Session, "cart");
+            }
+            else
+            {
+                SessionHelper.SetProductCartSession(HttpContext.Session, "cart", cart);
+            }
+
+            return NoContent();
+        }
     }
 }
