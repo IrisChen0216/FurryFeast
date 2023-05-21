@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
+using FurryFeast.ViewModels;
 
 namespace FurryFeast.Controllers
 {
@@ -163,5 +164,17 @@ namespace FurryFeast.Controllers
         {
           return (_context.Orders?.Any(e => e.OrderId == id)).GetValueOrDefault();
         }
+
+        //public async Task<IActionResult> MyOrder(MyOrderViewModel model)
+        //{
+        //    var MyOrder =await _context.Orders.OrderByDescending(x => x.OrderCreateDate == model.OrderCreateDate).
+        //        Where(x => x.MemberId == model.MemberId).ToListAsync();
+        //    foreach (var item in MyOrder)
+        //    {
+        //        item.MyOrderItem= _context.Orders.Where(x=>x.OrderId == item.OrderId).ToListAsync();
+        //    }
+           
+
+        //}
     }
 }

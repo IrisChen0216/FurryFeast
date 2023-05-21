@@ -13,45 +13,40 @@
 }
 <h3>會員登入</h3>
 <form action="/Members/Login" method="post">
-<div class="Login">
-	
+	<div class="Login">
+
 		<div>
 			<label>帳號</label>
-			<input class="form-input form-control-has-validation" placeholder="請輸入帳號" id="contact-first-name-2" type="email" name="account" data-constraints="Required">
+			<input class="form-input form-control" placeholder="請輸入帳號" id="input" type="email" name="MemberAccount">
 		</div>
 		<div>
 			<label>密碼</label>
-			<input class="form-input form-control-has-validation" placeholder="請輸入密碼" id="contact-first-name-2" type="password" name="password" data-constraints="Required">
+			<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord">
 		</div>
 		<div class="btn container-fluid">
 			<div class="row">
 				<div class="col">
-					<button class="button button-lg button-primary button-zakaria" type="submit" asp-action="Register">註冊</button>
+				<button class="button button-lg button-primary button-zakaria" type="submit" asp-action="Register">註冊</button>
 				</div>
 				<div class="col">
-
 					<button class="button button-lg button-primary button-zakaria" type="submit">登入</button>
-
-
 				</div>
-
 			</div>
 		</div>
-	
-</div>
-</form>
-<hr />
-<div class="btn container-fluid">
-	<div class="row">
-		<div class="col">
-			<button class="button button-lg button-primary button-zakaria" type="submit">忘記密碼</button>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col">
+					<form asp-action="ForgetPassword">
+						<button class="button button-lg button-primary button-zakaria" type="submit">忘記密碼</button>
+					</form>
+				</div>
+				<div class="col">
+					<button class="button button-lg button-primary button-zakaria" type="submit">GOOGLE登入</button>
+				</div>
+			</div>
 		</div>
-		<div class="col">
-			<button class="button button-lg button-primary button-zakaria" type="submit">GOOGLE登入</button>
-		</div>
-
 	</div>
+</form>
 
-</div>
 
 

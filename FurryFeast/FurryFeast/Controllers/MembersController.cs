@@ -10,6 +10,7 @@ using FurryFeast.ViewModels;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FurryFeast.Controllers
 {
@@ -163,25 +164,52 @@ namespace FurryFeast.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> MyOrder()
+        [Authorize]
+        public IActionResult MyOrder()
         {
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> MyClass()
         {
             return View();
         }
-
+        [Authorize]
         public async Task<IActionResult> MyConpon()
         {
             return View();
         }
 
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
             return View();
         }
+
+        //public async Task<IActionResult> Register(RegisterViewModel model)
+        //{
+        //    var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == model.MemberAccount);
+        //    if (Member != null)
+        //    {
+        //        ViewBag.Error = "已有帳號存在!";
+        //        return View("Register");
+        //    }
+        //    _context.Members.Add(new Member()
+        //    {
+        //        MemberAccount = model.MemberAccount,
+        //        MemberPassord = model.MemberPassord,
+        //        MemberAdress = model.MemberAdress,
+        //        MemberName = model.MemberName,
+        //        MemberEmail = model.MemberEmail,
+        //        MemberPhone = model.MemberPhone,
+        //        MemberBirthday = model.MemberBirthday,
+        //        MemberGender = model.MemberGender,
+        //        MemberId = model.MemberId
+        //        //Role="Member"
+        //    });
+        //    _context.SaveChanges();
+
+        //}
 
         public IActionResult Login()
         {
@@ -191,30 +219,34 @@ namespace FurryFeast.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
 
-        { 
-            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == model.MemberAccount
-            && x.MemberPassord == model.MemberPassord);
+        {
+            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == model.MemberAccount && x.MemberPassord == model.MemberPassord);
 
             if (Member == null)
             {
                 ViewBag.Error = "帳號密碼錯誤!";
                 return View("Login");
             }
-            //return Ok(model.MemberAccount + model.MemberPassord);
-            var Claims = new Claim(ClaimTypes.Name, Member.MemberName);
-            var ClaimIndentity = new ClaimsIdentity((IEnumerable<Claim>?)Claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            //return Task.FromResult<IActionResult>(Ok(model.MemberAccount + model.MemberPassord));
+            var ClaimList=new List<Claim>() {
+			new Claim(ClaimTypes.Name, Member.MemberName),
+            new Claim("Id",Member.MemberId.ToString())
+		};
+         
+
+            var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
-            await HttpContext.SignInAsync(ClaimPrincipal);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,ClaimPrincipal);
             return RedirectToAction("Index", "Home");
         }
 
-
+        [Authorize]
         public async Task<IActionResult> UpdateMemberData()
         {
             return View();
         }
 
-        public async Task<IActionResult> ForgetPassord()
+        public async Task<IActionResult> ForgetPassword()
         {
             return View();
         }
