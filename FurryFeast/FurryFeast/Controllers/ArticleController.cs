@@ -35,7 +35,7 @@ namespace FurryFeast.Controllers
 
         public IActionResult Donates()
         {
-            var donate = _furryFeastContext.Donates.FirstOrDefault(); // 假設只有一筆資料
+            var donate = _furryFeastContext.Donates.FirstOrDefault(); 
             return View(donate);
         }
 
@@ -51,12 +51,12 @@ namespace FurryFeast.Controllers
             var jsonString = await client.GetStringAsync("https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL");
             var pets = JsonConvert.DeserializeObject<List<Pet>>(jsonString);
 
-            // 在这里过滤数据
+      
             if (!string.IsNullOrEmpty(animal_kind))
             {
                 pets = pets.Where(p => p.animal_kind == animal_kind).ToList();
             }
-            // 重复以上的过滤步骤，对其他的查询参数进行同样的处理
+         
 
             ViewData["AnimalKinds"] = pets.Select(p => p.animal_kind).Distinct().ToList();
             ViewData["AnimalVarieties"] = pets.Select(p => p.animal_Variety).Distinct().ToList();
@@ -78,7 +78,7 @@ namespace FurryFeast.Controllers
 
             var petsPaged = pets.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-            // 将分页相关的信息传递给视图
+
             ViewBag.PageNumber = pageNumber;
             ViewBag.PageCount = totalPageCount;
 
