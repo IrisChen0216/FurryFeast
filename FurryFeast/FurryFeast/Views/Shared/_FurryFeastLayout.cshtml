@@ -37,6 +37,8 @@
     @*Alfie_navBar*@
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
+    <src></src>
+
     @await RenderSectionAsync("Style", required: false)
     
 </head>
@@ -214,7 +216,8 @@
 	<script src="~/js/navbar.js"></script>
     <script src="~/js/swiper.js"></script>
     <script src="~/js/bootstrap.bundle.js"></script>
-    <script>
+    @*axious*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
         document.getElementById('Login').addEventListener('submit', function () {
             window.location.href=this.action;
         })

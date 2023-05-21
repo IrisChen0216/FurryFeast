@@ -181,11 +181,12 @@ namespace FurryFeast.Controllers
             return View();
         }
 
-        public IActionResult Register()
+        public IActionResult RegisterIndex()
         {
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel list)
         {
             var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount);
