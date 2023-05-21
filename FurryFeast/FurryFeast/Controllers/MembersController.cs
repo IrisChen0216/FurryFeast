@@ -186,30 +186,30 @@ namespace FurryFeast.Controllers
             return View();
         }
 
-        //public async Task<IActionResult> Register(RegisterViewModel model)
-        //{
-        //    var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == model.MemberAccount);
-        //    if (Member != null)
-        //    {
-        //        ViewBag.Error = "已有帳號存在!";
-        //        return View("Register");
-        //    }
-        //    _context.Members.Add(new Member()
-        //    {
-        //        MemberAccount = model.MemberAccount,
-        //        MemberPassord = model.MemberPassord,
-        //        MemberAdress = model.MemberAdress,
-        //        MemberName = model.MemberName,
-        //        MemberEmail = model.MemberEmail,
-        //        MemberPhone = model.MemberPhone,
-        //        MemberBirthday = model.MemberBirthday,
-        //        MemberGender = model.MemberGender,
-        //        MemberId = model.MemberId
-        //        //Role="Member"
-        //    });
-        //    _context.SaveChanges();
-
-        //}
+        public async Task<IActionResult> Register(RegisterViewModel list)
+        {
+            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount);
+            if (Member != null)
+            {
+                ViewBag.Error = "已有帳號存在!";
+                return View("Login");
+            }
+            _context.Members.Add(new Member()
+            {
+                MemberAccount = list.MemberAccount,
+                MemberPassord = list.MemberPassord,
+                MemberAdress = list.MemberAdress,
+                MemberName = list.MemberName,
+                MemberEmail = list.MemberEmail,
+                MemberPhone = list.MemberPhone,
+                MemberBirthday = list.MemberBirthday,
+                MemberGender = list.MemberGender,
+                MemberId = list.MemberId
+               
+            });
+            _context.SaveChanges();
+            return RedirectToAction("Index","Home");
+        }
 
         public IActionResult Login()
         {
@@ -217,17 +217,17 @@ namespace FurryFeast.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel list)
 
         {
-            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == model.MemberAccount && x.MemberPassord == model.MemberPassord);
+            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
             if (Member == null)
             {
                 ViewBag.Error = "帳號密碼錯誤!";
                 return View("Login");
             }
-            //return Task.FromResult<IActionResult>(Ok(model.MemberAccount + model.MemberPassord));
+            //return Ok(model.MemberAccount + model.MemberPassord);
             var ClaimList=new List<Claim>() {
 			new Claim(ClaimTypes.Name, Member.MemberName),
             new Claim("Id",Member.MemberId.ToString())
