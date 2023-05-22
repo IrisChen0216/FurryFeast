@@ -22,7 +22,7 @@ $(function () {
         dataType: "json"
     })
 
-        .done(getAreaPlace)
+        .done(getPlaceData)
         .fail(function () {
             console.log("errorrrrrrr");
         });
@@ -65,7 +65,6 @@ $("#ChooseCity").change(function (event) {
                     text: MapData[i].county[j]
                 }))
                 MapCenter = new google.maps.LatLng(MapData[i].cityLng, MapData[i].cityLat);
-
             }
         }
     }
@@ -78,13 +77,10 @@ $("#ChooseCity").change(function (event) {
     map.setZoom(9);
     map.panTo(MapCenter);
 
-    deleteMarkers()
-    $("#PlaceName.mt-2").empty();
-    $("#InfoBox > :first").empty();
-    $("#InfoBoxBody").empty();
-    if (!$('#btn_StreetView').hasClass("visually-hidden")) {
-        $('#btn_StreetView').addClass("visually-hidden");
-    }
+    deleteMarkers();
+    Reset();
+
+
 });
 
 // 取得所選鄉鎮的郵遞區號
@@ -101,11 +97,32 @@ $("#ChooseCounty").change(function (e) {
     }
     console.log("選擇地區的郵遞區號是" + Value);
     PlaceLatLng();
+    drop();
+    Reset();
+
+    if (area.length == 1) {
+        $(".card-new").append($('<p id="pp" style="font-size:12px; letter-spacing: 3px; color: gray; ">共' + area.length + '筆資料</p>'));
+        placeID = area[0].place_id;
+        MarkerDetail();
+        $('#btn_StreetView').removeClass("visually-hidden");
+        initStreetView();
+    }
+    else
+    {
+        $(".card-new").append($('<p id="pp" style="font-size:12px; letter-spacing: 3px; color: gray; ">共' + area.length + '筆資料</p>'));
+        GetPlaceList();
+    }
 });
 
+function GetPlaceList() {
+    for (let i = 0; i < area.length; i++) {
+        $("#PlaceList > ul").append($('<li>',{ text: area[i].name}));
+    }
+}
+
 //取得寵物友善地點清單
-function getAreaPlace(data) {
-    console.log('AreaPlace_got_it!')
+function getPlaceData(data) {
+    console.log('AreaPlace_got_it!');
     PlaceData = data;
 }
 
@@ -122,15 +139,12 @@ function PlaceLatLng() {
             lng: parseFloat(lng)
         };
         let PlaceID = {
-            PlaceID: area[i].place_id,
+            PlaceID: area[i].place_id
         };
         AreaLatLng.push([LatLng, PlaceID]);
 
     }
 }
-
-//BTN_Search CreateMarkers
-document.getElementById("search").addEventListener("click", drop);
 
 let markers = [];
 let marker;
@@ -141,9 +155,10 @@ function drop() {
     for (let i = 0; i < AreaLatLng.length; i++) {
         CreateMarkers(AreaLatLng[i], i * 200);
     }
-
-    map.setZoom(13);
-    map.setCenter(MapCenter);
+    if (AreaLatLng.length !== 0) {
+        map.setZoom(13);
+        map.setCenter(MapCenter);
+    }
 }
 
 // CreateMarkers Method
@@ -162,6 +177,7 @@ function CreateMarkers() {
         marker.addListener("click", () => {
             placeID = AreaLatLng[1].PlaceID;
             MarkerDetail();
+            $('#PlaceList >ul').empty();
             $('#btn_StreetView').removeClass("visually-hidden");
             initStreetView();
 
@@ -180,14 +196,14 @@ function deleteMarkers() {
     markers = [];
 }
 
-// 取得點擊店家資訊
+// 取得店家資訊
 let request;
 let ClickMarkerDetail;
 
 function MarkerDetail() {
     request = {
         place_id: placeID,
-        fields: ["name", "formatted_address", "place_id"],
+        fields: ["name", "formatted_address", "place_id"]
     };
     for (let i = 0; i < area.length; i++) {
         if (request.place_id == area[i].place_id) {
@@ -198,11 +214,32 @@ function MarkerDetail() {
                 User_ratings_total: area[i].user_ratings_total,
                 Address: area[i].formatted_address,
                 Lat: area[i].lat,
-                Lng: area[i].lng
-            };
+                Lng: area[i].lng,
+                Website: area[i].website,
+                Description: area[i].description,
+                OpenHours: area[i].opening_hours_weekday
+        };
         }
     }
     OutputInfo();
+}
+
+// 重置
+function Reset() {
+    $("#PlaceName.mt-2").empty();
+    $("#InfoBox > :first").empty();
+    $("#InfoBoxBody").empty();
+    $("#PlaceList >ul").empty();
+    $(".card-new >p").empty();
+
+
+    if (!$('#btn_StreetView').hasClass("visually-hidden")) {
+        $('#btn_StreetView').addClass("visually-hidden");
+    }
+
+    if (panorama) {
+        panorama.setVisible(false);
+    }
 }
 
 // 輸出商家細節
@@ -225,10 +262,17 @@ function OutputInfo() {
     $("#InfoBox > :first-child").append(strHTML);
 
 
-    $("#PlaceName.mt-2").append('<h4 class="p-4" style="color:white";>' + ClickMarkerDetail.Name + '</h4>');
+    $("#PlaceName.mt-2").append('<h4 class="py-2 px-4" style="color:white";>' + ClickMarkerDetail.Name + '</h4>');
+    if (ClickMarkerDetail.Description) {
+        $("#PlaceName.mt-2").append('<p style="font-size:15x; color:black; margin: 0px; padding: 0px 0px 10px 0px">' + ClickMarkerDetail.Description + '</p>');
+    }
     $("#InfoBoxBody").append('<div class="fs-6"><a href="tel:' + ClickMarkerDetail.PhoneNumber + '">' + ClickMarkerDetail.PhoneNumber + '</a></div>');
     $("#InfoBoxBody").append('<div class ="fs-6" >' + ClickMarkerDetail.Address + "</div>");
-}
+    $("#InfoBoxBody").append('<div class ="fs-6" >' + ClickMarkerDetail.OpenHours + "</div>");
+    $("#InfoBoxBody").append('<div class ="fs-6" >' + ClickMarkerDetail.Website + "</div>");
+
+} 
+
 
 // 重置下拉選單樣式
 function checkDropdown(target) {
@@ -257,7 +301,7 @@ function DropDownStyle(target) {
         insertAfter($styledSelect);
 
     for (var i = 0; i < numberOfOptions; i++) {
-        $('<li />', {
+        $('<li/>', {
             text: $this.children('option').eq(i).text(),
             rel: $this.children('option').eq(i).val()
         }).
@@ -326,7 +370,7 @@ function initStreetView() {
         document.getElementById('map'), {
         position: {
             lat: ClickMarkerDetail.Lat,
-            lng: ClickMarkerDetail.Lng,
+            lng: ClickMarkerDetail.Lng
         },
         pov: {
             heading: 165,

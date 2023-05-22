@@ -10,8 +10,10 @@
 
 <div class="index-header">
 	<h2>寵物友善地圖</h2>
+	<p>愛寵物，就像愛自己一樣</p>
+	<p>我們周邊需要更多的寵物友善環境。</p>
 </div>
-<div class="container mx-2">
+<div class="container mt-5">
 	<div id="form" class="row">
 		<div class="col-3">
 			<select id="ChooseCity">
@@ -23,27 +25,52 @@
 				<option value="hide">-- 選擇鄉鎮 --</option>
 			</select>
 		</div>
-		<div class="col-3">
-			<button id="search" class="button" type="button">搜尋</button>
-		</div>
 	</div>
 </div>
-<div class="container my-4">
-
+<div class="container my-3">
 	<div class="row" style="height: 600px;">
-		<div id="map" class="col-7 m-0 p-3" style="max-width:100%; border-radius: 1rem;"></div>
-		<div class="col-5">
-			<div class="card-new" style="height: 600px;">
-				<div>
-					<h5>愛寵物，就像愛自己一樣，</h5><h5 class="mb-4 pb-4 border-bottom">我們周邊需要更多的寵物友善環境。</h5>
-					
-					<div id="PlaceName" class="mt-2" style="background: black; border-radius: 1rem;"></div>
-					<div id="InfoBox" class="col"></div>
-					<div id="InfoBoxBody" class="p-3 lh-lg">
-@*						<button type="button" style="border: 0; border-radius: 1rem; color: black; background: black; padding: 5px 20px 5px 20px; font-size: 12px">Tel</button>
-						<button type="button" style="border: 0; border-radius: 1rem; color: black; background: black; padding: 5px 20px 5px 20px; font-size: 12px">Address</button>*@
+		<div id="map" class="col-lg-7 col-sm-12 m-0 p-3" style="max-width: 100%; border-radius: 1rem;">
+		</div>
+		<div class="col-lg-5 col-sm-12 ">
+			<div class="card-new" style="overflow: scroll; height: 600px;">
+				<div id="PlaceList" >
+					<ul class="">
+
+					</ul>
+				</div>
+				<div id="PlaceName" class="mt-2" style="background: #ffd33b; border-radius: 1rem;">
+					<div id>
+
 					</div>
-					<button type="button" id="btn_StreetView" class="button button-icon button-icon-left button-primary-outline visually-hidden">觀看街景地圖</button>
+				</div>
+				<div id="InfoBox" class="col"></div>
+				<div id="InfoBoxBody" class="p-3 lh-lg">
+				</div>
+				<button type="button" id="btn_StreetView" class="button button-icon button-icon-left button-primary-outline visually-hidden">觀看街景地圖</button>
+				<a href="https://www.youtube.com" target="_blank">
+					<button style="border:1px solid black; color: black; border-radius: 2rem; padding:5px 30px;">聯繫店家</button>
+				</a>
+				<a href="https://www.youtube.com" target="_blank">
+					<button style="border:1px solid black; color: black; border-radius: 2rem; padding:5px 30px;">導航</button>
+				</a>
+				<p class="type_bar">Bar</p>
+				<p class="type_bar">Restaurant</p>
+				<p class="type_bar">Business</p>
+				<p class="type_bar">Inn</p>
+				<p class="type_bar">Shopping</p>
+				<p class="type_bar">Cafe</p>
+				<p class="type_bar">Park</p>
+				<p class="type_bar">Pet Groomer</p>
+				<div style="text-align: right; font-size: 15px;">
+					<div>電話
+					</div>
+					<div>
+						地址
+					</div>
+					<div>
+						營業時間
+					</div>
+
 				</div>
 			</div>
 		</div>
