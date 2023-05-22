@@ -9,66 +9,40 @@
 
     </style>
 }
-<h3>個人資料</h3>
+<h3>會員資訊</h3>
 <hr />
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-5">
-            <div>
-                <a asp-action="Index">個人資料</a>
-            </div>
-            <div>
-                <a asp-action="MyOrder">我的訂單</a>
-            </div>
-            <div>
-                <a asp-action="MyClass">我的課程</a>
-            </div>
-            <div>
-                <a asp-action="MyConpon">我的優惠券</a>
-            </div>
-        </div>
-        <div class="col-5 ">
-            <div>
-                <span>
-                    @Html.DisplayNameFor(model => model.MemberName):
-                </span>
 
-            </div>
-            <div>
-                <span>
-                    @Html.DisplayNameFor(model =>model.MemberGender):
-                </span>
-            </div>
-            <div>
-                <span>
-                    @Html.DisplayNameFor(model => model.MemberBirthday):
-                </span>
-                
-            </div>
-            <div>
-                <span>
-                    @Html.DisplayNameFor(model =>model.MemberPhone):
-                </span>
-                
-            </div>
-            <div>
-                <span>
-                    @Html.DisplayNameFor(model=>model.MemberEmail):
-                </span>
-               
-            </div>
-            <div>
-                <span>
-                    @Html.DisplayNameFor(model=>model.MemberAdress):
-                </span>
-                
-            </div>
-            <div>
-                <a asp-action="UpdateMemberData">修改資料及密碼</a>
-            </div>
-
-        </div>
-
+<div>
+    <div>
+        <label>姓名</label>
+        <input type="text"/>
     </div>
+    <div>
+        <label>生日</label>
+        <input type="date"/>
+    </div>
+    <div>
+        <label>性別</label>
+        <input type="text"/>
+    </div>
+    <div>
+        <label>手機號碼</label>
+        <input type="text" maxlength="10"/>
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email">
+    </div>
+    <div>
+        <label>地址</label>
+        <input type="text"/>
+    </div>
+    <div>
+        <form asp-controller="Members" asp-action="UpdateMemberData">
+            <button class="button button-lg button-primary button-zakaria">修改資料及密碼</button>
+        </form>
+    </div> 
 </div>
 
+
+    

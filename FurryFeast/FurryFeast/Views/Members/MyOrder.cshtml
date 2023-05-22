@@ -26,27 +26,23 @@
                 <input type="search" name="OrderSearch" />
                 <input type="submit" name="OrderSearch" value="查詢" />
             </div>
+
             <div>
-                <span>
-                    訂單日期:
-                </span>
-                <span>
-@*                    @foreach (var item in Model)
-                    {
-                        @Html.DisplayFor(modelItem => item.OrderCreateDate)
-                    }*@
-                </span>
+                <table id="MyOrderTable">
+                    <tr>
+                        <th>訂單日期</th>
+                        <th>訂單編號</th>
+                    </tr>
+                    <tr v-for="">
+                        <td>
+
+                        </td>
+                    </tr>
+                </table>
             </div>
+ 
             <div>
-                <span>
-                    訂單編號:
-                </span>
-                <span>
-@*                    @foreach (var item in Model)
-                    {
-                        @Html.DisplayFor(modelItem => item.OrderId)
-                    }*@
-                </span>
+
                 <a asp-controller="OrderDetails" asp-action="Index">訂單明細</a>
             </div>
         </div>
@@ -55,9 +51,14 @@
 </div>
 
 @section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
-        $(document).ready(function(){
+        let MyOrDer = new Vue({
+            el:"#MyOrderTable",
+            data:{
+                let self = this;
 
+            }
         })
     </script>
 }
