@@ -19,7 +19,7 @@ namespace FurryFeast.API
         public Object GetMyOrder(MyOrderViewModel list)
         {
 
-            return _context.Orders.Select(x=>x.MemberId ==  list.MemberId).ToList();
+            return _context.Orders.Select(x=>x.OrderId ==  list.OrderId).ToList();
         }
     }
 }

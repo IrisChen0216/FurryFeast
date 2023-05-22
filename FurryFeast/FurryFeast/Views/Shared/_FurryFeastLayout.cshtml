@@ -5,6 +5,7 @@
     // 取得當前 controller 和 index 名稱, 把 / 去掉
     var temp = HttpContextAccessor.HttpContext.Request.Path.Value.Replace("/", "");    
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,37 +127,29 @@
             </nav>
 
             <!-- navbar-login -->
-            <nav class="p-1">
-   
-                <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCart" method="post">
-                    <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
-                </form>
-
-               
-                <form id="Login" asp-controller="Members" asp-action="Login">
-                    <button id="btn" class="btn btn-dark" controller="Members" action="Login"><i class="bi bi-person-circle"></i></button>
-@*                    <li class="dropdown">
-                    <a asp-controller="Members" asp-action="Login" class="btn btn-dark"><i class="bi bi-person-circle bi-chevron-down"></i> </a>
-                    <ul>
-                    <li><a asp-controller="Members" asp-action="Index">個人資料</a></li>
-                    <li><a asp-controller="Members" asp-action="MyOrder">我的訂單</a></li>
-                    <li><a asp-controller="Members" asp-action="MyClass">我的課程</a></li>
-                    <li><a asp-controller="Members" asp-action="MyConpon">我的優惠券</a></li>
-                    </ul>
-                    </li>*@
-                </form>
-                
-               
-
-             
-
-
-
-            </nav>
-
+            <ul class="navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                { <nav class="p-1">
+                        <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCart" method="post">
+                            <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
+                        </form>
+                        <form id="Logout" asp-controller="Member" asp-action="Logout">
+                            <button id="btn" class="btn btn-dark" controller="Member" action="Logout"><i class="bi bi-door-open"></i></button>
+                        </form>
+                    </nav>
+                }
+                else
+                {
+                    <nav class="p-1">
+                        <form id="Login" asp-controller="Member" asp-action="Login">
+                            <button id="btn" class="btn btn-dark" controller="Member" action="Login"><i class="bi bi-person-circle"></i></button>
+                        </form>
+                    </nav>
+                }
+            </ul>
         </div>
     </div>
-
+    
 	<div class="container">
         <main role="main" class="pb-3">
 

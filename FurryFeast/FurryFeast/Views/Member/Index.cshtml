@@ -1,0 +1,95 @@
+﻿@model IEnumerable<FurryFeast.Models.Member>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Style{
+    <style>
+
+    </style>
+}
+@*@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+}
+*@
+<h3>會員資訊</h3>
+<hr />
+<!-- RD Mailform-->
+<form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+    <div class="form-wrap">
+        <span>姓名</span>
+        <input id="contact-name" type="text" name="name"  class="form-control" />
+    </div>
+    <div class="form-wrap">
+        <label for="contact-phone" class="form-label>Phone</label>
+        <input id="contact-phone" type="text" name="phone" data-constraints="Required" class="form-control" />
+    </div>
+    <div class="form-wrap">
+        <label for="contact-email" class="form-label">E-Mail</label>
+        <input id="contact-email" type="email" name="email"  class="form-control" />
+    </div>
+    <div class="form-wrap form-wrap-recaptcha">
+        <div class="recaptcha" id="captcha1" data-sitekey="6LfZlSETAAAAAC5VW4R4tQP8Am_to4bM3dddxkEt"></div>
+    </div>
+
+</form>
+<div id="form-output-global"></div>
+
+<div>
+    <table id="Member">
+        <tr id ="Member" v-for="item in all">
+            <td>
+                {{item.all.MemberName}}
+            </td>
+        </tr>
+    </table>
+    <div id="Member" v-for="item in all">
+        <label>姓名</label>
+        <label>{{item.all.MemberName}}</label>
+        <input class="form-input form-control" id="input" type="text" value="{{item.memberData.MemberName}}" name="name">
+    </div>
+    <div>
+        <label>生日</label>
+        <input type="date" value="{{x.memberBirthday}}"/>
+    </div>
+    <div>
+        <label>性別</label>
+        <input type="text" value="{{x.memberGender}}">
+    </div>
+    <div>
+        <label>手機號碼</label>
+        <input type="text" maxlength="10" value="{{x.memberPhone}}"/>
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email" value="{{x.memberEmail}}">
+    </div>
+    <div>
+        <label>地址</label>
+        <input type="text" value="{{x.memberAdress}}"/>
+    </div>
+    <div>
+        <form asp-controller="Member" asp-action="UpdateMemberData">
+            <button class="button button-lg button-primary button-zakaria">修改資料及密碼</button>
+        </form>
+    </div> 
+</div>
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        var MemberData = new Vue({
+            el:"#Member",
+            data:{
+                memberdata:[],
+            },
+            methods:function(){
+                let self = this;
+                axious('api/Member/all').then(res=> self.memberdata =res.data)
+            }
+
+        })
+    </script>
+}
+
+    

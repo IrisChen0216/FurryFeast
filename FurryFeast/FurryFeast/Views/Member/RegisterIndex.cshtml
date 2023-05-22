@@ -6,18 +6,18 @@
 <h3>註冊會員</h3>
 
 <div >
+    <form action="/Member/Register" method="post">
     <div>
-
         <label for="">帳號: </label>
-        <input class="form-input form-control-has-validation" id="contact-first-name-2" type="email" name="name" data-constraints="Required">
+        <input class="form-input form-control-has-validation" id="contact-first-name-2" type="email" placeholder="請輸入Email帳號" name="MemberAccount" data-constraints="Required">
     </div>
     <div>
         <label for="">密碼:</label>
-        <input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" name="name" data-constraints="Required">
+        <input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" name="MemberPassword" data-constraints="Required">
     </div>
     <div>
         <label for="">姓名: </label>
-        <input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" name="name" data-constraints="Required">
+        <input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" name="MemberName" data-constraints="Required">
     </div>
     <div>
         <label for="">性別:</label>
@@ -34,11 +34,11 @@
         <label for="">手機號碼: </label>
         <input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" name="name" data-constraints="Required" maxlength="10">
     </div>
-    <div class="btn">
-        <form>
-            <button class="button button-lg button-primary button-zakaria" type="submit">註冊</button>
-        </form>
+    <div class="btn">  
+            <button class="button button-lg button-primary button-zakaria" type="submit">註冊</button> 
     </div>
+    </form>
 </div>
+
 
 
