@@ -1,3 +1,15 @@
+
+
+#PlaceList ul li {
+    padding: 20px;
+    border-top: 1px solid #ccc;
+}
+
+#PlaceList ul li:first-child {
+    border: 0;
+}
+
+
 *::-webkit-scrollbar,
 *::-webkit-scrollbar-thumb {
     width: 26px;
@@ -23,7 +35,12 @@
     transition: color .3s ease;
 }
 
-
+.infoBoxText {
+    line-height: 30px;
+    text-align: right;
+    font-size: 15px;
+    font-weight: bold;
+}
 
 .type_bar {
     border: 1px solid black;
@@ -35,6 +52,13 @@
 
 }
 
+.btnWebsite {
+    border:1px solid black;
+    color: black;
+    border-radius: 2rem;
+    padding: 5px 30px;
+}
+
 .ratings {
     position: relative;
     vertical-align: middle;
@@ -42,7 +66,7 @@
     color: #ddd;
     /*背景星星顏色*/
     overflow: hidden;
-    font-size: 30px;
+    font-size: 25px;
     /*調整字體大小可放大縮小星星*/
 }
 
@@ -125,7 +149,6 @@ p a:hover {
     left: 0;
     margin-top: 5px;
     border-bottom: 1px solid hwb(43 18% 0%);
-    ;
     /* background-color: #ffffff; */
     /* background-color: #c0392b; */
     padding: 8px 15px;
@@ -153,8 +176,8 @@ p a:hover {
     .select-styled:active,
     .select-styled.active {
         /* margin-top: 5px; */
-        background-color: hwb(43 18% 0%);
-        ;
+        background-color: hwb(43, 18%, 0%);
+        
     }
 
         .select-styled:active:after,

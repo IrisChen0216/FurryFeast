@@ -104,6 +104,7 @@ $("#ChooseCounty").change(function (e) {
         $(".card-new").append($('<p id="pp" style="font-size:12px; letter-spacing: 3px; color: gray; ">共' + area.length + '筆資料</p>'));
         placeID = area[0].place_id;
         MarkerDetail();
+        console.log('3333333333');
         $('#btn_StreetView').removeClass("visually-hidden");
         initStreetView();
     }
@@ -116,9 +117,14 @@ $("#ChooseCounty").change(function (e) {
 
 function GetPlaceList() {
     for (let i = 0; i < area.length; i++) {
-        $("#PlaceList > ul").append($('<li>',{ text: area[i].name}));
+        let listItem = $('<li>');
+        let button = $('<button>', { text: area[i].name, id: area[i].place_id });
+
+        listItem.append(button);
+        $("#PlaceList > ul").append(listItem);
     }
 }
+
 
 //取得寵物友善地點清單
 function getPlaceData(data) {
@@ -179,6 +185,7 @@ function CreateMarkers() {
             MarkerDetail();
             $('#PlaceList >ul').empty();
             $('#btn_StreetView').removeClass("visually-hidden");
+            $('#InfoBoxBody').removeClass("visually-hidden");
             initStreetView();
 
             console.log("點擊了" + placeID);
@@ -186,6 +193,26 @@ function CreateMarkers() {
 
         markers.push(marker);
     });
+}
+
+$("#PlaceList ul").on('click', 'li button', MarkerClick);
+
+function MarkerClick() {
+    let btnID = $(this).attr('id');
+    for (let i = 0; i < area.length; i++) {
+        if (area[i].PlaceID == btnID) {
+            placeID = area[i].PlaceID;
+            MarkerDetail();
+            $('#PlaceList >ul').empty();
+            $('#btn_StreetView').removeClass("visually-hidden");
+            $('#InfoBoxBody').removeClass("visually-hidden");
+            initStreetView();
+        }
+        console.log("點擊了" + placeID);
+    }
+    console.log("點擊了" + btnID);
+    console.log("點擊了");
+
 }
 
 // Delete Markers
@@ -217,7 +244,9 @@ function MarkerDetail() {
                 Lng: area[i].lng,
                 Website: area[i].website,
                 Description: area[i].description,
-                OpenHours: area[i].opening_hours_weekday
+                OpenHours: area[i].opening_hours_weekday,
+                Type: area[i].icon
+
         };
         }
     }
@@ -226,9 +255,10 @@ function MarkerDetail() {
 
 // 重置
 function Reset() {
-    $("#PlaceName.mt-2").empty();
-    $("#InfoBox > :first").empty();
-    $("#InfoBoxBody").empty();
+    $('#PlaceName.mt-2').empty();
+    $("#infoHeader >.type_bar").remove();
+    $("#RatingBox").empty();
+    $("#InfoBoxBody >.col-9").empty();
     $("#PlaceList >ul").empty();
     $(".card-new >p").empty();
 
@@ -240,37 +270,56 @@ function Reset() {
     if (panorama) {
         panorama.setVisible(false);
     }
+
+    if (!$("#InfoBoxBody").hasClass("visually-hidden")) {
+        $("#InfoBoxBody").addClass("visually-hidden");
+    }
 }
 
 // 輸出商家細節
 function OutputInfo() {
     let StarWidth = ClickMarkerDetail.Rating * 20;
 
-    $("#PlaceName.mt-2").empty();
-    $("#InfoBox > :first").empty();
-    $("#InfoBoxBody").empty();
-    let RatingBox = $("<div></div>").addClass("text-center");
-    $(RatingBox).appendTo("#InfoBox");
-
-    let strHTML = `<p class="py-0 m-0 fw-bold" style="font-size:40px;">${ClickMarkerDetail.Rating}</p>
-                    <div class="ratings">
-                        <div class="empty_star">★★★★★</div>
-                        <div class="full_star" style="width:${StarWidth}%">★★★★★</div>
-                        <p class="m-0" style="font-size:12px; color:#adadad;">${ClickMarkerDetail.User_ratings_total}人評分</p>
-                    </div>`;
-
-    $("#InfoBox > :first-child").append(strHTML);
-
+    Reset();
 
     $("#PlaceName.mt-2").append('<h4 class="py-2 px-4" style="color:white";>' + ClickMarkerDetail.Name + '</h4>');
-    if (ClickMarkerDetail.Description) {
-        $("#PlaceName.mt-2").append('<p style="font-size:15x; color:black; margin: 0px; padding: 0px 0px 10px 0px">' + ClickMarkerDetail.Description + '</p>');
-    }
-    $("#InfoBoxBody").append('<div class="fs-6"><a href="tel:' + ClickMarkerDetail.PhoneNumber + '">' + ClickMarkerDetail.PhoneNumber + '</a></div>');
-    $("#InfoBoxBody").append('<div class ="fs-6" >' + ClickMarkerDetail.Address + "</div>");
-    $("#InfoBoxBody").append('<div class ="fs-6" >' + ClickMarkerDetail.OpenHours + "</div>");
-    $("#InfoBoxBody").append('<div class ="fs-6" >' + ClickMarkerDetail.Website + "</div>");
 
+    if (ClickMarkerDetail.Description) {
+        $("#PlaceName.mt-2").append('<p style="font-size:12x; color:black; margin: 0px; padding: 0px 15px 15px 15px">' + ClickMarkerDetail.Description + '</p>');
+    }
+    $("#infoHeader").append(`<p class="type_bar mt-2">${ClickMarkerDetail.Type}</p>`);
+
+    let strHTML =
+        `<div class="col-5 p-0 fw-bold" style="text-align: right; display: inline-block;font-size:40px; padding-left: 30px;">${ClickMarkerDetail.Rating}</div>
+        <div class="col" style="text-align: left">
+        <div class="ratings">
+        <div class="empty_star">★★★★★</div>
+        <div class="full_star" style="width:${StarWidth}%">★★★★★</div></div>
+        <div class="m-0" style="font-size:12px; color:#adadad;">${ClickMarkerDetail.User_ratings_total}人評分</div></div>`
+
+    $("#RatingBox").append(strHTML);
+
+
+    $("#InfoBoxBody >.col-9").append('<p class="fs-6 "><a href="tel:' + ClickMarkerDetail.PhoneNumber + '">'+ ClickMarkerDetail.PhoneNumber + '</a></p>');
+    $("#InfoBoxBody >.col-9").append('<p class ="fs-6 " >' + ClickMarkerDetail.Address + "</p>");
+
+
+    if (ClickMarkerDetail.OpenHours) {
+        $("#InfoBoxBody >.col-9").append('<p class ="fs-6 " >' + ClickMarkerDetail.OpenHours + "</p>");
+    } else {
+        $("#InfoBoxBody >.col-9").append('<p class ="fs-6" style="color:gray">尚未提供</p>');
+    }
+
+    if (ClickMarkerDetail.Website) {
+        $("#InfoBoxBody >.col-9").append($('<a>', { id: "btnWebsite", href: ClickMarkerDetail.Website, target: "_blank" }));
+        $("a#btnWebsite").append($("<button>", { class: "type_bar mt-2", text: "點我前往官網" }));
+    } 
+
+    if (!$("#InfoBoxBody").hasClass("visually-hidden")) {
+        $("#InfoBoxBody").addClass("visually-hidden");
+    } else {
+        $("#InfoBoxBody").removeClass("visually-hidden");
+    }
 } 
 
 
