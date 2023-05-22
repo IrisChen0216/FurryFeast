@@ -5,7 +5,7 @@
 	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
-	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+
 	<style>
 		a {
 			color: black;
@@ -136,15 +136,15 @@
 
 					</div>
 					<!-- 商品-->
-					<div class="row" >
+					<div class="row">
 
 
 						<div class="col col-3 " v-for="item in products">
 							<article class="product" style="margin-bottom:30px">
 								<div class="product-body">
-									<div class="product-figure" >
+									<div class="product-figure">
 										@*<partial name="_ShowPictruePartial" model="@item"></partial>*@
-										<img src="item.product.pics" alt="" width="200" height="200" />
+										<img src="" alt="" width="200" height="200" />
 									</div>
 									<h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="">{{item.product.productName}}</a></h5>
 									<div class="product-price-wrap">
@@ -155,7 +155,7 @@
 								@*<span class="product-badge product-badge-sale">Sale</span>*@
 								<div class="product-button-wrap">
 									<div class="product-button"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="" class="button button-secondary button-zakaria fl-bigmug-line-search74"></a></div>
-									<div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" asp-controller="Cart" asp-action="CartAdd" asp-route-id="" asp-route-amount="1" onclick="CartAddShow()"></a></div>
+									<div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" v-on:click="AddCart(item.product.productId)"></a></div>
 								</div>
 							</article>
 						</div>
@@ -183,28 +183,33 @@
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
 	<script src="~/js/slick.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
-	
 	<script>
-		
+
 		let app = new Vue({
 			el: '#app',
 			data: {
 				products: [],
+
 			},
 			mounted: function () {
 				let _this = this;
 				axios(`/api/products/AllProducts`).then(res => _this.products = res.data)
+				//_this.imageData=res.pics
 			},
 			methods: {
-				
-				
+				AddCart: function (ID) {
+
+					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
+						.then(
+								alert('成功加入購物車!')							
+						);
+				},
 			}
 		});
 
-		function CartAddShow() {
-			alert('成功加入購物車!');
-		}
+
 
 		$('.productsTitleSlick').slick({
 			dots: true,
