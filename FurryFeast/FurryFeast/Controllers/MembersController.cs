@@ -10,6 +10,7 @@ using FurryFeast.ViewModels;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FurryFeast.Controllers
 {
@@ -163,24 +164,52 @@ namespace FurryFeast.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> MyOrder()
+        [Authorize]
+        public IActionResult MyOrder()
         {
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> MyClass()
         {
             return View();
         }
-
+        [Authorize]
         public async Task<IActionResult> MyConpon()
         {
             return View();
         }
 
-        public async Task<IActionResult> Register()
+        public IActionResult RegisterIndex()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel list)
+        {
+            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount);
+            if (Member != null)
+            {
+                ViewBag.Error = "已有帳號存在!";
+                return View("Login");
+            }
+            _context.Members.Add(new Member()
+            {
+                MemberAccount = list.MemberAccount,
+                MemberPassord = list.MemberPassord,
+                MemberAdress = list.MemberAdress,
+                MemberName = list.MemberName,
+                MemberEmail = list.MemberEmail,
+                MemberPhone = list.MemberPhone,
+                MemberBirthday = list.MemberBirthday,
+                MemberGender = list.MemberGender,
+                MemberId = list.MemberId
+               
+            });
+            _context.SaveChanges();
+            return RedirectToAction("Index","Home");
         }
 
         public IActionResult Login()
@@ -189,11 +218,10 @@ namespace FurryFeast.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel list)
 
-        { 
-            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == model.MemberAccount
-            && x.MemberPassord == model.MemberPassord);
+        {
+            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
             if (Member == null)
             {
@@ -201,20 +229,25 @@ namespace FurryFeast.Controllers
                 return View("Login");
             }
             //return Ok(model.MemberAccount + model.MemberPassord);
-            var Claims = new Claim(ClaimTypes.Name, Member.MemberName);
-            var ClaimIndentity = new ClaimsIdentity((IEnumerable<Claim>?)Claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var ClaimList=new List<Claim>() {
+			new Claim(ClaimTypes.Name, Member.MemberName),
+            new Claim("Id",Member.MemberId.ToString())
+		};
+         
+
+            var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
-            await HttpContext.SignInAsync(ClaimPrincipal);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,ClaimPrincipal);
             return RedirectToAction("Index", "Home");
         }
 
-
+        [Authorize]
         public async Task<IActionResult> UpdateMemberData()
         {
             return View();
         }
 
-        public async Task<IActionResult> ForgetPassord()
+        public async Task<IActionResult> ForgetPassword()
         {
             return View();
         }

@@ -1,29 +1,41 @@
-﻿@*<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />*@
     <title>@ViewData["Title"]</title>
-
 
     <style>
         .card-new {
-            transition: transform 0.3s; /* 添加过渡效果 */
+            transition: transform 0.3s;
         }
 
             .card-new:hover {
-                transform: scale(1.05); /* 悬停时微微放大 */
+                transform: scale(1.05);
             }
-    </style>
-@*</head>*@
 
-@section Style{
+        #search:hover {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+
+        #select-shelter {
+            width: 250px !important;
+        }
+
+        #search {
+            border-radius: 6px;
+        }
+    </style>
+
     <link rel="icon" href="images/favicon.ico" type="~/image/x-icon">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
-	<link href="~/css/petclass/style.css" rel="stylesheet" />
-	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
-	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-}
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
+    <link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
 
+
+</head>
 <body>
     <div class="index-header">
         <h2>全台收容所資訊</h2>
@@ -49,11 +61,48 @@
             <div class="product-top-panel-sorting">
                 <select id="select-shelter" data-minimum-results-for-search="Infinity">
                     <option value="">收容所</option>
+                    <option value="基隆市寵物銀行">基隆市寵物銀行</option>
+                    <option value="臺北市動物之家">臺北市動物之家</option>
+                    <option value="新北市板橋區公立動物之家">新北市板橋區公立動物之家</option>
+                    <option value="新北市新店區公立動物之家">新北市新店區公立動物之家</option>
+                    <option value="新北市中和區公立動物之家">新北市中和區公立動物之家</option>
+                    <option value="新北市淡水區公立動物之家">新北市淡水區公立動物之家</option>
+                    <option value="新北市瑞芳區公立動物之家">新北市瑞芳區公立動物之家</option>
+                    <option value="新北市五股區公立動物之家">新北市五股區公立動物之家</option>
+                    <option value="新北市八里區公立動物之家">新北市八里區公立動物之家</option>
+                    <option value="新北市三芝區公立動物之家">新北市三芝區公立動物之家</option>
+                    <option value="桃園市動物保護教育園區">桃園市動物保護教育園區</option>
+                    <option value="新竹市動物收容所">新竹市動物收容所</option>
+                    <option value="新竹縣動物收容所">新竹縣動物收容所</option>
+                    <option value="臺中市動物之家南屯園區">臺中市動物之家南屯園區</option>
+                    <option value="臺中市動物之家后里園區">臺中市動物之家后里園區</option>
+                    <option value="彰化縣流浪狗中途之家">彰化縣流浪狗中途之家</option>
+                    <option value="南投縣公立動物收容所">南投縣公立動物收容所</option>
+                    <option value="嘉義市流浪犬收容中心">嘉義市流浪犬收容中心</option>
+                    <option value="嘉義縣流浪犬中途之家">嘉義縣流浪犬中途之家</option>
+                    <option value="臺南市動物之家灣裡站">臺南市動物之家灣裡站</option>
+                    <option value="臺南市動物之家善化站">臺南市動物之家善化站</option>
+                    <option value="高雄市壽山動物保護教育園區">高雄市壽山動物保護教育園區</option>
+                    <option value="高雄市燕巢動物保護關愛園區">高雄市燕巢動物保護關愛園區</option>
+                    <option value="屏東縣流浪動物收容所">屏東縣流浪動物收容所</option>
+                    <option value="宜蘭縣流浪動物中途之家">宜蘭縣流浪動物中途之家</option>
+                    <option value="花蓮縣流浪犬中途之家">花蓮縣流浪犬中途之家</option>
+                    <option value="臺東縣動物收容中心">臺東縣動物收容中心</option>
+                    <option value="連江縣流浪犬收容中心">連江縣流浪犬收容中心</option>
+                    <option value="金門縣動物收容中心">金門縣動物收容中心</option>
+                    <option value="澎湖縣流浪動物收容中心">澎湖縣流浪動物收容中心</option>
+                    <option value="雲林縣流浪動物收容所">雲林縣流浪動物收容所</option>
+                    <option value="新北市政府動物保護防疫處">新北市政府動物保護防疫處</option>
+                    <option value="苗栗縣生態保育教育中心">苗栗縣生態保育教育中心</option>
                 </select>
             </div>
+
             <div class="product-top-panel-sorting">
                 <select id="select-gender" data-minimum-results-for-search="Infinity">
                     <option value="">性別</option>
+                    <option value="公">公</option>
+                    <option value="母">母</option>
+                    <option value="未知">未知</option>
                 </select>
             </div>
             <div class="product-top-panel-sorting">
@@ -64,9 +113,12 @@
             <div class="product-top-panel-sorting">
                 <select id="select-age" data-minimum-results-for-search="Infinity">
                     <option value="">年齡</option>
+                    <option value="幼年">幼年</option>
+                    <option value="成年">成年</option>
                 </select>
             </div>
-            <input type="submit" class="search-button btn btn-primary" id="search" value="搜尋">
+            <input type="submit" class="search-button btn btn-primary" id="search" value="搜尋" style="background-color: #ffd33b; color: #ffffff;">
+
         </div>
     </div>
 
@@ -79,13 +131,13 @@
                 <div class="col-lg-4 col-md-4 col-6 mb-4">
                     <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
                         <div class="square-img-container">
-                            <img src="@pet.ImageUrl" alt="宠物图片">
+                            <img src="@pet.ImageUrl" alt="寵物圖片">
                         </div>
                         <div class="card-body-new">
                             <p class="card-title">@pet.animal_kind</p>
                             <p class="card-text">@pet.animal_Variety</p>
                             <p class="card-text">@pet.shelter_name</p>
-                            <!-- 其他宠物信息的显示 -->
+                        
                         </div>
                     </div>
                 </div>
@@ -134,23 +186,22 @@
 		<script src="~/js/product/core.min.js"></script>
 		<script src="~/js/product/script.js"></script>
         <script>
-            // 等待文档加载完成
+
             document.addEventListener('DOMContentLoaded', function () {
-                // 获取所有卡片元素
+        
                 var cards = document.querySelectorAll('.card-new');
 
-                // 遍历每个卡片
+               
                 cards.forEach(function (card) {
-                    // 为每个卡片添加点击事件监听器
+          
                     card.addEventListener('click', function () {
-                        // 获取卡片的ID
+                
                         var cardId = card.id;
 
-                        // 执行所需的操作，例如重定向到新页面或显示更多信息
-                        // 您可以根据需要自定义此部分
-                        console.log('点击的卡片ID：' + cardId);
+          
+                        console.log('點擊的卡片ID：' + cardId);
 
-                        // 示例：重定向到新页面
+               
                         window.location.href = '/details/' + cardId;
                         document.addEventListener('DOMContentLoaded', function () {
                             var cards = document.querySelectorAll('.card-new');
@@ -158,7 +209,7 @@
                             cards.forEach(function (card) {
                                 card.addEventListener('click', function () {
                                     var cardId = card.id;
-                                    console.log('点击的卡片ID：' + cardId);
+                                    console.log('點擊的卡片ID：' + cardId);
                                     window.location.href = '/details/' + cardId;
                                 });
                             });
@@ -171,7 +222,7 @@
                 $("#search").bind("click", Search);
 
                 function Search() {
-                    //alert("sss");
+
 
                     let animal_kind = $("#select-category").val();
                     console.log(animal_kind)

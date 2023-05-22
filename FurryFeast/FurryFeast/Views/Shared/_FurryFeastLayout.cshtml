@@ -37,6 +37,8 @@
     @*Alfie_navBar*@
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 
+    <src></src>
+
     @await RenderSectionAsync("Style", required: false)
     
 </head>
@@ -131,20 +133,23 @@
                 </form>
 
                
-
-                <button id="btn" class="btn btn-dark" controller="Members" action="Login" ><i class="bi bi-person-circle"></i></button>
-               
-
-             
-                @*<li class="dropdown">
+                <form id="Login" asp-controller="Members" asp-action="Login">
+                    <button id="btn" class="btn btn-dark" controller="Members" action="Login"><i class="bi bi-person-circle"></i></button>
+@*                    <li class="dropdown">
                     <a asp-controller="Members" asp-action="Login" class="btn btn-dark"><i class="bi bi-person-circle bi-chevron-down"></i> </a>
-                <ul>
+                    <ul>
                     <li><a asp-controller="Members" asp-action="Index">個人資料</a></li>
                     <li><a asp-controller="Members" asp-action="MyOrder">我的訂單</a></li>
                     <li><a asp-controller="Members" asp-action="MyClass">我的課程</a></li>
                     <li><a asp-controller="Members" asp-action="MyConpon">我的優惠券</a></li>
-                </ul>
-                </li>*@
+                    </ul>
+                    </li>*@
+                </form>
+                
+               
+
+             
+
 
 
             </nav>
@@ -211,14 +216,19 @@
 	<script src="~/js/navbar.js"></script>
     <script src="~/js/swiper.js"></script>
     <script src="~/js/bootstrap.bundle.js"></script>
+
+    @*axious*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+
     <script>
         document.getElementById('Login').addEventListener('submit', function () {
-            window.location.href=this.action;
+            window.location.href= this.action;
         })
         document.getElementById('Cart').addEventListener('submit', function () {
             window.location.href = this.action;
         })
     </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

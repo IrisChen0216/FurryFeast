@@ -9,6 +9,7 @@ using FurryFeast.Models;
 using X.PagedList;
 using FurryFeast.Helper;
 using FurryFeast.ViewModels;
+using Microsoft.CodeAnalysis;
 
 namespace FurryFeast.Controllers
 {
@@ -68,7 +69,13 @@ namespace FurryFeast.Controllers
             //return View(products);
         }
 
-        public async Task<IActionResult> DogProducts()
+		public async Task<IActionResult> IndexNewOne()
+        {
+            return View();
+        }
+
+		
+		public async Task<IActionResult> DogProducts()
         {
 			IQueryable<Product> products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId==1);
 			return View(products);

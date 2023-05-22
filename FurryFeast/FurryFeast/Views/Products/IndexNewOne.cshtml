@@ -1,0 +1,221 @@
+﻿@{
+	ViewData["Title"] = "Index";
+}
+@section Style{
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+	<style>
+		a {
+			color: black;
+		}
+
+		.product {
+			box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.1);
+			border-radius: 6px;
+			border: solid 2px;
+			border-color: antiquewhite;
+		}
+
+		.slick-dots {
+			position: absolute;
+			bottom: 15px;
+		}
+
+		.form-input {
+			display: inline;
+			width: 80%;
+		}
+
+		.product-figure {
+			min-height: 100px;
+		}
+	</style>
+}
+
+
+<div class="container">
+	<div class="slider productsTitleSlick">
+		<div>
+			<img src="~/image/product/home-bg-1.jpg" width="100%" />
+		</div>
+		<div>
+			<img src="~/image/product/home-bg-1.jpg" width="100%" />
+		</div>
+		<div>
+			<img src="~/image/product/home-bg-1.jpg" width="100%" />
+		</div>
+	</div>
+</div>
+
+<div class="container" id="app">
+	<div class="row row-50">
+		<div class="col-lg-4 col-xl-3">
+			@*待固定*@
+			<div class="aside row row-30 row-md-50 justify-content-md-between" style="position:sticky;top:100px">
+
+				<div class="aside-item col-12">
+					<h6 class="aside-title">商 品 價 格</h6>
+					<!-- RD Range-->
+					<div class="rd-range" data-min="0" data-max="999" data-min-diff="100" data-start="[66, 635]" data-step="1" data-tooltip="false" data-input=".rd-range-input-value-1" data-input-2=".rd-range-input-value-2"></div>
+					<div class="group-xs group-justify">
+						<div>
+							<button class="button button-sm button-primary button-zakaria" type="button">搜尋</button>
+						</div>
+						<div>
+							<div class="rd-range-wrap">
+								<div class="rd-range-title">Price:</div>
+								<div class="rd-range-form-wrap">
+									<span>$</span>
+									<input class="rd-range-input rd-range-input-value-1" id="test" type="text" name="value-1">
+								</div>
+								<div class="rd-range-divider"></div>
+								<div class="rd-range-form-wrap">
+									<span>$</span>
+									<input class="rd-range-input rd-range-input-value-2" type="text" name="value-2">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="aside-item col-sm-6 col-md-5 col-lg-12">
+					<h6 class="aside-title">商 品 分 類</h6>
+					<ul class="list-shop-filter">
+						<li>
+							<label class="checkbox-inline">
+								<a asp-controller="Products" asp-action="Index" asp-route-type="@ViewBag.AllProducts">全部商品</a>
+							</label><span class="list-shop-filter-number">{{}}</span>
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<input name="input-group-radio" value="checkbox-4" type="button">鮮食專區
+							</label><span class="list-shop-filter-number">(8)</span> @*待補*@
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<a asp-controller="Products" asp-action="DogProducts">狗狗專區</a>
+							</label><span class="list-shop-filter-number">數量</span>
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<a asp-controller="Products" asp-action="Index" asp-route-type="@ViewBag.CatProducts">貓咪專區</a>
+							</label><span class="list-shop-filter-number">數量</span>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="col-lg-8 col-xl-9">
+			<div class="row row-30 row-md-50 row-lg-60">
+				<div class="col-12">
+					<div class="row">
+						<!-- 搜尋列-->
+						<div class="col col-6">
+							<form class="rd-search form-search" asp-controller="Products" asp-action="Index" method="post">
+								@*<h6 class="aside-title">搜尋商品</h6>*@
+								<div class="form-wrap">
+									<label class="form-label" for="searchForm">搜尋商品 ...</label>
+									<input class="form-input" id="searchForm" type="text" name="searchForm" autocomplete="on" value="@ViewBag.Filter" style="width:contain">
+									<button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
+								</div>
+							</form>
+						</div>
+						<!--排序功能-->
+						<div class="col col-6 box-info-modern-title">
+							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.NewProducts">上架時間</a> |
+							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.ProductsPrice">價格高低</a> |
+							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.OrdersRank">熱門排名</a>
+							@*待補連結*@
+						</div>
+
+					</div>
+					<!-- 商品-->
+					<div class="row" >
+
+
+						<div class="col col-3 " v-for="item in products">
+							<article class="product" style="margin-bottom:30px">
+								<div class="product-body">
+									<div class="product-figure" >
+										@*<partial name="_ShowPictruePartial" model="@item"></partial>*@
+										<img src="item.product.pics" alt="" width="200" height="200" />
+									</div>
+									<h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="">{{item.product.productName}}</a></h5>
+									<div class="product-price-wrap">
+										@*<div class="product-price product-price-old">$@item.ProductPrice</div>*@
+										<div class="product-price">${{item.product.productPrice}}</div>
+									</div>
+								</div>
+								@*<span class="product-badge product-badge-sale">Sale</span>*@
+								<div class="product-button-wrap">
+									<div class="product-button"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="" class="button button-secondary button-zakaria fl-bigmug-line-search74"></a></div>
+									<div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" asp-controller="Cart" asp-action="CartAdd" asp-route-id="" asp-route-amount="1" onclick="CartAddShow()"></a></div>
+								</div>
+							</article>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div style="height:auto;">
+	@*Page @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) of @Model.PageCount
+	@Html.PagedListPager(Model,page=>Url.Action("Index",new{page,sortProducts=ViewBag.CurrentSort}))*@
+	@*<h6>
+	@Html.PagedListPager(Model,page=>Url.Action("Index",new{page}))
+	</h6>*@
+</div>
+
+
+@section Scripts{
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="~/js/product/core.min.js"></script>
+	<script src="~/js/product/script.js"></script>
+	<script src="~/js/slick.min.js"></script>
+
+	
+	<script>
+		
+		let app = new Vue({
+			el: '#app',
+			data: {
+				products: [],
+			},
+			mounted: function () {
+				let _this = this;
+				axios(`/api/products/AllProducts`).then(res => _this.products = res.data)
+			},
+			methods: {
+				
+				
+			}
+		});
+
+		function CartAddShow() {
+			alert('成功加入購物車!');
+		}
+
+		$('.productsTitleSlick').slick({
+			dots: true,
+			infinite: true,
+			speed: 300,
+			slidesToShow: 1,
+			adaptiveHeight: true,
+			autoplay: true
+		});
+		$(".slick-prev.slick-arrow").text("");
+		$(".slick-next.slick-arrow").text("");
+
+	</script>
+}

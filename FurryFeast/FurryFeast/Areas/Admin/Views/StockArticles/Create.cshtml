@@ -1,0 +1,78 @@
+﻿@model FurryFeast.Models.StockArticle
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>StockArticle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AarticlesCode" class="control-label"></label>
+                <input asp-for="AarticlesCode" class="form-control" />
+                <span asp-validation-for="AarticlesCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArticlesIsValid" class="control-label"></label>
+                <input asp-for="ArticlesIsValid" class="form-control" />
+                <span asp-validation-for="ArticlesIsValid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArticlesDescription" class="control-label"></label>
+                <input asp-for="ArticlesDescription" class="form-control" />
+                <span asp-validation-for="ArticlesDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArticlesNotes" class="control-label"></label>
+                <input asp-for="ArticlesNotes" class="form-control" />
+                <span asp-validation-for="ArticlesNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArticlesPrice" class="control-label"></label>
+                <input asp-for="ArticlesPrice" class="form-control" />
+                <span asp-validation-for="ArticlesPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArticlesQuantity" class="control-label"></label>
+                <input asp-for="ArticlesQuantity" class="form-control" />
+                <span asp-validation-for="ArticlesQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupId" class="control-label"></label>
+                <select asp-for="GroupId" class ="form-control" asp-items="ViewBag.GroupId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="MeasureUnitId" class="control-label"></label>
+                <select asp-for="MeasureUnitId" class ="form-control" asp-items="ViewBag.MeasureUnitId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="WarehousesId" class="control-label"></label>
+                <select asp-for="WarehousesId" class ="form-control" asp-items="ViewBag.WarehousesId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersId" class="control-label"></label>
+                <select asp-for="SuppliersId" class ="form-control" asp-items="ViewBag.SuppliersId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagesId" class="control-label"></label>
+                <select asp-for="ImagesId" class ="form-control" asp-items="ViewBag.ImagesId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

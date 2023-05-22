@@ -2,6 +2,7 @@ using FurryFeast.Data;
 using FurryFeast.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 
@@ -35,10 +36,12 @@ namespace FurryFeast
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages();
 
+            builder.Services.AddControllersWithViews();
+               builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddDistributedMemoryCache();
             //加入購物車要用的Session
             builder.Services.AddSession(option =>
             {

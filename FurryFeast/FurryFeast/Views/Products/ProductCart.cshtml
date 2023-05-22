@@ -41,10 +41,10 @@
                             <td>$@item.Price</td>
                             <td>
                                 <div class="table-cart-stepper">
-                                    <input class="form-input ProductAmount" type="number" data-zeros="true" value="@item.Amount" min="1" max="1000">
+                                    <input id="@item.ProductID" class="form-input ProductAmount" type="number" data-zeros="true" value="@item.Amount" min="1" max="1000">
                                 </div>
                             </td>
-                            <td>$@((@item.Amount) * (@item.Price))</td>
+                            <td class="changePrice">$@((@item.Amount) * (@item.Price))</td>
                             <td>
                                 <form name="removeProduct" asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductID">
                                     <button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit"><i class="bi bi-trash"></i></button>
@@ -111,7 +111,52 @@
            })      
         }
 
-        $('.ProductAmount').val()
+            let Amounts = document.getElementsByClassName('ProductAmount');
+           
+            //let changePrice = document.getElementsByClassName('changePrice');
+            let address = " https://localhost:7110";
+            for (let i = 0; i < Amounts.length; i++) {
+                Amounts[i].addEventListener('change', function () {
+                    let oneAmount = {
+                        id: Amounts[i].id,
+                        amount: Amounts[i].value
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: `${address}/Cart/CartUpdate`,
+                        data: oneAmount,
+                        success: function () {
+                            alert('數量調整了!');
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert(xhr.status + ": " + errorThrown);
+                        }
+                    });
+                
+                });
+            };
+        
+        
+        
+        //var address = " https://localhost:7110";
+
+        //function AmountChange() {
+        //    let cartItem = {
+        //        id:,
+        //        amount: $('#ProductAmount').val()
+        //    };
+        //    $.ajax({
+        //        type: "POST",
+        //        url: `${address}/Cart/CartAdd`,
+        //        data: cartItem,
+        //        success: function () {
+        //            alert('成功加入購物車!');
+        //        },
+        //        error: function (xhr, textStatus, errorThrown) {
+        //            alert(xhr.status + ": " + errorThrown);
+        //        }
+        //    });
+        //};
         
         
     </script>
