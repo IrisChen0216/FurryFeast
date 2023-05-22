@@ -84,23 +84,15 @@ namespace FurryFeast.Models
 
             modelBuilder.Entity<Article>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Article");
 
-                entity.Property(e => e.AdminId).HasColumnName("Admin_ID");
+                entity.Property(e => e.ArticleId).HasColumnName("Article_ID");
 
-                entity.Property(e => e.AdminName)
-                    .HasMaxLength(10)
-                    .HasColumnName("Admin_Name");
+                entity.Property(e => e.AdminId).HasColumnName("Admin_ID");
 
                 entity.Property(e => e.ArticleDate)
                     .HasColumnType("datetime")
                     .HasColumnName("Article_Date");
-
-                entity.Property(e => e.ArticleId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("Article_ID");
 
                 entity.Property(e => e.ArticleText)
                     .HasMaxLength(500)
@@ -111,7 +103,7 @@ namespace FurryFeast.Models
                     .HasColumnName("Article_Title");
 
                 entity.HasOne(d => d.Admin)
-                    .WithMany()
+                    .WithMany(p => p.Articles)
                     .HasForeignKey(d => d.AdminId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Article_Admin1");
@@ -200,7 +192,11 @@ namespace FurryFeast.Models
 
             modelBuilder.Entity<ContactU>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.GuestId);
+
+                entity.Property(e => e.GuestId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("guest_ID");
 
                 entity.Property(e => e.GuestContext)
                     .HasMaxLength(200)
@@ -210,8 +206,6 @@ namespace FurryFeast.Models
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("guest_Email");
-
-                entity.Property(e => e.GuestId).HasColumnName("guest_ID");
 
                 entity.Property(e => e.GuestName)
                     .HasMaxLength(5)
@@ -226,9 +220,9 @@ namespace FurryFeast.Models
 
             modelBuilder.Entity<Donate>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Donate");
+
+                entity.Property(e => e.DonateId).HasColumnName("Donate_ID");
 
                 entity.Property(e => e.CatDonateMoney).HasColumnName("Cat_Donate_Money");
 
@@ -241,10 +235,6 @@ namespace FurryFeast.Models
                 entity.Property(e => e.DogDonatePeople).HasColumnName("Dog_Donate_people");
 
                 entity.Property(e => e.DogDonateTotal).HasColumnName("Dog_Donate_total");
-
-                entity.Property(e => e.DonateId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("Donate_ID");
             });
 
             modelBuilder.Entity<GameOutcome>(entity =>
