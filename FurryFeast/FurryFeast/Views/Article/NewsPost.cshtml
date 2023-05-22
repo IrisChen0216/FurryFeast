@@ -1,0 +1,28 @@
+﻿@{
+
+    var articleIdString = Context.Request.Query["id"].ToString();
+    int articleId;
+    int.TryParse(articleIdString, out articleId);
+}
+
+@{
+
+    var dbContext = Context.RequestServices.GetService(typeof(db_a989fb_furryfeastContext)) as db_a989fb_furryfeastContext;
+}
+
+@{
+
+    var article = dbContext.Articles.FirstOrDefault(a => a.ArticleId == articleId);
+}
+
+@if (article != null)
+{
+               
+    <h1>@article.ArticleTitle</h1>
+    <p>@article.ArticleText</p>
+}
+else
+{
+   
+    <p>Article not found.</p>
+}

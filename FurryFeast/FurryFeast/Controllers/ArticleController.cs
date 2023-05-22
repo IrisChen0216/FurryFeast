@@ -20,6 +20,10 @@ namespace FurryFeast.Controllers
         {
             _furryFeastContext = furryFeastContext;
         }
+        public IActionResult NewsPost()
+        {
+            return View();
+        }
         public IActionResult FAQ()
         {
             return View();
