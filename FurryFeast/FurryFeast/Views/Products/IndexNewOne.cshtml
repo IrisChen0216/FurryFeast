@@ -86,7 +86,7 @@
 						<li>
 							<label class="checkbox-inline">
 								<a asp-controller="Products" asp-action="Index" asp-route-type="@ViewBag.AllProducts">全部商品</a>
-							</label><span class="list-shop-filter-number">{{}}</span>
+							</label><span class="list-shop-filter-number">({{AllProductsAmount}})</span>
 						</li>
 						<li>
 							<label class="checkbox-inline">
@@ -122,15 +122,17 @@
 								<div class="form-wrap">
 									@*<label class="form-label" for="searchForm">搜尋商品 ...</label>*@
 
-									<input class="form-input" type="text" autocomplete="on" style="width:contain" v-model="keyword" placeholder="搜尋商品..." @@keyup="filterProducts">
+									<input class="form-input" type="text" autocomplete="on" style="width:contain" v-model="filterObj.keyword" placeholder="搜尋商品..." @@keyup="productFilter">
 								@*<button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>*@
 								</div>
 							</form>
 						</div>
 						<!--排序功能-->
 						<div class="col col-6 box-info-modern-title">
-							<button class="btn btn-dark" >上架時間</button> |
-							<button class="btn btn-dark">價格高低</button> |
+							<button class="btn btn-dark" v-on:click="sortBy('time')">上架時間</button> |
+							<button class="btn btn-dark" v-on:click="sortBy('price')">價格高低</button> |
+							<button class="btn btn-dark" v-on:click="ProductType('food')">主食零食</button> |
+							<button class="btn btn-dark" v-on:click="ProductType('life')">生活用品</button> |
 							<a >熱門排名</a>
 							@*待補連結*@
 						</div>
@@ -140,7 +142,7 @@
 					<div class="row">
 
 
-						<div class="col col-3 " v-for="item in products" :key="item.product.productId">
+						<div class="col col-3 " v-for="item in showProducts" :key="item.product.productId">
 							<article class="product" style="margin-bottom:30px">
 								<div class="product-body">
 									<div class="product-figure">
@@ -192,7 +194,15 @@
 			el: '#app',
 			data: {
 				products: [],
-				keyword: "",
+				showProducts:[],
+				//AllProductsAmount:"",
+				//FoodProductsAmount: "",
+				//DogProductsAmount: "",
+				//CatProductsAmount: "",
+				filterObj:{
+					name:"",
+					keyword: "",
+				}
 				
 			},
 			mounted: function () {
@@ -202,18 +212,14 @@
 				//_this.imageData=res.pics
 			},
 			methods: {
+				//網頁載入就會掛載全部商品資料的方法
 				filterProducts:function(){
 					let _this=this;
-					var request={};
-					request.productName=_this.keyword;
-					axios(`/api/products/AllProducts`, request).then(request => {
-						_this.products = request.data;
-						//var productsList=[];
-						//for (var i = 0; i < _this.products.length;i++) {
-						//	var item = _this.products[i];
-						//	productsList.push(item);
-						//}
-						//_this.products = productsList;
+					//var request={};
+					//request.productName=_this.keyword;
+					axios.post(`/api/products/AllProducts`).then(response => {
+						_this.products = _this.showProducts = response.data;
+						
 					});
 				},
 				AddCart: function (ID) {
@@ -223,29 +229,44 @@
 								alert('成功加入購物車!')							
 						);
 				},
-				
-				//sortBy: function (val) {
+				productFilter:function(){
+					//依照搜尋欄位篩選商品
+					var _this = this;
+					//console.log(_this.products);
+					_this.showProducts=[];
+					for (var i = 0; i < _this.products.length;i++) {
+						var item = _this.products[i];
+						if (item.product.productName.includes(_this.filterObj.keyword)) {
+							_this.showProducts.push(item);
+						 }						
+					}
+					
+				},
+				sortBy: function (val) {
+					let _this = this;
+					//依照時間排序
+					if (val == 'time') {
+						return _this.showProducts.sort((a, b) => new Date(a.product.productLauchedTime) - new Date(b.product.productLauchedTime));
+					}
+					//依照價格排序
+					if (val == 'price') {
+						return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
+					}
+				},
+				//ProductType:function(val){
 				//	let _this = this;
-				//	if (val == 'time') {
-				//		return _this.products.sort(a => a.productLauchedTime);
+				//	if (val == 'food') {
+				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
 				//	}
-				//	if (val == 'price') {
-				//		return _this.products.sort((a, b) => a.productPrice - b.productPrice);
-				//	}
-				//},
+				//}
 			},
 			computed: {
-				
+				AllProductsAmount:function(){
+					let _this=this;
+					return _this.products.length;
+				},
 			},
-			watch:{
-				immediate: true,  
-				handler(val) {   
-					let _this = this;
-					_this.products = _this.filterProducts.filter((p) => {
-						return p.productName.indexOf(val) !== -1
-					})
-				}
-			}
+			
 		});
 
 
