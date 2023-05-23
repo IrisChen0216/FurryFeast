@@ -35,8 +35,12 @@ namespace FurryFeast.API
 					productLauchedTime = x.ProductLaunchedTime,
 
 				},
-				pics = x.ProductPics.Select(p=>p.ProductPicImage),
-				type = x.ProductType.ProductTypeName
+				pics = x.ProductPics.Select(p=>p.ProductPicImage).FirstOrDefault(),
+				type = new
+				{
+					productypeName=x.ProductType.ProductTypeName,
+					productypeId= x.ProductType.ProductTypeId
+				}
 
 			});
 			
