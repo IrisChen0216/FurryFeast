@@ -27,12 +27,12 @@ namespace FurryFeast.Controllers
         }
         public IActionResult NewsPost(int id)
         {
-            // 通过id获取文章信息
+           
             var article = GetArticleById(id);
 
             if (article == null)
             {
-                return NotFound(); // 处理文章不存在的情况
+                return NotFound(); 
             }
 
             return View(article);
@@ -47,10 +47,11 @@ namespace FurryFeast.Controllers
         {
             using (var dbContext = new db_a989fb_furryfeastContext())
             {
-                var articles = dbContext.Articles.ToList();
+                var articles = _furryFeastContext.Articles.Include(data => data.Admin).ToList();
                 return View(articles);
             }
         }
+
 
 
         public IActionResult Donates()
