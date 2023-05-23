@@ -64,6 +64,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="Tables">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">table_view</i>
+                        </div>
+                        <span class="nav-link-text ms-1">寵物商城商品</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="Billing">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">receipt_long</i>
@@ -264,7 +272,7 @@
 
         @RenderBody()
 
-        <div class="container-fluid py-4">
+        @*<div class="container-fluid py-4">
             <div class="row">
                 <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
@@ -849,7 +857,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
     <!--   Core JS Files   -->
     <script src="~/backend/js/core/popper.min.js"></script>
     <script src="~/backend/js/core/bootstrap.min.js"></script>
