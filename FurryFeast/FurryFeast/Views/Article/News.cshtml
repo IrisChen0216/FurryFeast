@@ -21,7 +21,9 @@
                     </time>
                 </div>
             </div>
-            <h4 class="post-modern-title" style="font-size: 20px;"><a href="NewsPost?id=@article.ArticleId">@Html.Raw(article.ArticleTitle)</a></h4>
+            <h4 class="post-modern-title" style="font-size: 20px;">
+                <a asp-controller="Article" asp-action="NewsPost" asp-route-id="@article.ArticleId">@Html.Raw(article.ArticleTitle)</a>
+            </h4>
 
             @if (article.ArticleText.Length <= 100)
             {
@@ -32,7 +34,8 @@
                 <p class="post-modern-text">@article.ArticleText.Substring(0, 100)...</p>
             }
 
-            <a class="post-modern-link" href="NewsPost?id=@article.ArticleId">Read more</a>
+            <a class="post-modern-link" asp-controller="Article" asp-action="NewsPost" asp-route-id="@article.ArticleId">Read more</a>
+
 
         </article>
     </div>

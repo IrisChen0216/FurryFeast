@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@model FurryFeast.Models.Article
+
+
+<!DOCTYPE html>
 <head>
     @section Style{
         <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
@@ -40,15 +43,16 @@
                                     <div class="post-modern-panel">
                                         <div><a class="post-modern-tag" href="#">News</a></div>
                                         <div>
-                                            <time class="post-modern-time" datetime="2020-09-08">August 9, 2020</time>
+                                            <time class="post-modern-time" datetime="@Model.ArticleDate.ToString("MMMM d, yyyy")">@Model.ArticleDate.ToString("MMMM d, yyyy")</time>
+
                                         </div>
                                     </div>
-                                    <h3 class="post-modern-title">Deciphering your cat’s language</h3>
-                                    <p class="post-modern-text">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet</p>
-                                    <p class="post-modern-text">At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Stet clita kasd gubergren, no sea takimata sanctus est</p>
+                                    <h4 class="post-modern-title">@Html.Raw(Model.ArticleTitle)</h4>
+                                    <p class="post-modern-text">@Model.ArticleText</p>
+                                   
                                 </article>
 
-                                <p>Orci eu lobortis elementum nibh tellus. Vivamus arcu felis bibendum ut tristique et egestas quis ipsum. Libero volutpat sed cras ornare arcu dui vivamus arcu. Viverra orci sagittis eu volutpat odio facilisis mauris sit amet. Tempus quam pellentesque nec nam aliquam sem et tortor consequat.</p>
+                               
                             </div>
                         </div>
                     </div>

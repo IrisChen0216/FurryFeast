@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FurryFeast.Models;
 using System.Linq;
 using FurryFeast.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Controllers
 {
@@ -20,20 +21,37 @@ namespace FurryFeast.Controllers
         {
             _furryFeastContext = furryFeastContext;
         }
-        public IActionResult NewsPost()
+        private Article GetArticleById(int id)
         {
-            return View();
+            return _furryFeastContext.Articles.FirstOrDefault(a => a.ArticleId == id);
         }
+        public IActionResult NewsPost(int id)
+        {
+            // 通过id获取文章信息
+            var article = GetArticleById(id);
+
+            if (article == null)
+            {
+                return NotFound(); // 处理文章不存在的情况
+            }
+
+            return View(article);
+        }
+
         public IActionResult FAQ()
         {
-            return View();
+            return View();                           
         }
 
         public IActionResult News()
         {
-            var articles = _furryFeastContext.Articles.ToList();
-            return View(articles);
+            using (var dbContext = new db_a989fb_furryfeastContext())
+            {
+                var articles = dbContext.Articles.ToList();
+                return View(articles);
+            }
         }
+
 
         public IActionResult Donates()
         {
