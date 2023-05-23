@@ -18,13 +18,19 @@ namespace FurryFeast.Controllers
 			_context = context;
 		}
 
-		public IActionResult Recipes()
+		public async Task<IActionResult> Recipes()
 		{
 			return View();
 		}
+
+		//public IActionResult Recipes()
+		//{
+		//	return View();
+		//}
 		[HttpGet]
 		public IActionResult GetAllRecipes()
 		{
+			
 			return Ok(_context.Recipes);
 		}
 	}
