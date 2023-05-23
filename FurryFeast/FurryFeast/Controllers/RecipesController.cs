@@ -1,37 +1,46 @@
-﻿using FurryFeast.Data;
-using FurryFeast.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using FurryFeast.Data;
+using FurryFeast.Models;
 
 namespace FurryFeast.Controllers
 {
 	public class RecipesController : Controller
 	{
 		private readonly db_a989fb_furryfeastContext _context;
-		public RecipesController(db_a989fb_furryfeastContext furryFeastContext)
+
+		public RecipesController(db_a989fb_furryfeastContext context)
 		{
-			_context = furryFeastContext;
-		}
-		public IActionResult Recipes()
-		{
-			return View();
+			_context = context;
 		}
 
-		[HttpPost]
-		[Authorize]
-		public async Task<IActionResult> AddComment(int ID, string UserComment)
+		// 在這個方法中，我們將從數據庫獲取所有的 `Recipe` 對象並返回到視圖。
+		public async Task<IActionResult> Recipes()
 		{
-			var comment = new MsgBoard()
+			var recipes = await _context.Recipes.ToListAsync();
+			return View(recipes);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> GetAllRecipes()
+		{
+			var recipes = await _context.Recipes.ToListAsync();
+			return View(recipes);
+		}
+
+		// 可以使用這個方法來獲取特定的 `Recipe` 對象。
+		[HttpGet]
+		public async Task<IActionResult> GetRecipe(int id)
+		{
+			var recipe = await _context.Recipes.FindAsync(id);
+
+			if (recipe == null)
 			{
-				MsgRecipesId = ID,
-				MsgContent = UserComment,
-				UserId = HttpContext.User.Identity.Name, //取得登入中的帳號
-				MsgDateTime = DateTime.Now //取得當下時間
-			};
-			_context.Add(comment);
-			await _context.SaveChangesAsync();
-			return RedirectToAction("Recipes");
+				return NotFound();
+			}
+
+			return View(recipe);
 		}
 	}
-
 }
