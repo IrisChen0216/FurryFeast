@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FurryFeast.Models;
 using System.Linq;
 using FurryFeast.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Controllers
 {
@@ -20,16 +21,52 @@ namespace FurryFeast.Controllers
         {
             _furryFeastContext = furryFeastContext;
         }
+        private Article GetArticleById(int id)
+        {
+            return _furryFeastContext.Articles.FirstOrDefault(a => a.ArticleId == id);
+        }
+        public IActionResult NewsPost(int
+             id)
+        {
+
+            ViewBag.TitleOne = _furryFeastContext.Articles.Where(p => p.ArticleDate != null)
+                                    .OrderByDescending(p => p.ArticleDate)
+                                    .Take(1)
+                                    .FirstOrDefault().ArticleTitle;
+
+            ViewBag.TitleTwo = _furryFeastContext.Articles.Where(p => p.ArticleDate != null)
+                                    .OrderByDescending(p => p.ArticleDate)
+                                    .Skip(1).Take(1).SingleOrDefault().ArticleTitle;
+
+            ViewBag.TitleThree = _furryFeastContext.Articles.Where(p => p.ArticleDate != null)
+                                   .OrderByDescending(p => p.ArticleDate)
+                                   .Skip(2).Take(1).SingleOrDefault().ArticleTitle;
+
+            var article = _furryFeastContext.Articles.Include(data => data.Admin).Where(data=>data.ArticleId==id).FirstOrDefault();
+
+            //if (article == null)
+            //{
+            //    return NotFound(); 
+            //}
+
+            return View(article);
+        }
+
         public IActionResult FAQ()
         {
-            return View();
+            return View();                           
         }
 
         public IActionResult News()
         {
-            var articles = _furryFeastContext.Articles.ToList();
-            return View(articles);
+            using (var dbContext = new db_a989fb_furryfeastContext())
+            {
+                var articles = _furryFeastContext.Articles.Include(data => data.Admin).ToList();
+                return View(articles);
+            }
         }
+
+
 
         public IActionResult Donates()
         {

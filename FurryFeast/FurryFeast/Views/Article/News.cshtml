@@ -2,20 +2,9 @@
 
 @section Style{
     <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
     <link href="~/css/petclass/style.css" rel="stylesheet" />
 }
-<style>
 
-
-    .post-modern-text {
-        /* 添加样式 */
-        border: 1px solid #000000;
-        border-radius: 6px;
-        padding: 10px;
-    }
-
-</style>
 <div class="index-header">
     <h2>最新消息</h2>
 </div>
@@ -32,10 +21,22 @@
                     </time>
                 </div>
             </div>
-            <h4 class="post-modern-title" style="font-size: 20px;"><a href="blog-post.html">@article.ArticleTitle</a></h4>
-            <p class="post-modern-text">@article.ArticleText</p>
-            <a class="post-modern-link" href="blog-post.html">Read more</a>
+            <h4 class="post-modern-title" style="font-size: 20px;">
+                <a asp-controller="Article" asp-action="NewsPost" asp-route-id="@article.ArticleId">@Html.Raw(article.ArticleTitle)</a>
+            </h4>
+
+            @if (article.ArticleText.Length <= 100)
+            {
+                <p class="post-modern-text">@article.ArticleText</p>
+            }
+            else
+            {
+                <p class="post-modern-text">@article.ArticleText.Substring(0, 100)...</p>
+            }
+
+            <a class="post-modern-link" asp-controller="Article" asp-action="NewsPost" asp-route-id="@article.ArticleId">Read more</a>
+
+
         </article>
     </div>
 }
-
