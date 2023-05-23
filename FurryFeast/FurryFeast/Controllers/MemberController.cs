@@ -24,10 +24,13 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Members
-        public async Task<IActionResult> Index()
-        {
-            var db_a989fb_furryfeastContext = _context.Members.Include(m => m.Conpon);
-            return View(await db_a989fb_furryfeastContext.ToListAsync());
+   
+        public async Task<IActionResult> MemberIndex()
+
+		{
+            var member = _context.Members.Include(m => m.Conpon).Where(m=>m.MemberId==1).FirstOrDefault();
+            return View(member);
+           
         }
 
         
@@ -57,7 +60,8 @@ namespace FurryFeast.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterIndex(RegisterViewModel list)
         {
-            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
+            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount
+                        && x.MemberPassord == list.MemberPassord );
             if (Member != null)
             {
                 ViewBag.Error = "已有帳號存在!";

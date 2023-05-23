@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FurryFeast.Models.Member>
+﻿@*@model IEnumerable<FurryFeast.Models.Member>*@
+@model FurryFeast.Models.Member
 
 @{
     ViewData["Title"] = "Index";
@@ -18,8 +19,8 @@
 <!-- RD Mailform-->
 <form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
     <div class="form-wrap">
-        <span>姓名</span>
-        <input id="contact-name" type="text" name="name"  class="form-control" />
+        <span>姓名</span><span>@Model.MemberName</span>
+        @*<input id="contact-name" type="text" name="name"  class="form-control" />*@
     </div>
     <div class="form-wrap">
         <label for="contact-phone" class="form-label>Phone</label>
@@ -36,38 +37,39 @@
 </form>
 <div id="form-output-global"></div>
 
+<form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
 <div>
-    <table id="Member">
-        <tr id ="Member" v-for="item in all">
+@*    <table id="Member">
+        <tr id ="Member" v-for="item in member">
             <td>
-                {{item.all.MemberName}}
+                {{item.member.MemberName}}
             </td>
         </tr>
-    </table>
-    <div id="Member" v-for="item in all">
+    </table>*@
+    <div id="Member" v-for="item in member">
         <label>姓名</label>
-        <label>{{item.all.MemberName}}</label>
-        <input class="form-input form-control" id="input" type="text" value="{{item.memberData.MemberName}}" name="name">
+        <label>{{item.member.MemberName}}</label>
+        <input class="form-input form-control" id="input" type="text" value={{item.memberData.MemberName}} name="name">
     </div>
     <div>
         <label>生日</label>
-        <input type="date" value="{{x.memberBirthday}}"/>
+        <input type="date" value={{x.memberBirthday}}/>
     </div>
     <div>
         <label>性別</label>
-        <input type="text" value="{{x.memberGender}}">
+        <input type="text" value={{x.memberGender}}>
     </div>
     <div>
         <label>手機號碼</label>
-        <input type="text" maxlength="10" value="{{x.memberPhone}}"/>
+        <input type="text" maxlength="10" value={{x.memberPhone}}/>
     </div>
     <div>
         <label>Email</label>
-        <input type="email" value="{{x.memberEmail}}">
+        <span>{{x.memberEmail}}</span>
     </div>
     <div>
         <label>地址</label>
-        <input type="text" value="{{x.memberAdress}}"/>
+        <input type="text" value={{x.memberAdress}}/>
     </div>
     <div>
         <form asp-controller="Member" asp-action="UpdateMemberData">
@@ -75,6 +77,7 @@
         </form>
     </div> 
 </div>
+</form>
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
@@ -83,9 +86,9 @@
             data:{
                 memberdata:[],
             },
-            methods:function(){
+            mounted:function(){
                 let self = this;
-                axious('api/Member/all').then(res=> self.memberdata =res.data)
+                axious('/api/Member/member').then(res=> self.memberdata =res.data)
             }
 
         })
