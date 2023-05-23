@@ -96,19 +96,29 @@
 </div>
 
 @section Scripts
-	{
+{
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 	<script>
-		new Vue({
+		var app = new Vue({
 			el: '#app',
 			data: {
 				recipes: []
 			},
-			mounted: function () {
-				//var self = this;
-				axios.get('https://localhost:7110/Recipes/GetAllRecipes').then(res => { console.log(res.data); });
-
+			mounted: function() {
+				var _this = this;
+				//axios.get('GetAllRecipes').then(res => { console.log(res.data); });
+				_this.allRecipes();
+			},
+			methods: {
+				allRecipes: function() {
+					var _this = this;
+					var request = {};
+					axios.get('/api/recipes/AllRecipes', request).then(response => {
+						alert('有嗎');
+						_this.recipes = response.data;
+					});
+				}
 			}
 		});
 	</script>
