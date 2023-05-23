@@ -1,4 +1,5 @@
-﻿using FurryFeast.Models;
+﻿using FurryFeast.Helper;
+using FurryFeast.Models;
 using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,13 +33,16 @@ namespace FurryFeast.API
 					productAmount = x.ProductAmount,
 					productPicId = x.ProductPicId,
 					productLauchedTime = x.ProductLaunchedTime,
-					productPic=x.ProductPics.FirstOrDefault()
-				},
-				//pics = x.ProductPics.ToList()
 
-			});
+				},
+				//pics = x.ProductPics.ToList().DefaultIfEmpty(),
+				//type = x.ProductType
+				
+			}) ;
 			
 
 		}
+
+		
 	}
 }

@@ -5,7 +5,7 @@
 	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
-	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+
 	<style>
 		a {
 			color: black;
@@ -117,34 +117,35 @@
 					<div class="row">
 						<!-- 搜尋列-->
 						<div class="col col-6">
-							<form class="rd-search form-search" asp-controller="Products" asp-action="Index" method="post">
+							<form >
 								@*<h6 class="aside-title">搜尋商品</h6>*@
 								<div class="form-wrap">
-									<label class="form-label" for="searchForm">搜尋商品 ...</label>
-									<input class="form-input" id="searchForm" type="text" name="searchForm" autocomplete="on" value="@ViewBag.Filter" style="width:contain">
-									<button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
+									@*<label class="form-label" for="searchForm">搜尋商品 ...</label>*@
+
+									<input class="form-input" type="text" autocomplete="on" style="width:contain" v-model="keyword" placeholder="搜尋商品..." @@keyup="filterProducts">
+								@*<button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>*@
 								</div>
 							</form>
 						</div>
 						<!--排序功能-->
 						<div class="col col-6 box-info-modern-title">
-							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.NewProducts">上架時間</a> |
-							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.ProductsPrice">價格高低</a> |
-							<a asp-controller="Products" asp-action="Index" asp-route-sortProducts="@ViewBag.OrdersRank">熱門排名</a>
+							<button class="btn btn-dark" >上架時間</button> |
+							<button class="btn btn-dark">價格高低</button> |
+							<a >熱門排名</a>
 							@*待補連結*@
 						</div>
 
 					</div>
 					<!-- 商品-->
-					<div class="row" >
+					<div class="row">
 
 
-						<div class="col col-3 " v-for="item in products">
+						<div class="col col-3 " v-for="item in products" :key="item.product.productId">
 							<article class="product" style="margin-bottom:30px">
 								<div class="product-body">
-									<div class="product-figure" >
+									<div class="product-figure">
 										@*<partial name="_ShowPictruePartial" model="@item"></partial>*@
-										<img src="item.product.pics" alt="" width="200" height="200" />
+										<img src="" alt="" width="200" height="200" />
 									</div>
 									<h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="">{{item.product.productName}}</a></h5>
 									<div class="product-price-wrap">
@@ -155,7 +156,7 @@
 								@*<span class="product-badge product-badge-sale">Sale</span>*@
 								<div class="product-button-wrap">
 									<div class="product-button"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="" class="button button-secondary button-zakaria fl-bigmug-line-search74"></a></div>
-									<div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" asp-controller="Cart" asp-action="CartAdd" asp-route-id="" asp-route-amount="1" onclick="CartAddShow()"></a></div>
+									<div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" v-on:click="AddCart(item.product.productId)"></a></div>
 								</div>
 							</article>
 						</div>
@@ -178,33 +179,76 @@
 
 
 @section Scripts{
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
 	<script src="~/js/slick.min.js"></script>
-
-	
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 	<script>
-		
+
 		let app = new Vue({
 			el: '#app',
 			data: {
 				products: [],
+				keyword: "",
+				
 			},
 			mounted: function () {
 				let _this = this;
-				axios(`/api/products/AllProducts`).then(res => _this.products = res.data)
+				_this.filterProducts();
+				
+				//_this.imageData=res.pics
 			},
 			methods: {
+				filterProducts:function(){
+					let _this=this;
+					var request={};
+					request.productName=_this.keyword;
+					axios(`/api/products/AllProducts`, request).then(request => {
+						_this.products = request.data;
+						//var productsList=[];
+						//for (var i = 0; i < _this.products.length;i++) {
+						//	var item = _this.products[i];
+						//	productsList.push(item);
+						//}
+						//_this.products = productsList;
+					});
+				},
+				AddCart: function (ID) {
+
+					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
+						.then(
+								alert('成功加入購物車!')							
+						);
+				},
 				
+				//sortBy: function (val) {
+				//	let _this = this;
+				//	if (val == 'time') {
+				//		return _this.products.sort(a => a.productLauchedTime);
+				//	}
+				//	if (val == 'price') {
+				//		return _this.products.sort((a, b) => a.productPrice - b.productPrice);
+				//	}
+				//},
+			},
+			computed: {
 				
+			},
+			watch:{
+				immediate: true,  
+				handler(val) {   
+					let _this = this;
+					_this.products = _this.filterProducts.filter((p) => {
+						return p.productName.indexOf(val) !== -1
+					})
+				}
 			}
 		});
 
-		function CartAddShow() {
-			alert('成功加入購物車!');
-		}
+
 
 		$('.productsTitleSlick').slick({
 			dots: true,
