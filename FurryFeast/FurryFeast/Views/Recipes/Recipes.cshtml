@@ -1,44 +1,17 @@
 ﻿@model IEnumerable<FurryFeast.Models.Recipe>
 
 @{
-    ViewData["Title"] = "Recipes";
+	ViewData["Title"] = "Recipes";
 }
+
 
 <div class="index-header">
 	<h2>寵物鮮食食譜</h2>
 </div>
-<div class="container">
-	<table>
-		<thead>
-		<tr>
-			<th>typeId</th>
-			<th>Name</th>
-			<th>食材</th>
-			<th>作法</th>
-				<th>注意事項</th>
-			<th>描述</th>
-			<!-- Add more columns as needed -->
-		</tr>
-		</thead>
-		<tbody>
-		@foreach (var recipe in Model)
-		{
-			<tr>
-					<td>@recipe.PetTypesId</td>
-				<td>@recipe.RecipesName</td>
-				<td>@recipe.RecipesData</td>
-				<td>@recipe.RecipesMethod</td>
-					<td>@recipe.RecipesNotes</td>
-					<td>@recipe.RecipesDescription</td>
-				<!-- Add more cells as needed -->
-			</tr>
-		}
-		</tbody>
-	</table>
-
+<div id="app" class="container">
 	<div class="row m-4">
 		<button class="col btn btn-primary p-5 " type="button" id="Btn_DogCal">Dog</button>
-		<button class="col btn btn-primary p-5 ms-3" type="button" id="Btn_DogCat">Cat</button>
+		<button class="col btn btn-primary p-5 ms-3" type="button" id="Btn_DogCat" v-on:click="">Cat</button>
 	</div>
 	<div class="row m-4">
 		<div class="col-md-3 border border-2 rounded-4 pt-4">
@@ -93,7 +66,7 @@
 <div class="container text-center mb-2">
 	<h4 class="index-header">回應區</h4>
 
-	<form class="input-group" asp-action="AddComment" asp-route-Id="">
+	<form class="input-group" asp-action="" asp-route-Id="">
 		<textarea class="form-control" type="text" placeholder="請先登入再留言" name="UserComment"></textarea>
 		<input class="btn btn-sm btn-primary" type="submit" value="送出" />
 	</form>
@@ -104,20 +77,39 @@
 	</div>
 </div>
 <div class="container mt-0">
-@*	@foreach (var comment in Model.MsgBoard.comment)
+	@*	@foreach (var comment in Model.MsgBoard.comment)
 	{
-		<div class="border border-2 p-3 position-relative m-4" style="font-size: 20px;">
-			<span class="col" style="position: absolute; left: 10px;">@comment.UserID</span>
-			<span style="position: absolute; right: 10px;">@comment.MsgDateTime</span>
-			<button class="btn btn-dark" type="button">edit</button>
-			<button class="btn btn-danger" type="button">delete</button>
-		</div>
+	<div class="border border-2 p-3 position-relative m-4" style="font-size: 20px;">
+	<span class="col" style="position: absolute; left: 10px;">@comment.UserID</span>
+	<span style="position: absolute; right: 10px;">@comment.MsgDateTime</span>
+	<button class="btn btn-dark" type="button">edit</button>
+	<button class="btn btn-danger" type="button">delete</button>
+	</div>
 	@*所有留言*@
-@*		<div class="position-relative border border-2 rounded-4 p-4 m-4" style="height: 200px;">
-			<p>@comment.MsgContent</p>*@
-			@*	<div class="position-absolute" style="right: 20px; bottom: 10px;">
-				<a style="color: gray;" href="http://">已編輯</a>
-			</div>*@
-@*		</div>
+	@*		<div class="position-relative border border-2 rounded-4 p-4 m-4" style="height: 200px;">
+	<p>@comment.MsgContent</p>*@
+	@*	<div class="position-absolute" style="right: 20px; bottom: 10px;">
+	<a style="color: gray;" href="http://">已編輯</a>
+	</div>*@
+	@*		</div>
 	}*@
 </div>
+
+@section Scripts
+	{
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				recipes: []
+			},
+			mounted: function () {
+				//var self = this;
+				axios.get('https://localhost:7110/Recipes/GetAllRecipes').then(res => { console.log(res.data); });
+
+			}
+		});
+	</script>
+}		

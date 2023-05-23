@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Data;
 using FurryFeast.Models;
+using Microsoft.AspNetCore.Http.Metadata;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace FurryFeast.Controllers
 {
@@ -15,32 +18,14 @@ namespace FurryFeast.Controllers
 			_context = context;
 		}
 
-		// 在這個方法中，我們將從數據庫獲取所有的 `Recipe` 對象並返回到視圖。
-		public async Task<IActionResult> Recipes()
+		public IActionResult Recipes()
 		{
-			var recipes = await _context.Recipes.ToListAsync();
-			return View(recipes);
+			return View();
 		}
-
 		[HttpGet]
-		public async Task<IActionResult> GetAllRecipes()
+		public IActionResult GetAllRecipes()
 		{
-			var recipes = await _context.Recipes.ToListAsync();
-			return View(recipes);
-		}
-
-		// 可以使用這個方法來獲取特定的 `Recipe` 對象。
-		[HttpGet]
-		public async Task<IActionResult> GetRecipe(int id)
-		{
-			var recipe = await _context.Recipes.FindAsync(id);
-
-			if (recipe == null)
-			{
-				return NotFound();
-			}
-
-			return View(recipe);
+			return Ok(_context.Recipes);
 		}
 	}
 }
