@@ -1,11 +1,6 @@
 ﻿using System.Linq;
 @model FurryFeast.Models.Article
-@{
-    var Articles = Model.Where(p => p.ArticleLaunchedTime != null)
-                        .OrderByDescending(p => p.ArticleLaunchedTime)
-                        .Take(3)
-                        .ToList();
-}
+
 
 <!DOCTYPE html>
 <head>
@@ -53,7 +48,7 @@
 
                                         </div>
                                     </div>
-                                    <h4 class="post-modern-title">@Html.Raw(Model.ArticleTitle)</h4>
+                                   <h4 class="post-modern-title">@Html.Raw(Model.ArticleTitle)</h4>
                                     <p class="post-modern-text">@Model.ArticleText</p>
                                    
                                 </article>
@@ -90,31 +85,68 @@
 
                             </ul>
                         </div>
+
                         <div class="aside-item col-sm-6 col-lg-12">
                             <h6 class="aside-title">最新文章</h6>
                             <div class="row row-20 row-lg-30 gutters-10">
-                                @foreach (var article in Articles)
-                                {
+                               
                                     <div class="col-6 col-lg-12">
                                         <!-- Post Minimal-->
                                         <article class="post post-minimal">
                                             <div class="unit unit-spacing-sm flex-column flex-lg-row align-items-lg-center">
                                                 <div class="unit-left">
-                                                    <a class="post-minimal-figure" href="@Url.Action("ArticleDetails", "Article", new { id = article.Id })">
+                                                    <a class="post-minimal-figure" href="@Url.Action("ArticleDetails", "Article", new { id = Model.AdminId})">
                                                     </a>
                                                 </div>
                                                 <div class="unit-body">
                                                     <p class="post-minimal-title">
-                                                        <a href="@Url.Action("ArticleDetails", "Article", new { id = article.Id })">@article.Title</a>
+                                                        <a href="@Url.Action("ArticleDetails", "Article", new { id = Model.ArticleId })">@ViewBag.TitleOne</a>
                                                     </p>
                                                     <div class="post-minimal-time">
-                                                        <time datetime="@article.ArticleDate.ToString("yyyy-MM-dd")">@article.ArticleDate.ToString("MMMM d, yyyy")</time>
+                                                        <time datetime="@Model.ArticleDate.ToString("yyyy-MM-dd")">@Model.ArticleDate.ToString("MMMM d, yyyy")</time>
                                                     </div>
                                                 </div>
                                             </div>
                                         </article>
                                     </div>
-                                }
+                                <div class="col-6 col-lg-12">
+                                    <!-- Post Minimal-->
+                                    <article class="post post-minimal">
+                                        <div class="unit unit-spacing-sm flex-column flex-lg-row align-items-lg-center">
+                                            <div class="unit-left">
+                                                <a class="post-minimal-figure" href="@Url.Action("ArticleDetails", "Article", new { id = Model.AdminId})">
+                                                </a>
+                                            </div>
+                                            <div class="unit-body">
+                                                <p class="post-minimal-title">
+                                                    <a href="@Url.Action("ArticleDetails", "Article", new { id = Model.ArticleId })">@ViewBag.TitleTwo</a>
+                                                </p>
+                                                <div class="post-minimal-time">
+                                                    <time datetime="@Model.ArticleDate.ToString("yyyy-MM-dd")">@Model.ArticleDate.ToString("MMMM d, yyyy")</time>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div class="col-6 col-lg-12">
+                                    <!-- Post Minimal-->
+                                    <article class="post post-minimal">
+                                        <div class="unit unit-spacing-sm flex-column flex-lg-row align-items-lg-center">
+                                            <div class="unit-left">
+                                                <a class="post-minimal-figure" href="@Url.Action("ArticleDetails", "Article", new { id = Model.AdminId})">
+                                                </a>
+                                            </div>
+                                            <div class="unit-body">
+                                                <p class="post-minimal-title">
+                                                    <a href="@Url.Action("ArticleDetails", "Article", new { id = Model.ArticleId })">@ViewBag.TitleThree</a>
+                                                </p>
+                                                <div class="post-minimal-time">
+                                                    <time datetime="@Model.ArticleDate.ToString("yyyy-MM-dd")">@Model.ArticleDate.ToString("MMMM d, yyyy")</time>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
                             </div>
                         </div>
 

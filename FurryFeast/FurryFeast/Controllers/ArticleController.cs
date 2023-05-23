@@ -25,15 +25,29 @@ namespace FurryFeast.Controllers
         {
             return _furryFeastContext.Articles.FirstOrDefault(a => a.ArticleId == id);
         }
-        public IActionResult NewsPost(int id)
+        public IActionResult NewsPost(int
+             id)
         {
-           
-            var article = GetArticleById(id);
 
-            if (article == null)
-            {
-                return NotFound(); 
-            }
+            ViewBag.TitleOne = _furryFeastContext.Articles.Where(p => p.ArticleDate != null)
+                                    .OrderByDescending(p => p.ArticleDate)
+                                    .Take(1)
+                                    .FirstOrDefault().ArticleTitle;
+
+            ViewBag.TitleTwo = _furryFeastContext.Articles.Where(p => p.ArticleDate != null)
+                                    .OrderByDescending(p => p.ArticleDate)
+                                    .Skip(1).Take(1).SingleOrDefault().ArticleTitle;
+
+            ViewBag.TitleThree = _furryFeastContext.Articles.Where(p => p.ArticleDate != null)
+                                   .OrderByDescending(p => p.ArticleDate)
+                                   .Skip(2).Take(1).SingleOrDefault().ArticleTitle;
+
+            var article = _furryFeastContext.Articles.Include(data => data.Admin).Where(data=>data.ArticleId==id).FirstOrDefault();
+
+            //if (article == null)
+            //{
+            //    return NotFound(); 
+            //}
 
             return View(article);
         }
