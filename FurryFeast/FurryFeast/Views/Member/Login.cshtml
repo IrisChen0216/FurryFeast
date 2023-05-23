@@ -12,7 +12,8 @@
 	<link href="~/css/login.css" rel="stylesheet" />
 }
 <h3>會員登入</h3>
-<form action="/Members/Login" method="post">
+
+<form action="/Member/Login" method="post">
 	<div class="Login">
 
 		<div>
@@ -26,13 +27,14 @@
 		<div class="btn container-fluid">
 			<div class="row">
 				<div class="col">
-				<button class="button button-lg button-primary button-zakaria" asp-controller="Members" asp-action="RegisterIndex">註冊</button>
+					<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
 				</div>
 				<div class="col">
-					<button class="button button-lg button-primary button-zakaria" type="submit">登入</button>
+				<button class="button button-lg button-primary button-zakaria"  type="submit">登入</button>
 				</div>
 			</div>
 		</div>
+</form>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col">
@@ -46,7 +48,7 @@
 			</div>
 		</div>
 	</div>
-</form>
+
 
 
 

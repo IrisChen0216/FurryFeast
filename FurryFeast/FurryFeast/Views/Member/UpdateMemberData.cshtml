@@ -39,13 +39,19 @@
 </div>
 <hr />
 <br />
-<div>修改密碼</div>
 <div>
-    <input type="password" name="UpdatePassord" required/>
+    <label>輸入原密碼</label>
+    <input type="password" />
+</div>
+<div>
+    <label>輸入新密碼</label>
+    <input type="password" />
 </div>
 <div>
     <button class="button button-lg button-primary button-zakaria" type="submit">更新密碼</button>
 </div>
 <div>
-    <button class="button button-lg button-primary button-zakaria" asp-action="Index">回到上一頁</button>
+    <form asp-action="Index">
+        <button class="button button-lg button-primary button-zakaria">回到上一頁</button>
+    </form>
 </div>
