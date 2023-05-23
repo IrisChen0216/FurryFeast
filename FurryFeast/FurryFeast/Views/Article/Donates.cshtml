@@ -2,6 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <style>
+    <style >
     .donate-container {
         display: flex;
         flex-direction: column;
@@ -10,7 +11,6 @@
 
     .donate-item {
         display: flex;
-        align-items: center;
         margin-bottom: 20px;
     }
 
@@ -94,7 +94,12 @@
             color: white;
         }
 
-
+    .cropped-image {
+        width: 600px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
 
 </style>
 <div class="index-header">
@@ -102,7 +107,7 @@
 </div>
 <div class="donate-container">
     <div class="donate-item">
-        <img class="donate-image" src="https://cdn.pixabay.com/photo/2018/05/26/18/06/dog-3431913_1280.jpg" alt="狗狗飼料" />
+        <img class="cropped-image" src="https://img.freepik.com/free-photo/still-life-domestic-animal-food-composition_23-2148982410.jpg?w=1060&t=st=1684862867~exp=1684863467~hmac=f982a727cf2dcdcaa19d3909fb0f8679b8564ce2df2da6acbdffd6761532cd74" alt="狗狗飼料" />
         <div class="donate-info">
             <div class="donate-progress-container">
                 <svg class="donate-progress" width="120" height="120">
@@ -118,7 +123,7 @@
         </div>
     </div>
     <div class="donate-item">
-        <img class="donate-image" src="https://cdn.pixabay.com/photo/2020/11/15/18/51/cat-5746875_1280.png" alt="貓貓飼料" />
+        <img class="cropped-image" src="https://img.freepik.com/free-photo/domestic-pet-food-arrangement_23-2148982330.jpg?w=1380&t=st=1684862900~exp=1684863500~hmac=1a5eba2dde2ed61fed06ebaa7d8b201f982073466e862c9de87f96ddfef96eeb" alt="貓貓飼料" />
         <div class="donate-info">
             <div class="donate-progress-container">
                 <svg class="donate-progress" width="120" height="120">
