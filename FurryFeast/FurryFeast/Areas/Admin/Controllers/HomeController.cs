@@ -4,9 +4,6 @@ namespace FurryFeast.Areas.Admin.Controllers {
 
     [Area("Admin")]
     public class HomeController : Controller {
-        public IActionResult Index() {
-            return View();
-        }
 
         public IActionResult Billing() {
             return View();
@@ -36,12 +33,15 @@ namespace FurryFeast.Areas.Admin.Controllers {
             return View();
         }
 
+        // 登入 PartialView
         public IActionResult SignIn() {
-            return View();
+            return PartialView();
         }
 
+
+        // 註冊 PartialView
         public IActionResult SignUp() {
-            return View();
+            return PartialView();
         }
 
         public IActionResult Tables() {
