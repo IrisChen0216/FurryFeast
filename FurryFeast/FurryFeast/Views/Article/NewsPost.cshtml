@@ -1,5 +1,11 @@
-﻿@model FurryFeast.Models.Article
-
+﻿using System.Linq;
+@model FurryFeast.Models.Article
+@{
+    var Articles = Model.Where(p => p.ArticleLaunchedTime != null)
+                        .OrderByDescending(p => p.ArticleLaunchedTime)
+                        .Take(3)
+                        .ToList();
+}
 
 <!DOCTYPE html>
 <head>
@@ -71,50 +77,50 @@
                         <div class="aside-item col-sm-6 col-md-5 col-lg-12">
                             <h6 class="aside-title">Categories</h6>
                             <ul class="list-categories">
-                                <li><a href="#">全部</a><span class="list-categories-number">(18)</span></li>
-                                <li><a href="#">最新消息</a><span class="list-categories-number">(9)</span></li>
+                                <li>
+                                    <a href="#">全部</a>
+                                    <span class="list-categories-number">@ViewBag.TotalArticles</span>
+                                </li>
+@*                                <li>
+                                    <a asp-controller="Article" asp-action="News" asp-route-articleType="最新消息">
+                                        最新消息
+                                    </a>
+                                    <span class="list-categories-number">@ViewBag.LatestNewsCount</span>
+                                </li>*@
 
                             </ul>
                         </div>
                         <div class="aside-item col-sm-6 col-lg-12">
                             <h6 class="aside-title">最新文章</h6>
                             <div class="row row-20 row-lg-30 gutters-10">
-                                <div class="col-6 col-lg-12">
-                                    <!-- Post Minimal-->
-                                    <article class="post post-minimal">
-                                        <div class="unit unit-spacing-sm flex-column flex-lg-row align-items-lg-center">
-                                            <div class="unit-left"><a class="post-minimal-figure" href="blog-post.html"><img alt="" width="260" height="254" /></a></div>
-                                            <div class="unit-body">
-                                                <p class="post-minimal-title"><a href="blog-post.html">Dog Friendly Summer Activities</a></p>
-                                                <div class="post-minimal-time">
-                                                    <time datetime="2020-03-15">March 15, 2020</time>
+                                @foreach (var article in Articles)
+                                {
+                                    <div class="col-6 col-lg-12">
+                                        <!-- Post Minimal-->
+                                        <article class="post post-minimal">
+                                            <div class="unit unit-spacing-sm flex-column flex-lg-row align-items-lg-center">
+                                                <div class="unit-left">
+                                                    <a class="post-minimal-figure" href="@Url.Action("ArticleDetails", "Article", new { id = article.Id })">
+                                                    </a>
+                                                </div>
+                                                <div class="unit-body">
+                                                    <p class="post-minimal-title">
+                                                        <a href="@Url.Action("ArticleDetails", "Article", new { id = article.Id })">@article.Title</a>
+                                                    </p>
+                                                    <div class="post-minimal-time">
+                                                        <time datetime="@article.ArticleDate.ToString("yyyy-MM-dd")">@article.ArticleDate.ToString("MMMM d, yyyy")</time>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                <div class="col-6 col-lg-12">
-                                    <!-- Post Minimal-->
-                                    <article class="post post-minimal">
-                                        <div class="unit unit-spacing-sm flex-column flex-lg-row align-items-lg-center">
-                                            <div class="unit-left"><a class="post-minimal-figure" href="blog-post.html"><img alt="" width="260" height="254" /></a></div>
-                                            <div class="unit-body">
-                                                <p class="post-minimal-title"><a href="blog-post.html">Crafting a Calm &amp; Friendly Cat</a></p>
-                                                <div class="post-minimal-time">
-                                                    <time datetime="2020-03-15">March 15, 2020</time>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
+                                        </article>
+                                    </div>
+                                }
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
     </section>
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>
 </body>
-</html>
+
