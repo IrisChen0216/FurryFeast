@@ -23,6 +23,8 @@
     .donate-info {
         display: flex;
         flex-direction: column;
+        justify-content: center; /* 添加水平居中对齐 */
+        align-items: center; /* 添加垂直居中对齐 */
     }
 
     .donate-goal {
@@ -100,7 +102,18 @@
         object-fit: cover;
         border-radius: 6px;
     }
+    .article{
+        width: 350px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
+    .indented-paragraph {
+        text-indent: 2em;
+    }
 </style>
 <div class="index-header">
     <h2>糧食捐贈</h2>
@@ -108,6 +121,12 @@
 <div class="donate-container">
     <div class="donate-item">
         <img class="cropped-image" src="https://img.freepik.com/free-photo/still-life-domestic-animal-food-composition_23-2148982410.jpg?w=1060&t=st=1684862867~exp=1684863467~hmac=f982a727cf2dcdcaa19d3909fb0f8679b8564ce2df2da6acbdffd6761532cd74" alt="狗狗飼料" />
+       <div class="article">
+           <h4>狗狗糧食</h4>
+            <p class="indented-paragraph">
+                這款狗糧是專為您的愛犬設計的高品質食品，提供全面均衡的營養。採用優質成分，包括高蛋白質、維生素和礦物質，有助於維持狗狗的健康和活力。經過專家認證的配方，適合不同年齡和品種的狗狗。讓您的狗狗品嚐這款美味狗糧，同時獲得全面營養的雙重效益！
+            </p>
+       </div>
         <div class="donate-info">
             <div class="donate-progress-container">
                 <svg class="donate-progress" width="120" height="120">
@@ -124,6 +143,12 @@
     </div>
     <div class="donate-item">
         <img class="cropped-image" src="https://img.freepik.com/free-photo/domestic-pet-food-arrangement_23-2148982330.jpg?w=1380&t=st=1684862900~exp=1684863500~hmac=1a5eba2dde2ed61fed06ebaa7d8b201f982073466e862c9de87f96ddfef96eeb" alt="貓貓飼料" />
+        <div class="article">
+            <h4>貓貓糧食</h4>
+            <p class="indented-paragraph">
+                這款貓糧是為了滿足貓咪的營養需求而精心調配的高品質食品。它選用優質成分，包括高蛋白質、維生素、礦物質和必需脂肪酸，有助於支持貓咪的整體健康和幸福。經過專家認證的配方，適合各個年齡階段和品種的貓咪。讓您的貓咪品嚐這款美味貓糧，同時獲得全面營養的完美平衡！
+            </p>
+        </div>
         <div class="donate-info">
             <div class="donate-progress-container">
                 <svg class="donate-progress" width="120" height="120">
