@@ -147,7 +147,7 @@
 								<div class="product-body">
 									<div class="product-figure">
 										@*<partial name="_ShowPictruePartial" model="@item"></partial>*@
-										<img src="" alt="" width="200" height="200" />
+										<img src="'data:image/png;base64,'${item.pics[0]}" alt="" width="200" height="200" />
 									</div>
 									<h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="">{{item.product.productName}}</a></h5>
 									<div class="product-price-wrap">
@@ -259,10 +259,17 @@
 				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
 				//	}
 				//}
+				GetImg:function(pic){
+					return `data:image/jpeg;base64,${pic.picData}`;
+				},
 			},
 			computed: {
 				AllProductsAmount:function(){
 					let _this=this;
+					return _this.products.length;
+				},
+				DogProductsAmount:function(){
+					let _this = this;
 					return _this.products.length;
 				},
 			},
