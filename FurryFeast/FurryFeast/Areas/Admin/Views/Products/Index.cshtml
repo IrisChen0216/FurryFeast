@@ -1,79 +1,172 @@
 ﻿@model IEnumerable<FurryFeast.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>寵物商城後台</h1>
+@section Style{
+	<style>
+		.unState {
+			background-color: gray;
+		}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+		.btnState {
+			display: inline-block;
+		}
+	</style>
+}
 
+<div class="container-fluid" id="app">
+	<div class="row">
+		<div class="col-12">
+			<div class="card my-4">
 
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Authors table</h6>
-                        </div>
-                    </div>
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
-                                        <th class="text-secondary opacity-7"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">John Michael</h6>
-                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                            <p class="text-xs text-secondary mb-0">Organization</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">Online</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Edit
-                                            </a>
-                                        </td>
-                                    </tr>
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
+						<h6 class="text-white text-capitalize ps-3">寵物商城商品管理</h6>
+					</div>
+				</div>
+				<div class="row">
+					
+					<div class="btnState mx-3 mt-2 col-6">
+						<button class="btn bg-gradient-info mb-0 toast-btn">全部商品</button>
+						<button class="btn bg-gradient-warning  mb-0 toast-btn">上架中</button>
+						<button class="btn bg-gradient-danger  mb-0 toast-btn unState">未上架</button>
+					</div>
+					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-4 mx-3">
+						<div class="input-group input-group-outline">
+							<label class="form-label">Search Product...</label>
+							<input type="text" class="form-control">
+						</div>
+					</div>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+				</div>
 
+				<div class="card-body px-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">商品售價</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上次上架時間</th>
+									<th class="text-secondary opacity-7"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in showProducts" :key="item.backEndProduct.productId">
+									<td>
+										<div class="d-flex px-2 py-1">
+											<div>
+												<img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+											</div>
+											<div class="d-flex flex-column justify-content-center">
+												<h6 class="mb-0 text-sm">{{item.backEndProduct.productName}}</h6>
+												<p class="text-xs text-secondary mb-0">{{item.backEndProduct.productAmount}}</p>
+											</div>
+										</div>
+									</td>
+									<td>
+										<p class="text-xs font-weight-bold mb-0">${{item.backEndProduct.productPrice}}</p>
+										<p class="text-xs text-secondary mb-0">Organization</p>
+									</td>
+									<td class="align-middle text-center text-sm">
+										<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productLauchedTime}}</span>
+									</td>
+									<td class="align-middle">
+										<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+											Edit
+										</a>
+									</td>
+								</tr>
 
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
+@section Scripts{
+
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script>
+
+		let app = new Vue({
+			el: '#app',
+			data: {
+				backendProducts: [],
+				showProducts: [],
+
+				filterObj: {
+					name: "",
+					keyword: "",
+				}
+
+			},
+			mounted: function () {
+				let _this = this;
+				_this.Products();
+
+			},
+			methods: {
+				//網頁載入就會掛載全部商品資料的方法
+				Products: function () {
+					let _this = this;
+					var request = {};
+
+					axios.get(`/api/products/backEndProducts`, request).then(response => {
+						_this.backendProducts = _this.showProducts = response.data;
+						alert('成功');
+					});
+				},
+				//productFilter:function(){
+				//	//依照搜尋欄位篩選商品
+				//	var _this = this;
+				//	//console.log(_this.products);
+				//	_this.showProducts=[];
+				//	for (var i = 0; i < _this.products.length;i++) {
+				//		var item = _this.products[i];
+				//		if (item.product.productName.includes(_this.filterObj.keyword)) {
+				//			_this.showProducts.push(item);
+				//		 }
+				//	}
+
+				//},
+				//sortBy: function (val) {
+				//	let _this = this;
+				//	//依照時間排序
+				//	if (val == 'time') {
+				//		return _this.showProducts.sort((a, b) => new Date(a.product.productLauchedTime) - new Date(b.product.productLauchedTime));
+				//	}
+				//	//依照價格排序
+				//	if (val == 'price') {
+				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
+				//	}
+				//},
+				//ProductType:function(val){
+				//	let _this = this;
+				//	if (val == 'food') {
+				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
+				//	}
+				//}
+			},
+			computed: {
+
+			},
+
+		});
+
+	</script>
+    }
 
 @*<table class="table">
     <thead>
