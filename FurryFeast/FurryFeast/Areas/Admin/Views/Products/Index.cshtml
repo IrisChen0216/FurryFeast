@@ -72,11 +72,13 @@
 					<option>狗狗專區</option>
 					<option>貓咪專區</option>
 					</select>
+					
+					<button class="btn bg-gradient-info mb-0 toast-btn">全部商品</button>*@
 					<div class="btnState mx-3 mt-2 pr-10 col-3">
-					@*<button class="btn bg-gradient-info mb-0 toast-btn">全部商品</button>
+
 					<button class="btn bg-gradient-warning  mb-0 toast-btn">上架中</button>
 					<button class="btn bg-gradient-danger  mb-0 toast-btn unState">未上架</button>
-					</div>*@
+					</div>
 
 					@*搜尋欄*@
 					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
@@ -122,15 +124,19 @@
 										<p class="text-xs text-secondary mb-0">Organization</p>
 									</td>
 									<td class="align-middle text-center text-sm">
-										<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>
+										@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
+										<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">上架</button>
+										<button v-else class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">下架</button>
 									</td>
 									<td class="align-middle text-center">
 										<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productLauchedTime}}</span>
 									</td>
 									<td class="align-middle">
-										<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+										@*<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
 											Edit
-										</a>
+										</a>*@
+										<button class="btn bg-gradient-warning  mb-0 toast-btn">編輯</button>
+										<button class="btn bg-gradient-danger  mb-0 toast-btn unState">刪除</button>
 									</td>
 								</tr>
 
@@ -190,6 +196,25 @@
 						}
 					}
 				},
+				changeState: function (Id){
+					let _this = this;
+					let chageStateList = [];
+					for (let i = 0; i < _this.showProducts.length; i++) {
+						let item = _this.showProducts[i];
+						if (item.backEndProduct.productId==Id) {
+							if (item.OnAndOff == true) {
+								confirm('確定要上架?');//目前檔不了true變成false，未按照資料庫上架狀態顯示，待以資料庫狀態顯示、更新
+								item.OnAndOff = false;
+							}
+							else{
+								confirm('確定要下架?');
+								item.OnAndOff = true;
+							}
+						}
+						chageStateList.push(item);
+					}
+					_this.showProducts = chageStateList;
+				}
 			},
 
 			//sortBy: function (val) {
