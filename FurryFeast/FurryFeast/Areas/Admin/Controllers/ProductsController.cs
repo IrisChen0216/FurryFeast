@@ -27,23 +27,30 @@ namespace FurryFeast.Areas.Admin.Controllers
         }
 
         // GET: Admin/Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null || _context.Products == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var product = await _context.Products
+        //        .Include(p => p.Articles)
+        //        .Include(p => p.ProductType)
+        //        .FirstOrDefaultAsync(m => m.ProductId == id);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(product);
+        //}
+
+        public async Task<IActionResult> Details()
         {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
+            
 
-            var product = await _context.Products
-                .Include(p => p.Articles)
-                .Include(p => p.ProductType)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
+            return View();
         }
 
         // GET: Admin/Products/Create
