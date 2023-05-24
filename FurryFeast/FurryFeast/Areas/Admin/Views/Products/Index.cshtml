@@ -55,17 +55,17 @@
 							<li><button class="dropdown-item" type="button">貓咪商品</button></li>
 						</ul>
 					</div>
-						<div class="dropdown mx-3 mt-2 col-1">
-							<button class="btn btn-secondary dropdown-toggle drop" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-								商品類別
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+					<div class="dropdown mx-3 mt-2 col-1">
+						<button class="btn btn-secondary dropdown-toggle drop" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+							商品類別
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							<li><button class="dropdown-item" type="button">全類別</button></li>
-								<li><button class="dropdown-item" type="button">生活用品</button></li>
-								<li><button class="dropdown-item" type="button">主食/零食</button></li>
-							</ul>
-						</div>
-					
+							<li><button class="dropdown-item" type="button">生活用品</button></li>
+							<li><button class="dropdown-item" type="button">主食/零食</button></li>
+						</ul>
+					</div>
+
 					@*<select>
 					<option>全部商品</option>
 					<option>鮮食專區</option>
@@ -154,7 +154,7 @@
 			data: {
 				backendProducts: [],
 				showProducts: [],
-				keyword:"",
+				keyword: "",
 
 			},
 			mounted: function () {
@@ -166,44 +166,50 @@
 				//網頁載入就會掛載全部商品資料的方法
 				Products: function () {
 					let _this = this;
-					var request = {};
+					let request = {};
 
 					axios.get(`/api/products/backEndProducts`, request).then(response => {
 						_this.backendProducts = _this.showProducts = response.data;
 						alert('成功');
 					});
 				},
-				productFilter:function(){
-					//依照搜尋欄位篩選商品
-					var _this = this;
-
-					_this.showProducts=[];
-					for (var i = 0; i < _this.backendProducts.length; i++) {
-						var item = _this.backendProducts[i];
-						if (item.backEndProduct.productName.includes(_this.keyword)) {
+				productFilter: function () {
+					//依照搜尋欄位篩選商品(Id、Name)
+					let _this = this;
+					let request = {};
+					_this.showProducts = [];
+					
+					for (let i = 0; i < _this.backendProducts.length; i++) {
+						let item = _this.backendProducts[i];
+						let itemId = item.backEndProduct.productId.toString();
+						if (itemId.includes(parseInt(_this.keyword))) {
 							_this.showProducts.push(item);
-						 }
+						}
+						else if (item.backEndProduct.productName.includes(_this.keyword)) {
+							_this.showProducts.push(item);
+						}
 					}
 				},
-
-				//sortBy: function (val) {
-				//	let _this = this;
-				//	//依照時間排序
-				//	if (val == 'time') {
-				//		return _this.showProducts.sort((a, b) => new Date(a.product.productLauchedTime) - new Date(b.product.productLauchedTime));
-				//	}
-				//	//依照價格排序
-				//	if (val == 'price') {
-				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
-				//	}
-				//},
-				//ProductType:function(val){
-				//	let _this = this;
-				//	if (val == 'food') {
-				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
-				//	}
-				//}
 			},
+
+			//sortBy: function (val) {
+			//	let _this = this;
+			//	//依照時間排序
+			//	if (val == 'time') {
+			//		return _this.showProducts.sort((a, b) => new Date(a.product.productLauchedTime) - new Date(b.product.productLauchedTime));
+			//	}
+			//	//依照價格排序
+			//	if (val == 'price') {
+			//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
+			//	}
+			//},
+			//ProductType:function(val){
+			//	let _this = this;
+			//	if (val == 'food') {
+			//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
+			//	}
+			//}
+
 			computed: {
 
 			},
