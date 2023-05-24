@@ -1,24 +1,14 @@
-﻿@section Style{
-    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
-    <link href="~/css/petclass/style.css" rel="stylesheet" />
-}
-@*讓預設文字在點擊時消失*@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("input").focus(function () {
-            $(this).attr("placeholder", "");
-        });
-        $("textarea").focus(function () {
-            $(this).attr("placeholder", "");
-        });
-    });
-</script>
+﻿<link rel="icon" href="images/favicon.ico" type="~/image/x-icon">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
+<link href="~/css/petclass/style.css" rel="stylesheet" />
+<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+
+
 <section class="section section-xl bg-default text-md-left">
     <div class="container">
         <div class="title-classic">
-            <h4 class="title-classic-title">Contact Us</h4>
+            <h2 class="title-classic-title">Contact Us</h2>
         </div>
         <form class="rd-form rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
             <div class="row row-20 row-md-30">
@@ -87,3 +77,15 @@
         </div>
     </div>
 </section>
+@section Scripts {
+    <script src="~/js/product/core.min.js"></script>
+    <script src="~/js/product/script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("input, textarea").on("input", function () {
+                $(this).attr("placeholder", "");
+            });
+        });
+    </script>
+                    }
