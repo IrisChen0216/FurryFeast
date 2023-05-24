@@ -60,7 +60,7 @@
 								商品類別
 							</button>
 							<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-								<li><button class="dropdown-item" type="button"></button>全類別</li>
+							<li><button class="dropdown-item" type="button">全類別</button></li>
 								<li><button class="dropdown-item" type="button">生活用品</button></li>
 								<li><button class="dropdown-item" type="button">主食/零食</button></li>
 							</ul>
@@ -77,10 +77,12 @@
 					<button class="btn bg-gradient-warning  mb-0 toast-btn">上架中</button>
 					<button class="btn bg-gradient-danger  mb-0 toast-btn unState">未上架</button>
 					</div>*@
+
+					@*搜尋欄*@
 					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
 						<div class="input-group input-group-outline">
 							<label class="form-label">Search Product...</label>
-							<input type="text" class="form-control">
+							<input type="text" class="form-control" v-model="keyword" @@keyup="productFilter">
 						</div>
 					</div>
 
@@ -152,11 +154,7 @@
 			data: {
 				backendProducts: [],
 				showProducts: [],
-
-				filterObj: {
-					name: "",
-					keyword: "",
-				}
+				keyword:"",
 
 			},
 			mounted: function () {
@@ -175,19 +173,19 @@
 						alert('成功');
 					});
 				},
-				//productFilter:function(){
-				//	//依照搜尋欄位篩選商品
-				//	var _this = this;
-				//	//console.log(_this.products);
-				//	_this.showProducts=[];
-				//	for (var i = 0; i < _this.products.length;i++) {
-				//		var item = _this.products[i];
-				//		if (item.product.productName.includes(_this.filterObj.keyword)) {
-				//			_this.showProducts.push(item);
-				//		 }
-				//	}
+				productFilter:function(){
+					//依照搜尋欄位篩選商品
+					var _this = this;
 
-				//},
+					_this.showProducts=[];
+					for (var i = 0; i < _this.backendProducts.length; i++) {
+						var item = _this.backendProducts[i];
+						if (item.backEndProduct.productName.includes(_this.keyword)) {
+							_this.showProducts.push(item);
+						 }
+					}
+				},
+
 				//sortBy: function (val) {
 				//	let _this = this;
 				//	//依照時間排序
