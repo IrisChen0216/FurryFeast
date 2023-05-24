@@ -1,7 +1,7 @@
 ﻿using FurryFeast.Areas.Admin.ViewModels;
 using FurryFeast.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Areas.Admin.Api {
 	[Route("api/StockMeasureUnitsApiController/[action]")]
@@ -23,17 +23,31 @@ namespace FurryFeast.Areas.Admin.Api {
 		//	return result;
 		//}
 
+		//[HttpGet]
+		//public async Task<object> GetAll() {
+		//	if (_context.StockArticles == null) {
+		//		return NotFound();
+		//	} else {
+		//		var result = await _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
+		//			MeasureUnitsId = data.MeasureUnitsId,
+		//			MeasureUnitsCode = data.MeasureUnitsCode,
+		//			MeasureUnitsDescription = data.MeasureUnitsDescription,
+		//		}).ToListAsync();
+		//		return Ok(result);
+		//	}
+		//}
+
 		[HttpGet]
 		public async Task<object> GetAll() {
-			if (_context.StockArticles == null) {
+			if (_context.StockMeasureUnits == null) {
 				return NotFound();
 			} else {
-				var result = await _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
+				var result = _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
 					MeasureUnitsId = data.MeasureUnitsId,
 					MeasureUnitsCode = data.MeasureUnitsCode,
 					MeasureUnitsDescription = data.MeasureUnitsDescription,
-				}).ToListAsync();
-				return result;
+				});
+				return Ok(result);
 			}
 		}
 	}

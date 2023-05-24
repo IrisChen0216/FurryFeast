@@ -2,7 +2,6 @@
 using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Areas.Admin.Api {
 	[Route("api/StockArticlesApiController/[action]")]
@@ -33,7 +32,7 @@ namespace FurryFeast.Areas.Admin.Api {
 					SuppliersId = data.SuppliersId,
 					ImagesId = data.ImagesId
 				});
-				return result;
+				return Ok(result);
 			}
 		}
 	}
