@@ -24,13 +24,17 @@ namespace FurryFeast.Areas.Admin.Api {
 		//}
 
 		[HttpGet]
-		public object GetAll() {
-			var result = _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
-				MeasureUnitsId = data.MeasureUnitsId,
-				MeasureUnitsCode = data.MeasureUnitsCode,
-				MeasureUnitsDescription = data.MeasureUnitsDescription,
-			});
-			return result;
+		public async Task<object> GetAll() {
+			if (_context.StockArticles == null) {
+				return NotFound();
+			} else {
+				var result = await _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
+					MeasureUnitsId = data.MeasureUnitsId,
+					MeasureUnitsCode = data.MeasureUnitsCode,
+					MeasureUnitsDescription = data.MeasureUnitsDescription,
+				}).ToListAsync();
+				return result;
+			}
 		}
 	}
 }
