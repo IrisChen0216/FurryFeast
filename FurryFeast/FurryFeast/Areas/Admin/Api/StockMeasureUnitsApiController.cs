@@ -51,13 +51,18 @@ namespace FurryFeast.Areas.Admin.Api {
 		}
 
 		// 刪除一筆資料
-		//[HttpDelete]
-		//public async Task<object> DeleteData(StockMeasureUnitsViewModel data) {
-		//	if (_context.StockMeasureUnits == null) {
-		//		return NotFound("StockMeasureUnits is null");
-		//	} else if () {
-
-		//	}
-		//}
+		[HttpDelete]
+		public async Task<object> DeleteData(string data) {
+			var deleteData = await _context.StockMeasureUnits.FindAsync(data);
+			if (_context.StockMeasureUnits == null) {
+				return NotFound("StockMeasureUnits is null");
+			} else if (deleteData == null) {
+				return BadRequest($"Delete failed, MeasureUnitsCode: {data}");
+			} else {
+				_context.StockMeasureUnits.Remove(deleteData);
+				await _context.SaveChangesAsync();
+				return Ok();
+			}
+		}
 	}
 }
