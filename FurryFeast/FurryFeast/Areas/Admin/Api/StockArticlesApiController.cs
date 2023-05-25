@@ -40,7 +40,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
 		// 新增一筆資料
 		[HttpPost]
-		public async Task<object> PostData(StockArticleViewModel data) {
+		public async Task<object> PostData([FromBody] StockArticleViewModel data) {
 			if (_context.StockArticles == null) {
 				return NotFound("StockArticles is null.");
 

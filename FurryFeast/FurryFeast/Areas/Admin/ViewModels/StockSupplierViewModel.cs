@@ -1,7 +1,12 @@
-﻿namespace FurryFeast.Areas.Admin.ViewModels {
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FurryFeast.Areas.Admin.ViewModels {
 	public class StockSupplierViewModel {
+		[Required]
 		public int SuppliersId { get; set; }
+		[Required]
 		public string SuppliersCode { get; set; } = null!;
+		[Required]
 		public string SuppliersDescription { get; set; } = null!;
 		public string? SuppliersStreet { get; set; }
 		public string? SuppliersZipCode { get; set; }

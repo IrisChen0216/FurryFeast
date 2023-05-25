@@ -32,10 +32,9 @@ namespace FurryFeast.Areas.Admin.Api {
 
 		// 新增一筆資料
 		[HttpPost]
-		public async Task<object> PostData(StockMeasureUnitsViewModel data) {
+		public async Task<object> PostData([FromBody] StockMeasureUnitsViewModel data) {
 			if (_context.StockMeasureUnits == null) {
 				return NotFound("StockMeasureUnits is null.");
-
 				// 如果資料重複
 			} else if (_context.StockMeasureUnits?.Any(e => e.MeasureUnitsCode == data.MeasureUnitsCode) == true) {
 				return Conflict($"Data duplicate, MeasureUnitsCode: {data.MeasureUnitsCode}");
@@ -50,5 +49,15 @@ namespace FurryFeast.Areas.Admin.Api {
 				return Ok($"Post success, MeasureUnitsCode: {data.MeasureUnitsCode}.");
 			}
 		}
+
+		// 刪除一筆資料
+		//[HttpDelete]
+		//public async Task<object> DeleteData(StockMeasureUnitsViewModel data) {
+		//	if (_context.StockMeasureUnits == null) {
+		//		return NotFound("StockMeasureUnits is null");
+		//	} else if () {
+
+		//	}
+		//}
 	}
 }
