@@ -25,15 +25,27 @@ namespace FurryFeast.Controllers
 
         // GET: Members
    
-        public async Task<IActionResult> MemberIndex()
+        public async Task<IActionResult> MemberIndex(MemberViewModel list)
 
 		{
-            var member = _context.Members.Include(m => m.Conpon).Where(m=>m.MemberId==1).FirstOrDefault();
-            return View(member);
-           
+            if (int.TryParse(User.FindFirstValue("Id"), out int memberId))
+            {
+                var member = _context.Members
+                    .Include(m => m.Conpon)
+                    .FirstOrDefault(m => m.MemberId == memberId);
+
+                return View(member);
+            }
+
+            return NotFound();
+
+            //string id = User.FindFirstValue("Id");
+            //var member = _context.Members.Include(m => m.Conpon).Where(m=>m.MemberId == id).FirstOrDefault();
+            //return View(member);
+
         }
 
-        
+
 
         [Authorize]
         public IActionResult MyOrder()
