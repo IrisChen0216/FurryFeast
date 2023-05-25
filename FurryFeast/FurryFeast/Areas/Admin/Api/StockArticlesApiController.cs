@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Areas.Admin.Api {
-	[Route("api/StockArticlesApiController/[action]")]
+	[Route("api/[controller]/[action]")]
 	[ApiController]
 	public class StockArticlesApiController : ControllerBase {
 		private db_a989fb_furryfeastContext _context;
@@ -35,6 +35,36 @@ namespace FurryFeast.Areas.Admin.Api {
 					ImagesId = data.ImagesId
 				}).ToListAsync();
 				return Ok(result);
+			}
+		}
+
+		// 新增一筆資料
+		[HttpPost]
+		public async Task<object> PostData(StockArticleViewModel data) {
+			if (_context.StockArticles == null) {
+				return NotFound("StockArticles is null.");
+
+				// 如果資料重複
+			} else if (_context.StockArticles.Any(e => e.AarticlesCode == data.AarticlesCode) == true) {
+				return Conflict($"Data duplicate, AarticlesCode: {data.AarticlesCode}");
+			} else {
+				StockArticle result = new StockArticle {
+					ArticlesId = data.ArticlesId,
+					AarticlesCode = data.AarticlesCode,
+					ArticlesIsValid = data.ArticlesIsValid,
+					ArticlesDescription = data.ArticlesDescription,
+					ArticlesNotes = data.ArticlesNotes,
+					ArticlesPrice = data.ArticlesPrice,
+					ArticlesQuantity = data.ArticlesQuantity,
+					GroupId = data.GroupId,
+					MeasureUnitId = data.MeasureUnitId,
+					WarehousesId = data.WarehousesId,
+					SuppliersId = data.SuppliersId,
+					ImagesId = data.ImagesId
+				};
+				_context.StockArticles.Add(result);
+				await _context.SaveChangesAsync();
+				return Ok($"Post success, AarticlesCode: {data.AarticlesCode}.");
 			}
 		}
 	}

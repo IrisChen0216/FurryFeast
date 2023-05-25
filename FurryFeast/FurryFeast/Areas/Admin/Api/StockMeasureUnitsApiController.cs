@@ -15,30 +15,6 @@ namespace FurryFeast.Areas.Admin.Api {
 			_context = context;
 		}
 
-		//[HttpGet]
-		//public async Task<IEnumerable<StockMeasureUnitsViewModel>> GetAll() {
-		//	var result = await _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
-		//		MeasureUnitsId = data.MeasureUnitsId,
-		//		MeasureUnitsCode = data.MeasureUnitsCode,
-		//		MeasureUnitsDescription = data.MeasureUnitsDescription,
-		//	}).ToListAsync();
-		//	return result;
-		//}
-
-		//[HttpGet]
-		//public async Task<object> GetAll() {
-		//	if (_context.StockArticles == null) {
-		//		return NotFound();
-		//	} else {
-		//		var result = await _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
-		//			MeasureUnitsId = data.MeasureUnitsId,
-		//			MeasureUnitsCode = data.MeasureUnitsCode,
-		//			MeasureUnitsDescription = data.MeasureUnitsDescription,
-		//		}).ToListAsync();
-		//		return Ok(result);
-		//	}
-		//}
-
 		// 查詢所有資料
 		[HttpGet]
 		public async Task<object> GetAll() {
@@ -59,21 +35,20 @@ namespace FurryFeast.Areas.Admin.Api {
 		public async Task<object> PostData(StockMeasureUnitsViewModel data) {
 			if (_context.StockMeasureUnits == null) {
 				return NotFound("StockMeasureUnits is null.");
-			}
 
-			// 如果資料重複
-			if (_context.StockMeasureUnits?.Any(e => e.MeasureUnitsCode == data.MeasureUnitsCode) == true) {
-				return Conflict($"Data duplicate, Code: {data.MeasureUnitsCode}");
+				// 如果資料重複
+			} else if (_context.StockMeasureUnits?.Any(e => e.MeasureUnitsCode == data.MeasureUnitsCode) == true) {
+				return Conflict($"Data duplicate, MeasureUnitsCode: {data.MeasureUnitsCode}");
+			} else {
+				StockMeasureUnit result = new StockMeasureUnit {
+					MeasureUnitsId = data.MeasureUnitsId,
+					MeasureUnitsCode = data.MeasureUnitsCode,
+					MeasureUnitsDescription = data.MeasureUnitsDescription
+				};
+				_context.StockMeasureUnits?.Add(result);
+				await _context.SaveChangesAsync();
+				return Ok($"Post success, MeasureUnitsCode: {data.MeasureUnitsCode}.");
 			}
-
-			StockMeasureUnit result = new StockMeasureUnit {
-				MeasureUnitsId = data.MeasureUnitsId,
-				MeasureUnitsCode = data.MeasureUnitsCode,
-				MeasureUnitsDescription = data.MeasureUnitsDescription,
-			};
-			_context.StockMeasureUnits?.Add(result);
-			await _context.SaveChangesAsync();
-			return Ok($"Post success, Code: {data.MeasureUnitsCode}.");
 		}
 	}
 }

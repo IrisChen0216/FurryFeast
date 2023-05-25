@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Areas.Admin.Api {
-	[Route("api/StockSuppliersGroupsApiController/[action]")]
+	[Route("api/[controller]/[action]")]
 	[ApiController]
 	public class StockSuppliersGroupsApiController : ControllerBase {
 		private db_a989fb_furryfeastContext _context;
@@ -26,6 +26,27 @@ namespace FurryFeast.Areas.Admin.Api {
 					SuppliersGroupsDescription = data.SuppliersGroupsDescription
 				}).ToListAsync();
 				return Ok(result);
+			}
+		}
+
+		// 新增一筆資料
+		[HttpPost]
+		public async Task<object> PostData(StockSuppliersGroupViewModel data) {
+			if (_context.StockSuppliersGroups == null) {
+				return NotFound("StockSuppliersGroups is null.");
+
+				// 如果資料重複
+			} else if (_context.StockSuppliersGroups?.Any(e => e.SuppliersGroupsCode == data.SuppliersGroupsCode) == true) {
+				return Conflict($"Data duplicate, SuppliersGroupsCode: {data.SuppliersGroupsCode}");
+			} else {
+				StockSuppliersGroup result = new StockSuppliersGroup {
+					SuppliersGroupsId = data.SuppliersGroupsId,
+					SuppliersGroupsCode = data.SuppliersGroupsCode,
+					SuppliersGroupsDescription = data.SuppliersGroupsDescription
+				};
+				_context.StockSuppliersGroups?.Add(result);
+				await _context.SaveChangesAsync();
+				return Ok($"Post success, SuppliersGroupsCode: {data.SuppliersGroupsCode}.");
 			}
 		}
 	}
