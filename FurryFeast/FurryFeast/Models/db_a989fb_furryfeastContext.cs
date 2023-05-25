@@ -23,6 +23,7 @@ namespace FurryFeast.Models
         public virtual DbSet<Conpon> Conpons { get; set; } = null!;
         public virtual DbSet<ContactU> ContactUs { get; set; } = null!;
         public virtual DbSet<Donate> Donates { get; set; } = null!;
+        public virtual DbSet<EditedMsgRecord> EditedMsgRecords { get; set; } = null!;
         public virtual DbSet<GameOutcome> GameOutcomes { get; set; } = null!;
         public virtual DbSet<GameQue> GameQues { get; set; } = null!;
         public virtual DbSet<GameQuesChoice> GameQuesChoices { get; set; } = null!;
@@ -53,8 +54,8 @@ namespace FurryFeast.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeastDb"));
+	            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+	            optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeastDb"));
             }
         }
 
@@ -199,8 +200,8 @@ namespace FurryFeast.Models
                     .HasColumnName("guest_ID");
 
                 entity.Property(e => e.GuestContext)
-                    .HasMaxLength(200)
-                    .HasColumnName("guest_context");
+                    .HasMaxLength(500)
+                    .HasColumnName("guest_Context");
 
                 entity.Property(e => e.GuestEmail)
                     .HasMaxLength(20)
@@ -211,11 +212,11 @@ namespace FurryFeast.Models
                     .HasMaxLength(5)
                     .HasColumnName("guest_Name");
 
-                entity.Property(e => e.GuestPhone).HasColumnName("guest_phone");
+                entity.Property(e => e.GuestPhone).HasColumnName("guest_Phone");
 
                 entity.Property(e => e.GuestSubject)
-                    .HasMaxLength(20)
-                    .HasColumnName("guest_subject");
+                    .HasMaxLength(100)
+                    .HasColumnName("guest_Subject");
             });
 
             modelBuilder.Entity<Donate>(entity =>
@@ -235,6 +236,31 @@ namespace FurryFeast.Models
                 entity.Property(e => e.DogDonatePeople).HasColumnName("Dog_Donate_people");
 
                 entity.Property(e => e.DogDonateTotal).HasColumnName("Dog_Donate_total");
+            });
+
+            modelBuilder.Entity<EditedMsgRecord>(entity =>
+            {
+                entity.HasKey(e => e.EditedMsgId);
+
+                entity.ToTable("EditedMsgRecord");
+
+                entity.Property(e => e.EditedMsgId).HasColumnName("Edited_MsgID");
+
+                entity.Property(e => e.EditedText)
+                    .HasMaxLength(50)
+                    .HasColumnName("Edited_Text");
+
+                entity.Property(e => e.EditedTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Edited_Time");
+
+                entity.Property(e => e.MsgId).HasColumnName("Msg_ID");
+
+                entity.HasOne(d => d.Msg)
+                    .WithMany(p => p.EditedMsgRecords)
+                    .HasForeignKey(d => d.MsgId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EditedMsgRecord_MsgBoard");
             });
 
             modelBuilder.Entity<GameOutcome>(entity =>
@@ -349,7 +375,13 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.MsgId).HasColumnName("Msg_ID");
 
-                entity.Property(e => e.MsgContent).HasColumnName("Msg_Content");
+                entity.Property(e => e.MsgActive)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MsgContent)
+                    .HasMaxLength(50)
+                    .HasColumnName("Msg_Content");
 
                 entity.Property(e => e.MsgDateTime)
                     .HasColumnType("datetime")
