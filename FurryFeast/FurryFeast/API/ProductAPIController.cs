@@ -92,5 +92,48 @@ namespace FurryFeast.API
 
 			return $"新增成功!{product.ProductId}";
 		}
+
+		[HttpPut("{id}")]
+		public async Task<string> PutProduct(int id, [FromBody]PetMarketViewModel model)
+		{
+
+
+			Product product = await _context.Products.FindAsync(model.ProductId);
+
+			product.ProductId = model.ProductId;
+			product.ProductName = model.ProductName;
+			product.ProductPrice = model.ProductPrice;
+			product.ProductAmount = model.ProductAmount;
+			//ProductDescription = model.ProductDescription,
+			//ProductState = model.ProductState,
+			//ProductTypeId = model.ProductTypeId,
+			//ProductPicId = model.ProductPicId,
+			//ArticlesId = model.ArticlesId
+			//待補
+			_context.Entry(product).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ProductExists(id))
+				{
+					return "修改商品失敗";
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return "修改商品成功";
+		}
+		private bool ProductExists(int id)
+		{
+			return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
+		}
 	}
+	
 }
