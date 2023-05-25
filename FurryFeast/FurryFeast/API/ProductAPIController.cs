@@ -70,5 +70,27 @@ namespace FurryFeast.API
 
 
         }
-    }
+
+		[HttpPost]
+		public async Task<string> PostProduct([FromBody] PetMarketViewModel model)
+		{
+			
+			Product product = new Product
+			{
+				ProductId = model.ProductId,
+				ProductName = model.ProductName,
+				ProductPrice = model.ProductPrice,
+				ProductAmount = model.ProductAmount,
+				ProductDescription=model.ProductDescription,
+				ProductState=model.ProductState,
+				ProductTypeId = model.ProductTypeId,
+				ProductPicId = model.ProductPicId,
+				ArticlesId = model.ArticlesId
+			};
+			_context.Products.Add(product);
+			await _context.SaveChangesAsync();
+
+			return $"新增成功!{product.ProductId}";
+		}
+	}
 }

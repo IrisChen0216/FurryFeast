@@ -1,4 +1,6 @@
-﻿@{
+﻿@model FurryFeast.Models.Product
+
+@{
 	ViewData["Title"] = "Index";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -10,42 +12,42 @@
 				<div class="col-6 d-flex align-items-center">
 					<h6 class="mb-0">商品編號：{{}}</h6>
 				</div>
-				
+
 			</div>
 		</div>
 		<div class="card-body p-3">
 			<div class="card card-body border card-plain border-radius-lg d-flex align-items-self-start">
 				<div class="row">
 					<div class="col-md-8 mb-md-0 mb-4">
-						<h6 class="mb-0">商品名稱：{{}}</h6>
+						<h6 class="mb-0">商品名稱：@Model.ProductName</h6>
 						<input />
 					</div>
 				</div>
-			
-			<div class="row">
-				<div class="col-md-8 mb-md-0 mb-4">
-					<h6 class="mb-0">商品種類：{{}}</h6>
-					<input />
+
+				<div class="row">
+					<div class="col-md-8 mb-md-0 mb-4">
+						<h6 class="mb-0">商品種類：{{}}</h6>
+						<input />
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-8 mb-md-0 mb-4">
-					<h6 class="mb-0">上架數量：{{}}</h6>
-					<input />
+				<div class="row">
+					<div class="col-md-8 mb-md-0 mb-4">
+						<h6 class="mb-0">上架數量：{{}}</h6>
+						<input />
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-8 mb-md-0 mb-4">
-					<h6 class="mb-0">商品單價：{{}}</h6>
-					<input />
+				<div class="row">
+					<div class="col-md-8 mb-md-0 mb-4">
+						<h6 class="mb-0">商品單價：{{}}</h6>
+						<input />
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-8 mb-md-0 mb-4">
-					<h6 class="mb-0">商品描述：{{}}</h6>
-					<input />
+				<div class="row">
+					<div class="col-md-8 mb-md-0 mb-4">
+						<h6 class="mb-0">商品描述：{{}}</h6>
+						<input />
+					</div>
 				</div>
-			</div>
 			</div>
 			@*<img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">*@
 			@*<h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>*@
@@ -65,4 +67,4 @@
 
 	</div>
 </div>
-</div>
+
