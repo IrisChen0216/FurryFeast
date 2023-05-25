@@ -96,12 +96,12 @@
 						<li>
 							<label class="checkbox-inline">
 								<a asp-controller="Products" asp-action="DogProducts">狗狗專區</a>
-							</label><span class="list-shop-filter-number">數量</span>
+							</label><span class="list-shop-filter-number">({{DogProductsAmount}})</span>
 						</li>
 						<li>
 							<label class="checkbox-inline">
 								<a asp-controller="Products" asp-action="Index" asp-route-type="@ViewBag.CatProducts">貓咪專區</a>
-							</label><span class="list-shop-filter-number">數量</span>
+							</label><span class="list-shop-filter-number">({{CatProductsAmount}})</span>
 						</li>
 					</ul>
 
@@ -145,9 +145,9 @@
 						<div class="col col-3 " v-for="item in showProducts" :key="item.product.productId">
 							<article class="product" style="margin-bottom:30px">
 								<div class="product-body">
-									<div class="product-figure">
+									<div class="product-figure" v-for="(pic, idx) in showProducts.pics" :key="idx">
 										@*<partial name="_ShowPictruePartial" model="@item"></partial>*@
-										<img src="'data:image/png;base64,'${item.pics[0]}" alt="" width="200" height="200" />
+										<img src="GetImg(pic)" alt="" width="200" height="200" />
 									</div>
 									<h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="">{{item.product.productName}}</a></h5>
 									<div class="product-price-wrap">
@@ -260,17 +260,22 @@
 				//	}
 				//}
 				GetImg:function(pic){
-					return `data:image/jpeg;base64,${pic.picData}`;
+					return `data:image/jpeg;base64,${pic}`;
 				},
+				
 			},
 			computed: {
 				AllProductsAmount:function(){
 					let _this=this;
 					return _this.products.length;
 				},
-				DogProductsAmount:function(){
+				DogProductsAmount: function () {
 					let _this = this;
-					return _this.products.length;
+					return _this.products.filter((a) => a.type.productypeId == 1).length;
+				},
+				CatProductsAmount: function () {
+					let _this = this;
+					return _this.products.filter((a) => a.type.productypeId == 2).length;
 				},
 			},
 			
