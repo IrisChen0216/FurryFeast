@@ -2,6 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <style>
+    <style >
     .donate-container {
         display: flex;
         flex-direction: column;
@@ -10,7 +11,6 @@
 
     .donate-item {
         display: flex;
-        align-items: center;
         margin-bottom: 20px;
     }
 
@@ -23,6 +23,9 @@
     .donate-info {
         display: flex;
         flex-direction: column;
+        justify-content: center; 
+        align-items: center; 
+        margin-left: 30px;
     }
 
     .donate-goal {
@@ -94,16 +97,46 @@
             color: white;
         }
 
+    .cropped-image {
+        width: 600px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+    .article{
+        width: 400px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
-
+    .indented-paragraph {
+        text-indent: 2em;
+    }
 </style>
 <div class="index-header">
     <h2>糧食捐贈</h2>
+    <p>
+        歡迎來到我們的捐贈糧食頁面！ <br />我們相信每一點小小的幫助都可以讓這個世界變得更好。 <br />在這裡，您可以將您願意分享的糧食捐贈給需要的人。
+    <p/>
+    <br />
+    <br />
+    <br />
+    <br />
+
 </div>
 <div class="donate-container">
     <div class="donate-item">
-        <img class="donate-image" src="https://cdn.pixabay.com/photo/2018/05/26/18/06/dog-3431913_1280.jpg" alt="狗狗飼料" />
-        <div class="donate-info">
+        <img class="cropped-image" src="https://img.freepik.com/free-photo/still-life-domestic-animal-food-composition_23-2148982410.jpg?w=1060&t=st=1684862867~exp=1684863467~hmac=f982a727cf2dcdcaa19d3909fb0f8679b8564ce2df2da6acbdffd6761532cd74" alt="狗狗飼料" />
+        <div class="article" style="margin-left: 30px;">
+            <h4>狗狗糧食</h4>
+            <p class="indented-paragraph">
+                愛護流浪犬，讓牠們擁有溫飽的生活！我們誠摯邀請您加入我們的募資行動，捐贈狗糧給那些無家可歸的可愛狗狗們。每一袋狗糧，都代表著一頓飽食，一份溫暖，一份關懷。您的善意將給予這些無辜生命們重新開始的機會。讓我們攜手，為流浪犬們帶來希望與幸福！您的捐款將直接用於購買高品質的狗糧，並送達到需要幫助的收容所和救援中心。透過您的愛心，我們可以一起為這些毛茸茸的天使們帶來溫暖和快樂。請為這些無辜的生命伸出援手，捐贈狗糧，讓愛與關懷永遠陪伴著牠們。感謝您的慷慨支持！
+            </p>
+       </div>
+        <div class="donate-info" >
             <div class="donate-progress-container">
                 <svg class="donate-progress" width="120" height="120">
                     <circle class="circle-bg" r="58" cx="60" cy="60"></circle>
@@ -118,7 +151,13 @@
         </div>
     </div>
     <div class="donate-item">
-        <img class="donate-image" src="https://cdn.pixabay.com/photo/2020/11/15/18/51/cat-5746875_1280.png" alt="貓貓飼料" />
+        <img class="cropped-image" src="https://img.freepik.com/free-photo/domestic-pet-food-arrangement_23-2148982330.jpg?w=1380&t=st=1684862900~exp=1684863500~hmac=1a5eba2dde2ed61fed06ebaa7d8b201f982073466e862c9de87f96ddfef96eeb" alt="貓貓飼料" />
+        <div class="article" style="margin-left: 30px;">
+            <h4>貓貓糧食</h4>
+            <p class="indented-paragraph">
+                為了保護那些無家可歸的貓貓們，我們誠摯地邀請您參與我們的募資活動，捐贈貓糧給需要幫助的貓咪們。每一份捐贈，都能給予這些可愛的貓咪們飽腹的感受，給予牠們溫暖和關懷。您的善款將成為這些無辜生命的重生之力。讓我們攜手合作，為流浪貓們帶來新的希望和幸福！您的捐贈將直接用於購買優質的貓糧，並送達到收容所和救援中心，為那些貓咪提供所需的營養和食物。透過您的慷慨，我們可以一起為這些毛茸茸的小天使們帶去溫暖和歡樂。請伸出援手，捐贈貓糧，讓愛心和關懷總是陪伴著牠們。感謝您的支持和慷慨！
+            </p>
+        </div>
         <div class="donate-info">
             <div class="donate-progress-container">
                 <svg class="donate-progress" width="120" height="120">

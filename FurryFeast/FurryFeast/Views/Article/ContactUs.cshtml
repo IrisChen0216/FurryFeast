@@ -1,89 +1,109 @@
-﻿@section Style{
-    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
     <link href="~/css/petclass/style.css" rel="stylesheet" />
-}
-@*讓預設文字在點擊時消失*@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("input").focus(function () {
-            $(this).attr("placeholder", "");
+    <link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("input, textarea").on("input", function () {
+                $(this).attr("placeholder", "");
+            });
+
+            $(".rd-mailform").on("submit", function (e) {
+                e.preventDefault();
+                var name = $("#contact-first-name-2").val();
+                var email = $("#contact-email-2").val();
+                var subject = $("#contact-subject-2").val();
+                var message = $("#contact-message-2").val();
+
+                if (name === "" || email === "" || subject === "" || message === "") {
+                    alert("Please fill in all the required fields.");
+                } else {
+                    // Simulating form submission
+                    // Replace this code with your actual form submission logic
+                    alert("Message Sent");
+                    // Reset form after successful submission
+                    $(".rd-mailform")[0].reset();
+                }
+            });
         });
-        $("textarea").focus(function () {
-            $(this).attr("placeholder", "");
-        });
-    });
-</script>
-<section class="section section-xl bg-default text-md-left">
-    <div class="container">
-        <div class="title-classic">
-            <h4 class="title-classic-title">Contact Us</h4>
-        </div>
-        <form class="rd-form rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
-            <div class="row row-20 row-md-30">
-                <div class="col-lg-8">
-                    <div class="row row-20 row-md-30">
-                        <div class="col-sm-6">
-                            <div class="form-wrap">
-                                <input class="form-input" id="contact-first-name-2" type="text" name="name" placeholder="姓名" />
+    </script>
+</head>
+<body>
+    <section class="section section-xl bg-default text-md-left">
+        <div class="container">
+            <div class="title-classic">
+                <h2 class="title-classic-title">Contact Us</h2>
+            </div>
+            <form class="rd-form rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+                <div class="row row-20 row-md-30">
+                    <div class="col-lg-8">
+                        <div class="row row-20 row-md-30">
+                            <div class="col-sm-6">
+                                <div class="form-wrap">
+                                    <input class="form-input" id="contact-first-name-2" type="text" name="Name" placeholder="姓名*" required />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-wrap">
-                                <input class="form-input" id="contact-subject-2" type="text" name="subject" placeholder="主旨" />
+                            <div class="col-sm-6">
+                                <div class="form-wrap">
+                                    <input class="form-input" id="contact-subject-2" type="text" name="subject" placeholder="主旨*" required />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-wrap">
-                                <input class="form-input" id="contact-email-2" type="email" name="email" placeholder="E-mail" />
+                            <div class="col-sm-6">
+                                <div class="form-wrap">
+                                    <input class="form-input" id="contact-email-2" type="email" name="Email" placeholder="E-mail*" required />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-wrap">
-                                <input class="form-input" id="contact-phone-2" type="text" name="phone" placeholder="電話" />
+                            <div class="col-sm-6">
+                                <div class="form-wrap">
+                                    <input class="form-input" id="contact-phone-2" type="text" name="phone" placeholder="電話" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-wrap">
-                        <textarea class="form-input textarea-lg" id="contact-message-2" name="message" placeholder="內容"></textarea>
+                    <div class="col-lg-4">
+                        <div class="form-wrap">
+                            <textarea class="form-input textarea-lg" id="contact-message-2" name="context" placeholder="內容*" required></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <button class="button button-lg button-primary button-zakaria" type="submit">Send Message</button>
-        </form>
-    </div>
-</section>
+                <button class="button button-lg button-primary button-zakaria" type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
 
-
-<!-- Get in touch-->
-<section class="section section-xl bg-gray-4">
-    <div class="container">
-        <div class="row row-30 justify-content-center">
-            <div class="col-sm-6 col-md-4">
-                <h4>Phones</h4>
-                <ul class="contacts-classic">
-                    <li>
-                        Office <a href="tel:#">+1 (409) 987–5874</a>
-                    </li>
-                    <li>
-                        Fax <a href="tel:#">+1 (409) 987–5874</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <h4>Address</h4>
-                <div class="contacts-classic"><a href="#">台北市中正區浪浪路二段133號</a></div>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <h4>E-mails</h4>
-                <ul class="contacts-classic">
-                    <li><a href="mailTo:#">info@demolink.org</a></li>
-                    <li><a href="mailTo:#">mail@demolink.org</a></li>
-                </ul>
+    <!-- Get in touch-->
+    <section class="section section-xl bg-gray-4">
+        <div class="container">
+            <div class="row row-30 justify-content-center">
+                <div class="col-sm-6 col-md-4">
+                    <h4>Phones</h4>
+                    <ul class="contacts-classic">
+                        <li>
+                            Office <a href="tel:#">+1 (409) 987–5874</a>
+                        </li>
+                        <li>
+                            Fax <a href="tel:#">+1 (409) 987–5874</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <h4>Address</h4>
+                    <div class="contacts-classic"><a href="#">台北市中正區浪浪路二段133號</a></div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <h4>E-mails</h4>
+                    <ul class="contacts-classic">
+                        <li><a href="mailTo:#">info@demolink.org</a></li>
+                        <li><a href="mailTo:#">mail@demolink.org</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</body>
+</html>
