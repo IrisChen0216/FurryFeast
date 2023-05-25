@@ -2,6 +2,7 @@
 using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Areas.Admin.Api {
 	[Route("api/StockGroupsApiController/[action]")]
@@ -13,17 +14,18 @@ namespace FurryFeast.Areas.Admin.Api {
 			_context = context;
 		}
 
+		// 查詢所有資料
 		[HttpGet]
 		public async Task<object> GetAll() {
 			if (_context.StockGroups == null) {
-				return NotFound();
+				return NotFound("StockGroups is null.");
 			} else {
-				var result = _context.StockGroups.Select(data => new StockGroupViewModel {
+				var result = await _context.StockGroups.Select(data => new StockGroupViewModel {
 					GroupsId = data.GroupsId,
 					GroupsCode = data.GroupsCode,
 					GgroupsDescription = data.GgroupsDescription,
 					GroupsNotes = data.GroupsNotes
-				});
+				}).ToListAsync();
 				return Ok(result);
 			}
 		}

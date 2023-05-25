@@ -2,6 +2,7 @@
 using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Areas.Admin.Api {
 	[Route("api/StockSuppliersApiController/[action]")]
@@ -13,12 +14,13 @@ namespace FurryFeast.Areas.Admin.Api {
 			_context = context;
 		}
 
+		// 查詢所有資料
 		[HttpGet]
 		public async Task<object> GetAll() {
 			if (_context.StockSuppliers == null) {
-				return NotFound();
+				return NotFound("StockSuppliers is null.");
 			} else {
-				var result = _context.StockSuppliers.Select(data => new StockSupplierViewModel {
+				var result = await _context.StockSuppliers.Select(data => new StockSupplierViewModel {
 					SuppliersId = data.SuppliersId,
 					SuppliersCode = data.SuppliersCode,
 					SuppliersDescription = data.SuppliersDescription,
@@ -32,7 +34,7 @@ namespace FurryFeast.Areas.Admin.Api {
 					SuppliersEmail = data.SuppliersEmail,
 					SuppliersUrl = data.SuppliersUrl,
 					SupplierGroupId = data.SupplierGroupId
-				});
+				}).ToListAsync();
 				return Ok(result);
 			}
 		}

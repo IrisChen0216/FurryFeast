@@ -2,6 +2,7 @@
 using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Areas.Admin.Api {
 	[Route("api/StockImagesApiController/[action]")]
@@ -13,18 +14,19 @@ namespace FurryFeast.Areas.Admin.Api {
 			_context = context;
 		}
 
+		// 查詢所有資料
 		[HttpGet]
 		public async Task<object> GetAll() {
 			if (_context.StockImages == null) {
-				return NotFound();
+				return NotFound("StockImages is null.");
 			} else {
-				var result = _context.StockImages.Select(data => new StockImageViewModel {
+				var result = await _context.StockImages.Select(data => new StockImageViewModel {
 					ImagesId = data.ImagesId,
 					ImagesCode = data.ImagesCode,
 					ImagesDescription = data.ImagesDescription,
 					ImagesFileCrc = data.ImagesFileCrc,
 					ImagesBitmapFile = data.ImagesBitmapFile
-				});
+				}).ToListAsync();
 				return Ok(result);
 			}
 		}

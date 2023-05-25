@@ -43,7 +43,7 @@ namespace FurryFeast.Areas.Admin.Api {
 		[HttpGet]
 		public async Task<object> GetAll() {
 			if (_context.StockMeasureUnits == null) {
-				return Problem("StockMeasureUnits is null.");
+				return NotFound("StockMeasureUnits is null.");
 			} else {
 				var result = await _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
 					MeasureUnitsId = data.MeasureUnitsId,
@@ -58,12 +58,12 @@ namespace FurryFeast.Areas.Admin.Api {
 		[HttpPost]
 		public async Task<object> PostData(StockMeasureUnitsViewModel data) {
 			if (_context.StockMeasureUnits == null) {
-				return Problem("StockMeasureUnits is null.");
+				return NotFound("StockMeasureUnits is null.");
 			}
 
 			// 如果資料重複
 			if (_context.StockMeasureUnits?.Any(e => e.MeasureUnitsCode == data.MeasureUnitsCode) == true) {
-				return Problem($"Data duplicate, Code: {data.MeasureUnitsCode}");
+				return Conflict($"Data duplicate, Code: {data.MeasureUnitsCode}");
 			}
 
 			StockMeasureUnit result = new StockMeasureUnit {
