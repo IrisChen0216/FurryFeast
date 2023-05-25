@@ -10,18 +10,13 @@
 </div>
 <div id="app" class="container">
 	<div class="row m-4">
-		<button class="col btn btn-primary p-5 " type="button" id="Btn_DogCal">Dog</button>
-		<button class="col btn btn-primary p-5 ms-3" type="button" id="Btn_DogCat" v-on:click="">Cat</button>
+		<button class="col btn btn-primary p-5 " type="button" v-on:click="chooseType(1)">Dog</button>
+		<button class="col btn btn-primary p-5 ms-3" type="button" v-on:click="chooseType(2)">Cat</button>
 	</div>
 	<div class="row m-4">
 		<div class="col-md-3 border border-2 rounded-4 pt-4">
-			<ul class="nav justify-content-center">
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
+			<ul class="nav justify-content-center" v-for="item in filteredRecipe" :key="item.recipesId">
+				<li class="nav-item"><a href=""><h5>{{item.name}}</h5></a></li>
 			</ul>
 		</div>
 
@@ -33,13 +28,7 @@
 				<div class="col border border-2  p-4 rounded-4">
 					<h5>準備食材</h5>
 					<ul class="">
-						<li class=""><span class="">糙米</span><span class="">已經煮熟的</span></li>
-						<li class=""><span class="">番茄罐頭或新鮮番茄</span><span class="">牛番茄較適合炒菜用</span></li>
-						<li class=""><span class="">南瓜</span></li>
-						<li class=""><span class="">舞菇或其他菇類</span></li>
-						<li class=""><span class="">洋香菜</span></li>
-						<li class=""><span class="">雞胸肉</span><span class="">油脂較低</span></li>
-						<li class=""><span class="">橄欖油</span></li>
+						<li class=""><span class="">糙米</span></li>
 					</ul>
 				</div>
 				<div class="col border border-2 ms-4 p-4 rounded-4">
@@ -73,7 +62,6 @@
 
 	<div class="border border-2 m-4 p-4">
 		<p>您尚未登入會員</p>
-		<a href="#"><button class="btn btn-dark" type="button">登入會員</button></a>
 	</div>
 </div>
 <div class="container mt-0">
@@ -100,24 +88,35 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 	<script>
-		var app = new Vue({
+		let app = new Vue({
 			el: '#app',
 			data: {
-				recipes: []
+				recipes: [],
+				filteredRecipe: [], //type篩選出來的食譜
+				seletedRecipe:null		//點擊到的食譜
 			},
 			mounted: function() {
-				var _this = this;
-				//axios.get('GetAllRecipes').then(res => { console.log(res.data); });
+				let _this = this;
 				_this.allRecipes();
 			},
 			methods: {
 				allRecipes: function() {
-					var _this = this;
-					var request = {};
-					axios.get('/api/recipes/AllRecipes', request).then(response => {
-						alert('有嗎');
+					let _this = this;
+					let request = {};
+					axios.get('/api/recipes/AllData', request).then(response => {
 						_this.recipes = response.data;
 					});
+				},
+				//選擇動物類別
+				chooseType: function(type) {
+					let _this = this;
+					_this.filteredRecipe= [];
+					for (let i = 0; i < _this.recipes.length; i++) {
+						if (_this.recipes[i].allData.petTypesId == type) {		//type:1=dog,2=cat
+							let recipeData = _this.recipes[i].allData;
+							_this.filteredRecipe.push(recipeData);
+						}
+					}
 				}
 			}
 		});
