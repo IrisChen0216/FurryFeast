@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using NuGet.Protocol.Plugins;
 
 namespace FurryFeast.Controllers
 {
@@ -25,12 +26,18 @@ namespace FurryFeast.Controllers
 
         // GET: Members
    
-        public async Task<IActionResult> MemberIndex()
+        public  IActionResult MemberIndex()
 
 		{
-            var member = _context.Members.Include(m => m.Conpon).Where(m=>m.MemberId==1).FirstOrDefault();
-            return View(member);
-           
+            if (User.Identity.IsAuthenticated)
+            {
+                var s = User.FindFirstValue("Id");
+                var member = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(s)).FirstOrDefault();
+                return View(member);
+            }
+
+            return ViewBag.Error("錯");
+
         }
 
         
@@ -113,6 +120,10 @@ namespace FurryFeast.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //public async Task<IActionResult> Google()
+        //{
+        //    var client = new 
+        //}
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
