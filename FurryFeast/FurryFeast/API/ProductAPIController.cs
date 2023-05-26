@@ -48,8 +48,36 @@ namespace FurryFeast.API
 
 		}
 
+		public object ProductsType(int type)
+		{
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1 && x.ProductTypeId==type).Select(x => new
+			{
+				product = new
+				{
+					productId = x.ProductId,
+					productName = x.ProductName,
+					productDescription = x.ProductDescription,
+					productPrice = x.ProductPrice,
+					productAmount = x.ProductAmount,
+					productPicId = x.ProductPicId,
+					productLauchedTime = x.ProductLaunchedTime,
+
+
+				},
+				pics = x.ProductPics.Select(p => p.ProductPicImage).FirstOrDefault(),
+				type = new
+				{
+					productypeName = x.ProductType.ProductTypeName,
+					productypeId = x.ProductType.ProductTypeId
+				}
+
+			});
+
+
+		}
+
 		//給後臺用的商品
-        public object backEndProducts()
+		public object backEndProducts()
         {
 						
             return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Select(x => new
