@@ -25,30 +25,7 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Members
-<<<<<<< HEAD
-   
-        public async Task<IActionResult> MemberIndex(MemberViewModel list)
 
-		{
-            if (int.TryParse(User.FindFirstValue("Id"), out int memberId))
-            {
-                var member = _context.Members
-                    .Include(m => m.Conpon)
-                    .FirstOrDefault(m => m.MemberId == memberId);
-
-                return View(member);
-            }
-
-            return NotFound();
-
-            //string id = User.FindFirstValue("Id");
-            //var member = _context.Members.Include(m => m.Conpon).Where(m=>m.MemberId == id).FirstOrDefault();
-            //return View(member);
-
-        }
-
-
-=======
         [Authorize]
         public  IActionResult MemberIndex()
 
@@ -72,7 +49,7 @@ namespace FurryFeast.Controllers
             return View();
         }
         
->>>>>>> MemberData3
+
 
         [Authorize]
         [HttpGet]
