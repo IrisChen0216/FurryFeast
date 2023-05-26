@@ -12,7 +12,10 @@
         public DateTime? ProductSoldTime { get; set; }
         public int ProductTypeId { get; set; }
 		public int? ProductPicId { get; set; }
+
+		public byte[]? ProductPicImage { get; set; }
 		public int ArticlesId { get; set; }
-		
+		public string ProductTypeName { get; set; }
+
 	}
 }

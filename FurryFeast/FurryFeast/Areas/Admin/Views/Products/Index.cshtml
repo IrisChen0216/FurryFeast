@@ -279,7 +279,7 @@
 
 					axios.get(`/api/products/backEndProducts`, request).then(response => {
 						_this.backendProducts = _this.showProducts = response.data;
-						alert('成功');
+
 						var productList = [];
 						for (var i = 0; i < _this.showProducts.length; i++) {
 							var item = _this.showProducts[i];

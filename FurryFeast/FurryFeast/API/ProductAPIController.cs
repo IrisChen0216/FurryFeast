@@ -103,6 +103,29 @@ namespace FurryFeast.API
 
         }
 
+		[HttpGet("{id}")]
+		public async Task<PetMarketViewModel> GetProduct(int id)
+		{
+			var product =await _context.Products.FindAsync(id);
+
+			PetMarketViewModel model = new PetMarketViewModel
+			{
+				ProductId = product.ProductId,
+				ProductName=product.ProductName,
+				ProductDescription=product.ProductDescription,
+				ProductPrice=product.ProductPrice,
+				ProductAmount=product.ProductAmount,
+				ProductPicId=product.ProductPicId,
+				ProductLaunchedTime=product.ProductLaunchedTime,
+				ProductSoldTime=product.ProductSoldTime,
+				ProductState=product.ProductState,
+				ProductPicImage=product.ProductPics.First().ProductPicImage,
+				ProductTypeName=product.ProductType.ProductTypeName
+			};
+
+			return model;
+		}
+
 		[HttpPost]
 		public async Task<string> PostProduct([FromBody] PetMarketViewModel model)
 		{
