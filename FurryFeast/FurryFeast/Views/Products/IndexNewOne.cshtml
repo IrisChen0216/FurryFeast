@@ -145,9 +145,10 @@
 						<div class="col col-3 " v-for="item in showProducts" :key="item.product.productId">
 							<article class="product" style="margin-bottom:30px">
 								<div class="product-body">
-									<div class="product-figure" v-for="(pic, idx) in showProducts.pics" :key="idx">
+									<div class="product-figure">
 										@*<partial name="_ShowPictruePartial" model="@item"></partial>*@
-										<img src="GetImg(pic)" alt="" width="200" height="200" />
+										
+										<img :src="'data:image/png;base64,'+item.pics" alt="" width="200" height="200" />
 									</div>
 									<h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="">{{item.product.productName}}</a></h5>
 									<div class="product-price-wrap">
