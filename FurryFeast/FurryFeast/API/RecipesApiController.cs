@@ -1,6 +1,8 @@
 ﻿using FurryFeast.Models;
+using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.API
@@ -25,13 +27,13 @@ namespace FurryFeast.API
 				{
 					AllData = new
 					{
-						Name = x.RecipesName,
+						name = x.RecipesName,
 						recipesId = x.RecipesId,
 						petTypesId = x.PetTypesId,
-						Desc = x.RecipesDescription,
-						Data = x.RecipesData,
-						Method = x.RecipesMethod,
-						Notes = x.RecipesNotes,
+						desc = x.RecipesDescription,
+						data = x.RecipesData,
+						method = x.RecipesMethod,
+						notes = x.RecipesNotes,
 						MsgBoards = x.MsgBoards.Select(mb => new
 						{
 							msgId = mb.MsgId,
@@ -53,5 +55,39 @@ namespace FurryFeast.API
 
 				});
 		}
+
+		[HttpPost]
+		public async Task<ActionResult<string>> AddComment([FromBody] MsgBoardViewModel msgboard)
+		{
+			if (!string.IsNullOrEmpty(HttpContext.User.Identity.Name))
+			{
+				msgboard.UserId = HttpContext.User.Identity.Name;
+			}
+			else
+			{
+				msgboard.UserId = "unknown";
+			}
+
+			MsgBoard newComment = new MsgBoard()
+			{ 
+				UserId = msgboard.UserId,
+				MsgRecipesId = msgboard.MsgRecipesId, 
+				MsgContent = msgboard.MsgContent,           //留言內容
+				MsgDateTime = msgboard.MsgDateTime,  //時間
+				MsgActive = msgboard.MsgActive           //狀態	
+			}; 
+			_context.Add(newComment);
+			await _context.SaveChangesAsync();
+			return $"success";
+
+		}
+
+		//[HttpGet]
+		//public object GetAllComment()
+		//{
+		//	return _context.;
+		//}
+
 	}
+
 }

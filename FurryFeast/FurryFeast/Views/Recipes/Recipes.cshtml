@@ -16,86 +16,100 @@
 	<div class="row m-4">
 		<div class="col-md-3 border border-2 rounded-4 pt-4">
 			<ul class="nav justify-content-center" v-for="item in filteredRecipe" :key="item.recipesId">
-				<li class="nav-item"><a href=""><h5>{{item.name}}</h5></a></li>
+				<li class="nav-item" v-on:click="selectRecipe(item.recipesId)">{{item.name}}</li>
 			</ul>
 		</div>
 
-		<div class="col p-3 ms-3 border border-2 rounded-4">
+		<div class="col p-3 ms-3 border border-2 rounded-4" v-for="item in filteredRecipe">
 			<div class="row">
-				<div class="my-4" style="text-align: center; font-size: 30px;">義式番茄糙米燉飯</div>
+				<div class="my-4" style="text-align: center; font-size: 30px;">{{item.name}}</div>
+				<p>{{item.desc}}</p>
 			</div>
 			<div class="row m-3">
 				<div class="col border border-2  p-4 rounded-4">
 					<h5>準備食材</h5>
-					<ul class="">
-						<li class=""><span class="">糙米</span></li>
+					<ul v-for="item in selectedRecipeData">
+						<li>{{item}}</li>
 					</ul>
 				</div>
 				<div class="col border border-2 ms-4 p-4 rounded-4">
 					<h5>作法</h5>
-					<ol>
-						<li>將蔬菜、雞肉等食材切小塊使狗狗容易入口</li>
-						<li>加入少許橄欖油至炒鍋</li>
-						<li>待橄欖油熱後把食材加入炒熟</li>
-						<li>將糙米飯倒入鍋中，並加水至稍微蓋過食材</li>
-						<li>燉煮一段時間即可以裝盤並撒上洋香菜</li>
-						<li>待食物稍微放涼在給狗狗吃，以防剛起鍋食物很燙</li>
+					<ol v-for="item in selectedRecipeMethod">
+						<li>{{item}}</li>
 					</ol>
 				</div>
 			</div>
 			<div class="row m-3">
 				<div class="col border border-2 rounded-4 p-4">
 					<h5>Notes</h5>
-					<span>寵物鮮食食譜僅提供參考，考量到每隻狗狗品種、年紀等等狀況不一樣，不提供份量計算，狗奴才需自行斟酌。</span>
+					<span></span>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>
-<div class="container text-center mb-2">
-	<h4 class="index-header">回應區</h4>
+			<div class="container text-center mb-2">
+				<h4 class="index-header">回應區</h4>
+				<template v-if="">
+					<form class="input-group">
+						<textarea class="form-control" v-model="commentContent"></textarea>
+						<input type="hidden" class="form-control" v-model="active"/>
+						<button type="button" class="btn btn-primary" v-on:click="addComment;">送出</button>
+					</form>
+				</template>
+				<template >
+					<div class="border border-2 m-4 p-4">
+						<p>您尚未登入會員</p>
+					</div>
+				</template>
+			</div>
 
-	<form class="input-group" asp-action="" asp-route-Id="">
-		<textarea class="form-control" type="text" placeholder="請先登入再留言" name="UserComment"></textarea>
-		<input class="btn btn-sm btn-primary" type="submit" value="送出" />
-	</form>
+@*			<div class="container mt-0">
+				<div v-for="item in selectedRecipe.msgBoards">
+					<div v-if="flag==true">
+						<button type="button" v-on:click="editComment(item.msgId);">編輯</button>
+						<button type="button" v-on:click="deleteComment();">刪除</button>
 
-	<div class="border border-2 m-4 p-4">
-		<p>您尚未登入會員</p>
+						<div class="position-relative border border-2 " style="height: 150px;">
+							<p class="col" style="position: absolute; left: 10px;">{{item.userId}}</p>
+							<p style="position: absolute; right: 10px;">{{item.dateTime}}</p>
+							<p>{{selectedRecipe.name}}</p>
+							<p>{{item.content}}</p>
+						</div>
+					</div>
+					<div v-else>
+						<textarea class="form-control" v-model="commentContent"></textarea>
+						<input type="hidden" class="form-control" v-model="active"/>
+						<button type="button" class="btn btn-primary" v-on:click="addComment;">送出</button>
+					</div>
+				</div>
+			</div>
+*@		</div>
 	</div>
 </div>
-<div class="container mt-0">
-	@*	@foreach (var comment in Model.MsgBoard.comment)
-	{
-	<div class="border border-2 p-3 position-relative m-4" style="font-size: 20px;">
-	<span class="col" style="position: absolute; left: 10px;">@comment.UserID</span>
-	<span style="position: absolute; right: 10px;">@comment.MsgDateTime</span>
-	<button class="btn btn-dark" type="button">edit</button>
-	<button class="btn btn-danger" type="button">delete</button>
-	</div>
-	@*所有留言*@
-	@*		<div class="position-relative border border-2 rounded-4 p-4 m-4" style="height: 200px;">
-	<p>@comment.MsgContent</p>*@
-	@*	<div class="position-absolute" style="right: 20px; bottom: 10px;">
-	<a style="color: gray;" href="http://">已編輯</a>
-	</div>*@
-	@*		</div>
-	}*@
-</div>
+
+
 
 @section Scripts
 {
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 	<script>
+
 		let app = new Vue({
 			el: '#app',
 			data: {
+				flag: true,
 				recipes: [],
 				filteredRecipe: [], //type篩選出來的食譜
-				seletedRecipe:null		//點擊到的食譜
+				selectedRecipe: null, //點擊到的食譜
+				selectedRecipeData: "",
+				selectedRecipeMethod:"",
+				commentContent: "",
+				active: "true",
+				editedContent: ""
 			},
-			mounted: function() {
+			mounted() {
 				let _this = this;
 				_this.allRecipes();
 			},
@@ -105,20 +119,133 @@
 					let request = {};
 					axios.get('/api/recipes/AllData', request).then(response => {
 						_this.recipes = response.data;
+						let recipesData = [];
+
+						for (let i = 0; i < _this.recipes.length; i++) {
+
+							let item = _this.recipes[i].allData;
+							// 增加新屬性
+							item.Edit = false; // 編輯狀態
+							item.isVisible = true; // 隱藏狀態
+							recipesData.push(item);
+						}
+
+						_this.recipes = recipesData;
 					});
 				},
-				//選擇動物類別
-				chooseType: function(type) {
+				chooseType: function (typeNum) {
+
 					let _this = this;
-					_this.filteredRecipe= [];
-					for (let i = 0; i < _this.recipes.length; i++) {
-						if (_this.recipes[i].allData.petTypesId == type) {		//type:1=dog,2=cat
-							let recipeData = _this.recipes[i].allData;
+					_this.filteredRecipe = [];
+
+					for (let i = 0; i < _this.recipes.length; i++) { 
+						if (_this.recipes[i].petTypesId == typeNum) { //type:1= dog,2=cat
+							let recipeData = _this.recipes[i];
 							_this.filteredRecipe.push(recipeData);
 						}
 					}
+				}, 
+				selectedRecipe: function() { 
+					let _this = this;
+					 
+					for (let i = 0; i < _this.filteredRecipe.length; i++) {
+						if (filteredRecipe[i].recipesId == )
+						let item = _this.filteredRecipe[i].data;
+						_this.selectedRecipeData = item.split("/");
+						_this.selectedRecipeMethod = item.split("/");
+					}
+					console.log(_this.filteredRecipe);
+				},
+
+				//post 新增
+				addComment: function() {
+					let _this = this;
+
+					let userid = "";
+					let msgboard = {
+						UserId: userid,
+						MsgRecipesId: _this.selectedRecipe.recipesId,
+						MsgContent: _this.commentContent, //留言內容
+						MsgDateTime: new Date, //時間
+						MsgActive: _this.active //狀態
+					}
+
+					axios.post('/api/recipes/AddComment', msgboard)
+						.then(response => {
+							this.addCommentSuccess(response); // success feedback
+							this.commentContent = ''; // empty content
+						});
+
+				},
+				//success
+				addCommentSuccess: function(result) {
+					if (result) {
+						const Toast = Swal.mixin({
+							toast: true,
+							position: 'center',
+							showConfirmButton: false,
+							timer: 1700,
+							timerProgressBar: false,
+							didOpen: (toast) => {
+								toast.addEventListener('mouseenter', Swal.stopTimer);
+								toast.addEventListener('mouseleave', Swal.resumeTimer);
+							}
+						});
+
+						Toast.fire({
+							icon: 'success',
+							text: '留言成功！'
+						});
+					}
+				},
+
+				// Edit 
+				editComment: function(_msgID) {
+					let _this = this;
+
+					console.log(_this.selectedRecipe.msgBoards[0].Edit);
+
+					let item = _this.selectedRecipe;
+					console.log(item);
+					for (let i = 0; i < _this.selectedRecipe.msgBoards.length; i++) {
+						if (_this.selectedRecipe.msgBoards[i].msgId == _msgID) {
+							console.log(_this.selectedRecipe.msgBoards[i].Edit);
+							_this.editedContent = _this.selectedRecipe.msgBoards[i].content;
+							_this.selectedRecipe.msgBoards[i].Edit = true;
+							console.log(_this.selectedRecipe.msgBoards[i].Edit);
+						}
+					}
+				},
+
+
+				edit: function(employeeId) {
+					//alert("edit");
+
+					// 跑 v-for 迴圈用
+					let _this = this;
+					let EmployeeList = [];
+					for (let i = 0; i < _this.EmployeeDTOes.length; i++) {
+						let item = _this.EmployeeDTOes[i];
+
+						if (employeeId == item.employeeId) {
+							// 編輯的狀態, true = 編輯模式, false = 即時編輯(行內編輯)(資料跟功能按鍵再一起, 不用切換畫面)
+							item.Edit = true;
+
+							// 進入編輯時, 把畫面的資料先暫存, 之後按取消編輯才能找回來, 與 cancle 相關
+							_this.originaFirstName = item.firstName;
+							_this.originaLastName = item.lastName;
+							_this.originaTitle = item.title;
+						}
+						EmployeeList.push(item);
+					}
+					_this.EmployeeDTOes = EmployeeList;
+				},
+
+				//updateComment:function() {
+
+				//}
 				}
-			}
-		});
+				});
 	</script>
+
 }		
