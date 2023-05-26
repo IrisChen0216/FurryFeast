@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using NuGet.Protocol.Plugins;
 
 namespace FurryFeast.Controllers
 {
@@ -24,33 +25,43 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Members
-   
-        public async Task<IActionResult> MemberIndex(MemberViewModel list)
+
+        [Authorize]
+        public  IActionResult MemberIndex()
 
 		{
-            if (int.TryParse(User.FindFirstValue("Id"), out int memberId))
+            if (User.Identity.IsAuthenticated)
             {
-                var member = _context.Members
-                    .Include(m => m.Conpon)
-                    .FirstOrDefault(m => m.MemberId == memberId);
-
+                var s = User.FindFirstValue("Id");
+                var member = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(s)).FirstOrDefault();
                 return View(member);
             }
 
-            return NotFound();
-
-            //string id = User.FindFirstValue("Id");
-            //var member = _context.Members.Include(m => m.Conpon).Where(m=>m.MemberId == id).FirstOrDefault();
-            //return View(member);
+            return ViewBag.Error("錯");
 
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult MemberAfter()
+        {
+            var a = _context.Members.FirstOrDefault();
+            return View();
+        }
+        
 
 
         [Authorize]
+        [HttpGet]
         public IActionResult MyOrder()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                var s = User.FindFirstValue("Id");
+                var order = _context.Orders.Include(x=>x.OrderDetails).Where(x=>x.MemberId == int.Parse(s)).FirstOrDefault();
+                return View(order);
+            }
+            return ViewBag.Error("錯啦");
         }
 
         [Authorize]
@@ -125,6 +136,17 @@ namespace FurryFeast.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult Google()
+        {
+
+            string? formCredential = Request.Form["credential"]; //回傳憑證
+            string? formToken = Request.Form["g_csrf_token"]; //回傳令牌
+            string? cookiesToken = Request.Cookies["g_csrf_token"]; //Cookie 令牌
+
+
+
+            return View();
+        }
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
