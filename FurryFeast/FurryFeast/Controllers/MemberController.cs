@@ -25,7 +25,7 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Members
-   
+        [Authorize]
         public  IActionResult MemberIndex()
 
 		{
@@ -40,12 +40,26 @@ namespace FurryFeast.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult MemberAfter()
+        {
+            var a = _context.Members.FirstOrDefault();
+            return View();
+        }
         
 
         [Authorize]
+        [HttpGet]
         public IActionResult MyOrder()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                var s = User.FindFirstValue("Id");
+                var order = _context.Orders.Include(x=>x.OrderDetails).Where(x=>x.MemberId == int.Parse(s)).FirstOrDefault();
+                return View(order);
+            }
+            return ViewBag.Error("錯啦");
         }
 
         [Authorize]
@@ -120,10 +134,17 @@ namespace FurryFeast.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //public async Task<IActionResult> Google()
-        //{
-        //    var client = new 
-        //}
+        public IActionResult Google()
+        {
+
+            string? formCredential = Request.Form["credential"]; //回傳憑證
+            string? formToken = Request.Form["g_csrf_token"]; //回傳令牌
+            string? cookiesToken = Request.Cookies["g_csrf_token"]; //Cookie 令牌
+
+
+
+            return View();
+        }
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();

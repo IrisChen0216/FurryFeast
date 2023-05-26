@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<FurryFeast.Models.Order>
+
 @{
     ViewData["Title"] = "MyOrder";
 }
@@ -26,22 +27,24 @@
                 <input type="search" name="OrderSearch" />
                 <input type="submit" name="OrderSearch" value="查詢" />
             </div>
+            <form action="/Member/MyOrder" method="get">
+                <div>
+                    <table id="MyOrderTable">
+                        <tr>
+                            <th>訂單日期</th>
+                            <th>訂單編號</th>
+                        </tr>
+                        <tr v-for="">
+                            <td>
+                               @* @Model.OrderId*@
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
-            <div>
-                <table id="MyOrderTable">
-                    <tr>
-                        <th>訂單日期</th>
-                        <th>訂單編號</th>
-                    </tr>
-                    <tr v-for="">
-                        <td>
+                <div>
+            </form>
 
-                        </td>
-                    </tr>
-                </table>
-            </div>
- 
-            <div>
 
                 <a asp-controller="OrderDetails" asp-action="Index">訂單明細</a>
             </div>
