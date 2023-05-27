@@ -3,7 +3,6 @@ using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace FurryFeast.Areas.Admin.Api {
     [Route("api/[controller]/[action]")]
@@ -27,7 +26,6 @@ namespace FurryFeast.Areas.Admin.Api {
                 MeasureUnitsCode = data.MeasureUnitsCode,
                 MeasureUnitsDescription = data.MeasureUnitsDescription,
             }).ToListAsync();
-
             return Ok(result);
         }
 
