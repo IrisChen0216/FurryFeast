@@ -245,7 +245,12 @@
 						var productList = [];
 						for (var i = 0; i < _this.showProducts.length; i++) {
 							var item = _this.showProducts[i];
-							item.Edit = false;
+							if (item.backEndProduct.productState == 1) {
+								item.OnAndOff = true;
+							}
+							if (item.backEndProduct.productState == 0) {
+								item.OnAndOff = false;
+							}
 							productList.push(item);
 						}
 						_this.showProducts = productList;
@@ -274,6 +279,7 @@
 					for (let i = 0; i < _this.showProducts.length; i++) {
 						let item = _this.showProducts[i];
 						if (item.backEndProduct.productId == Id) {
+							
 							if (item.OnAndOff == true) {
 								confirm('確定要上架?');//目前檔不了true變成false，未按照資料庫上架狀態顯示，待以資料庫狀態顯示、更新
 								item.OnAndOff = false;
