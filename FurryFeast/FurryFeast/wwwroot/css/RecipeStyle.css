@@ -1,0 +1,23 @@
+﻿#recipesList > li {
+    font-weight: 600;
+    font-size: 18px;
+    width: 100%;
+    padding: 20px 0 20px 0;
+    border-top: 1px dashed #ccc;
+}
+
+#recipesList > li:hover {
+    background: #f2f2f2;
+}
+
+#recipeHeader h4 {
+    position: relative;
+}
+
+.line {
+    width: 90%;
+    height: 1px;
+    background-color: #ccc;
+    margin: 20px auto;
+}
+

@@ -82,11 +82,22 @@ namespace FurryFeast.API
 
 		}
 
-		//[HttpGet]
-		//public object GetAllComment()
-		//{
-		//	return _context.;
-		//}
+		//Edit Update
+		[HttpPost]
+		public async Task<ActionResult<string>> EditedMsg([FromBody] EditedMsgRecordViewModel editedMsgRecord)
+		{
+
+			EditedMsgRecord editedComment = new EditedMsgRecord()
+			{
+				MsgId = editedMsgRecord.MsgId,
+				EditedText = editedMsgRecord.EditedText, 
+				EditedTime = editedMsgRecord.EditedTime,
+			};
+			_context.Add(editedComment);
+			await _context.SaveChangesAsync();
+			return $"success";
+
+		}
 
 	}
 
