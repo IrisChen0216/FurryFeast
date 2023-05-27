@@ -53,7 +53,7 @@
 				<h4 class="index-header">回應區</h4>
 				<template v-if="selectedRecipe">
 					<form class="input-group">
-						<textarea class="form-control" v-model="commentContent"></textarea>
+						<textarea class="form-control" v-model="commentContent" required></textarea>
 						<input type="hidden" class="form-control" v-model="active"/>
 						<button type="button" class="btn btn-primary" v-on:click="addComment;">送出</button>
 					</form>
@@ -63,13 +63,18 @@
 						<p>您尚未登入會員</p>
 					</div>
 				</template>
+				
+				
+				@*msg*@
 
 				<div v-for="item in selectedRecipe.msgBoards">
-					<div v-if="!item.isEditable">
-						<button type="button" v-on:click="editComment(item);">編輯</button>
-						<button type="button" v-on:click="deleteComment();">刪除</button>
-						<div class="position-relative border border-2 " style="height: 150px;">
-							<p class="hidden">{{item.msgId}}</p>
+					<div class="m-4" v-if="!item.isEditable">
+						<div class="my-2">
+							<button type="button" v-on:click="editComment(item);">編輯</button>
+							<button type="button" v-on:click="deleteComment();">刪除</button>
+						</div>
+						<div class="position-relative border border-2 " style="height: auto;">
+							@*<p class="hidden">{{item.msgId}}</p>*@
 							<p class="col" style="position: absolute; left: 10px;">{{item.userId}}</p>
 							<p style="position: absolute; right: 10px;">{{item.dateTime}}</p>
 							<p>{{selectedRecipe.name}}</p>
@@ -78,12 +83,14 @@
 							</template>
 							<template v-else>
 								<p>{{item.editedMsgRecords[item.editedMsgRecords.length-1].editedText}}</p>
-								<p class='show-example-btn' v-on:click="editedRecord(item)" data-swal-toast-template='#my-template'>
+								<p class='' v-on:click="editedRecord(item)" data-swal-toast-template='#my-template'>
 									已編輯
 								</p>
 							</template>
 						</div>
 					</div>
+
+					@*editing*@
 					<div v-else>
 						<textarea class="form-control" v-model="editedContent"></textarea>
 						<input type="hidden" class="form-control" v-model="active"/>
