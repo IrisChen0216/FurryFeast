@@ -92,13 +92,14 @@ namespace FurryFeast.API
                     productPicId = x.ProductPicId,
                     productLauchedTime = x.ProductLaunchedTime,
                     productSoldTime=x.ProductSoldTime,
-                    productState=x.ProductState
-
-                },
+                    productState=x.ProductState,
+					productArticleId=x.ArticlesId
+				},
                 backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
-                backEndType = x.ProductType.ProductTypeName
+                backEndType = x.ProductType.ProductTypeName,
+				//backEndArticleId=x.ArticlesId
 
-            });
+			});
 
 
         }
@@ -115,12 +116,13 @@ namespace FurryFeast.API
 				ProductDescription=product.ProductDescription,
 				ProductPrice=product.ProductPrice,
 				ProductAmount=product.ProductAmount,
-				ProductPicId=product.ProductPicId,
+				ProductTypeId=product.ProductTypeId,
 				ProductLaunchedTime=product.ProductLaunchedTime,
 				ProductSoldTime=product.ProductSoldTime,
 				ProductState=product.ProductState,
 				ProductPicImage=product.ProductPics.First().ProductPicImage,
-				ProductTypeName=product.ProductType.ProductTypeName
+				ProductTypeName=product.ProductType.ProductTypeName,
+				ArticlesId=product.ArticlesId
 			};
 
 			return model;
@@ -139,7 +141,7 @@ namespace FurryFeast.API
 				ProductDescription=model.ProductDescription,
 				ProductState=model.ProductState,
 				ProductTypeId = model.ProductTypeId,
-				ProductPicId = model.ProductPicId,
+			
 				ArticlesId = model.ArticlesId
 			};
 			_context.Products.Add(product);
@@ -148,23 +150,27 @@ namespace FurryFeast.API
 			return $"新增成功!{product.ProductId}";
 		}
 
-		[HttpPut("{id}")]
-		public async Task<string> PutProduct(int id, [FromBody]PetMarketViewModel model)
+		[HttpPut]
+		public async Task<string> PutProduct([FromBody]PetMarketViewModel model)
 		{
 
 
-			Product product = await _context.Products.FindAsync(model.ProductId);
+			Product product = _context.Products.Include(x=>x.ProductType).Where(x => x.ProductId == model.ProductId).FirstOrDefault();
 
 			product.ProductId = model.ProductId;
 			product.ProductName = model.ProductName;
 			product.ProductPrice = model.ProductPrice;
 			product.ProductAmount = model.ProductAmount;
-			//ProductDescription = model.ProductDescription,
-			//ProductState = model.ProductState,
-			//ProductTypeId = model.ProductTypeId,
-			//ProductPicId = model.ProductPicId,
-			//ArticlesId = model.ArticlesId
-			//待補
+			product.ProductDescription = model.ProductDescription;
+			product.ProductState = model.ProductState;
+			product.ProductTypeId = model.ProductTypeId;
+			product.ProductType.ProductTypeName = model.ProductTypeName;		
+			product.ArticlesId = model.ArticlesId;
+			product.ProductPics.First().ProductPicImage = model.ProductPicImage;
+			product.ProductLaunchedTime = model.ProductLaunchedTime;
+			product.ProductSoldTime = model.ProductSoldTime;
+
+			
 			_context.Entry(product).State = EntityState.Modified;
 
 			try
@@ -173,7 +179,7 @@ namespace FurryFeast.API
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				if (!ProductExists(id))
+				if (!ProductExists(model.ProductId))
 				{
 					return "修改商品失敗";
 				}

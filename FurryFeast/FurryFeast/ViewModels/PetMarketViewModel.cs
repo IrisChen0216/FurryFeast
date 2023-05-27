@@ -1,5 +1,8 @@
-﻿namespace FurryFeast.ViewModels
+﻿using Newtonsoft.Json;
+
+namespace FurryFeast.ViewModels
 {
+	
 	public class PetMarketViewModel
 	{
 		public int ProductId { get; set; }
@@ -11,10 +14,11 @@
 		public DateTime ProductLaunchedTime { get; set; }
         public DateTime? ProductSoldTime { get; set; }
         public int ProductTypeId { get; set; }
-		public int? ProductPicId { get; set; }
+	
 
 		public byte[]? ProductPicImage { get; set; }
 		public int ArticlesId { get; set; }
+	
 		public string ProductTypeName { get; set; }
 
 	}
