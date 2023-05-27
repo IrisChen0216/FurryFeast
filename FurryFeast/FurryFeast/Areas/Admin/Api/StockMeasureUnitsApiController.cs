@@ -39,12 +39,12 @@ namespace FurryFeast.Areas.Admin.Api {
             }
 
             // 如果資料重複
-            var postOneData = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == data.MeasureUnitsCode).FirstOrDefaultAsync();
-            if (postOneData != null) {
+            var result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == data.MeasureUnitsCode).FirstOrDefaultAsync();
+            if (result != null) {
                 return Conflict($"Data duplicate, MeasureUnitsCode: {data.MeasureUnitsCode}");
             }
 
-            StockMeasureUnit result = new StockMeasureUnit {
+            result = new StockMeasureUnit {
                 MeasureUnitsId = data.MeasureUnitsId,
                 MeasureUnitsCode = data.MeasureUnitsCode,
                 MeasureUnitsDescription = data.MeasureUnitsDescription
@@ -63,16 +63,17 @@ namespace FurryFeast.Areas.Admin.Api {
             }
 
             // 檢查資料是否存在
-            var deleteOneData = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == code).FirstOrDefaultAsync();
-            if (deleteOneData == null) {
+            var result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == code).FirstOrDefaultAsync();
+            if (result == null) {
                 return BadRequest($"Delete failed, MeasureUnitsCode: {code}");
             }
 
-            _context.StockMeasureUnits.Remove(deleteOneData);
+            _context.StockMeasureUnits.Remove(result);
             await _context.SaveChangesAsync();
             return Ok($"Delete success, MeasureUnitsCode: {code}.");
         }
 
+        // 更新一筆資料
         [HttpPatch("{code}")]
         public async Task<object> PatchData(string code, [FromBody] StockMeasureUnitsViewModel data) {
             if (_context.StockMeasureUnits == null) {
@@ -80,25 +81,23 @@ namespace FurryFeast.Areas.Admin.Api {
             }
 
             // 檢查資料是否存在
-            var patchOneData = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == code).FirstOrDefaultAsync();
-            if (patchOneData == null) {
-                return BadRequest($"Patch failed, MeasureUnitsCode: {code}");
+            var result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == code).FirstOrDefaultAsync();
+            if (result == null) {
+                return BadRequest($"Patch failed, MeasureUnitsCode: {code}.");
             }
 
-            StockMeasureUnit result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == code).FirstOrDefaultAsync();
-            // todo 修改的 code 重複的話會例外
+            var patchOneData = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == data.MeasureUnitsCode).FirstOrDefaultAsync();
+
+            // 檢查 code 是否存在
+            if (result.MeasureUnitsCode != data.MeasureUnitsCode && patchOneData != null) {
+                return BadRequest($"Patch duplicate, MeasureUnitsCode: {code}.");
+            }
+
             result.MeasureUnitsCode = data.MeasureUnitsCode;
             result.MeasureUnitsDescription = data.MeasureUnitsDescription;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return Ok($"Patch success, MeasureUnitsCode: {code}.");
         }
-
-        // 檢查資料是否存在
-        //private bool checkData(string data) {
-        //    var qq = await _context.StockMeasureUnits.FirstOrDefaultAsync(d => d.MeasureUnitsCode == data);
-        //    var check = _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == data).FirstOrDefault();
-        //    return (check == null);
-        //}
     }
 }
