@@ -118,44 +118,7 @@
 							</thead>
 							<tbody>
 								<tr v-for="item in showProducts" :key="item.backEndProduct.productId">
-									<template v-if="item.Edit==true">
-										@*進入編輯狀態*@
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productId}}</span>
-										</td>
-										<td>
-											<div class="d-flex px-2 py-1">
-												<div>
-													<img :src="'data:image/png;base64,'+item.backEndPics[0]" class="avatar avatar-sm me-3 border-radius-lg" alt="item.backEndProduct.productName">
-													<input type="file" />
-												</div>
-												<div class="d-flex flex-column justify-content-center">
-													<h6 class="mb-0 text-sm"><input v-model="item.backEndProduct.productName" /></h6> @*name*@
-													<p class="text-xs text-secondary mb-0"><input v-model="item.backEndProduct.productAmount" /></p> @*數量*@
-												</div>
-											</div>
-										</td>
-										<td>
-											<p class="text-xs font-weight-bold mb-0">$<input v-model="item.backEndProduct.productPrice" /></p> @*價格*@
-											<p class="text-xs text-secondary mb-0">Organization</p>
-										</td>
-										<td class="align-middle text-center text-sm">
-											@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
-											<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">上架</button>
-											<button v-else class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">下架</button>
-										</td>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productLauchedTime}}</span>
-										</td>
-										<td class="align-middle">
-											@*<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-											Edit
-											</a>*@
-											<button class="btn bg-gradient-warning  mb-0 toast-btn" v-on:click="update(item.backEndProduct)">修改</button>
-											<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="cancel">取消</button>
-										</td>
-									</template>
-									<template v-else>
+									
 										<td class="align-middle text-center">
 											<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productId}}</span>
 										</td>
@@ -189,10 +152,10 @@
 											@*<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
 											Edit
 											</a>*@
-											<button class="btn bg-gradient-info mb-0 toast-btn" v-on:click="edit(item.backEndProduct.productId)">編輯</button>
-											<button class="btn bg-gradient-danger  mb-0 toast-btn unState">刪除</button>
+										<button class="btn bg-gradient-info mb-0 toast-btn"><a :href="'Details?id='+item.backEndProduct.productId">編輯</a></button>
+										<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>
 										</td>
-									</template>
+
 								</tr>
 
 							</tbody>
@@ -249,6 +212,7 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 
 		let app = new Vue({
@@ -262,9 +226,7 @@
 				productAmount: "",
 				productDescription: "",
 				productType: "商品專區",
-				originalProductName: "",
-				originalProductAmount: "",
-				originalProductPrice: "",
+				
 			},
 			mounted: function () {
 				let _this = this;
@@ -329,54 +291,30 @@
 					const myModal = new bootstrap.Modal('#insertPage')
 					myModal.show();
 				},
-				edit: function (Id) {
-					alert("edit");
-					let _this = this;
-					let productList = [];
-					for (let i = 0; i < _this.showProducts.length; i++) {
-						let item = _this.showProducts[i];
-						if (Id == item.backEndProduct.productId) {
-							item.Edit = true;
-							_this.originalProductName = item.backEndProduct.productName;
-							_this.originalProductAmount = item.backEndProduct.productAmount;
-							_this.originalProductPrice = item.backEndProduct.productPrice;
+				deleteCheck:function(item){
+					Swal.fire({
+						title: `確定要此刪除嗎?`,
+						text: `商品編號:${item.backEndProduct.productId}，商品名稱:${item.backEndProduct.productName}`,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: '刪除',
+						cancelButtonText:'取消',
+					}).then((result) => {
+						if (result.isConfirmed) {
+							Swal.fire(
+								'Deleted!',
+								'Your file has been deleted.',
+								'success'
+							)
 						}
-						productList.push(item);
-					}
-					_this.showProducts = productList;
+					})
 				},
-				cancel: function () {
-					let _this = this;
-					let productList = [];
-					for (let i = 0; i < _this.showProducts.length; i++) {
-						let item = _this.showProducts[i];
-						if (item.Edit == true) {
-							item.Edit = false;
-							item.backEndProduct.productName = _this.originalProductName;
-							item.backEndProduct.productAmount = _this.originalProductAmount;
-							item.backEndProduct.productPrice = _this.originalProductPrice;
-						}
-						productList.push(item);
-					}
-					_this.showProducts = productList;
-				},
-				update: function (item) {
-					alert("update");
-					let _this = this;
-					var request = {
-						ProductId: item.productId,
-						ProductName: item.productName,
-						ProductAmount: item.productAmount,
-						ProductPrice: item.productPrice
-					};
-					alert(request);
-					axios.put(`/api/products/PutProduct/${item.productId}`, request).then(response => {
-						alert(response.data);
-						_this.cancel();
-						_this.showProducts();
+				deleteProduct:function(item){
 
-					});
 				},
+				
 			},
 
 			//sortBy: function (val) {
