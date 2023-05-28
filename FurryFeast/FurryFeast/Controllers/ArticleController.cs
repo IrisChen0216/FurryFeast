@@ -140,9 +140,8 @@ namespace FurryFeast.Controllers
             {
                 _furryFeastContext.ContactUs.Add(contact);
                 _furryFeastContext.SaveChanges();
-                return RedirectToAction("ThankYou"); 
+                return View(); 
             }
-
             return View(contact); 
         }
 
