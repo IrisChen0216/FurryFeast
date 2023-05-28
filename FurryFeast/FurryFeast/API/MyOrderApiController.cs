@@ -3,6 +3,7 @@ using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace FurryFeast.API
@@ -21,12 +22,13 @@ namespace FurryFeast.API
         public Object GetMyOrder()
         {
             var myId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
-            return _context.Orders.Where(x => x.MemberId == myId).Select(x => new
+            return _context.Orders.Include(x=>x.OrderDetails).Where(x => x.MemberId == myId).Select(x => new
             {
                 x.OrderId,
                 x.OrderShipDate,
                 x.OrderStatus,
-                x.OrderTotalPrice
+                x.OrderTotalPrice,
+                
             }).ToList();
         }
     }

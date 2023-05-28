@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using NuGet.Protocol.Plugins;
+using Microsoft.AspNetCore.Authentication.Facebook;
 
 namespace FurryFeast.Controllers
 {
@@ -43,7 +44,7 @@ namespace FurryFeast.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+     
         public IActionResult MemberAfter()
         {
             var a = _context.Members.FirstOrDefault();
@@ -53,7 +54,7 @@ namespace FurryFeast.Controllers
 
 
         [Authorize]
-        [HttpGet]
+    
         public IActionResult MyOrder()
         {
             return View();
@@ -118,7 +119,7 @@ namespace FurryFeast.Controllers
                 ViewBag.Error = "帳號密碼錯誤!";
                 return View("Login");
             }
-            //return Ok(model.MemberAccount + model.MemberPassord);
+            
             var ClaimList = new List<Claim>() {
             new Claim(ClaimTypes.Name, Member.MemberName),
             new Claim("Id",Member.MemberId.ToString())
@@ -142,7 +143,22 @@ namespace FurryFeast.Controllers
 
             return View();
         }
-        public async Task<IActionResult> Logout()
+
+        public IActionResult Facebook()
+        {
+            var prop = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("FacebookResponse")
+            };
+            return Challenge(prop,FacebookDefaults.AuthenticationScheme);
+        }
+
+		public IActionResult FacebookResponse()
+        {
+            return Ok();
+        }
+
+		public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
