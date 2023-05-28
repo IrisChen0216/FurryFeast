@@ -54,7 +54,7 @@ public class RecipesApiController : ControllerBase
 	}
 
 	//[AllowAnonymous]
-	public ApiResponseModel GetUserId()
+	public ApiResponseModel GetUserData()
 	{
 		var user = User.Claims.FirstOrDefault(x => x.Type == "Id");
 		if (user == null)
@@ -92,12 +92,12 @@ public class RecipesApiController : ControllerBase
 	[Authorize]
 	public async Task<ActionResult<string>> AddComment([FromBody] MsgBoardViewModel msgboard)
 	{
-		//var userId = User.Claims.FirstOrDefault(x => x.Type == "Id").Value;
+		var userId = User.Claims.FirstOrDefault(x => x.Type == "Id").Value;
 
-		if (!string.IsNullOrEmpty(HttpContext.User.Identity.Name))
-			msgboard.UserId = HttpContext.User.Identity.Name;
+		if (userId != null)
+			msgboard.UserId = userId;
 		else
-			msgboard.UserId = "unknown";
+			return "Error";
 
 		var newComment = new MsgBoard
 		{
@@ -114,6 +114,7 @@ public class RecipesApiController : ControllerBase
 
 	//Edit Update
 	[HttpPost]
+	[Authorize]
 	public async Task<ActionResult<string>> EditedMsg([FromBody] EditedMsgRecordViewModel editedMsgRecord)
 	{
 		var editedComment = new EditedMsgRecord
