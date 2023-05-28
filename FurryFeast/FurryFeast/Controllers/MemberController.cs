@@ -27,12 +27,12 @@ namespace FurryFeast.Controllers
         // GET: Members
 
         [Authorize]
-        public  IActionResult MemberIndex()
+        public async Task<IActionResult> MemberIndex()
 
 		{
             if (User.Identity.IsAuthenticated)
             {
-                var s = User.FindFirstValue("Id");
+                var s =  User.FindFirstValue("Id");
                 var member = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(s)).FirstOrDefault();
                 return View(member);
             }
@@ -51,18 +51,22 @@ namespace FurryFeast.Controllers
         
 
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult MyOrder()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var s = User.FindFirstValue("Id");
-                var order = _context.Orders.Include(x=>x.OrderDetails).Where(x=>x.MemberId == int.Parse(s)).FirstOrDefault();
-                return View(order);
-            }
-            return ViewBag.Error("錯啦");
-        }
+        //[Authorize]
+        //[HttpGet]
+        //public IActionResult MyOrder()
+        //{
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        var s = User.FindFirstValue("Id");
+        //        var order = _context.Orders.Include(x => x.OrderDetails).Where(x => x.MemberId == int.Parse(s)).FirstOrDefault();
+        //        foreach (var o in order)
+        //        {
+        //            o.OrderId = order.OrderId;
+        //        }
+        //        return View(order);
+        //    }
+        //    return ViewBag.Error("錯啦");
+        //}
 
         [Authorize]
         public async Task<IActionResult> MyClass()
@@ -136,7 +140,7 @@ namespace FurryFeast.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Google()
+        public IActionResult GoogleLogin()
         {
 
             string? formCredential = Request.Form["credential"]; //回傳憑證
@@ -156,7 +160,13 @@ namespace FurryFeast.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateMemberData()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                var a = User.FindFirstValue("Id");
+                var s = _context.Members.Where(x=>x.MemberId == int.Parse(a)).FirstOrDefault();
+                return View(s);
+            }
+            return ViewBag.Error("no");
         }
 
         public async Task<IActionResult> ForgetPassword()
