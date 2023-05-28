@@ -143,8 +143,8 @@
 									</td>
 									<td class="align-middle text-center text-sm">
 										@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
-										<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">上架</button>
-										<button v-else class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">下架</button>
+										<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn" v-on:click="changeState(item)">上架</button>
+										<button v-else class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="changeState(item)">下架</button>
 									</td>
 									<td class="align-middle text-center">
 										<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productLauchedTime}}</span>
@@ -197,7 +197,7 @@
 						<label class="form-label">商品類型:</label>
 
 						<select v-model="productType">
-							<option value="0">共用</option>
+							<option value="">類型</option>
 							<option value="1">狗用</option>
 							<option value="2">貓用</option>
 							<option value="3">鮮食</option>
@@ -231,7 +231,7 @@
 				productAmount: "",
 				productDescription: "",
 				productType: "商品專區",
-
+				
 			},
 			mounted: function () {
 				let _this = this;
@@ -251,10 +251,11 @@
 						for (var i = 0; i < _this.showProducts.length; i++) {
 							var item = _this.showProducts[i];
 							if (item.backEndProduct.productState == 1) {
-								item.OnAndOff = true;
+								item.OnAndOff = false;
+								
 							}
 							if (item.backEndProduct.productState == 0) {
-								item.OnAndOff = false;
+								item.OnAndOff = true;
 							}
 							productList.push(item);
 						}
@@ -278,31 +279,43 @@
 						}
 					}
 				},
-				//changeState: function (Id) {
-				//	let _this = this;
-				//	let chageStateList = [];
-				//	for (let i = 0; i < _this.showProducts.length; i++) {
-				//		let item = _this.showProducts[i];
-				//		if (item.backEndProduct.productId == Id) {
-
-				//			if (item.OnAndOff == true) {
-				//				confirm('確定要上架?');//目前檔不了true變成false，未按照資料庫上架狀態顯示，待以資料庫狀態顯示、更新
-				//				item.OnAndOff = false;
-				//				axios.put(`/api/products/PutProduct/`, request).then(response => {
-				//					alert(response.data);
+				changeState: function (item) {
+					let _this = this;					
+					let ID = parseInt(item.backEndProduct.productId);
+					let ProductList = [];
+					if (item.backEndProduct.productState == 0) {
+						if(confirm('確定要上架?')){
+							axios.put(`/api/products/PutProductState/?id=${ID}&state=1`).then(response => {
+								alert(response.data);
+								item.OnAndOff = false;
+								for (let i = 0; i < _this.showProducts.length;i++) {
+									let product = _this.showProducts[i];
+									ProductList.push(product);
+								};
+								_this.showProducts=ProductList;
 								
-
-				//				});
-				//			}
-				//			else {
-				//				confirm('確定要下架?');
-				//				item.OnAndOff = true;
-				//			}
-				//		}
-				//		chageStateList.push(item);
-				//	}
-				//	_this.showProducts = chageStateList;
-				//},
+							});
+						}														
+						
+						
+					}
+					else {
+						if(confirm('確定要下架?')){
+							axios.put(`/api/products/PutProductState/?id=${ID}&state=0`).then(response => {
+								alert(response.data);
+								item.OnAndOff = true;
+								for (let i = 0; i < _this.showProducts.length; i++) {
+									let product = _this.showProducts[i];
+									ProductList.push(product);
+								};
+								_this.showProducts = ProductList;
+								
+							});
+						}
+					
+					}
+					
+				},
 				showInsertPage: function () {
 					const myModal = new bootstrap.Modal('#insertPage')
 					myModal.show();

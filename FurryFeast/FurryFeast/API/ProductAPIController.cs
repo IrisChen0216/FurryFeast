@@ -199,7 +199,7 @@ namespace FurryFeast.API
 
 			var product = await _context.Products.FindAsync(id);
 
-			product.ProductState = state;
+			product.ProductState=state;
 
 			_context.Entry(product).State = EntityState.Modified;
 
