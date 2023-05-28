@@ -4,60 +4,38 @@
     ViewData["Title"] = "MyOrder";
 }
 
-<h3>我的訂單</h3>
-<hr />
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-2">
-            <div>
-                <a asp-action="Index">個人資料</a>
-            </div>
-            <div>
-                <a asp-action="MyOrder">我的訂單</a>
-            </div>
-            <div>
-                <a asp-action="MyClass">我的課程</a>
-            </div>
-            <div>
-                <a asp-action="Myconpon">我的優惠券</a>
-            </div>
-        </div>
-        <div class="col-10">
-            <div>
-                <input type="search" name="OrderSearch" />
-                <input type="submit" name="OrderSearch" value="查詢" />
-            </div>
-            <form action="/Member/MyOrder" method="get">
-                <div>
-                    <table id="MyOrderTable">
-                        <tr>
-                            <th>訂單日期</th>
-                            <th>訂單編號</th>
-                        </tr>
-                        <tr v-for="">
-                            <td>
-                               @* @Model.OrderId*@
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div>
-            </form>
-
-
-                <a asp-controller="OrderDetails" asp-action="Index">訂單明細</a>
-            </div>
-        </div>
-
-    </div>
+<div class="index-header">
+    <h2>我的訂單</h2>
 </div>
+<hr />
+ <div>
+ <input type="search" name="OrderSearch" />
+ <input type="submit" name="OrderSearch" value="查詢" />
+</div>
+
+<div>
+    <table id="o">
+        <tr>
+            <th>訂單日期</th>
+            <th>訂單編號</th>
+        </tr>
+        <tr v-for="i in ">
+            <td>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <a asp-controller="OrderDetails" asp-action="Index">訂單明細</a>
+</div>
+
 
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
         let MyOrDer = new Vue({
-            el:"#MyOrderTable",
+            el:"#o",
             data:{
                
 

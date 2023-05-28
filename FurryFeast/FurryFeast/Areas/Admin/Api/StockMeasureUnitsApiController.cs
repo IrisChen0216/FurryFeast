@@ -3,66 +3,99 @@ using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace FurryFeast.Areas.Admin.Api {
-	[Route("api/[controller]/[action]")]
-	[ApiController]
-	public class StockMeasureUnitsApiController : ControllerBase {
-		private db_a989fb_furryfeastContext _context;
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class StockMeasureUnitsApiController : ControllerBase {
+        private db_a989fb_furryfeastContext _context;
 
-		public StockMeasureUnitsApiController(db_a989fb_furryfeastContext context) {
-			_context = context;
-		}
+        public StockMeasureUnitsApiController(db_a989fb_furryfeastContext context) {
+            _context = context;
+        }
 
-		// 查詢所有資料
-		[HttpGet]
-		public async Task<object> GetAll() {
-			if (_context.StockMeasureUnits == null) {
-				return NotFound("StockMeasureUnits is null.");
-			} else {
-				var result = await _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
-					MeasureUnitsId = data.MeasureUnitsId,
-					MeasureUnitsCode = data.MeasureUnitsCode,
-					MeasureUnitsDescription = data.MeasureUnitsDescription,
-				}).ToListAsync();
-				return Ok(result);
-			}
-		}
+        // 查詢所有資料
+        [HttpGet]
+        public async Task<object> GetAll() {
+            if (_context.StockMeasureUnits == null) {
+                return NotFound("StockMeasureUnits is null.");
+            }
 
-		// 新增一筆資料
-		[HttpPost]
-		public async Task<object> PostData([FromBody] StockMeasureUnitsViewModel data) {
-			if (_context.StockMeasureUnits == null) {
-				return NotFound("StockMeasureUnits is null.");
-				// 如果資料重複
-			} else if (_context.StockMeasureUnits?.Any(e => e.MeasureUnitsCode == data.MeasureUnitsCode) == true) {
-				return Conflict($"Data duplicate, MeasureUnitsCode: {data.MeasureUnitsCode}");
-			} else {
-				StockMeasureUnit result = new StockMeasureUnit {
-					MeasureUnitsId = data.MeasureUnitsId,
-					MeasureUnitsCode = data.MeasureUnitsCode,
-					MeasureUnitsDescription = data.MeasureUnitsDescription
-				};
-				_context.StockMeasureUnits?.Add(result);
-				await _context.SaveChangesAsync();
-				return Ok($"Post success, MeasureUnitsCode: {data.MeasureUnitsCode}.");
-			}
-		}
+            var result = await _context.StockMeasureUnits.Select(data => new StockMeasureUnitsViewModel {
+                MeasureUnitsId = data.MeasureUnitsId,
+                MeasureUnitsCode = data.MeasureUnitsCode,
+                MeasureUnitsDescription = data.MeasureUnitsDescription,
+            }).ToListAsync();
+            return Ok(result);
+        }
 
-		// 刪除一筆資料
-		[HttpDelete]
-		public async Task<object> DeleteData(string data) {
-			var deleteData = await _context.StockMeasureUnits.FindAsync(data);
-			if (_context.StockMeasureUnits == null) {
-				return NotFound("StockMeasureUnits is null");
-			} else if (deleteData == null) {
-				return BadRequest($"Delete failed, MeasureUnitsCode: {data}");
-			} else {
-				_context.StockMeasureUnits.Remove(deleteData);
-				await _context.SaveChangesAsync();
-				return Ok();
-			}
-		}
-	}
+        // 新增一筆資料
+        [HttpPost]
+        public async Task<object> PostData([FromBody] StockMeasureUnitsViewModel data) {
+            if (_context.StockMeasureUnits == null) {
+                return NotFound("StockMeasureUnits is null.");
+            }
+
+            // 如果資料重複
+            var result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == data.MeasureUnitsCode).FirstOrDefaultAsync();
+            if (result != null) {
+                return Conflict($"Data duplicate, MeasureUnitsCode: {data.MeasureUnitsCode}");
+            }
+
+            result = new StockMeasureUnit {
+                MeasureUnitsId = data.MeasureUnitsId,
+                MeasureUnitsCode = data.MeasureUnitsCode,
+                MeasureUnitsDescription = data.MeasureUnitsDescription
+            };
+
+            _context.StockMeasureUnits.Add(result);
+            await _context.SaveChangesAsync();
+            return Ok($"Post success, MeasureUnitsCode: {data.MeasureUnitsCode}.");
+        }
+
+        // 刪除一筆資料
+        [HttpDelete("{code}")]
+        public async Task<object> DeleteData(string code) {
+            if (_context.StockMeasureUnits == null) {
+                return NotFound("StockMeasureUnits is null");
+            }
+
+            // 檢查資料是否存在
+            var result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == code).FirstOrDefaultAsync();
+            if (result == null) {
+                return BadRequest($"Delete failed, MeasureUnitsCode: {code}");
+            }
+
+            _context.StockMeasureUnits.Remove(result);
+            await _context.SaveChangesAsync();
+            return Ok($"Delete success, MeasureUnitsCode: {code}.");
+        }
+
+        // 更新一筆資料
+        [HttpPatch("{code}")]
+        public async Task<object> PatchData(string code, [FromBody] StockMeasureUnitsViewModel data) {
+            if (_context.StockMeasureUnits == null) {
+                return NotFound("StockMeasureUnits is null");
+            }
+
+            // 檢查資料是否存在
+            var result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == code).FirstOrDefaultAsync();
+            if (result == null) {
+                return BadRequest($"Patch failed, MeasureUnitsCode: {code}.");
+            }
+
+            var patchOneData = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == data.MeasureUnitsCode).FirstOrDefaultAsync();
+
+            // 檢查 code 是否存在
+            if (result.MeasureUnitsCode != data.MeasureUnitsCode && patchOneData != null) {
+                return BadRequest($"Patch duplicate, MeasureUnitsCode: {code}.");
+            }
+
+            result.MeasureUnitsCode = data.MeasureUnitsCode;
+            result.MeasureUnitsDescription = data.MeasureUnitsDescription;
+            _context.Entry(result).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok($"Patch success, MeasureUnitsCode: {code}.");
+        }
+    }
 }

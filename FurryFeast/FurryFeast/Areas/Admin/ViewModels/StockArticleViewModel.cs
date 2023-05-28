@@ -5,7 +5,7 @@ namespace FurryFeast.Areas.Admin.ViewModels {
 		[Required]
 		public int ArticlesId { get; set; }
 		[Required]
-		public string AarticlesCode { get; set; } = null!;
+		public string ArticlesCode { get; set; } = null!;
 		[Required]
 		public decimal ArticlesIsValid { get; set; }
 		[Required]

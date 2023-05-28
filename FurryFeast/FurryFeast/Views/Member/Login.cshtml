@@ -11,7 +11,9 @@
 @section Style{
 	<link href="~/css/login.css" rel="stylesheet" />
 }
-<h3>會員登入</h3>
+<div class="index-header">
+	<h2>會員登入</h2>
+</div>
 
 <form action="/Member/Login" method="post">
 	<div class="Login">
@@ -48,6 +50,26 @@
 			</div>
 		</div>
 	</div>
+
+	@section Scripts{
+			
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+	<script>
+		<div id="g_id_onload"
+		data - client_id="79978444537-fi3cacemf1hcntghrl6hpe0tod5ua4p6.apps.googleusercontent.com"
+		data - login_uri="https://localhost:7110/Member/Login"
+		data - auto_prompt="false" >
+		</div>
+		< div class="g_id_signin"
+		data - type="standard"
+		data - size="large"
+		data - theme="outline"
+		data - text="sign_in_with"
+		data - shape="rectangular"
+		data - logo_alignment="left" >
+		</div>
+	</script>
+	}
 
 
 
