@@ -112,49 +112,53 @@
 									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
 									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">商品售價</th>
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上次上架時間</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">下架時間</th>
 									<th class="text-secondary opacity-7"></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr v-for="item in showProducts" :key="item.backEndProduct.productId">
-									
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productId}}</span>
-										</td>
-										<td>
-											<div class="d-flex px-2 py-1">
-												<div>
-													<img :src="'data:image/png;base64,'+item.backEndPics[0]" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-												</div>
-												<div class="d-flex flex-column justify-content-center">
 
-													<a :href="'Details?id='+item.backEndProduct.productId">
-														<h6 class="mb-0 text-sm">{{item.backEndProduct.productName}}</h6>
-														<p class="text-xs text-secondary mb-0">{{item.backEndProduct.productAmount}}</p>
-													</a>
-												</div>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productId}}</span>
+									</td>
+									<td>
+										<div class="d-flex px-2 py-1">
+											<div>
+												<img :src="'data:image/png;base64,'+item.backEndPics[0]" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
 											</div>
-										</td>
-										<td>
-											<p class="text-xs font-weight-bold mb-0">${{item.backEndProduct.productPrice}}</p>
-											<p class="text-xs text-secondary mb-0">Organization</p>
-										</td>
-										<td class="align-middle text-center text-sm">
-											@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
-											<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">上架</button>
-											<button v-else class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">下架</button>
-										</td>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productLauchedTime}}</span>
-										</td>
-										<td class="align-middle">
-											@*<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-											Edit
-											</a>*@
+											<div class="d-flex flex-column justify-content-center">
+
+												<a :href="'Details?id='+item.backEndProduct.productId">
+													<h6 class="mb-0 text-sm">{{item.backEndProduct.productName}}</h6>
+													<p class="text-xs text-secondary mb-0">{{item.backEndProduct.productAmount}}</p>
+												</a>
+											</div>
+										</div>
+									</td>
+									<td>
+										<p class="text-xs font-weight-bold mb-0">${{item.backEndProduct.productPrice}}</p>
+										<p class="text-xs text-secondary mb-0">Organization</p>
+									</td>
+									<td class="align-middle text-center text-sm">
+										@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
+										<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">上架</button>
+										<button v-else class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="changeState(item.backEndProduct.productId)">下架</button>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productLauchedTime}}</span>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productSoldTime}}</span>
+									</td>
+									<td class="align-middle">
+										@*<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+										Edit
+										</a>*@
 										<button class="btn bg-gradient-info mb-0 toast-btn"><a :href="'Details?id='+item.backEndProduct.productId">編輯</a></button>
 										<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>
-										</td>
+									</td>
 
 								</tr>
 
@@ -226,7 +230,7 @@
 				productAmount: "",
 				productDescription: "",
 				productType: "商品專區",
-				
+
 			},
 			mounted: function () {
 				let _this = this;
@@ -279,7 +283,7 @@
 					for (let i = 0; i < _this.showProducts.length; i++) {
 						let item = _this.showProducts[i];
 						if (item.backEndProduct.productId == Id) {
-							
+
 							if (item.OnAndOff == true) {
 								confirm('確定要上架?');//目前檔不了true變成false，未按照資料庫上架狀態顯示，待以資料庫狀態顯示、更新
 								item.OnAndOff = false;
@@ -297,7 +301,7 @@
 					const myModal = new bootstrap.Modal('#insertPage')
 					myModal.show();
 				},
-				deleteCheck:function(item){
+				deleteCheck: function (item) {
 					Swal.fire({
 						title: `確定要此刪除嗎?`,
 						text: `商品編號:${item.backEndProduct.productId}，商品名稱:${item.backEndProduct.productName}`,
@@ -306,7 +310,7 @@
 						confirmButtonColor: '#3085d6',
 						cancelButtonColor: '#d33',
 						confirmButtonText: '刪除',
-						cancelButtonText:'取消',
+						cancelButtonText: '取消',
 					}).then((result) => {
 						if (result.isConfirmed) {
 							Swal.fire(
@@ -317,10 +321,10 @@
 						}
 					})
 				},
-				deleteProduct:function(item){
+				deleteProduct: function (item) {
 
 				},
-				
+
 			},
 
 			//sortBy: function (val) {
