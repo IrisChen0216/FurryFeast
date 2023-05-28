@@ -54,9 +54,9 @@ namespace FurryFeast.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-	            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-	            optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeastDb"));
-            }
+				IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+				optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeastDb"));
+			}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -672,15 +672,15 @@ namespace FurryFeast.Models
 
                 entity.ToTable("Stock_articles");
 
-                entity.HasIndex(e => e.AarticlesCode, "unq_Stock_articles")
+                entity.HasIndex(e => e.ArticlesCode, "unq_Stock_articles")
                     .IsUnique();
 
                 entity.Property(e => e.ArticlesId).HasColumnName("Articles_ID");
 
-                entity.Property(e => e.AarticlesCode)
+                entity.Property(e => e.ArticlesCode)
                     .HasMaxLength(20)
                     .IsUnicode(false)
-                    .HasColumnName("Aarticles_code");
+                    .HasColumnName("Articles_code");
 
                 entity.Property(e => e.ArticlesDescription)
                     .HasMaxLength(40)
