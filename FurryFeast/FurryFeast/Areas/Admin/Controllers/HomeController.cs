@@ -5,7 +5,7 @@ namespace FurryFeast.Areas.Admin.Controllers {
     [Area("Admin")]
     public class HomeController : Controller {
 
-        public IActionResult Billing() {
+		public IActionResult Billing() {
             return View();
         }
 
