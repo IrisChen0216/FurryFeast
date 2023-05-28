@@ -191,6 +191,40 @@ namespace FurryFeast.API
 
 			return "修改商品成功";
 		}
+
+		[HttpPut]
+		public async Task<string> PutProductState(int id,int state)
+		{
+
+
+			var product = await _context.Products.FindAsync(id);
+
+			product.ProductState = state;
+
+			_context.Entry(product).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ProductExists(id))
+				{
+					if (product.ProductState!=0||product.ProductState!=1)
+					{
+						return "修改上架狀態失敗";
+					}
+				}
+					
+				else
+				{
+					throw;
+				}
+			}
+
+			return "修改上架狀態成功";
+		}
 		private bool ProductExists(int id)
 		{
 			return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
