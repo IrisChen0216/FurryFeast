@@ -1,5 +1,6 @@
 ﻿using FurryFeast.Models;
 using FurryFeast.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -11,15 +12,22 @@ namespace FurryFeast.API
     public class MyOrderApiController : ControllerBase
     {
         private readonly db_a989fb_furryfeastContext _context;
-        public MyOrderApiController(db_a989fb_furryfeastContext context) 
-        {   
-             _context = context;
+        public MyOrderApiController(db_a989fb_furryfeastContext context)
+        {
+            _context = context;
         }
 
-        public Object GetMyOrder(MyOrderViewModel list)
+        [Authorize]
+        public Object GetMyOrder()
         {
-
-            return _context.Orders.Select(x=>x.OrderId ==  list.OrderId).ToList();
+            var myId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
+            return _context.Orders.Where(x => x.MemberId == myId).Select(x => new
+            {
+                x.OrderId,
+                x.OrderShipDate,
+                x.OrderStatus,
+                x.OrderTotalPrice
+            }).ToList();
         }
     }
 }

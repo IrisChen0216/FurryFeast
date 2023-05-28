@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,10 +30,10 @@ namespace FurryFeast.Controllers
         [Authorize]
         public async Task<IActionResult> MemberIndex()
 
-		{
+        {
             if (User.Identity.IsAuthenticated)
             {
-                var s =  User.FindFirstValue("Id");
+                var s = User.FindFirstValue("Id");
                 var member = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(s)).FirstOrDefault();
                 return View(member);
             }
@@ -48,25 +49,15 @@ namespace FurryFeast.Controllers
             var a = _context.Members.FirstOrDefault();
             return View();
         }
-        
 
 
-        //[Authorize]
-        //[HttpGet]
-        //public IActionResult MyOrder()
-        //{
-        //    if (User.Identity.IsAuthenticated)
-        //    {
-        //        var s = User.FindFirstValue("Id");
-        //        var order = _context.Orders.Include(x => x.OrderDetails).Where(x => x.MemberId == int.Parse(s)).FirstOrDefault();
-        //        foreach (var o in order)
-        //        {
-        //            o.OrderId = order.OrderId;
-        //        }
-        //        return View(order);
-        //    }
-        //    return ViewBag.Error("錯啦");
-        //}
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult MyOrder()
+        {
+            return View();
+        }
 
         [Authorize]
         public async Task<IActionResult> MyClass()
@@ -88,7 +79,7 @@ namespace FurryFeast.Controllers
         public async Task<IActionResult> RegisterIndex(RegisterViewModel list)
         {
             var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount
-                        && x.MemberPassord == list.MemberPassord );
+                        && x.MemberPassord == list.MemberPassord);
             if (Member != null)
             {
                 ViewBag.Error = "已有帳號存在!";
@@ -105,17 +96,17 @@ namespace FurryFeast.Controllers
                 MemberBirthday = list.MemberBirthday,
                 MemberGender = list.MemberGender,
                 MemberId = list.MemberId
-               
+
             });
             _context.SaveChanges();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Login()
         {
             return View();
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel list)
 
@@ -128,15 +119,15 @@ namespace FurryFeast.Controllers
                 return View("Login");
             }
             //return Ok(model.MemberAccount + model.MemberPassord);
-            var ClaimList=new List<Claim>() {
-			new Claim(ClaimTypes.Name, Member.MemberName),
+            var ClaimList = new List<Claim>() {
+            new Claim(ClaimTypes.Name, Member.MemberName),
             new Claim("Id",Member.MemberId.ToString())
-		};
-         
+        };
+
 
             var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,ClaimPrincipal);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, ClaimPrincipal);
             return RedirectToAction("Index", "Home");
         }
 
@@ -163,7 +154,7 @@ namespace FurryFeast.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var a = User.FindFirstValue("Id");
-                var s = _context.Members.Where(x=>x.MemberId == int.Parse(a)).FirstOrDefault();
+                var s = _context.Members.Where(x => x.MemberId == int.Parse(a)).FirstOrDefault();
                 return View(s);
             }
             return ViewBag.Error("no");
@@ -175,9 +166,9 @@ namespace FurryFeast.Controllers
         }
         private bool MemberExists(int id)
         {
-          return (_context.Members?.Any(e => e.MemberId == id)).GetValueOrDefault();
+            return (_context.Members?.Any(e => e.MemberId == id)).GetValueOrDefault();
         }
     }
 
-	
+
 }
