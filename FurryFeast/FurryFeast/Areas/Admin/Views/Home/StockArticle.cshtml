@@ -5,108 +5,60 @@
 
 @section Style{
 	<style>
-		.unState {
-			background-color: gray;
-		}
-
-		.btnState {
-			display: inline-block;
-		}
-
-		.drop {
-			background-color: #ffedad;
-			color: #3b3b3b;
-			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-		}
-
-			.drop:hover {
-				background-color: #ffce78;
-			}
-
-		.btn-secondary:hover {
-			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-		}
-
-		input {
-			outline-style: none;
-			border: 1px solid #ccc;
-			border-radius: 3px;
-			padding-left: 5px;
-			width: 100%;
-			height: 30px;
+		.leftCulumn {
+			height: 100%;
 		}
 	</style>
 }
 
 <div class="container-fluid" id="app">
 	<div class="row">
-		<div class="col-12">
+		<div class="col-2 leftCulumn">
 			<div class="card my-4">
-				<div class="card-body px-0 pb-2">
+				<div class=" px-0 pb-2">
 					<div class="table-responsive p-0">
 						<table class="table align-items-center mb-0">
 							<thead>
 								<tr>
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">備註</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">價格</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">數量</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">單位</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">類別</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">倉庫</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">供應</th>
-									<th class="text-secondary opacity-7"></th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr v-for="item in StockArticle">
-									<template>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.aarticlesCode}}</span>
-										</td>
-										<td>
-											<div class="d-flex px-2 py-1">
-												<div>
-													<img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-												</div>
-												<div class="d-flex flex-column justify-content-center">
-													<h6 class="mb-0 text-sm">{{item.articlesDescription}}</h6>
-													<p class="text-xs text-secondary mb-0">{{item.articlesDescription}}</p>
-													</a>
-												</div>
-											</div>
-										</td>
-										<td>
-											<p class="text-xs font-weight-bold mb-0">${{item.articlesPrice}}</p>
-											<p class="text-xs text-secondary mb-0">Organization</p>
-										</td>
-										<td class="align-middle text-center text-sm">
-											@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
-										</td>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.articlesQuantity}}</span>
-										</td>
-										<td class="align-middle">
-											@*<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-											Edit
-											</a>*@
-										</td>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
-										</td>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.groupId}}</span>
-										</td>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.warehousesId}}</span>
-										</td>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.suppliersId}}</span>
-										</td>
-									</template>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.aarticlesCode}}</span>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
+									</td>
 								</tr>
-
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-10">
+			<div class="card my-4">
+				<div class=" px-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in StockArticle">
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.aarticlesCode}}</span>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -129,17 +81,16 @@
 				_this.GetAll();
 
 			},
+			computed: {
+
+			},
 			methods: {
 				GetAll: function () {
 					let _this = this;
-
 					axios.get(`/api/StockArticlesApi/GetAll`).then(response => {
 						_this.StockArticle = response.data
 					});
 				},
-			},
-			computed: {
-
 			},
 		});
 	</script>
