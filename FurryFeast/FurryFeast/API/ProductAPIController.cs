@@ -80,7 +80,7 @@ namespace FurryFeast.API
 		public object backEndProducts()
         {
 						
-            return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Select(x => new
+            return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x=>x.Articles).Select(x => new
             {
                 backEndProduct = new
                 {
@@ -97,12 +97,33 @@ namespace FurryFeast.API
 				},
                 backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
                 backEndType = x.ProductType.ProductTypeName,
-				//backEndArticleId=x.ArticlesId
+				backEndArticle=new
+				{
+					ArticleId=x.ArticlesId,
+					ArticleName=x.Articles.ArticlesDescription
+				}
 
 			});
 
 
         }
+
+		public object backEndArticle()
+		{
+
+			return _context.StockArticles.Select(x => new
+			{
+				
+				backEndArticle = new
+				{
+					ArticleId = x.ArticlesId,
+					ArticleName = x.ArticlesDescription
+				}
+
+			});
+
+
+		}
 
 		[HttpGet("{id}")]
 		public async Task<PetMarketViewModel> GetProduct(int id)
@@ -128,27 +149,27 @@ namespace FurryFeast.API
 			return model;
 		}
 
-		[HttpPost]
-		public async Task<string> PostProduct([FromBody] PetMarketViewModel model)
-		{
+		//[HttpPost]
+		//public async Task<string> PostProduct([FromBody] PetMarketViewModel model)
+		//{
 			
-			Product product = new Product
-			{
-				ProductId = model.ProductId,
-				ProductName = model.ProductName,
-				ProductPrice = model.ProductPrice,
-				ProductAmount = model.ProductAmount,
-				ProductDescription=model.ProductDescription,
-				ProductState=model.ProductState,
-				ProductTypeId = model.ProductTypeId,
+		//	Product product = new Product
+		//	{
+		//		ProductId = model.ProductId,
+		//		ProductName = model.ProductName,
+		//		ProductPrice = model.ProductPrice,
+		//		ProductAmount = model.ProductAmount,
+		//		ProductDescription=model.ProductDescription,
+		//		ProductState=model.ProductState,
+		//		ProductTypeId = model.ProductTypeId,
 			
-				ArticlesId = model.ArticlesId
-			};
-			_context.Products.Add(product);
-			await _context.SaveChangesAsync();
+		//		ArticlesId = model.ArticlesId
+		//	};
+		//	_context.Products.Add(product);
+		//	await _context.SaveChangesAsync();
 
-			return $"新增成功!{product.ProductId}";
-		}
+		//	return $"新增成功!{product.ProductId}";
+		//}
 
 		[HttpPut]
 		public async Task<string> PutProduct([FromBody]PetMarketViewModel model)
@@ -224,6 +245,65 @@ namespace FurryFeast.API
 			}
 
 			return "修改上架狀態成功";
+		}
+
+		[HttpPost]
+		public async Task<string> PostProduct([FromBody] AddProductViewModel model)
+		{
+
+			Product product =new Product();
+
+			product.ProductId = model.ProductId;
+			product.ProductName = model.ProductName;
+			product.ProductPrice = model.ProductPrice;
+			product.ProductAmount = model.ProductAmount;
+			product.ProductDescription = model.ProductDescription;
+			product.ProductState = model.ProductState;
+			product.ProductTypeId = model.ProductTypeId;
+			product.ArticlesId = model.ArticlesId;
+			product.ProductLaunchedTime = model.ProductLaunchedTime;
+
+
+			_context.Products.Add(product);
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				
+			return "新增商品失敗";
+
+			}
+
+			return "新增商品成功";
+		}
+
+		[HttpPost]
+		public async Task<string> PostProductImage([FromBody] AddProductImageViewModel model)
+		{
+
+			AddProductImageViewModel image = new AddProductImageViewModel();
+
+			image.ProductPicId = model.ProductPicId;
+			image.ProductPicImage = model.ProductPicImage;
+
+
+			_context.Entry(image).State = EntityState.Modified;
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+
+				return "新增商品失敗";
+
+			}
+
+			return "新增商品成功";
 		}
 		private bool ProductExists(int id)
 		{

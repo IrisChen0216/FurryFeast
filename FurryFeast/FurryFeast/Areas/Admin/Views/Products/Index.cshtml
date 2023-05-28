@@ -190,6 +190,14 @@
 						<input class="form-control" v-model="productAmount" required />
 					</div>
 					<div class="form-group">
+						<label class="form-label">上架狀態:</label>
+						<select v-model="productState">
+							<option value="">類型</option>
+							<option value="0">未上架</option>
+							<option value="1">上架</option>
+						</select>
+					</div>
+					<div class="form-group">
 						<label class="form-label">商品描述:</label>
 						<input class="form-control" v-model="productDescription" />
 					</div>
@@ -203,10 +211,25 @@
 							<option value="3">鮮食</option>
 						</select>
 					</div>
+					@*<div class="form-group" >
+						<label class="form-label">商品圖片1:</label>
+						<input class="form-control" v-model="productPicImage[0]" type="file"/>
+						<label class="form-label">商品圖片2:</label>
+						<input class="form-control" v-model="productPicImage[1]" type="file" />
+						<label class="form-label">商品圖片3:</label>
+						<input class="form-control" v-model="productPicImage[2]" type="file" />
+					</div>*@
+					<div class="form-group">
+						<label class="form-label">商品庫存名稱:</label>
+						<select v-model="selectedArticle">
+							<option value="">類型</option>
+							<option v-for="item in backEndArticle" :value="item.backEndArticle.articleId">{{item.backEndArticle.articleName}}</option>
+						</select>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-					<button type="button" class="btn btn-primary">新增</button>
+					<button type="button" class="btn btn-primary" v-on:click="AddProduct">新增</button>
 				</div>
 			</div>
 		</div>
@@ -224,14 +247,18 @@
 			el: '#app',
 			data: {
 				backendProducts: [],
+				backEndArticle:[],
 				showProducts: [],
 				keyword: "",
-				productName: "",
+				productName:"",
 				productPrice: "",
 				productAmount: "",
 				productDescription: "",
-				productType: "商品專區",
-				
+				productType:"",
+				productState:"",
+				productLaunchedTime:"",
+				productPicImage:['','',''],
+				selectedArticle: "",
 			},
 			mounted: function () {
 				let _this = this;
@@ -260,6 +287,9 @@
 							productList.push(item);
 						}
 						_this.showProducts = productList;
+					});
+					axios.get(`/api/products/backEndArticle`, request).then(response => {
+						_this.backEndArticle =  response.data;
 					});
 				},
 				productFilter: function () {
@@ -343,7 +373,27 @@
 				deleteProduct: function (item) {
 
 				},
+				AddProduct:function(){
+					alert("add");
+					let _this = this;
+					var request = {
+						ProductId:0,
+						ProductName: _this.productName,
+						ProductAmount: _this.productAmount,
+						ProductPrice: _this.productPrice,
+						ProductState: _this.productState,
+						ProductDescription: _this.productDescription,
+						ProductTypeId: _this.productType,
+						ProductLaunchedTime: new Date(),
+						ArticlesId: _this.selectedArticle,
 
+					};
+					axios.post(`/api/products/PostProduct/`, request).then(response => {
+						alert(response.data);
+						_this.Products()
+
+					});
+				}
 			},
 
 			//sortBy: function (val) {
