@@ -24,7 +24,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
             var result = await _context.StockArticles.Select(data => new StockArticleViewModel {
                 ArticlesId = data.ArticlesId,
-                AarticlesCode = data.AarticlesCode,
+                ArticlesCode = data.ArticlesCode,
                 ArticlesIsValid = data.ArticlesIsValid,
                 ArticlesDescription = data.ArticlesDescription,
                 ArticlesNotes = data.ArticlesNotes,
@@ -47,14 +47,14 @@ namespace FurryFeast.Areas.Admin.Api {
             }
 
             // 如果資料重複
-            var result = await _context.StockArticles.Where(d => d.AarticlesCode == data.AarticlesCode).FirstOrDefaultAsync();
+            var result = await _context.StockArticles.Where(d => d.ArticlesCode == data.ArticlesCode).FirstOrDefaultAsync();
             if (result != null) {
-                return Conflict($"Data duplicate, AarticlesCode: {data.AarticlesCode}");
+                return Conflict($"Data duplicate, ArticlesCode: {data.ArticlesCode}");
             }
 
             result = new StockArticle {
                 ArticlesId = data.ArticlesId,
-                AarticlesCode = data.AarticlesCode,
+                ArticlesCode = data.ArticlesCode,
                 ArticlesIsValid = data.ArticlesIsValid,
                 ArticlesDescription = data.ArticlesDescription,
                 ArticlesNotes = data.ArticlesNotes,
@@ -69,7 +69,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
             _context.StockArticles.Add(result);
             await _context.SaveChangesAsync();
-            return Ok($"Post success, AarticlesCode: {data.AarticlesCode}.");
+            return Ok($"Post success, ArticlesCode: {data.ArticlesCode}.");
         }
 
         // 刪除一筆資料
@@ -80,14 +80,14 @@ namespace FurryFeast.Areas.Admin.Api {
             }
 
             // 檢查資料是否存在
-            var result = await _context.StockArticles.Where(d => d.AarticlesCode == code).FirstOrDefaultAsync();
+            var result = await _context.StockArticles.Where(d => d.ArticlesCode == code).FirstOrDefaultAsync();
             if (result == null) {
-                return BadRequest($"Delete failed, AarticlesCode: {code}");
+                return BadRequest($"Delete failed, ArticlesCode: {code}");
             }
 
             _context.StockArticles.Remove(result);
             await _context.SaveChangesAsync();
-            return Ok($"Delete success, AarticlesCode: {code}.");
+            return Ok($"Delete success, ArticlesCode: {code}.");
         }
 
         // 更新一筆資料
@@ -98,19 +98,19 @@ namespace FurryFeast.Areas.Admin.Api {
             }
 
             // 檢查資料是否存在
-            var result = await _context.StockArticles.Where(d => d.AarticlesCode == code).FirstOrDefaultAsync();
+            var result = await _context.StockArticles.Where(d => d.ArticlesCode == code).FirstOrDefaultAsync();
             if (result == null) {
-                return BadRequest($"Patch failed, AarticlesCode: {code}.");
+                return BadRequest($"Patch failed, ArticlesCode: {code}.");
             }
 
-            var patchOneData = await _context.StockArticles.Where(d => d.AarticlesCode == data.AarticlesCode).FirstOrDefaultAsync();
+            var patchOneData = await _context.StockArticles.Where(d => d.ArticlesCode == data.ArticlesCode).FirstOrDefaultAsync();
 
             // 檢查 code 是否存在
-            if (result.AarticlesCode != data.AarticlesCode && patchOneData != null) {
-                return BadRequest($"Patch duplicate, AarticlesCode: {code}.");
+            if (result.ArticlesCode != data.ArticlesCode && patchOneData != null) {
+                return BadRequest($"Patch duplicate, ArticlesCode: {code}.");
             }
 
-            result.AarticlesCode = data.AarticlesCode;
+            result.ArticlesCode = data.ArticlesCode;
             result.ArticlesIsValid = data.ArticlesIsValid;
             result.ArticlesDescription = data.ArticlesDescription;
             result.ArticlesNotes = data.ArticlesNotes;
@@ -123,7 +123,7 @@ namespace FurryFeast.Areas.Admin.Api {
             result.ImagesId = data.ImagesId;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok($"Patch success, AarticlesCode: {code}.");
+            return Ok($"Patch success, ArticlesCode: {code}.");
         }
     }
 }
