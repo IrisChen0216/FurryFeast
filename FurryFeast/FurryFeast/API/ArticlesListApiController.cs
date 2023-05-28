@@ -14,7 +14,13 @@ namespace FurryFeast.API
 		{
 			_context = context;
 		}
+		public object GetArtclesList()
+		{
+			return _context.Articles
+		}
 	}
+	
+
 
 
 }
