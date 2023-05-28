@@ -51,11 +51,11 @@
 			</div>
 			<div class="container text-center mb-2">
 				<h4 class="index-header">回應區</h4>
-				<template v-if="selectedRecipe">
+				<template v-if="UserId">
 					<form class="input-group">
 						<textarea class="form-control" v-model="commentContent" required></textarea>
 						<input type="hidden" class="form-control" v-model="active"/>
-						<button type="button" class="btn btn-primary" v-on:click="addComment;">送出</button>
+						<button type="button" class="btn btn-primary" v-on:click="addComment">送出</button>
 					</form>
 				</template>
 				<template v-else>
@@ -120,6 +120,7 @@
 			el: '#app',
 			data: {
 				flag: true,
+				MemberData: {},
 				editedMsg: [],
 				recipes: [],
 				filteredRecipe: [], //type篩選出來的食譜
@@ -135,9 +136,17 @@
 			mounted() {
 				let _this = this;
 				_this.allRecipes();
-
+				_this.getUserId();
 			},
 			methods: {
+				getUserId: function() {
+					let _this = this;
+					axios('/api/recipes/GetUserId').then(response => {
+						if (response.status) _this.MemberData = response.data.data;
+					});
+					console.log("2." + `${_this.MemberData}`);
+				},
+
 				allRecipes: function() {
 					let _this = this;
 					let request = {};
@@ -261,7 +270,15 @@
 				},
 
 				editedRecord: function(item) {
-					let arrayText = item.editedMsgRecords.map(record => `${record.editedText} <br> ${record.editedTime}`).join('<br><br>');
+					let arrayText = item.editedMsgRecords.map(record => `
+					$
+					{
+						record.editedText
+					} <
+					br > $
+					{
+						record.editedTime
+					}`).join('<br><br>');
 
 					Swal.fire({
 						title: '編輯紀錄',
@@ -269,8 +286,6 @@
 						showConfirmButton: true
 					});
 				}
-
-
 			}
 		});
 	</script>
