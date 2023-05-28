@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model FurryFeast.Models.ContactU
+
+<!DOCTYPE html>
 <html>
     @*你好*@
 <head>
@@ -48,29 +50,30 @@
                         <div class="row row-20 row-md-30">
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-first-name-2" type="text" name="GuestName" placeholder="姓名*" required />
+                                    <input class="form-input" id="contact-first-name-2" type="text" name="GuestName" placeholder="姓名*" required value="test"/>
+
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-subject-2" type="text" name="GuestSubject" placeholder="主旨*" required />
+                                    <input class="form-input" id="contact-subject-2" type="text" name="GuestSubject" placeholder="主旨*" required value="test" />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-email-2" type="email" name="GuestEmail" placeholder="E-mail*" required />
+                                    <input class="form-input" id="contact-email-2" type="email" name="GuestEmail" placeholder="E-mail*" required value="test@test" />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-phone-2" type="text" name="GuestPhone" placeholder="電話" />
+                                    <input class="form-input" id="contact-phone-2" type="text" name="GuestPhone" placeholder="電話" value="test" />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-wrap">
-                            <textarea class="form-input textarea-lg" id="contact-message-2" name="GuestContext" placeholder="內容*" required></textarea>
+                            <textarea class="form-input textarea-lg" id="contact-message-2" name="GuestContext" placeholder="內容*">test</textarea>
                         </div>
                     </div>
                 </div>

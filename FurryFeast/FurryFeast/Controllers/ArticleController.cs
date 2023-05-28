@@ -127,7 +127,13 @@ namespace FurryFeast.Controllers
             return View();
         }
 
-        [HttpPost]
+        // 聯絡我們
+        public IActionResult ContactUs() {
+            return View();
+        }
+
+        // 連握我們，送出表單
+		[HttpPost]
         public IActionResult ContactUs(ContactU contact)
         {
             if (ModelState.IsValid)
