@@ -140,7 +140,7 @@ namespace FurryFeast.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Google()
+        public IActionResult GoogleLogin()
         {
 
             string? formCredential = Request.Form["credential"]; //回傳憑證
