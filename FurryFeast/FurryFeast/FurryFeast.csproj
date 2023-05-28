@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\backend\js\NewFolder\**" />
+    <Content Remove="wwwroot\backend\js\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\backend\js\NewFolder\**" />
+    <None Remove="wwwroot\backend\js\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="bundleconfig.json" />
   </ItemGroup>
 

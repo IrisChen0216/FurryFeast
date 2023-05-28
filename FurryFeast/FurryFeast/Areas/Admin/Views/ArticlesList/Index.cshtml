@@ -48,7 +48,7 @@
 
 				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
-						<h6 class="text-white text-capitalize ps-3">寵物商城商品管理</h6>
+						<h6 class="text-white text-capitalize ps-3">文章管理</h6>
 					</div>
 				</div>
 				<div class="row">
@@ -92,7 +92,7 @@
 					<div class="form-group  mt-2 col-2">
 						@*新增按鍵*@
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertPage">
-							新增商品
+							新增文章
 						</button>
 					</div>
 
@@ -111,11 +111,10 @@
 						<table class="table align-items-center mb-0">
 							<thead>
 								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品編號</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">商品售價</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上次上架時間</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">文章編號</th>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">文章標題</th>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">作者</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
 									<th class="text-secondary opacity-7"></th>
 								</tr>
 							</thead>
@@ -255,44 +254,57 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ArticleTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ArticleText)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ArticleDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Admin)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArticleTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArticleText)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArticleDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Admin.AdminId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ArticleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ArticleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ArticleId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.ArticleTitle)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ArticleText)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ArticleDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Admin)
+		</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.ArticleTitle)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ArticleText)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ArticleDate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Admin.AdminId)
+			</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.ArticleId">Edit</a> |
+				<a asp-action="Details" asp-route-id="@item.ArticleId">Details</a> |
+				<a asp-action="Delete" asp-route-id="@item.ArticleId">Delete</a>
+			</td>
+		</tr>
+	}
+	</tbody>
 </table>
+
+<script>
+	var app = new Vue({
+		el: '#app',
+		data: {
+		},
+		methods: {
+			CreateArticle: function () {
+				
+			}
+		}
+	})
+</script>
