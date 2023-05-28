@@ -149,7 +149,23 @@
         </div>
     </div>
 
-    <script src="~/js/product/core.min.js"></script>
-    <script src="~/js/product/script.js"></script>
+@*    <script src="~/js/product/core.min.js"></script>
+    <script src="~/js/product/script.js"></script>*@
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.card-title a').click(function () {
+                var $card = $(this).closest('.card');
+                var $collapse = $card.find('.collapse');
+
+                if ($collapse.hasClass('show')) {
+                    $collapse.removeClass('show');
+                } else {
+                    $card.siblings().find('.collapse.show').removeClass('show');
+                    $collapse.addClass('show');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
