@@ -42,38 +42,36 @@
             <div class="title-classic">
                 <h2 class="title-classic-title">Contact Us</h2>
             </div>
-            <form class="rd-form rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" asp-controller="Article" asp-action="ContactUs">
-
-
+            <form asp-action="ContactUs">
                 <div class="row row-20 row-md-30">
                     <div class="col-lg-8">
                         <div class="row row-20 row-md-30">
                             <div class="col-sm-6">
+                                <input type="hidden" asp-for="GuestId" />
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-first-name-2" type="text" name="GuestName" placeholder="姓名*" required value="test"/>
-
+                                    <input class="form-input" asp-for="GuestName" type="text" placeholder="姓名*" required/>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-subject-2" type="text" name="GuestSubject" placeholder="主旨*" required value="test" />
+                                    <input class="form-input" asp-for="GuestSubject" type="text" placeholder="主旨*" required/>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-email-2" type="email" name="GuestEmail" placeholder="E-mail*" required value="test@test" />
+                                    <input class="form-input" asp-for="GuestEmail" type="email" placeholder="E-mail*" required/>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-phone-2" type="text" name="GuestPhone" placeholder="電話" value="test" />
+                                    <input class="form-input" asp-for="GuestPhone" type="text" placeholder="電話"/>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-wrap">
-                            <textarea class="form-input textarea-lg" id="contact-message-2" name="GuestContext" placeholder="內容*">test</textarea>
+                            <textarea class="form-input textarea-lg" asp-for="GuestContext" placeholder="內容*" required></textarea>
                         </div>
                     </div>
                 </div>

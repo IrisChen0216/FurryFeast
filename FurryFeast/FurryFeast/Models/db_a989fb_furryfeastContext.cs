@@ -195,9 +195,7 @@ namespace FurryFeast.Models
             {
                 entity.HasKey(e => e.GuestId);
 
-                entity.Property(e => e.GuestId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("guest_ID");
+                entity.Property(e => e.GuestId).HasColumnName("guest_ID");
 
                 entity.Property(e => e.GuestContext)
                     .HasMaxLength(500)
