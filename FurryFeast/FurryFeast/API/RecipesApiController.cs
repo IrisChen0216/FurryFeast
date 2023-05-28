@@ -95,21 +95,21 @@ public class RecipesApiController : ControllerBase
 		var userId = User.Claims.FirstOrDefault(x => x.Type == "Id").Value;
 
 		if (userId != null)
-			msgboard.UserId = userId;
-		else
-			return "Error";
-
-		var newComment = new MsgBoard
 		{
-			UserId = msgboard.UserId,
-			MsgRecipesId = msgboard.MsgRecipesId,
-			MsgContent = msgboard.MsgContent, //留言內容
-			MsgDateTime = msgboard.MsgDateTime, //時間
-			MsgActive = msgboard.MsgActive //狀態	
-		};
-		_context.Add(newComment);
-		await _context.SaveChangesAsync();
-		return "success";
+			var newComment = new MsgBoard
+			{
+				UserId = msgboard.UserId,
+				MsgRecipesId = msgboard.MsgRecipesId,
+				MsgContent = msgboard.MsgContent, //留言內容
+				MsgDateTime = msgboard.MsgDateTime, //時間
+				MsgActive = msgboard.MsgActive //狀態	
+			};
+			_context.Add(newComment);
+			await _context.SaveChangesAsync();
+			return "success";
+		}
+
+		return "false";
 	}
 
 	//Edit Update
