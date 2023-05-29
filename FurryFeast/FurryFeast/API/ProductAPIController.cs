@@ -108,6 +108,67 @@ namespace FurryFeast.API
 
         }
 
+		public object backEndProductsType(int type)
+		{
+
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x => x.Articles).Where(x=>x.ProductTypeId==type).Select(x => new
+			{
+				backEndProduct = new
+				{
+					productId = x.ProductId,
+					productName = x.ProductName,
+					productDescription = x.ProductDescription,
+					productPrice = x.ProductPrice,
+					productAmount = x.ProductAmount,
+					productPicId = x.ProductPicId,
+					productLauchedTime = x.ProductLaunchedTime,
+					productSoldTime = x.ProductSoldTime,
+					productState = x.ProductState,
+					productArticleId = x.ArticlesId
+				},
+				backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
+				backEndType = x.ProductType.ProductTypeName,
+				backEndArticle = new
+				{
+					ArticleId = x.ArticlesId,
+					ArticleName = x.Articles.ArticlesDescription
+				}
+
+			});
+
+
+		}
+
+		public object backEndProductsState(int state)
+		{
+
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x => x.Articles).Where(x => x.ProductState==state).Select(x => new
+			{
+				backEndProduct = new
+				{
+					productId = x.ProductId,
+					productName = x.ProductName,
+					productDescription = x.ProductDescription,
+					productPrice = x.ProductPrice,
+					productAmount = x.ProductAmount,
+					productPicId = x.ProductPicId,
+					productLauchedTime = x.ProductLaunchedTime,
+					productSoldTime = x.ProductSoldTime,
+					productState = x.ProductState,
+					productArticleId = x.ArticlesId
+				},
+				backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
+				backEndType = x.ProductType.ProductTypeName,
+				backEndArticle = new
+				{
+					ArticleId = x.ArticlesId,
+					ArticleName = x.Articles.ArticlesDescription
+				}
+
+			});
+
+
+		}
 		public object backEndArticle()
 		{
 
