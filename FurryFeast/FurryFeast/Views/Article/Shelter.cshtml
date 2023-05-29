@@ -3,323 +3,186 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewData["Title"]</title>
+	<title>@ViewData["Title"]</title>
 
-    <style>
-        .card-new {
-            transition: transform 0.3s;
-        }
+	<style>
+		.card-new {
+			transition: transform 0.3s;
+		}
 
-            .card-new:hover {
-                transform: scale(1.05);
-            }
+			.card-new:hover {
+				transform: scale(1.05);
+			}
 
-        #search:hover {
-            background-color: #000000 !important;
-            color: #ffffff !important;
-        }
+		#search:hover {
+			background-color: #000000 !important;
+			color: #ffffff !important;
+		}
 
-        #select-shelter {
-            width: 250px !important;
-        }
+		#select-shelter {
+			width: 250px !important;
+		}
 
-        #search {
-            border-radius: 6px;
-        }
-    </style>
+		#search {
+			border-radius: 6px;
+		}
+	</style>
 
-    <link rel="icon" href="images/favicon.ico" type="~/image/x-icon">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
-@*    <link href="~/css/petclass/style.css" rel="stylesheet" />*@
-    <link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
-@*    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />*@
+	<link rel="icon" href="images/favicon.ico" type="~/image/x-icon">
+	<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
+	@*    <link href="~/css/petclass/style.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+	@*    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />*@
 
 
 </head>
 <body>
-    <div class="index-header">
-        <h2>全台收容所資訊</h2>
-    </div>
+	<div id="app">
+		<div class="index-header">
+			<h2>全台收容所資訊(先只篩選前12筆)</h2>
+		</div>
 
-    <div style="text-align: center;">
-        <div class="group-sm group-middle">
-            <div class="product-top-panel-sorting">
-                <select id="select-category" data-minimum-results-for-search="Infinity">
-                    <option value="">種類</option>
-                    <option value="狗">狗</option>
-                    <option value="貓">貓</option>
-                    <option value="其他">其他</option>
-
-
-                </select>
-            </div>
-            <div class="product-top-panel-sorting">
-                <select id="select-variety" data-minimum-results-for-search="Infinity">
-                    <option value="">地區</option>
-                    <option value="北部">北部</option>
-                    <option value="中部">中部</option>
-                    <option value="南部">南部</option>
-                    <option value="東部">東部</option>
-                    <option value="外島">外島</option>
-                </select>
-            </div>
-            <div class="product-top-panel-sorting">
-                <select id="select-shelter" data-minimum-results-for-search="Infinity">
-                    <option value="">收容所</option>
-                    <option value="48">基隆市寵物銀行</option>
-                    <option value="49">臺北市動物之家</option>
-                    <option value="50">新北市板橋區公立動物之家</option>
-                    <option value="51">新北市新店區公立動物之家</option>
-                    <option value="53">新北市中和區公立動物之家</option>
-                    <option value="55">新北市淡水區公立動物之家</option>
-                    <option value="56">新北市瑞芳區公立動物之家</option>
-                    <option value="58">新北市五股區公立動物之家</option>
-                    <option value="59">新北市八里區公立動物之家</option>
-                    <option value="60">新北市三芝區公立動物之家</option>
-                    <option value="61">桃園市動物保護教育園區</option>
-                    <option value="62">新竹市動物收容所</option>
-                    <option value="63">新竹縣動物收容所</option>
-                    <option value="67">臺中市動物之家南屯園區</option>
-                    <option value="68">臺中市動物之家后里園區</option>
-                    <option value="69">彰化縣流浪狗中途之家</option>
-                    <option value="70">南投縣公立動物收容所</option>
-                    <option value="71">嘉義市流浪犬收容中心</option>
-                    <option value="72">嘉義縣流浪犬中途之家</option>
-                    <option value="73">臺南市動物之家灣裡站</option>
-                    <option value="74">臺南市動物之家善化站</option>
-                    <option value="75">高雄市壽山動物保護教育園區</option>
-                    <option value="76">高雄市燕巢動物保護關愛園區</option>
-                    <option value="77">屏東縣流浪動物收容所</option>
-                    <option value="78">宜蘭縣流浪動物中途之家</option>
-                    <option value="79">花蓮縣流浪犬中途之家</option>
-                    <option value="80">臺東縣動物收容中心</option>
-                    <option value="81">連江縣流浪犬收容中心</option>
-                    <option value="82">金門縣動物收容中心</option>
-                    <option value="83">澎湖縣流浪動物收容中心</option>
-                    <option value="89">雲林縣流浪動物收容所</option>
-                    <option value="92">新北市政府動物保護防疫處</option>
-                    <option value="96">苗栗縣生態保育教育中心</option>
-                </select>
-            </div>
+		<div style="text-align: center;">
+			<div class="group-sm group-middle">
+				<div class="product-top-panel-sorting">
+					<select v-model="getAnimalKind" id="select-category" data-minimum-results-for-search="Infinity">
+						<option value="">--請選擇種類--</option>
+						<option v-for="item in animalKindList" v-bind:value="item">{{item}}</option>
+					</select>
+				</div>
+				<div class="product-top-panel-sorting">
+					<select v-model="getAnimalArea" id="select-variety" data-minimum-results-for-search="Infinity">
+						<option value="">--請選擇地區--</option>
+						<option v-for="item in animalAreaList" v-bind:value="item">{{item}}</option>
+					</select>
+				</div>
+				<div class="product-top-panel-sorting">
+					<select v-model="getAnimalPlace" id="select-shelter" data-minimum-results-for-search="Infinity">
+						<option value="">--請選擇收容所--</option>
+						<option v-for="item in animalPlaceList" v-bind:value="item.id">{{item.name}}</option>
+					</select>
+				</div>
 
 
 
-            <div class="product-top-panel-sorting">
-                <select id="select-gender" data-minimum-results-for-search="Infinity">
-                    <option value="">性別</option>
-                    <option value="公">公</option>
-                    <option value="母">母</option>
-                    <option value="未知">未知</option>
-                </select>
-            </div>
-            <div class="product-top-panel-sorting">
-                <select id="select-color" data-minimum-results-for-search="Infinity">
-                    <option value="">毛色</option>
-                </select>
-            </div>
-            <div class="product-top-panel-sorting">
-                <select id="select-age" data-minimum-results-for-search="Infinity">
-                    <option value="">年齡</option>
-                    <option value="幼年">幼年</option>
-                    <option value="成年">成年</option>
-                </select>
-            </div>
-            <input type="submit" class="search-button btn btn-primary" id="search" value="搜尋" style="background-color: #ffd33b; color: #ffffff;">
+				<div class="product-top-panel-sorting">
+					<select id="select-gender" data-minimum-results-for-search="Infinity">
+						<option value="">性別</option>
+						<option value="公">公</option>
+						<option value="母">母</option>
+						<option value="未知">未知</option>
+					</select>
+				</div>
+				<div class="product-top-panel-sorting">
+					<select id="select-color" data-minimum-results-for-search="Infinity">
+						<option value="">毛色</option>
+					</select>
+				</div>
+				<div class="product-top-panel-sorting">
+					<select id="select-age" data-minimum-results-for-search="Infinity">
+						<option value="">年齡</option>
+						<option value="幼年">幼年</option>
+						<option value="成年">成年</option>
+					</select>
+				</div>
+				<input v-on:click="btnSearch" type="submit" class="search-button btn btn-primary" id="search" value="搜尋" style="background-color: #ffd33b; color: #ffffff;">
 
-        </div>
-    </div>
+			</div>
+		</div>
 
+		<div class="container mt-3">
+			<div class="row">
+				<div v-for="item in allData" class="col-lg-4 col-md-4 col-6 mb-4">
+					<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
+						<div class="square-img-container">
+							<img v-bind:src="item.album_file" alt="喔喔!~圖片壞掉惹">
+						</div>
+						<div class="card-body-new">
+							<p class="card-title">{{item.animal_Variety}}</p>
+							<p class="card-text">{{item.animal_colour}}</p>
+							<p class="card-text">{{item.animal_place}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-
-    <div class="container">
-        <div class="row">
-            @foreach (var pet in Model)
-            {
-                <div class="col-lg-4 col-md-4 col-6 mb-4">
-                    <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                        <div class="square-img-container">
-                            <img src="@pet.ImageUrl" alt="寵物圖片">
-                        </div>
-                        <div class="card-body-new">
-                            <p class="card-title">@pet.animal_kind</p>
-                            <p class="card-text">@pet.animal_Variety</p>
-                            <p class="card-text">@pet.shelter_name</p>
-                        
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-
-    @if (ViewBag.PageCount > 1)
-    {
-        <div style="clear:both;"></div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
-                    <a class="page-link" href="/Article/Shelter?page=@(Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 1))">&lt;&lt;</a>
-                </li>
-                <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
-                    <a class="page-link" href="/Article/Shelter?page=@(Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 1))">Previous</a>
-                </li>
-
-                @for (var i = Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 5); i <= Math.Min(Convert.ToInt32(ViewBag.PageCount), Convert.ToInt32(ViewBag.PageNumber) + 5); i++)
-                {
-                    <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
-                        <a class="page-link" href="/Article/Shelter?page=@i">@i</a>
-                    </li>
-                    @if (i == Math.Min(Convert.ToInt32(ViewBag.PageCount), Convert.ToInt32(ViewBag.PageNumber) + 5) && i < Convert.ToInt32(ViewBag.PageCount))
-                    {
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">...</a>
-                        </li>
-                    }
-                }
-
-                <li class="page-item @(ViewBag.PageNumber == ViewBag.PageCount ? "disabled" : "")">
-                    <a class="page-link" href="/Article/Shelter?page=@(Math.Min(Convert.ToInt32(ViewBag.PageNumber) + 1, Convert.ToInt32(ViewBag.PageCount)))">Next</a>
-                </li>
-                <li class="page-item @(ViewBag.PageNumber == ViewBag.PageCount ? "disabled" : "")">
-                    <a class="page-link" href="/Article/Shelter?page=@ViewBag.PageCount">>></a>
-                </li>
-            </ul>
-        </nav>
-    }
-
-
-
-    @section Scripts {
+	@section Scripts {
 		<script src="~/js/product/core.min.js"></script>
 		<script src="~/js/product/script.js"></script>
-        <script>
 
-            document.addEventListener('DOMContentLoaded', function () {
-        
-                var cards = document.querySelectorAll('.card-new');
+		@*v-select*@
+		<script src="https://cdn.jsdelivr.net/npm/vue-select@3.20.2/dist/vue-select.min.js"></script>
 
-               
-                cards.forEach(function (card) {
-          
-                    card.addEventListener('click', function () {
-                
-                        var cardId = card.id;
+		<script>
+			let app = new Vue({
+				el: "#app",
+				data: {
+					url: "https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&$top=12&$skip=0",
+					allData: [],
+					getAnimalKind: "",
+					animalKindList: ["貓", "狗", "其他"],
+					getAnimalArea: "",
+					animalAreaList: ["北部", "中部", "南部", "外島"],
+					getAnimalPlace: "",
+					animalPlaceList: [
+						{
+							"id": 48,
+							"name": "基隆市寵物銀行"
+						},
+						{
+							"id": 49,
+							"name": "臺北市動物之家"
+						},
+						{
+							"id": 50,
+							"name": "新北市板橋區公立動物之家"
+						},
+						{
+							"id": 51,
+							"name": "新北市新店區公立動物之家"
+						},
+						{
+							"id": 52,
+							"name": "新北市中和區公立動物之家"
+						},
+						{
+							"id": 55,
+							"name": "新北市淡水區公立動物之家"
+						},
+					],
+				},
+				mounted: function () {
+					let _this = this;
+					_this.getAllData();
+				},
+				computed: {
 
-          
-                        console.log('點擊的卡片ID：' + cardId);
-
-               
-                        window.location.href = '/details/' + cardId;
-                        document.addEventListener('DOMContentLoaded', function () {
-                            var cards = document.querySelectorAll('.card-new');
-
-                            cards.forEach(function (card) {
-                                card.addEventListener('click', function () {
-                                    var cardId = card.id;
-                                    console.log('點擊的卡片ID：' + cardId);
-                                    window.location.href = '/details/' + cardId;
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-
-            $(function () {
-                $("#search").bind("click", Search);
-
-                function Search() {
-
-                    let animal_shelter_pkid=$("#select-shelter").val();
-                    console.log(animal_shelter_pkid)
-                    let url = `https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&animal_shelter_pkid=animal_shelter_pkid`;
-
-                    let animal_kind = $("#select-category").val();
-                    console.log(animal_kind)
-
-                    let url = `https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&animal_kind=${animal_kind}`;
-
-                    $.ajax({
-                        type: "GET",
-                        url: url,
-                        dataType: "json"
-                    }).done(data => {
-                        console.log(data);
-                    }).fail(error => {
-                        alert(`${err.statusCode}: ${err.stutsText}`);
-                    });
-                }
-            });
-
-        </script>
-        <script>
-            $(document).ready(function () {
-              
-                $("#select-variety").change(function () {
-                    var selectedVariety = $(this).val();
-                    var selectShelter = $("#select-shelter");
-
-                    selectShelter.empty();
-
-
-                    if (selectedVariety === "北部") {
-                        selectShelter.append(`
-                    <option value="">收容所</option>
-                    <option value="48">基隆市寵物銀行</option>
-                    <option value="49">臺北市動物之家</option>
-                    <option value="50">新北市板橋區公立動物之家</option>
-                    <option value="51">新北市新店區公立動物之家</option>
-                    <option value="53">新北市中和區公立動物之家</option>
-                    <option value="55">新北市淡水區公立動物之家</option>
-                    <option value="56">新北市瑞芳區公立動物之家</option>
-                    <option value="58">新北市五股區公立動物之家</option>
-                    <option value="59">新北市八里區公立動物之家</option>
-                    <option value="60">新北市三芝區公立動物之家</option>
-                    <option value="61">桃園市動物保護教育園區</option>
-                    <option value="62">新竹市動物收容所</option>
-                    <option value="63">新竹縣動物收容所</option>
-                    <option value="92">新北市政府動物保護防疫處</option>
-                  `);
-                    } else if (selectedVariety === "中部") {
-                        selectShelter.append(`
-                    <option value="">收容所</option>
-                    <option value="67">臺中市動物之家南屯園區</option>
-                    <option value="68">臺中市動物之家后里園區</option>
-                    <option value="69">彰化縣流浪狗中途之家</option>
-                    <option value="70">南投縣公立動物收容所</option>
-                  `);
-                    } else if (selectedVariety === "南部") {
-                        selectShelter.append(`
-                    <option value="">收容所</option>
-                    <option value="89">雲林縣流浪動物收容所</option>
-                    <option value="71">嘉義市流浪犬收容中心</option>
-                    <option value="72">嘉義縣流浪犬中途之家</option>
-                    <option value="73">臺南市動物之家灣裡站</option>
-                    <option value="74">臺南市動物之家善化站</option>
-                    <option value="75">高雄市壽山動物保護教育園區</option>
-                    <option value="76">高雄市燕巢動物保護關愛園區</option>
-                    <option value="77">屏東縣流浪動物收容所</option>
-                  `);
-                    } else if (selectedVariety === "東部") {
-                        selectShelter.append(`
-                    <option value="">收容所</option>
-                    <option value="78">宜蘭縣流浪動物中途之家</option>
-                    <option value="79">花蓮縣流浪犬中途之家</option>
-                    <option value="80">臺東縣動物收容中心</option>
-                  `);
-                    } else if (selectedVariety === "外島") {
-                        selectShelter.append(`
-                    <option value="">收容所</option>
-                    <option value="81">連江縣流浪犬收容中心</option>
-                    <option value="82">金門縣動物收容中心</option>
-                    <option value="83">澎湖縣流浪動物收容中心</option>
-                  `);
-                    }
-                });
-            });
-
-        </script>
-    }
+				},
+				methods: {
+					getAllData: function () {
+						let _this = this;
+						axios.get(_this.url).then(response => {
+							_this.allData = response.data
+						});
+					},
+					btnSearch: function () {
+						let _this = this;
+						let newUrl = _this.url + "&animal_kind=" + _this.getAnimalKind;
+						console.log(newUrl);
+						_this.searchData(newUrl);
+					},
+					searchData: async function (newUrl) {
+						_this = this;
+						await axios.get(newUrl).then(response => {
+							_this.allData = response.data
+						});
+					},
+				},
+			});
+		</script>
+	}
 
 </body>
 </html>
