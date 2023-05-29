@@ -1,4 +1,5 @@
 ﻿using FurryFeast.Models;
+using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,21 +19,38 @@ namespace FurryFeast.API
 
 		public object GetModel()
 		{
-			return _context.Articles
+			return _context.Articles.Include(x => x.Admin)
+				.Select(x => new
+					{
+						x.Admin.AdminAccount,
+						x.AdminId,
+						x.ArticleTitle,
+						x.ArticleText,
+						x.ArticleDate,
+						x.ArticleId
+					}
+				).ToList();
+
+		}
+
+
+		[HttpGet("{id}")]
+		public object GetArticle(int id)
+		{
+
+			return _context.Articles.Include(x => x.Admin)
+				.Where(x => x.ArticleId == id)
 				.Select(x => new
 				{
+					x.Admin.AdminAccount,
 					x.AdminId,
 					x.ArticleTitle,
 					x.ArticleText,
 					x.ArticleDate,
 					x.ArticleId
-				}
-					).ToList();
+				});
 
 		}
 	}
-	
-
-
 
 }

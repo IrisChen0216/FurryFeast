@@ -106,16 +106,17 @@
 											<span class="text-secondary text-xs font-weight-bold">{{item.articleTitle}}</span>
 										</td>
 										<td>
-											<p class="text-xs font-weight-bold mb-0">{{item.adminId}}</p>
-											<p class="text-xs text-secondary mb-0">Organization</p>
-										</td>
+											<span class="text-secondary text-xs font-weight-bold">{{item.adminAccount}}</span>
+
+@*											<p class="text-xs font-weight-bold mb-0">{{item.adminAccount}}</p>
+*@										</td>
 										<td class="align-middle text-center text-sm">
 											<span class="text-secondary text-xs font-weight-bold">{{item.articleDate}}</span>
 										</td>
 										<td class="align-middle">
 											<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn">上架</button>
 											<button v-else class="btn bg-gradient-danger  mb-0 toast-btn">下架</button>
-											<button class="btn bg-gradient-info mb-0 toast-btn">編輯</button>
+											<button class="btn bg-gradient-info mb-0 toast-btn"><a :href="'Details?id='+item.articleId">編輯</a></button>
 											<button class="btn bg-gradient-danger  mb-0 toast-btn unState">刪除</button>
 										</td>
 									</template>

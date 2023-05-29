@@ -29,20 +29,8 @@ namespace FurryFeast.Areas.Admin.Controllers
         // GET: Admin/ArticlesList/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Articles == null)
-            {
-                return NotFound();
-            }
-
-            var article = await _context.Articles
-                .Include(a => a.Admin)
-                .FirstOrDefaultAsync(m => m.ArticleId == id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-
-            return View(article);
+	        ViewBag.articleId = id;
+	        return View();
         }
 
         // GET: Admin/ArticlesList/Create

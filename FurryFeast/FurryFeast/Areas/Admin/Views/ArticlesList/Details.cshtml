@@ -1,42 +1,108 @@
 ﻿@model FurryFeast.Models.Article
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Article</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArticleTitle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArticleTitle)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArticleText)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArticleText)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArticleDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArticleDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Admin)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Admin.AdminId)
-        </dd>
-    </dl>
+
+<div class="container"id="app">
+	<h1>Edit</h1>
+	<div v-for="item in aticlesData">
+		<div mb-3>
+			<span>標題</span>
+			<input type="text" v-model="item.articleTitle"/>
+			<input type="text" v-model="item.articleDate" readonly/>
+			<input type="text" v-model="item.adminAccount" readonly/>
+
+		</div>
+
+		<div class="m-2" id="editor">{{item.articleText}}</div>
+	</div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ArticleId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@section Scripts{
+	<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+	<script>
+		ClassicEditor.create(document.querySelector('#editor'))
+			.then(editor => {
+				window.editor = editor;
+			})
+			.catch(error => {
+				console.error('There was a problem initializing the editor.', error);
+			});
+	</script>
+	<script>
+		let app = new Vue({
+			el: '#app',
+			data: {
+				aticlesData: {},
+				NoEdit: { Edit: true },
+				originalProductName: "",
+				originalProductAmount: "",
+				originalProductPrice: "",
+				originalProductTypeName: "",
+				originalProductDescription: "",
+				originalProductLaunchedTime: "",
+				originalProductSoldTime: "",
+				selected: ""
+			},
+			mounted: function () {
+				let _this = this;
+				_this.aticlesDetail();
+
+			},
+			methods: {
+				aticlesDetail: function () {
+					let _this = this;
+					let ID = @ViewBag.articleId;
+					axios.get(`/api/articles/GetArticle/${ID}`).then(response => {
+						_this.aticlesData = response.data;
+						console.log(_this.aticlesData);
+
+					});
+				},
+				editProduct: function () {
+					alert("edit");
+					let _this = this;
+					_this.NoEdit.Edit = false;
+					_this.originalProductName = _this.backendProduct.productName;
+					_this.originalProductAmount = _this.backendProduct.productAmount;
+					_this.originalProductPrice = _this.backendProduct.productPrice;
+				},
+				cancel: function () {
+					let _this = this;
+					_this.NoEdit.Edit = true;
+					_this.backendProduct.productName = _this.originalProductName;
+					_this.backendProduct.productAmount = _this.originalProductAmount;
+					_this.backendProduct.productPrice = _this.originalProductPrice;
+				},
+				update: function () {
+					alert("update");
+					let _this = this;
+					var request = {
+						ProductId: _this.backendProduct.productId,
+						ProductName: _this.backendProduct.productName,
+						ProductAmount: _this.backendProduct.productAmount,
+						ProductPrice: _this.backendProduct.productPrice,
+						ProductState: _this.backendProduct.productState,
+						ProductDescription: _this.backendProduct.productDescription,
+						ProductLaunchedTime: _this.backendProduct.productLaunchedTime,
+						ProductSoldTime: _this.backendProduct.productSoldTime,
+						ProductTypeId: _this.selected,
+						ProductPicImage: _this.backendProduct.productPicImage,
+						ArticlesId: _this.backendProduct.articlesId,
+						ProductTypeName: _this.backendProduct.productTypeName
+					};
+					axios.put(`/api/products/PutProduct/`, request).then(response => {
+						alert(response.data);
+						_this.cancel();
+						_this.ProductDetail();
+
+					});
+				},
+			}
+		});
+
+	</script>
+    }
