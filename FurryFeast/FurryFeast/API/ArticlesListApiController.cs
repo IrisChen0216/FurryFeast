@@ -1,10 +1,11 @@
 ﻿using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.API
 {
-	[Route("api/Member/[action]")]
+	[Route("api/articles/[action]")]
 	[ApiController]
 	public class ArticlesListController : ControllerBase
 	{
@@ -14,9 +15,20 @@ namespace FurryFeast.API
 		{
 			_context = context;
 		}
-		public object GetArtclesList()
+
+		public object GetModel()
 		{
 			return _context.Articles
+				.Select(x => new
+				{
+					x.AdminId,
+					x.ArticleTitle,
+					x.ArticleText,
+					x.ArticleDate,
+					x.ArticleId
+				}
+					).ToList();
+
 		}
 	}
 	
