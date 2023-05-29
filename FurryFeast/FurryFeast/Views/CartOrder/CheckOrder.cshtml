@@ -1,0 +1,80 @@
+﻿@model Order
+@section Style{
+    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+    <link href="~/css/petclass/style.css" rel="stylesheet" />
+    <style>
+        .table-custom th {
+            padding: 4px 10px;
+        }
+
+        .col {
+            text-align: center;
+        }
+    </style>
+}
+
+<div class="index-header">
+    <h2>訂單資料</h2>
+</div>
+
+
+<div class="container" style="padding-right:100px;padding-left:100px">
+    <!-- shopping-cart-->
+    <div class="table-custom-responsive">
+        <table class="table-custom table-cart">
+            <thead>
+                <tr>
+                    <th>商品名稱</th>
+                    <th>商品價格</th>
+                    <th>商品數量</th>
+                    <th>小計</th>
+                    <th>刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                
+                    
+                        <tr>
+                            @*圖片顯示待補*@
+                    <td><a class="table-cart-figure link-img" asp-controller="Products" asp-action="ProductDetail" asp-route-id="@Model.MemberId>@Model.MemberId</a><a class="table-cart-link" asp-controller="Products" asp-action="ProductDetail" asp-route-id="@Model.MemberId">@Model.MemberId</a></td>
+                            <td>$</td>
+                            @*<td>
+                                <div class="table-cart-stepper">
+                                    <input id="@item.ProductID" class="form-input ProductAmount" type="number" data-zeros="true" value="@item.Amount" min="1" max="1000">
+                                </div>
+                            </td>*@
+                            <td class="changePrice">$</td>
+                            <td>
+                        <form name="removeProduct" asp-controller="Cart" asp-action="Remove" asp-route-id="@Model.MemberId">
+                                    <button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    
+                
+
+            </tbody>
+        </table>
+    </div>
+    <div class="group-xl group-justify justify-content-center justify-content-md-between">
+
+        <div>
+            <div class="group-xl group-middle">
+                <div>
+                    <div class="group-md group-middle">
+                        <div class="heading-5 fw-medium text-gray-500">總計</div>
+                        <div class="heading-3 fw-normal">$l</div>
+                    </div>
+                </div><a class="button button-lg button-primary button-zakaria" href="checkout.html">建立訂單</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+    </script>
+    }
