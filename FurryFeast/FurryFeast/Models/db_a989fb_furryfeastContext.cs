@@ -195,9 +195,7 @@ namespace FurryFeast.Models
             {
                 entity.HasKey(e => e.GuestId);
 
-                entity.Property(e => e.GuestId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("guest_ID");
+                entity.Property(e => e.GuestId).HasColumnName("guest_ID");
 
                 entity.Property(e => e.GuestContext)
                     .HasMaxLength(500)
@@ -375,10 +373,6 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.MsgId).HasColumnName("Msg_ID");
 
-                entity.Property(e => e.MsgActive)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.MsgContent)
                     .HasMaxLength(50)
                     .HasColumnName("Msg_Content");
@@ -389,16 +383,19 @@ namespace FurryFeast.Models
 
                 entity.Property(e => e.MsgRecipesId).HasColumnName("Msg_RecipesID");
 
-                entity.Property(e => e.UserId)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("UserID");
+                entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.HasOne(d => d.MsgRecipes)
                     .WithMany(p => p.MsgBoards)
                     .HasForeignKey(d => d.MsgRecipesId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MsgBoard_Recipes");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.MsgBoards)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MsgBoard_User");
             });
 
             modelBuilder.Entity<Order>(entity =>
