@@ -46,46 +46,46 @@
 			<div class="group-sm group-middle">
 				<div class="product-top-panel-sorting">
 					<select v-model="getAnimalKind" id="select-category" data-minimum-results-for-search="Infinity">
-						<option value="">--請選擇種類--</option>
+						<option value="">--選擇全部種類--</option>
 						<option v-for="item in animalKindList" v-bind:value="item">{{item}}</option>
 					</select>
 				</div>
 				<div class="product-top-panel-sorting">
-					<select v-model="getAnimalArea" id="select-variety" data-minimum-results-for-search="Infinity">
-						<option value="">--請選擇地區--</option>
-						<option v-for="item in animalAreaList" v-bind:value="item">{{item}}</option>
+					<select v-model="getAnimalPlace" v-on:change="setAnimalArea" id="select-variety" data-minimum-results-for-search="Infinity">
+						<option value="">--選擇全部地區--</option>
+						<option v-for="item in animalPlaceList" v-bind:value="item">{{item}}</option>
 					</select>
 				</div>
 				<div class="product-top-panel-sorting">
-					<select v-model="getAnimalPlace" id="select-shelter" data-minimum-results-for-search="Infinity">
-						<option value="">--請選擇收容所--</option>
-						<option v-for="item in animalPlaceList" v-bind:value="item.id">{{item.name}}</option>
+					<select v-model="getShelter" id="select-shelter" data-minimum-results-for-search="Infinity">
+						<option value="">--選擇全部收容所--</option>
+						<option v-for="item in getAnimalArea" v-bind:value="item.id">{{item.name}}</option>
 					</select>
 				</div>
+				@*				<div class="product-top-panel-sorting">
+				<select id="select-gender" data-minimum-results-for-search="Infinity">
+				<option value="">性別</option>
+				<option value="公">公</option>
+				<option value="母">母</option>
+				<option value="未知">未知</option>
+				</select>
+				</div>
+				<div class="product-top-panel-sorting">
+				<select id="select-color" data-minimum-results-for-search="Infinity">
+				<option value="">毛色</option>
+				</select>
+				</div>
+				<div class="product-top-panel-sorting">
+				<select id="select-age" data-minimum-results-for-search="Infinity">
+				<option value="">年齡</option>
+				<option value="幼年">幼年</option>
+				<option value="成年">成年</option>
+				</select>
+				</div>*@
 
+				<input v-on:click="reSearch" type="submit" class="search-button btn btn-primary" id="search" value="重新搜尋" style="background-color: #ffd33b; color: #ffffff;">
 
-
-				<div class="product-top-panel-sorting">
-					<select id="select-gender" data-minimum-results-for-search="Infinity">
-						<option value="">性別</option>
-						<option value="公">公</option>
-						<option value="母">母</option>
-						<option value="未知">未知</option>
-					</select>
-				</div>
-				<div class="product-top-panel-sorting">
-					<select id="select-color" data-minimum-results-for-search="Infinity">
-						<option value="">毛色</option>
-					</select>
-				</div>
-				<div class="product-top-panel-sorting">
-					<select id="select-age" data-minimum-results-for-search="Infinity">
-						<option value="">年齡</option>
-						<option value="幼年">幼年</option>
-						<option value="成年">成年</option>
-					</select>
-				</div>
-				<input v-on:click="btnSearch" type="submit" class="search-button btn btn-primary" id="search" value="搜尋" style="background-color: #ffd33b; color: #ffffff;">
+				<input v-on:click="nextPage" type="submit" class="search-button btn btn-primary" id="search" value="下12筆" style="background-color: #ffd33b; color: #ffffff;">
 
 			</div>
 		</div>
@@ -112,50 +112,181 @@
 		<script src="~/js/product/core.min.js"></script>
 		<script src="~/js/product/script.js"></script>
 
-		@*v-select*@
-		<script src="https://cdn.jsdelivr.net/npm/vue-select@3.20.2/dist/vue-select.min.js"></script>
-
 		<script>
 			let app = new Vue({
 				el: "#app",
 				data: {
-					url: "https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&$top=12&$skip=0",
 					allData: [],
 					getAnimalKind: "",
 					animalKindList: ["貓", "狗", "其他"],
-					getAnimalArea: "",
-					animalAreaList: ["北部", "中部", "南部", "外島"],
 					getAnimalPlace: "",
-					animalPlaceList: [
+					animalPlaceList: ["北部", "中部", "南部", "東部", "外島"],
+					getAnimalArea: [],
+					getShelter: "",
+					animalAreaList: [
 						{
-							"id": 48,
-							"name": "基隆市寵物銀行"
+							"name": "北部",
+							"areas": [
+								{
+									"id": "48",
+									"name": "基隆市寵物銀行"
+								},
+								{
+									"id": "49",
+									"name": "臺北市動物之家"
+								},
+								{
+									"id": "50",
+									"name": "新北市板橋區公立動物之家"
+								},
+								{
+									"id": "51",
+									"name": "新北市新店區公立動物之家"
+								},
+								{
+									"id": "53",
+									"name": "新北市中和區公立動物之家"
+								},
+								{
+									"id": "55",
+									"name": "新北市淡水區公立動物之家"
+								},
+								{
+									"id": "56",
+									"name": "新北市瑞芳區公立動物之家"
+								},
+								{
+									"id": "58",
+									"name": "新北市五股區公立動物之家"
+								},
+								{
+									"id": "59",
+									"name": "新北市八里區公立動物之家"
+								},
+								{
+									"id": "60",
+									"name": "新北市三芝區公立動物之家"
+								},
+								{
+									"id": "61",
+									"name": "桃園市動物保護教育園區"
+								},
+								{
+									"id": "92",
+									"name": "新北市政府動物保護防疫處"
+								},
+							]
 						},
 						{
-							"id": 49,
-							"name": "臺北市動物之家"
+							"name": "中部",
+							"areas": [
+								{
+									"id": "62",
+									"name": "新竹市動物收容所"
+								},
+								{
+									"id": "63",
+									"name": "新竹縣動物收容所"
+								},
+								{
+									"id": "67",
+									"name": "臺中市動物之家南屯園區"
+								},
+								{
+									"id": "68",
+									"name": "臺中市動物之家后里園區"
+								},
+								{
+									"id": "69",
+									"name": "彰化縣流浪狗中途之家"
+								},
+								{
+									"id": "70",
+									"name": "南投縣公立動物收容所"
+								},
+								{
+									"id": "96",
+									"name": "苗栗縣生態保育教育中心"
+								},
+							]
 						},
 						{
-							"id": 50,
-							"name": "新北市板橋區公立動物之家"
+							"name": "南部",
+							"areas": [
+								{
+									"id": "71",
+									"name": "嘉義市流浪犬收容中心"
+								},
+								{
+									"id": "72",
+									"name": "嘉義縣流浪犬中途之家"
+								},
+								{
+									"id": "73",
+									"name": "臺南市動物之家灣裡站"
+								},
+								{
+									"id": "74",
+									"name": "臺南市動物之家善化站"
+								},
+								{
+									"id": "75",
+									"name": "高雄市壽山動物保護教育園區"
+								},
+								{
+									"id": "76",
+									"name": "高雄市燕巢動物保護關愛園區"
+								},
+								{
+									"id": "77",
+									"name": "屏東縣流浪動物收容所"
+								},
+								{
+									"id": "89",
+									"name": "雲林縣流浪動物收容所"
+								},
+							]
 						},
 						{
-							"id": 51,
-							"name": "新北市新店區公立動物之家"
+							"name": "東部",
+							"areas": [
+								{
+									"id": "78",
+									"name": "宜蘭縣流浪動物中途之家"
+								},
+								{
+									"id": "79",
+									"name": "花蓮縣流浪犬中途之家"
+								},
+								{
+									"id": "80",
+									"name": "臺東縣動物收容中心"
+								},
+							]
 						},
 						{
-							"id": 52,
-							"name": "新北市中和區公立動物之家"
-						},
-						{
-							"id": 55,
-							"name": "新北市淡水區公立動物之家"
+							"name": "外島",
+							"areas": [
+								{
+									"id": "81",
+									"name": "連江縣流浪犬收容中心"
+								},
+								{
+									"id": "82",
+									"name": "金門縣動物收容中心"
+								},
+								{
+									"id": "83",
+									"name": "澎湖縣流浪動物收容中心"
+								},
+							]
 						},
 					],
+					top: 12,
+					skip: 0,
 				},
 				mounted: function () {
-					let _this = this;
-					_this.getAllData();
+					this.getAllData();
 				},
 				computed: {
 
@@ -163,21 +294,62 @@
 				methods: {
 					getAllData: function () {
 						let _this = this;
-						axios.get(_this.url).then(response => {
+						let url = `
+							https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL
+							&$top=${this.top}
+							&$skip=${this.skip}
+							&animal_kind=${this.getAnimalKind}
+							&animal_shelter_pkid=${this.getShelter}
+						`;
+
+						console.log(url);
+						axios.get(url).then(response => {
 							_this.allData = response.data
 						});
 					},
-					btnSearch: function () {
-						let _this = this;
-						let newUrl = _this.url + "&animal_kind=" + _this.getAnimalKind;
-						console.log(newUrl);
-						_this.searchData(newUrl);
+					// 根據選擇的區域變更收容所
+					setAnimalArea: function () {
+						let index = 1;
+
+						switch (this.getAnimalPlace) {
+							case "北部":
+								index = 0;
+								console.log("北部");
+								break;
+							case "中部":
+								index = 1;
+								console.log("中部");
+								break;
+							case "南部":
+								index = 2;
+								console.log("南部");
+								break;
+							case "東部":
+								index = 3;
+								console.log("東部");
+								break;
+							case "外島":
+								index = 4;
+								console.log("外島");
+								break;
+						};
+
+						this.getAnimalArea = this.animalAreaList[index].areas;
+						console.log("setAnimalArea");
 					},
-					searchData: async function (newUrl) {
-						_this = this;
-						await axios.get(newUrl).then(response => {
-							_this.allData = response.data
-						});
+					// 下12筆資料
+					nextPage: function () {
+						console.log(this.top);
+						console.log(this.skip);
+						this.skip += 12;
+						this.getAllData();
+					},
+
+					// 重新搜尋
+					reSearch: function () {
+						this.skip = 0;
+						console.log(this.skip);
+						this.getAllData();
 					},
 				},
 			});
