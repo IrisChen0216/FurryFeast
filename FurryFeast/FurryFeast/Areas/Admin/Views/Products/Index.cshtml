@@ -57,7 +57,7 @@
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							<li><button class="dropdown-item" type="button" v-on:click="Products">全部商品</button></li>
-							<li><button class="dropdown-item" type="button" >鮮食商品</button></li>
+							<li><button class="dropdown-item" type="button">鮮食商品</button></li>
 							<li><button class="dropdown-item" type="button" v-on:click="ProductType(1)">狗狗商品</button></li>
 							<li><button class="dropdown-item" type="button" v-on:click="ProductType(2)">貓咪商品</button></li>
 						</ul>
@@ -72,7 +72,7 @@
 							<li><button class="dropdown-item" type="button">主食/零食</button></li>
 						</ul>
 					</div>
-					
+
 					@*<select>
 					<option>全部商品</option>
 					<option>鮮食專區</option>
@@ -110,7 +110,7 @@
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品編號</th>
 									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
 									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">商品售價</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架狀態</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">調整上架狀態</th>
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">下架時間</th>
 									<th class="text-secondary opacity-7"></th>
@@ -258,6 +258,7 @@
 				productLaunchedTime: "",
 				productPicImage: ['', '', ''],
 				selectedArticle: "",
+				originState: [],
 			},
 			mounted: function () {
 				let _this = this;
@@ -295,18 +296,21 @@
 					//依照搜尋欄位篩選商品(Id、Name)
 					let _this = this;
 					let request = {};
-					_this.showProducts = [];
+					//_this.showProducts = [];
 
-					for (let i = 0; i < _this.backendProducts.length; i++) {
-						let item = _this.backendProducts[i];
-						let itemId = item.backEndProduct.productId.toString();
-						if (itemId.includes(parseInt(_this.keyword))) {
-							_this.showProducts.push(item);
-						}
-						else if (item.backEndProduct.productName.includes(_this.keyword)) {
-							_this.showProducts.push(item);
-						}
-					}
+					//for (let i = 0; i < _this.backendProducts.length; i++) {
+					//	let item = _this.backendProducts[i];
+					//	let itemId = item.backEndProduct.productId.toString();
+					//	if (itemId.includes(parseInt(_this.keyword))) {
+					//		_this.showProducts.push(item);
+					//	}
+					//	else if (item.backEndProduct.productName.includes(_this.keyword)) {
+					//		_this.showProducts.push(item);
+					//	}
+					//}
+					_this.showProducts = _this.backendProducts;
+					_this.showProducts = _this.showProducts.filter(item => item.backEndProduct.productName.includes(_this.keyword));
+
 				},
 				changeState: function (item) {
 					let _this = this;
@@ -349,6 +353,10 @@
 					const myModal = new bootstrap.Modal('#insertPage')
 					myModal.show();
 				},
+				CloseInsertPage: function () {
+					const myModal = new bootstrap.Modal('#insertPage')
+					myModal.hide();
+				},
 				deleteCheck: function (item) {
 					let _this = this;
 					Swal.fire({
@@ -376,6 +384,7 @@
 					axios.delete(`/api/products/DeleteProduct/${ID}`).then(response => {
 						alert(response.data);
 						_this.Products();
+
 					});
 				},
 				AddProduct: function () {
@@ -394,15 +403,22 @@
 					};
 					axios.post(`/api/products/PostProduct/`, request).then(response => {
 						alert(response.data);
-						_this.Products()
-
-					});
+						_this.Products();
+						_this.CloseInsertPage();
+						_this.productName = "";
+							_this.productPrice = "";
+							_this.productAmount = "";
+							_this.productDescription = "";
+							_this.productType = "";
+							_this.productState = "";
+							_this.selectedArticle = "";
+							});
 				},
 				ProductType: function (typeNum) {
 					let _this = this;
 					alert(typeNum);
 					axios.get(`/api/products/backEndProductsType?type=${typeNum}`).then(response => {
-						_this.showProducts = response.data;
+						_this.showProducts = _this.backendProducts = response.data;
 						var productList = [];
 						for (var i = 0; i < _this.showProducts.length; i++) {
 							var item = _this.showProducts[i];
@@ -415,27 +431,15 @@
 							}
 							productList.push(item);
 						}
-						_this.showProducts = productList;
+						_this.showProducts = _this.backendProducts = productList;
 					});
 				},
 				ProductState: function (state) {
-					let _this = this;
-					axios.get(`/api/products/backEndProductsState?state=${state}`).then(response => {
-						_this.showProducts = response.data;
-						var productList = [];
-						for (var i = 0; i < _this.showProducts.length; i++) {
-							var item = _this.showProducts[i];
-							if (item.backEndProduct.productState == 1) {
-								item.OnAndOff = false;
 
-							}
-							if (item.backEndProduct.productState == 0) {
-								item.OnAndOff = true;
-							}
-							productList.push(item);
-						}
-						_this.showProducts = productList;
-					});
+					let _this = this;
+					_this.showProducts = _this.backendProducts;
+					_this.showProducts = _this.originState = _this.showProducts.filter(item => item.backEndProduct.productState == state);
+
 				},
 				//sortBy: function (val) {
 				//	let _this = this;
