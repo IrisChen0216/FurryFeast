@@ -1,12 +1,20 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+@using System;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    // 取得當前 controller 和 index 名稱, 把 / 去掉, 用在 class="active"
+    var temp = HttpContextAccessor.HttpContext.Request.Path.Value.Replace("/", "");
+}
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="~/backend/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="~/backend/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/backend/img/Paw.png">
+    <link rel="icon" type="image/png" href="~/backend/img/Paw.png">
     <title>FurryFeastDashboard</title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -35,12 +43,13 @@
 
 <body class="g-sidenav-show  bg-gray-200">
 
+    @await RenderSectionAsync("IndexHead", required: false)
 
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" asp-area="" asp-controller="Home" asp-action="Index">
-                <img src="~/backend/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+                <img src="~/backend/img/Paw.png" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="ms-1 font-weight-bold text-white">FurryFeast</span>
             </a>
         </div>
@@ -48,7 +57,8 @@
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-white active bg-gradient-primary" asp-area="Admin" asp-controller="Home" asp-action="Dashboard">
+                    @*根據 controller 和 action 名稱加上 active class*@
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeDashboard"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="Dashboard">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">dashboard</i>
                         </div>
@@ -56,23 +66,23 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="Tables">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeTables"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="Tables">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">table_view</i>
                         </div>
                         <span class="nav-link-text ms-1">Tables</span>
                     </a>
                 </li>
-	            <li class="nav-item">
-		            <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="Tables">
-			            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-				            <i class="material-icons opacity-10">table_view</i>
-			            </div>
-			            <span class="nav-link-text ms-1">寵物商城商品</span>
-		            </a>
-	            </li>
-	            <li class="nav-item">
-                    <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="Billing">
+                <li class="nav-item">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeTables"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="Tables">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">table_view</i>
+                        </div>
+                        <span class="nav-link-text ms-1">寵物商城商品</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeBilling"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="Billing">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">receipt_long</i>
                         </div>
@@ -80,7 +90,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="VirtualReality">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeVirtualReality"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="VirtualReality">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">view_in_ar</i>
                         </div>
@@ -88,7 +98,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="RTL">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeRTL"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="RTL">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
                         </div>
@@ -96,18 +106,26 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="Notifications">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeNotifications"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="Notifications">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">notifications</i>
                         </div>
                         <span class="nav-link-text ms-1">Notifications</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeStockArticle"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="StockArticle">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">shopping_cart</i>
+                        </div>
+                        <span class="nav-link-text ms-1">庫存管理</span>
+                    </a>
+                </li>
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Profile</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " asp-area="Admin" asp-controller="Home" asp-action="Profile">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminHomeProfile"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="Profile">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">person</i>
                         </div>

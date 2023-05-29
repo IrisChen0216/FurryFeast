@@ -1,0 +1,99 @@
+﻿@{
+	ViewData["Title"] = "StockArticle";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section Style{
+	<style>
+		.leftCulumn {
+			height: 100%;
+		}
+	</style>
+}
+
+<div class="container-fluid" id="app">
+	<div class="row">
+		<div class="col-2 leftCulumn">
+			<div class="card my-4">
+				<div class=" px-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in StockArticle">
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-10">
+			<div class="card my-4">
+				<div class=" px-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in StockArticle">
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+
+		let app = new Vue({
+			el: '#app',
+			data: {
+				StockArticle: [],
+			},
+			mounted: function () {
+				let _this = this;
+				_this.GetAll();
+
+			},
+			computed: {
+
+			},
+			methods: {
+				GetAll: function () {
+					let _this = this;
+					axios.get(`/api/StockArticlesApi/GetAll`).then(response => {
+						_this.StockArticle = response.data
+					});
+				},
+			},
+		});
+	</script>
+    }
+
+

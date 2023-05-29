@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using NuGet.Protocol.Plugins;
 
 namespace FurryFeast.Controllers
 {
@@ -24,22 +25,48 @@ namespace FurryFeast.Controllers
         }
 
         // GET: Members
-   
+
+        [Authorize]
         public async Task<IActionResult> MemberIndex()
 
 		{
-            var member = _context.Members.Include(m => m.Conpon).Where(m=>m.MemberId==1).FirstOrDefault();
-            return View(member);
-           
-        }
+            if (User.Identity.IsAuthenticated)
+            {
+                var s =  User.FindFirstValue("Id");
+                var member = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(s)).FirstOrDefault();
+                return View(member);
+            }
 
-        
+            return ViewBag.Error("錯");
+
+        }
 
         [Authorize]
-        public IActionResult MyOrder()
+        [HttpGet]
+        public IActionResult MemberAfter()
         {
+            var a = _context.Members.FirstOrDefault();
             return View();
         }
+        
+
+
+        //[Authorize]
+        //[HttpGet]
+        //public IActionResult MyOrder()
+        //{
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        var s = User.FindFirstValue("Id");
+        //        var order = _context.Orders.Include(x => x.OrderDetails).Where(x => x.MemberId == int.Parse(s)).FirstOrDefault();
+        //        foreach (var o in order)
+        //        {
+        //            o.OrderId = order.OrderId;
+        //        }
+        //        return View(order);
+        //    }
+        //    return ViewBag.Error("錯啦");
+        //}
 
         [Authorize]
         public async Task<IActionResult> MyClass()
@@ -113,6 +140,17 @@ namespace FurryFeast.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult GoogleLogin()
+        {
+
+            string? formCredential = Request.Form["credential"]; //回傳憑證
+            string? formToken = Request.Form["g_csrf_token"]; //回傳令牌
+            string? cookiesToken = Request.Cookies["g_csrf_token"]; //Cookie 令牌
+
+
+
+            return View();
+        }
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
@@ -122,7 +160,13 @@ namespace FurryFeast.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateMemberData()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                var a = User.FindFirstValue("Id");
+                var s = _context.Members.Where(x=>x.MemberId == int.Parse(a)).FirstOrDefault();
+                return View(s);
+            }
+            return ViewBag.Error("no");
         }
 
         public async Task<IActionResult> ForgetPassword()

@@ -1,3 +1,64 @@
+
+
+#PlaceList ul li {
+    padding: 20px;
+    border-top: 1px solid #ccc;
+}
+
+#PlaceList ul li:first-child {
+    border: 0;
+}
+
+
+*::-webkit-scrollbar,
+*::-webkit-scrollbar-thumb {
+    width: 26px;
+    border-radius: 13px;
+    background-clip: padding-box;
+    border: 12px solid transparent;
+    color: gray;
+}
+
+*::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 0 10px;
+}
+
+.infobox:hover {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.infobox {
+    overflow: auto;
+    color: rgba(0, 0, 0, 0);
+    -webkit-text-fill-color: black;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    transition: color .3s ease;
+}
+
+.infoBoxText {
+    line-height: 30px;
+    text-align: right;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.type_bar {
+    border: 1px solid black;
+    color: black;
+    border-radius: 1rem;
+    padding: 2px 15px;
+    font-size: 10px;
+    display: inline-block;
+
+}
+
+.btnWebsite {
+    border:1px solid black;
+    color: black;
+    border-radius: 2rem;
+    padding: 5px 30px;
+}
+
 .ratings {
     position: relative;
     vertical-align: middle;
@@ -5,7 +66,7 @@
     color: #ddd;
     /*背景星星顏色*/
     overflow: hidden;
-    font-size: 30px;
+    font-size: 25px;
     /*調整字體大小可放大縮小星星*/
 }
 
@@ -20,3 +81,140 @@
     color: #ffd900;
     /*前景星星顏色*/
 }
+
+/* body {
+    font-family: Lato, Arial;
+    color: #fff;
+    padding: 20px;
+    background-color: #e74c3c;
+} */
+
+/* h1 {
+    font-weight: normal;
+    font-size: 40px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+h1 span {
+    font-size: 13px;
+    display: block;
+    padding-left: 4px;
+} */
+
+/* p {
+    margin-top: 200px;
+} */
+
+/* p a {
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #b83729;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}*/
+
+p a:hover {
+    background-color: #ab3326;
+}
+
+.select-hidden {
+    display: none;
+    visibility: hidden;
+    padding-right: 10px;
+}
+
+.select {
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    font-size: 15px;
+    color: #000000;
+    width: 220px;
+    height: 50px;
+}
+
+.select-styled {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin-top: 5px;
+    border-bottom: 1px solid hwb(43 18% 0%);
+    /* background-color: #ffffff; */
+    /* background-color: #c0392b; */
+    padding: 8px 15px;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+    .select-styled:after {
+        content: "";
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-color: hwb(43 18% 0%) transparent transparent transparent;
+        position: absolute;
+        top: 16px;
+        right: 10px;
+    }
+
+    /* .select-styled:hover {
+    background-color: white;
+} */
+
+    .select-styled:active,
+    .select-styled.active {
+        /* margin-top: 5px; */
+        background-color: hwb(43, 18%, 0%);
+        
+    }
+
+        .select-styled:active:after,
+        .select-styled.active:after {
+            top: 12px;
+            border-color: transparent transparent #ffffff transparent;
+        }
+
+.select-options {
+    display: none;
+    position: absolute;
+    top: 120%;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: #ffffff;
+}
+
+    .select-options li {
+        /* margin: 0px 10px; */
+        padding: 12px;
+        /* text-indent: 15px; */
+        border-bottom: 1px dashed #ffecbc;
+        -moz-transition: all 0.15s ease-in;
+        -o-transition: all 0.15s ease-in;
+        -webkit-transition: all 0.15s ease-in;
+        transition: all 0.25s ease-in;
+    }
+
+        .select-options li:hover {
+            color: #ffffff;
+            background: hwb(43, 18%, 0%);
+        }
+
+        .select-options li[rel="hide"] {
+            display: none;
+        }

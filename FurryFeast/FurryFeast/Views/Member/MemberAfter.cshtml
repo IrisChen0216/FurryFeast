@@ -1,0 +1,64 @@
+﻿
+@section Style{
+
+}
+
+<div class="index-header">
+	<h2>會員管理</h2>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-8">
+			<input id="searchm" class="form-input form-control" type="search" name="search" value="" />
+		</div>
+		<div class="col-4">
+			<form>
+				<button class="button button-lg button-primary button-zakaria" type="submit">查詢</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+	<div id="app" class="">
+	<table>
+		<tr>
+			<th>會員編號</th>
+			<th>姓名</th>
+			<th>性別</th>
+			<th>生日</th>
+			<th>手機號碼</th>
+			<th>Email</th>
+			<th>地址</th>
+		</tr>
+		<tr v-for="i in members">
+			<td>{{i.member.memberId}}</td>
+			<td>{{i.member.memberName}}</td>
+			<td>{{i.member.memberGender}}</td>
+			<td>{{i.member.memberBirthday}}</td>
+			<td>{{i.member.memberPhone}}</td>
+			<td>{{i.member.memberEmail}}</td>
+			<td>{{i.member.memberAdress}}</td>
+
+		</tr>
+	</table>
+</div>
+
+@section Scripts{
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+	<script>
+	let app = new Vue({
+		el:'#app',
+		data:{
+			members:[],
+		},
+		mounted:function(){
+			let t = this;
+			axios('/api/member/all').then(res=>t.members = res.data)
+		},
+		//methods:function(){
+		//	if(searchm.value ==)
+		//}
+	})
+	</script>
+}

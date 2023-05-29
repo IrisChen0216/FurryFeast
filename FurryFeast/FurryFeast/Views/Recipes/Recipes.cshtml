@@ -3,113 +3,275 @@
 @{
 	ViewData["Title"] = "Recipes";
 }
-
+@section Style
+{
+	<link href="~/css/recipestyle.css" rel="stylesheet" />
+}
 
 <div class="index-header">
 	<h2>寵物鮮食食譜</h2>
 </div>
 <div id="app" class="container">
 	<div class="row m-4">
-		<button class="col btn btn-primary p-5 " type="button" id="Btn_DogCal">Dog</button>
-		<button class="col btn btn-primary p-5 ms-3" type="button" id="Btn_DogCat" v-on:click="">Cat</button>
+		<button class="col btn btn-primary p-5 " type="button" v-on:click="chooseType(1)">Dog</button>
+		<button class="col btn btn-primary p-5 ms-3" type="button" v-on:click="chooseType(2)">Cat</button>
 	</div>
 	<div class="row m-4">
-		<div class="col-md-3 border border-2 rounded-4 pt-4">
-			<ul class="nav justify-content-center">
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
-				<li class="nav-item"><a href=""><h5>義式番茄糙米燉飯</h5></a></li>
+		<div class="col-md-3  pt-4">
+			<ul id="recipesList" class="nav justify-content-center">
+				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item)">{{item.name}}</li>
 			</ul>
 		</div>
 
-		<div class="col p-3 ms-3 border border-2 rounded-4">
-			<div class="row">
-				<div class="my-4" style="text-align: center; font-size: 30px;">義式番茄糙米燉飯</div>
+		<div class="col p-3 ms-3" v-if="showRecipeDetails">
+			<div class="index-header row">
+				<h4 class="py-3">{{selectedRecipe.name}}</h4>
+				@*<div class="line"></div>*@
+				<div class="mx-auto px-3 pb-2" style="width: 90%;background: darkseagreen;padding: 20px;border-radius: 6px;color: white;font-weight: 900;">{{selectedRecipe.desc}}</div>
 			</div>
 			<div class="row m-3">
 				<div class="col border border-2  p-4 rounded-4">
 					<h5>準備食材</h5>
-					<ul class="">
-						<li class=""><span class="">糙米</span><span class="">已經煮熟的</span></li>
-						<li class=""><span class="">番茄罐頭或新鮮番茄</span><span class="">牛番茄較適合炒菜用</span></li>
-						<li class=""><span class="">南瓜</span></li>
-						<li class=""><span class="">舞菇或其他菇類</span></li>
-						<li class=""><span class="">洋香菜</span></li>
-						<li class=""><span class="">雞胸肉</span><span class="">油脂較低</span></li>
-						<li class=""><span class="">橄欖油</span></li>
+					<ul v-for="item in selectedRecipeData">
+						<li>{{item}}</li>
 					</ul>
 				</div>
 				<div class="col border border-2 ms-4 p-4 rounded-4">
 					<h5>作法</h5>
-					<ol>
-						<li>將蔬菜、雞肉等食材切小塊使狗狗容易入口</li>
-						<li>加入少許橄欖油至炒鍋</li>
-						<li>待橄欖油熱後把食材加入炒熟</li>
-						<li>將糙米飯倒入鍋中，並加水至稍微蓋過食材</li>
-						<li>燉煮一段時間即可以裝盤並撒上洋香菜</li>
-						<li>待食物稍微放涼在給狗狗吃，以防剛起鍋食物很燙</li>
+					<ol v-for="item in selectedRecipeMethod">
+						<li>{{item}}</li>
 					</ol>
 				</div>
 			</div>
 			<div class="row m-3">
 				<div class="col border border-2 rounded-4 p-4">
 					<h5>Notes</h5>
-					<span>寵物鮮食食譜僅提供參考，考量到每隻狗狗品種、年紀等等狀況不一樣，不提供份量計算，狗奴才需自行斟酌。</span>
+					<span>{{selectedRecipe.notes}}</span>
 				</div>
+			</div>
+			<div class="container text-center mb-2">
+				<h4 class="index-header">回應區</h4>
+				<template v-if="selectedRecipe">
+					<form class="input-group">
+						<textarea class="form-control" v-model="commentContent" required></textarea>
+						<input type="hidden" class="form-control" v-model="active"/>
+						<button type="button" class="btn btn-primary" v-on:click="addComment;">送出</button>
+					</form>
+				</template>
+				<template v-else>
+					<div class="border border-2 m-4 p-4">
+						<p>您尚未登入會員</p>
+					</div>
+				</template>
+				
+				
+				@*msg*@
+
+				<div v-for="item in selectedRecipe.msgBoards">
+					<div class="m-4" v-if="!item.isEditable">
+						<div class="my-2">
+							<button type="button" v-on:click="editComment(item);">編輯</button>
+							<button type="button" v-on:click="deleteComment();">刪除</button>
+						</div>
+						<div class="position-relative border border-2 " style="height: auto;">
+							@*<p class="hidden">{{item.msgId}}</p>*@
+							<p class="col" style="position: absolute; left: 10px;">{{item.userId}}</p>
+							<p style="position: absolute; right: 10px;">{{item.dateTime}}</p>
+							<p>{{selectedRecipe.name}}</p>
+							<template v-if="item.editedMsgRecords.length==0">
+								<p>{{item.content}}</p>
+							</template>
+							<template v-else>
+								<p>{{item.editedMsgRecords[item.editedMsgRecords.length-1].editedText}}</p>
+								<p class='' v-on:click="editedRecord(item)" data-swal-toast-template='#my-template'>
+									已編輯
+								</p>
+							</template>
+						</div>
+					</div>
+
+					@*editing*@
+					<div v-else>
+						<textarea class="form-control" v-model="editedContent"></textarea>
+						<input type="hidden" class="form-control" v-model="active"/>
+						<button type="button" class="btn btn-primary" v-on:click="updateComment(item)">更新</button>
+						<button type="button" class="btn btn-primary" v-on:click="cancelEditing(item)">取消</button>
+					</div>
+				</div>
+
+
 			</div>
 		</div>
 	</div>
 </div>
-<div class="container text-center mb-2">
-	<h4 class="index-header">回應區</h4>
 
-	<form class="input-group" asp-action="" asp-route-Id="">
-		<textarea class="form-control" type="text" placeholder="請先登入再留言" name="UserComment"></textarea>
-		<input class="btn btn-sm btn-primary" type="submit" value="送出" />
-	</form>
 
-	<div class="border border-2 m-4 p-4">
-		<p>您尚未登入會員</p>
-		<a href="#"><button class="btn btn-dark" type="button">登入會員</button></a>
-	</div>
-</div>
-<div class="container mt-0">
-	@*	@foreach (var comment in Model.MsgBoard.comment)
-	{
-	<div class="border border-2 p-3 position-relative m-4" style="font-size: 20px;">
-	<span class="col" style="position: absolute; left: 10px;">@comment.UserID</span>
-	<span style="position: absolute; right: 10px;">@comment.MsgDateTime</span>
-	<button class="btn btn-dark" type="button">edit</button>
-	<button class="btn btn-danger" type="button">delete</button>
-	</div>
-	@*所有留言*@
-	@*		<div class="position-relative border border-2 rounded-4 p-4 m-4" style="height: 200px;">
-	<p>@comment.MsgContent</p>*@
-	@*	<div class="position-absolute" style="right: 20px; bottom: 10px;">
-	<a style="color: gray;" href="http://">已編輯</a>
-	</div>*@
-	@*		</div>
-	}*@
-</div>
 
 @section Scripts
-	{
+{
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 	<script>
-		new Vue({
+
+		let app = new Vue({
 			el: '#app',
 			data: {
-				recipes: []
+				flag: true,
+				editedMsg: [],
+				recipes: [],
+				filteredRecipe: [], //type篩選出來的食譜
+				selectedRecipe: [],
+				selectedRecipeId: null, //點擊到的食譜
+				selectedRecipeData: "",
+				selectedRecipeMethod: "",
+				commentContent: "",
+				active: "true",
+				editedContent: "",
+				showRecipeDetails: false
 			},
-			mounted: function () {
-				//var self = this;
-				axios.get('https://localhost:7110/Recipes/GetAllRecipes').then(res => { console.log(res.data); });
+			mounted() {
+				let _this = this;
+				_this.allRecipes();
+
+			},
+			methods: {
+				allRecipes: function() {
+					let _this = this;
+					let request = {};
+					axios.get('/api/recipes/AllData', request).then(response => {
+						_this.recipes = response.data;
+						let recipesData = [];
+
+						for (let i = 0; i < _this.recipes.length; i++) {
+							let item = _this.recipes[i].allData;
+							item.Edit = false; // 編輯狀態
+							item.isVisible = true; // 隱藏狀態
+
+							item.msgBoards = item.msgBoards.map((msgBoard) => ({
+								...msgBoard,
+								isEditable: false
+							}));
+
+							recipesData.push(item);
+						}
+
+						_this.recipes = recipesData;
+					});
+				},
+
+				chooseType: function(typeNum) {
+
+					let _this = this;
+					_this.filteredRecipe = [];
+
+					for (let i = 0; i < _this.recipes.length; i++) {
+						if (_this.recipes[i].petTypesId == typeNum) { //type:1= dog,2=cat
+							let recipeData = _this.recipes[i];
+							_this.filteredRecipe.push(recipeData);
+							_this.showRecipeDetails = false;
+						}
+					}
+
+				},
+
+				splitArr: function(item, symbol) {
+					return item.split(symbol);
+				},
+
+				getRecipe: function(item) {
+					let _this = this;
+					_this.selectedRecipeId = item.recipesId;
+					_this.selectedRecipe = item;
+					_this.selectedRecipeData = _this.splitArr(item.data, "/");
+					_this.selectedRecipeMethod = _this.splitArr(item.method, "/");
+					_this.showRecipeDetails = true;
+				},
+
+				//post 新增
+				addComment: function() {
+					let _this = this;
+
+					let userid = "";
+					let msgboard = {
+						UserId: userid,
+						MsgRecipesId: _this.selectedRecipe.recipesId,
+						MsgContent: _this.commentContent, //留言內容
+						MsgDateTime: new Date, //時間
+						MsgActive: _this.active //狀態
+					}
+
+					axios.post('/api/recipes/AddComment', msgboard)
+						.then(response => {
+							this.addCommentSuccess(response); // success feedback
+							this.commentContent = ''; // empty content
+						});
+
+				},
+				//success
+				addCommentSuccess: function(result) {
+					if (result) {
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: '留言成功',
+							showConfirmButton: false,
+							timer: 1500
+						});
+					}
+				},
+
+				// Edit
+				editComment: function(item) {
+					item.isEditable = true;
+					if (item.editedMsgRecords.length == 0) {
+						this.editedContent = item.content;
+					} else {
+						this.editedContent = item.editedMsgRecords[item.editedMsgRecords.length - 1].editedText;
+					}
+					console.log(item);
+				},
+
+				//update
+				updateComment: function(item) {
+					let _this = this;
+					item.isEditable = false;
+					item.content = this.editedContent;
+
+					let editedMsgRecord = {
+						MsgId: item.msgId,
+						EditedText: _this.editedContent, // edited content
+						EditedTime: new Date(), // current date and time
+						Msg: item
+					}
+					axios.post('/api/recipes/EditedMsg', editedMsgRecord)
+						.then(response => {
+							this.addCommentSuccess(response); // success feedback
+						});
+
+					item.content = _this.editedContent;
+				},
+
+				//cancel
+				cancelEditing: function(item) {
+					item.isEditable = false;
+					this.editedContent = '';
+				},
+
+				editedRecord: function(item) {
+					let arrayText = item.editedMsgRecords.map(record => `${record.editedText} <br> ${record.editedTime}`).join('<br><br>');
+
+					Swal.fire({
+						title: '編輯紀錄',
+						html: arrayText, // 注意我們在這裡使用 html 代替 text
+						showConfirmButton: true
+					});
+				}
+
 
 			}
 		});
 	</script>
-}		
+} 

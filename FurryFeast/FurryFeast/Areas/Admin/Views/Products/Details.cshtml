@@ -5,66 +5,255 @@
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<div class="col-md-12 mb-lg-0 mb-4">
+<div class="col-md-12 mb-lg-0 mb-4" id="app">
 	<div class="card mt-4">
 		<div class="card-header pb-0 p-3">
 			<div class="row">
 				<div class="col-6 d-flex align-items-center">
-					<h6 class="mb-0">商品編號：{{}}</h6>
+					<h6 class="mb-0">商品編號：{{backendProduct.productId}}</h6>
 				</div>
 
 			</div>
 		</div>
-		<div class="card-body p-3">
-			<div class="card card-body border card-plain border-radius-lg d-flex align-items-self-start">
-				<div class="row">
-					<div class="col-md-8 mb-md-0 mb-4">
-						<h6 class="mb-0">商品名稱：@Model.ProductName</h6>
-						<input />
-					</div>
-				</div>
+		<div>
+			<template v-if="NoEdit.Edit==true">
+				<div class="card-body p-3">
+					<div class="card card-body border card-plain border-radius-lg d-flex align-items-self-start">
+						<button v-on:click="editProduct">
+							<i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="編輯">edit編輯</i>
+						</button>
+						<div class="row">
+							<div class="col-6">
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品名稱：</h6>
+										<h6 class="mb-0">{{backendProduct.productName}}</h6>
+									</div>
+								</div>
 
-				<div class="row">
-					<div class="col-md-8 mb-md-0 mb-4">
-						<h6 class="mb-0">商品種類：{{}}</h6>
-						<input />
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品種類：</h6>
+										<h6 class="mb-0">{{backendProduct.productTypeName}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">上架數量：</h6>
+										<h6 class="mb-0">{{backendProduct.productAmount}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品單價：</h6>
+										<h6 class="mb-0">{{backendProduct.productPrice}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品描述：</h6>
+										<h6 class="mb-0">{{backendProduct.productDescription}}</h6>
+									</div>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">上架時間：</h6>
+										<h6 class="mb-0">{{backendProduct.productLaunchedTime}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">下架時間：</h6>
+										<h6 class="mb-0">{{backendProduct.productSoldTime}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">庫存ID：</h6>
+										<h6 class="mb-0">{{backendProduct.articlesId}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品圖片：</h6>
+										<img :src="'data:image/png;base64,'+ backendProduct.productPicImage" width="250" />
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+
+
 				</div>
-				<div class="row">
-					<div class="col-md-8 mb-md-0 mb-4">
-						<h6 class="mb-0">上架數量：{{}}</h6>
-						<input />
+			</template>
+			<template v-else>
+				<div class="card-body p-3">
+					<div class="card card-body border card-plain border-radius-lg d-flex align-items-self-start">
+
+						<button v-on:click="update">
+							<i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="修改">修改</i>
+						</button>
+						<button v-on:click="cancel">取消</button>
+
+						<div class="row">
+							<div class="col-6">
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品名稱：</h6>
+										<h6 class="mb-0"><input v-model="backendProduct.productName" /></h6>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品種類：</h6>
+										@*<h6 class="mb-0"><input v-model="backendProduct.productTypeName" /></h6>*@
+										<h6>
+											<select v-model="selected">
+												<option value="">請選擇</option>
+												<option value="1">狗用</option>
+												<option value="2">貓用</option>
+												<option value="3">鮮食</option>
+											</select>
+										</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">上架數量：</h6>
+										<h6 class="mb-0"><input v-model="backendProduct.productAmount" /></h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品單價：</h6>
+										<h6 class="mb-0"><input v-model="backendProduct.productPrice" /></h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品描述：</h6>
+										<h6 class="mb-0"><input v-model="backendProduct.productDescription" /></h6>
+									</div>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">上架時間：</h6>
+										<h6 class="mb-0">{{backendProduct.productLaunchedTime}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">下架時間：</h6>
+										<h6 class="mb-0">{{backendProduct.productSoldTime}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">庫存ID：</h6>
+										<h6 class="mb-0">{{backendProduct.articlesId}}</h6>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-8 mb-md-0 mb-4">
+										<h6 class="mb-0">商品圖片：</h6>
+										<img :src="'data:image/png;base64,'+ backendProduct.productPicImage" width="250" />
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+
+
 				</div>
-				<div class="row">
-					<div class="col-md-8 mb-md-0 mb-4">
-						<h6 class="mb-0">商品單價：{{}}</h6>
-						<input />
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-8 mb-md-0 mb-4">
-						<h6 class="mb-0">商品描述：{{}}</h6>
-						<input />
-					</div>
-				</div>
-			</div>
-			@*<img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">*@
-			@*<h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>*@
-			<i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card">edit</i>
-			<div class="col-6 text-end">
-				<a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New Card</a>
-			</div>
+			</template>
 		</div>
-
-		@*<div class="col-md-6">
-		<div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-		<img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
-		<h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248</h6>
-		<i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card">edit</i>
-		</div>
-		</div>*@
-
 	</div>
 </div>
 
+@section Scripts{
+
+	<script>
+
+		let app = new Vue({
+			el: '#app',
+			data: {
+				backendProduct: [],
+				NoEdit: { Edit: true },
+				originalProductName: "",
+				originalProductAmount: "",
+				originalProductPrice: "",
+				originalProductTypeName: "",
+				originalProductDescription: "",
+				originalProductLaunchedTime: "",
+				originalProductSoldTime: "",
+				selected:"",
+			},
+			mounted: function () {
+				let _this = this;
+				_this.ProductDetail();
+
+			},
+			methods: {
+				//網頁載入就會掛載全部商品資料的方法
+				ProductDetail: function () {
+					let _this = this;
+					let ID = @ViewBag.productId;
+					axios.get(`/api/products/GetProduct/${ID}`).then(response => {
+						_this.backendProduct = response.data;
+
+					});
+				},
+				editProduct: function () {
+					alert("edit");
+					let _this = this;
+					_this.NoEdit.Edit = false;
+					_this.originalProductName = _this.backendProduct.productName;
+					_this.originalProductAmount = _this.backendProduct.productAmount;
+					_this.originalProductPrice = _this.backendProduct.productPrice;
+				},
+				cancel: function () {
+					let _this = this;
+					_this.NoEdit.Edit = true;
+					_this.backendProduct.productName = _this.originalProductName;
+					_this.backendProduct.productAmount = _this.originalProductAmount;
+					_this.backendProduct.productPrice = _this.originalProductPrice;
+				},
+				update: function () {
+					alert("update");
+					let _this = this;
+					var request = {
+						ProductId: _this.backendProduct.productId,
+						ProductName: _this.backendProduct.productName,
+						ProductAmount: _this.backendProduct.productAmount,
+						ProductPrice: _this.backendProduct.productPrice,
+						ProductState: _this.backendProduct.productState,
+						ProductDescription: _this.backendProduct.productDescription,
+						ProductLaunchedTime: _this.backendProduct.productLaunchedTime,
+						ProductSoldTime: _this.backendProduct.productSoldTime,
+						ProductTypeId: _this.selected,
+						ProductPicImage: _this.backendProduct.productPicImage,
+						ArticlesId: _this.backendProduct.articlesId,
+						ProductTypeName: _this.backendProduct.productTypeName
+					};
+					axios.put(`/api/products/PutProduct/`, request).then(response => {
+						alert(response.data);
+						_this.cancel();
+						_this.ProductDetail();
+
+					});
+				},
+			},
+
+
+			computed: {
+
+			},
+		});
+
+	</script>
+    }
