@@ -351,6 +351,7 @@
 					myModal.show();
 				},
 				deleteCheck: function (item) {
+					let _this=this;
 					Swal.fire({
 						title: `確定要此刪除嗎?`,
 						text: `商品編號:${item.backEndProduct.productId}，商品名稱:${item.backEndProduct.productName}`,
@@ -362,6 +363,7 @@
 						cancelButtonText: '取消',
 					}).then((result) => {
 						if (result.isConfirmed) {
+							_this.deleteProduct(item.backEndProduct.productId);
 							Swal.fire(
 								'Deleted!',
 								'Your file has been deleted.',
@@ -370,8 +372,12 @@
 						}
 					})
 				},
-				deleteProduct: function (item) {
-
+				deleteProduct: function (ID) {
+					let _this=this;
+					axios.delete(`/api/products/DeleteProduct/${ID}`).then(response => {
+						alert(response.data);
+						_this.Products();
+					});
 				},
 				AddProduct:function(){
 					alert("add");

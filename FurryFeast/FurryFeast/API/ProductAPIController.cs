@@ -299,11 +299,31 @@ namespace FurryFeast.API
 			catch (DbUpdateConcurrencyException)
 			{
 
-				return "新增商品失敗";
+				return "新增圖片失敗";
 
 			}
 
-			return "新增商品成功";
+			return "新增圖片成功";
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<string> DeleteProduct(int id)
+		{
+
+			var product = await _context.Products.FindAsync(id);
+
+			_context.Products.Remove(product);
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateException)
+			{
+				return "刪除商品失敗";
+			}
+
+			//return NoContent();
+			return "刪除商品成功!";
 		}
 		private bool ProductExists(int id)
 		{
