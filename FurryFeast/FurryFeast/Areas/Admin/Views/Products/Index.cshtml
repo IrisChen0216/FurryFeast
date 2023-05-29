@@ -227,7 +227,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="CloseInsertPage">關閉</button>
 					<button type="button" class="btn btn-primary" v-on:click="AddProduct">新增</button>
 				</div>
 			</div>
@@ -404,15 +404,15 @@
 					axios.post(`/api/products/PostProduct/`, request).then(response => {
 						alert(response.data);
 						_this.Products();
-						_this.CloseInsertPage();
+						
 						_this.productName = "";
-							_this.productPrice = "";
-							_this.productAmount = "";
-							_this.productDescription = "";
-							_this.productType = "";
-							_this.productState = "";
-							_this.selectedArticle = "";
-							});
+						_this.productPrice = "";
+						_this.productAmount = "";
+						_this.productDescription = "";
+						_this.productType = "";
+						_this.productState = "";
+						_this.selectedArticle = "";
+					});
 				},
 				ProductType: function (typeNum) {
 					let _this = this;
