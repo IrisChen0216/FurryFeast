@@ -5,64 +5,81 @@
 
 @section Style{
 	<style>
-		.leftCulumn {
-			height: 100%;
+		.fixCard {
+			position: fixed;
+		}
+
+		.card {
+			height: 81vh;
 		}
 	</style>
 }
 
 <div class="container-fluid" id="app">
 	<div class="row">
-		<div class="col-2 leftCulumn">
-			<div class="card my-4">
-				<div class=" px-0 pb-2">
-					<div class="table-responsive p-0">
-						<table class="table align-items-center mb-0">
-							<thead>
-								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="item in StockArticle">
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
-									</td>
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+		<div class="col-md-12 my-4">
+
+			<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+				<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
+					<h6 class="text-white text-capitalize ps-3">寵物商城商品管理</h6>
 				</div>
 			</div>
-		</div>
-		<div class="col-10">
-			<div class="card my-4">
-				<div class=" px-0 pb-2">
-					<div class="table-responsive p-0">
-						<table class="table align-items-center mb-0">
-							<thead>
-								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="item in StockArticle">
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
-									</td>
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+
+			<div class="row">
+				<div class="col-md-2">
+					<div class="card my-4 fixCard">
+						<div class=" px-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">代碼</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="item in Source.StockArticleData">
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.articlesDescription}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
+
+				<div class="col-md-10">
+					<div class="card my-4">
+						<div class=" px-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0">
+									<thead>
+										<tr>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="item in Source.StockArticleData">
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.articlesDescription}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -74,21 +91,78 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
-				StockArticle: [],
+				Source: {
+					StockArticleData: [],
+					StockGroupsData: [],
+					StockImagesData: [],
+					StockMeasureUnitsData: [],
+					StockSuppliersData: [],
+					StockSuppliersGroupsData: [],
+					StockWarehouseGroupsData: [],
+					StockWarehousesData: [],
+				},
 			},
 			mounted: function () {
 				let _this = this;
-				_this.GetAll();
-
+				_this.StockArticles();
+				_this.StockGroups();
+				_this.StockImages();
+				_this.StockMeasureUnits();
+				_this.StockSuppliers();
+				_this.StockSuppliersGroups();
+				_this.StockWarehouseGroups();
+				_this.StockWarehouses();
 			},
 			computed: {
 
 			},
 			methods: {
-				GetAll: function () {
+				StockArticles: function () {
 					let _this = this;
 					axios.get(`/api/StockArticlesApi/GetAll`).then(response => {
-						_this.StockArticle = response.data
+						_this.Source.StockArticleData = response.data
+					});
+				},
+				StockGroups: function () {
+					let _this = this;
+					axios.get(`/api/StockGroupsApi/GetAll`).then(response => {
+						_this.Source.StockGroupsData = response.data
+					});
+				},
+				StockImages: function () {
+					let _this = this;
+					axios.get(`/api/StockImagesApi/GetAll`).then(response => {
+						_this.Source.StockImagesData = response.data
+					});
+				},
+				StockMeasureUnits: function () {
+					let _this = this;
+					axios.get(`/api/StockMeasureUnitsApi/GetAll`).then(response => {
+						_this.Source.StockMeasureUnitsData = response.data
+					});
+				},
+				StockSuppliers: function () {
+					let _this = this;
+					axios.get(`/api/StockSuppliersApi/GetAll`).then(response => {
+						_this.Source.StockSuppliersData = response.data
+					});
+				},
+				StockSuppliersGroups: function () {
+					let _this = this;
+					axios.get(`/api/StockSuppliersGroupsApi/GetAll`).then(response => {
+						_this.Source.StockSuppliersGroupsData = response.data
+					});
+				},
+				StockWarehouseGroups: function () {
+					let _this = this;
+					axios.get(`/api/StockWarehouseGroupsApi/GetAll`).then(response => {
+						_this.Source.StockWarehouseGroupsData = response.data
+					});
+				},
+				StockWarehouses: function () {
+					let _this = this;
+					axios.get(`/api/StockWarehousesApi/GetAll`).then(response => {
+						_this.Source.StockWarehousesData = response.data
 					});
 				},
 			},
