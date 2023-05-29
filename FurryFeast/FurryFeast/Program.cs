@@ -36,7 +36,16 @@ namespace FurryFeast {
 					opt.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 				});
 
-			builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+
+                facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+				//facebookOptions.Events.TicketReceived
+            });
+
+
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 			builder.Services.AddRazorPages();
 
