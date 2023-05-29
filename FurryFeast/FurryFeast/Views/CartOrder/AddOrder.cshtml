@@ -1,4 +1,4 @@
-﻿@model FurryFeast.ViewModels.CartOrderViewModel
+﻿
 @section Style{
 	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
 	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
@@ -12,32 +12,12 @@
 	<h2>訂單資料</h2>
 </div>
 <div class="container" style="display:block">
-	<form asp-for="order" method="post" class="form-control" action="AddOrder">
+	<form asp-for="order" method="post" class="form-control" action="ShowOrder">
 		<div class="row">
 
 
 			<div class="col-md-5 col-lg-5">
-				<h4 class="fw-medium">付款人資料</h4>
-				<div class="table-custom-responsive form-group">
-					<input type="hidden" name="MemberId" value="@Model.Order.MemberId" /> @*夾帶會員ID*@
-
-					<table class="table-custom table-custom-primary table-checkout">
-						<tbody>
-							<tr>
-								<td><span class="fw-medium">付款人姓名</span></td>
-								<td><span class="fw-medium">@Model.Member.MemberName</span></td>
-							</tr>
-							<tr>
-								<td><span class="fw-medium">付款人信箱</span></td>
-								<td><span class="fw-medium">@Model.Member.MemberEmail</span></td> @*待改*@
-							</tr>
-							<tr>
-								<td><span class="fw-medium">付款人電話</span></td>
-								<td><span class="fw-medium">@Model.Member.MemberPhone</span></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+				
 				<div class="col-md-5 col-lg-5">
 					<h4 class="fw-medium">收件人資料</h4>
 					<div class="table-custom-responsive form-group">
@@ -45,15 +25,15 @@
 							<tbody>
 								<tr>
 									<td><span class="fw-medium">收件人姓名</span></td>
-									<td><span class="fw-medium"><input name="OrderRecipientName" /></span></td>
+									<td><span class="fw-medium">xx</span></td>
 								</tr>
 								<tr>
 									<td><span class="fw-medium">收件人電話</span></td>
-									<td><span class="fw-medium"><input name="OrderRecipientPhone" /></span></td> @*待改*@
+									<td><span class="fw-medium">xx</span></td> @*待改*@
 								</tr>
 								<tr>
 									<td><span class="fw-medium">付款人地址</span></td>
-									<td><span class="fw-medium"><input name="OrderRecipientAdress" /></span></td>
+									<td><span class="fw-medium">xx</span></td>
 								</tr>
 							</tbody>
 						</table>
@@ -73,7 +53,7 @@
 								<td><span class="fw-medium">商品數量</span></td>
 								<td><span class="fw-medium">小計</span></td>
 							</tr>
-							@foreach (var item in (List<FurryFeast.ViewModels.CartItem>)ViewBag.CartItem)
+							@*@foreach (var item in (List<FurryFeast.ViewModels.CartItem>)ViewBag.CartItem)
 							{
 								<tr>
 									<td><span class="fw-medium">@item.ProductName</span></td>
@@ -81,17 +61,17 @@
 									<td><span class="fw-medium">@item.OrderQuantity</span></td>
 									<td><span class="fw-medium">@item.Subtotal</span></td>
 								</tr>
-							}
+							}*@
 
-						</tbody>					
+						</tbody>
 					</table>
-					<h4>總計: @Model.Order.OrderTotalPrice</h4>
-					<input type="hidden" name="OrderTotalPrice" value="@Model.Order.OrderTotalPrice" />
+					<h4 name="OrderTotalPrice">總計:</h4>
+					<input type="hidden" name="MemberId" value="" />
 				</div>
 			</div>
 
 		</div>
-		
+
 		<button type="submit">送出訂單</button>
 	</form>
 </div>

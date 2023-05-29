@@ -30,17 +30,18 @@ namespace FurryFeast.Controllers
 
 			
 			int userID=int.Parse(GetUserId());
-
+            //補抓空值
             var person = _context.Members.FirstOrDefault(x => x.MemberId == userID);
-
-            var memberOrder = _context.Orders.Include(x => x.Member).Where(x => x.MemberId == userID).Select(x => new CartOrderViewModel
+			List<CartItem> cartItems = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
+            int Total=cartItems.Sum(x => x.Subtotal);
+			var memberOrder = _context.Orders.Include(x => x.Member).Where(x => x.MemberId == userID).Select(x => new CartOrderViewModel
             {
                 Order = new Order
                 {
-                    MemberId = x.MemberId,
+                    MemberId = userID,
                     OrderDetails = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart").ToArray(),
-                    OrderTotalPrice = x.OrderTotalPrice
-                },
+                    OrderTotalPrice = Total
+				},
                 Member =new Member
                 {
                     MemberName = x.Member.MemberName,
@@ -59,10 +60,28 @@ namespace FurryFeast.Controllers
             //};
 
 
-            //memberOrder = memberOrder.OrderDetails.Sum(x=>x.OrderPrice);
+            memberOrder.Order.OrderTotalPrice = memberOrder.Order.OrderDetails.Sum(x=>x.OrderPrice);
 			ViewBag.CartItem = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
-
+            
             return View(memberOrder);
 		}
+
+        public async Task<IActionResult> AddOrder(Order order)
+        {
+            
+				if (ModelState.IsValid)
+				{
+					order.OrderCreateDate = DateTime.Now;
+					order.OrderShipDate = DateTime.Now.AddDays(3);
+					order.OrderDetails = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart").ToArray();
+					order.OrderStatus = 0;
+
+					_context.Orders.Add(order);
+					await _context.SaveChangesAsync();
+					return RedirectToAction("Index");
+				}
+			
+			return View();
+        }
 	}
 }
