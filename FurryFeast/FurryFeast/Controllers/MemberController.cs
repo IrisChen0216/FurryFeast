@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using NuGet.Protocol.Plugins;
 using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace FurryFeast.Controllers
 {
@@ -128,7 +129,26 @@ namespace FurryFeast.Controllers
 
         public IActionResult GoogleLogin()
         {
-            return View();
+            var prop = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            };
+            return Challenge(prop,GoogleDefaults.AuthenticationScheme);
+        }
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (result.Succeeded)
+            {
+                var claims = result.Principal.Claims.Select(x => new
+                {
+                    x.Type,
+                    x.Value
+                });
+                return RedirectToAction("Index", "Home");
+            }
+            return Ok();
         }
 
         public IActionResult Facebook()
@@ -150,7 +170,7 @@ namespace FurryFeast.Controllers
                     x.Type,
                     x.Value,
                 });
-                return Json(claims);
+                return RedirectToAction("Index", "Home");
             }
             return Ok();
         }

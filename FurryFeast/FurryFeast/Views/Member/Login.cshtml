@@ -26,32 +26,19 @@
 			<label>密碼</label>
 			<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord">
 		</div>
-		<div class="btn container-fluid">
-			<div class="row">
-				<div class="col">
-					<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
-				</div>
-				<div class="col">
-				<button class="button button-lg button-primary button-zakaria"  type="submit">登入</button>
-				</div>
-			</div>
+			<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
+			<button class="button button-lg button-primary button-zakaria"  type="submit">登入</button>
 		</div>
 </form>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col">
-					<form asp-action="ForgetPassword">
-						<button class="button button-lg button-primary button-zakaria" type="submit">忘記密碼</button>
-					</form>
-				</div>
-				<div class="col">
-					<button class="button button-lg button-primary button-zakaria" type="submit">GOOGLE登入</button>
-					<a href="/Member/Facebook" class="button button-lg button-primary button-zakaria" type="submit">Facebook登入</a>
-				</div>
-			</div>
+		<div>
+	<a href="/Member/GoogleLogin" class="button button-lg button-primary button-zakaria" type="submit">使用GOOGLE帳號登入</a>
+	<a href="/Member/Facebook" class="button button-lg button-primary button-zakaria" type="submit">使用Facebook帳號登入</a>
 		</div>
-	</div>
-
+		<div>
+	<form asp-action="ForgetPassword">
+		<button class="button button-lg button-primary button-zakaria text-center" type="submit">忘記密碼</button>
+	</form>
+		</div>
 	@section Scripts{
 			
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
