@@ -59,10 +59,5 @@ namespace FurryFeast.Areas.Admin.Controllers {
         public IActionResult VirtualReality() {
             return View();
         }
-
-        // 庫存管理
-        public IActionResult StockArticle() {
-            return View();
-        }
     }
 }
