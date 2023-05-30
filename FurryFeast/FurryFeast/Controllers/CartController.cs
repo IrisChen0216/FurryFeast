@@ -18,6 +18,8 @@ namespace FurryFeast.Controllers
 		public async Task<IActionResult> CartAdd([FromBody]CardAddViewModel model)
 		{
 			int finalAnount = model.amount == 0 ? 1 : model.amount;
+			var productPic = _context.ProductPics.Single(p => p.ProductId == model.Id).ProductPicImage;
+			string productImageBase64 = Convert.ToBase64String(productPic);
 			CartItem cartItem = new CartItem
 			{
 				ProductId = _context.Products.Single(p => p.ProductId == model.Id).ProductId,
@@ -25,6 +27,7 @@ namespace FurryFeast.Controllers
 				OrderQuantity = finalAnount,
 				OrderPrice = _context.Products.Single(p => p.ProductId == model.Id).ProductPrice,
 				Subtotal = _context.Products.Single(p => p.ProductId == model.Id).ProductPrice,
+				ProductImage = productImageBase64
 			};
 
 

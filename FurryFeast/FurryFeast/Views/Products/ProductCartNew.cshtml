@@ -1,6 +1,6 @@
 ﻿@section Style{
 	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
 	<style>
 		.table-custom th {
@@ -31,25 +31,27 @@
 					<th>刪除</th>
 				</tr>
 			</thead>
-			<tbody>
-
-				<tr>
+			<tbody v-if="showProducts.Get==false">
+				
+				<tr v-for="item in showProducts">
 					@*圖片顯示待補*@
-					<td><a class="table-cart-figure link-img" asp-controller="Products" asp-action="ProductDetail" asp-route-id="">商品圖片</a><a class="table-cart-link" asp-controller="Products" asp-action="ProductDetail" asp-route-id="">商品名稱</a></td>
-					<td>$價格</td>
+					<td><a class="table-cart-figure link-img"><img :src="'data:image/png;base64,'+item.productImage"/></a><a class="table-cart-link">{{item.productName}}</a></td>
+					<td>${{item.orderPrice}}</td>
 					<td>
 						<div class="table-cart-stepper">
+							{{item.orderQuantity}}
 							<input id="" class="form-input ProductAmount" type="number" data-zeros="true" value="" min="1" max="1000">
 						</div>
 					</td>
-					<td class="changePrice">$((數量) * (單價))</td>
+					<td class="changePrice">${{item.orderPrice*item.orderQuantity}}</td>
 					<td>
 						<form name="removeProduct" asp-controller="Cart" asp-action="Remove" asp-route-id="">
 							<button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit"><i class="bi bi-trash"></i></button>
 						</form>
 					</td>
 				</tr>
-
+			</tbody>
+			<tbody v-else>
 				<tr>
 					<td class="col" colspan="5">
 						<h4>目前購物車沒有商品唷!</h4>
@@ -60,9 +62,6 @@
 						<h6><a asp-controller="Products" asp-action="Index">手刀為毛寶貝添購</a></h6>
 					</td>
 				</tr>
-
-
-
 			</tbody>
 		</table>
 	</div>
@@ -92,41 +91,45 @@
 </div>
 
 @section Scripts{
+	<script src="~/js/product/core.min.js"></script>
+	<script src="~/js/product/script.js"></script>
+	<script src="~/js/slick.min.js"></script>
 	<script>
-		let deleteButton = document.getElementsByClassName('deleteProduct');
-		for (let i = 0; i < deleteButton.length; i++) {
-			deleteButton[i].addEventListener('click', function (event) {
-				if (!confirm('確定要刪除嗎?')) {
-					event.preventDefault();
-				}
-				else {
-					document.getElementsByClassName('deleteProduct').addEventListener('submit', function () {
-						alert('刪除成功');
-					});
-				}
-			})
-		}
+	
+			let deleteButton = document.getElementsByClassName('deleteProduct');
+			for (let i = 0; i < deleteButton.length; i++) {
+				deleteButton[i].addEventListener('click', function (event) {
+					if (!confirm('確定要刪除嗎?')) {
+						event.preventDefault();
+					}
+					else {
+						document.getElementsByClassName('deleteProduct').addEventListener('submit', function () {
+							alert('刪除成功');
+						});
+					}
+				})
+			}
 
-		let app = new Vue({
-			el: '#app',
-			data: {
-				showProducts: [],
+			let app = new Vue({
+				el: '#app',
+				data: {
+					showProducts: [],
 
-			},
-			mounted: function () {
-				let _this = this;
-				_this.Products();
-
-			},
-			methods: {
-				//網頁載入就會掛載全部商品資料的方法
-				Products: function () {
+				},
+				mounted: function () {
 					let _this = this;
-					//var request={};
-					//request.productName=_this.keyword;
-					axios.get(`/api/cart/CartProducts`).then(response => {
-						alert('成功');
+					_this.Products();
+
+				},
+				methods: {
+					//網頁載入就會掛載全部商品資料的方法
+					Products: function () {
+						let _this = this;
+
+						axios.get(`/api/cart/CartProducts`).then(response => {
+						_this.showProducts.Get = true;
 						_this.showProducts = response.data;
+
 
 					});
 				},
@@ -147,4 +150,4 @@
 		});
 
 	</script>
-    }
+	}
