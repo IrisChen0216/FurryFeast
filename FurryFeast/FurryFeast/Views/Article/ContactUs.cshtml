@@ -39,35 +39,37 @@
             <div class="title-classic">
                 <h2 class="title-classic-title">Contact Us</h2>
             </div>
-            <form class="rd-form rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+            <form class="rd-form rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" asp-controller="Article" asp-action="ContactUs">
+
+
                 <div class="row row-20 row-md-30">
                     <div class="col-lg-8">
                         <div class="row row-20 row-md-30">
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-first-name-2" type="text" name="Name" placeholder="姓名*" required />
+                                    <input class="form-input" id="contact-first-name-2" type="text" name="GuestName" placeholder="姓名*" required />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-subject-2" type="text" name="subject" placeholder="主旨*" required />
+                                    <input class="form-input" id="contact-subject-2" type="text" name="GuestSubject" placeholder="主旨*" required />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-email-2" type="email" name="Email" placeholder="E-mail*" required />
+                                    <input class="form-input" id="contact-email-2" type="email" name="GuestEmail" placeholder="E-mail*" required />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-wrap">
-                                    <input class="form-input" id="contact-phone-2" type="text" name="phone" placeholder="電話" />
+                                    <input class="form-input" id="contact-phone-2" type="text" name="GuestPhone" placeholder="電話" />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-wrap">
-                            <textarea class="form-input textarea-lg" id="contact-message-2" name="context" placeholder="內容*" required></textarea>
+                            <textarea class="form-input textarea-lg" id="contact-message-2" name="GuestContext" placeholder="內容*" required></textarea>
                         </div>
                     </div>
                 </div>

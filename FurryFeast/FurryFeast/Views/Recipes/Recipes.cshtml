@@ -23,7 +23,7 @@
 			</ul>
 		</div>
 
-		<div class="col p-3 ms-3" v-if="showRecipeDetails">
+		<div class="col p-3 ms-3" v-if="showRecipeDetails"> 
 			<div class="index-header row">
 				<h4 class="py-3">{{selectedRecipe.name}}</h4>
 				@*<div class="line"></div>*@
@@ -50,12 +50,12 @@
 				</div>
 			</div>
 			<div class="container text-center mb-2">
-				<h4 class="index-header">回應區</h4>
+				<h4 class="py-3">回應區</h4>
 				<template v-if="selectedRecipe">
 					<form class="input-group">
-						<textarea class="form-control" v-model="commentContent" required></textarea>
+						<textarea class="form-control" style="border-radius: 6px; margin-right: 9px;" v-model="commentContent" required></textarea>
 						<input type="hidden" class="form-control" v-model="active"/>
-						<button type="button" class="btn btn-primary" v-on:click="addComment;">送出</button>
+						<button type="submit" style="border-radius: 6px;" class="btn btn-primary" v-on:click="addComment">送出</button>
 					</form>
 				</template>
 				<template v-else>
@@ -68,38 +68,43 @@
 				@*msg*@
 
 				<div v-for="item in selectedRecipe.msgBoards">
-					<div class="m-4" v-if="!item.isEditable">
-						<div class="my-2">
-							<button type="button" v-on:click="editComment(item);">編輯</button>
-							<button type="button" v-on:click="deleteComment();">刪除</button>
-						</div>
-						<div class="position-relative border border-2 " style="height: auto;">
-							@*<p class="hidden">{{item.msgId}}</p>*@
-							<p class="col" style="position: absolute; left: 10px;">{{item.userId}}</p>
-							<p style="position: absolute; right: 10px;">{{item.dateTime}}</p>
-							<p>{{selectedRecipe.name}}</p>
-							<template v-if="item.editedMsgRecords.length==0">
-								<p>{{item.content}}</p>
-							</template>
-							<template v-else>
-								<p>{{item.editedMsgRecords[item.editedMsgRecords.length-1].editedText}}</p>
-								<p class='' v-on:click="editedRecord(item)" data-swal-toast-template='#my-template'>
-									已編輯
-								</p>
-							</template>
-						</div>
-					</div>
 
-					@*editing*@
-					<div v-else>
-						<textarea class="form-control" v-model="editedContent"></textarea>
-						<input type="hidden" class="form-control" v-model="active"/>
-						<button type="button" class="btn btn-primary" v-on:click="updateComment(item)">更新</button>
-						<button type="button" class="btn btn-primary" v-on:click="cancelEditing(item)">取消</button>
+					<div class="m-4" v-if="">
+						<div class="my-2 align-content-end" v-if="!item.isEditable">
+							<template v-if="LoginState == true">
+								<button type="button" class="btn btn-sm" v-on:click="editComment(item);">編輯</button>
+								<button type="button" class="btn btn-sm" v-on:click="deleteComment();">刪除</button>
+							</template>
+							<div class="row pb-2" style="border-bottom: 1px dashed #ccc;">
+								<div class="col-3 px-3 py-2 m-0 text-start">
+									<p class="fw-bold m-0 p-0">{{item.userId}}</p>
+									<p class="m-0 p-0" style="font-size: small;">{{item.dateTime}}</p>
+								</div>
+
+								<div class="px-3 py-2 m-0 col text-start" v-if="item.editedMsgRecords.length==0">
+									<p>{{item.content}}</p>
+								</div>
+								<div v-else class="px-3 py-2 m-0 col" style="max-height: 100%">
+									<div class="text-start" style="height: 70%">{{item.editedMsgRecords[item.editedMsgRecords.length-1].editedText}}</div>
+									<div class="text-end m-0" style="font-size: small; color: gray" v-on:click="editedRecord(item)" data-swal-toast-template='#my-template'>
+										已編輯
+									</div>
+								</div>
+							</div>
+						</div>
+							@*editing*@
+							<div v-else>
+								<p class="fw-bold">編輯留言</p>
+								<form class="input-group pt-2">
+								<textarea class="form-control" style="border-radius: 6px" v-model="editedContent" required></textarea>
+									@*<input type="hidden" class="form-control" v-model="active"/>*@
+									<button type="button" class="btn btn-primary ms-2" style="border-radius: 6px;" v-on:click="updateComment(item)">更新</button>
+									<button type="button" class="btn btn-primary ms-2" style="border-radius: 6px;" v-on:click="cancelEditing(item)">取消</button>
+								</form>
+							</div>
+
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
@@ -119,7 +124,8 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
-				flag: true,
+				LoginState: false,
+				MemberData: [],
 				editedMsg: [],
 				recipes: [],
 				filteredRecipe: [], //type篩選出來的食譜
@@ -135,10 +141,19 @@
 			mounted() {
 				let _this = this;
 				_this.allRecipes();
-
+				_this.getUserData();
 			},
 			methods: {
-				allRecipes: function() {
+				getUserData: function () {
+					let _this = this;
+					axios('/api/recipes/GetUserData').then(response => {
+						if (response.status) {
+							_this.MemberData = response.data.data;
+						}
+					});
+				},
+
+				allRecipes:  function() {
 					let _this = this;
 					let request = {};
 					axios.get('/api/recipes/AllData', request).then(response => {
@@ -175,6 +190,7 @@
 						}
 					}
 
+
 				},
 
 				splitArr: function(item, symbol) {
@@ -188,15 +204,23 @@
 					_this.selectedRecipeData = _this.splitArr(item.data, "/");
 					_this.selectedRecipeMethod = _this.splitArr(item.method, "/");
 					_this.showRecipeDetails = true;
+					
+					for (let i = 0; i < _this.selectedRecipe.msgBoards.length; i++) {
+						if (_this.MemberData !=null && _this.MemberData.memberName == _this.selectedRecipe.msgBoards[i].userId) {
+							_this.LoginState = true;
+						} else {
+							_this.LoginState = false;
+						}
+					}
+
 				},
 
 				//post 新增
 				addComment: function() {
 					let _this = this;
 
-					let userid = "";
 					let msgboard = {
-						UserId: userid,
+						UserId: _this.MemberData.memberName,
 						MsgRecipesId: _this.selectedRecipe.recipesId,
 						MsgContent: _this.commentContent, //留言內容
 						MsgDateTime: new Date, //時間
@@ -205,22 +229,21 @@
 
 					axios.post('/api/recipes/AddComment', msgboard)
 						.then(response => {
-							this.addCommentSuccess(response); // success feedback
+							if (response == "success")
+								this.addCommentSuccess(response); // success feedback
 							this.commentContent = ''; // empty content
 						});
 
 				},
 				//success
-				addCommentSuccess: function(result) {
-					if (result) {
-						Swal.fire({
+				addCommentSuccess: function() {
+					Swal.fire({
 							position: 'center',
 							icon: 'success',
 							title: '留言成功',
 							showConfirmButton: false,
 							timer: 1500
 						});
-					}
 				},
 
 				// Edit
@@ -231,7 +254,7 @@
 					} else {
 						this.editedContent = item.editedMsgRecords[item.editedMsgRecords.length - 1].editedText;
 					}
-					console.log(item);
+					console.log(this.MemberData);
 				},
 
 				//update
@@ -244,14 +267,13 @@
 						MsgId: item.msgId,
 						EditedText: _this.editedContent, // edited content
 						EditedTime: new Date(), // current date and time
-						Msg: item
+						Msg: _this.commentContent
 					}
 					axios.post('/api/recipes/EditedMsg', editedMsgRecord)
 						.then(response => {
 							this.addCommentSuccess(response); // success feedback
 						});
 
-					item.content = _this.editedContent;
 				},
 
 				//cancel
@@ -269,8 +291,6 @@
 						showConfirmButton: true
 					});
 				}
-
-
 			}
 		});
 	</script>

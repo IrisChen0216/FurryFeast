@@ -127,10 +127,19 @@ namespace FurryFeast.Controllers
             return View();
         }
 
-        public IActionResult ContactUs()
+        [HttpPost]
+        public IActionResult ContactUs(ContactU contact)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                _furryFeastContext.ContactUs.Add(contact);
+                _furryFeastContext.SaveChanges();
+                return RedirectToAction("ThankYou"); 
+            }
+
+            return View(contact); 
         }
+
 
         // ArticleController.cs
 
