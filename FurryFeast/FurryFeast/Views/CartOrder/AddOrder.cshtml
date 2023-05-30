@@ -1,0 +1,77 @@
+﻿
+@section Style{
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	<style>
+
+	</style>
+}
+
+<div class="index-header">
+	<h2>訂單資料</h2>
+</div>
+<div class="container" style="display:block">
+	<form asp-for="order" method="post" class="form-control" action="ShowOrder">
+		<div class="row">
+
+
+			<div class="col-md-5 col-lg-5">
+				
+				<div class="col-md-5 col-lg-5">
+					<h4 class="fw-medium">收件人資料</h4>
+					<div class="table-custom-responsive form-group">
+						<table class="table-custom table-custom-primary table-checkout">
+							<tbody>
+								<tr>
+									<td><span class="fw-medium">收件人姓名</span></td>
+									<td><span class="fw-medium">xx</span></td>
+								</tr>
+								<tr>
+									<td><span class="fw-medium">收件人電話</span></td>
+									<td><span class="fw-medium">xx</span></td> @*待改*@
+								</tr>
+								<tr>
+									<td><span class="fw-medium">付款人地址</span></td>
+									<td><span class="fw-medium">xx</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-5 col-lg-5">
+				<h4 class="fw-medium">訂單內容</h4>
+				<div class="table-custom-responsive">
+					<table class="table-custom table-custom-primary table-checkout form-group">
+						<tbody>
+							<tr>
+								<td><span class="fw-medium">商品名稱</span></td>
+								<td><span class="fw-medium">商品價格</span></td>
+								<td><span class="fw-medium">商品數量</span></td>
+								<td><span class="fw-medium">小計</span></td>
+							</tr>
+							@*@foreach (var item in (List<FurryFeast.ViewModels.CartItem>)ViewBag.CartItem)
+							{
+								<tr>
+									<td><span class="fw-medium">@item.ProductName</span></td>
+									<td><span class="fw-medium">@item.OrderPrice</span></td>
+									<td><span class="fw-medium">@item.OrderQuantity</span></td>
+									<td><span class="fw-medium">@item.Subtotal</span></td>
+								</tr>
+							}*@
+
+						</tbody>
+					</table>
+					<h4 name="OrderTotalPrice">總計:</h4>
+					<input type="hidden" name="MemberId" value="" />
+				</div>
+			</div>
+
+		</div>
+
+		<button type="submit">送出訂單</button>
+	</form>
+</div>

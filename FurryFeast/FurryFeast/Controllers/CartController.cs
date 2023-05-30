@@ -18,30 +18,30 @@ namespace FurryFeast.Controllers
 		public async Task<IActionResult> CartAdd([FromBody]CardAddViewModel model)
 		{
 			int finalAnount = model.amount == 0 ? 1 : model.amount;
-			CartViewModel cartItem = new CartViewModel
+			CartItem cartItem = new CartItem
 			{
-				ProductID = _context.Products.Single(p => p.ProductId == model.Id).ProductId,
+				ProductId = _context.Products.Single(p => p.ProductId == model.Id).ProductId,
 				ProductName = _context.Products.Single(p => p.ProductId == model.Id).ProductName,
-				Amount = finalAnount,
-				Price = _context.Products.Single(p => p.ProductId == model.Id).ProductPrice,
+				OrderQuantity = finalAnount,
+				OrderPrice = _context.Products.Single(p => p.ProductId == model.Id).ProductPrice,
 				Subtotal = _context.Products.Single(p => p.ProductId == model.Id).ProductPrice,
 			};
 
 
-			if (SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session, "cart") == null)
+			if (SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart") == null)
 			{
 
-				List<CartViewModel> cart = new List<CartViewModel>();
+				List<CartItem> cart = new List<CartItem>();
 				cart.Add(cartItem);
 				SessionHelper.SetProductCartSession(HttpContext.Session, "cart", cart);
 			}
 			else
 			{
-				List<CartViewModel> cart = SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session, "cart");
-				int productIndex = cart.FindIndex(p => p.ProductID == model.Id);
+				List<CartItem> cart = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
+				int productIndex = cart.FindIndex(p => p.ProductId == model.Id);
 				if (productIndex >= 0)
 				{
-					cart[productIndex].Amount += cartItem.Amount;
+					cart[productIndex].OrderQuantity += cartItem.OrderQuantity;
 					cart[productIndex].Subtotal += cartItem.Subtotal;
 				}
 				else
@@ -95,9 +95,9 @@ namespace FurryFeast.Controllers
 
 		public async Task<IActionResult> Remove(int? id)
 		{
-            List<CartViewModel> cart = SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session, "cart");
+            List<CartItem> cart = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
 
-			int productIndex = cart.FindIndex(c => c.ProductID == id);
+			int productIndex = cart.FindIndex(c => c.ProductId == id);
 			cart.RemoveAt(productIndex);
 
 			if(cart.Count <= 0)
@@ -114,11 +114,11 @@ namespace FurryFeast.Controllers
         public async Task<IActionResult> CartUpdate([FromBody] CardAddViewModel model)
         {
             
-            List<CartViewModel> cart = SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session, "cart");
+            List<CartItem> cart = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
 
-            int productIndex = cart.FindIndex(c => c.ProductID == model.Id);
-			cart[productIndex].Amount = model.amount;
-            cart[productIndex].Subtotal = (model.amount * cart[productIndex].Price);
+            int productIndex = cart.FindIndex(c => c.ProductId == model.Id);
+			cart[productIndex].OrderQuantity = model.amount;
+            cart[productIndex].Subtotal = (model.amount * cart[productIndex].OrderPrice);
 			
             if (cart.Count <= 0)
             {

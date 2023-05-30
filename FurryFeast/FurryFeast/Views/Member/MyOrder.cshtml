@@ -8,19 +8,31 @@
     <h2>我的訂單</h2>
 </div>
 <hr />
- <div>
- <input type="search" name="OrderSearch" />
- <input type="submit" name="OrderSearch" value="查詢" />
+<div>
+    <input type="search" name="OrderSearch" />
+    <input type="submit" name="OrderSearch" value="查詢" />
 </div>
 
 <div>
-    <table id="o">
+    <table id="app">
         <tr>
             <th>訂單日期</th>
             <th>訂單編號</th>
+            <th>訂單狀態</th>
+            <th>訂單價格</th>
         </tr>
-        <tr v-for="i in ">
+        <tr v-for="order in orders">
             <td>
+                {{order.orderShipDate}}
+            </td>
+            <td>
+                {{order.orderId}}
+            </td>
+            <td>
+                {{order.orderStatus}}
+            </td>
+            <td>
+                {{order.orderTotalPrice}}
             </td>
         </tr>
     </table>
@@ -35,20 +47,22 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
         let MyOrDer = new Vue({
-            el:"#o",
-            data:{
-               
+            el: "#app",
+            data: {
+                orders: []
+            },
+            methods: {
 
             },
-            methods:{
-                myorder:function(){
-
-                }
+            mounted: function () {
+                let self = this;
+                axios('/api/myorder/getmyorder').then(res => self.orders = res.data)
             }
 
         })
     </script>
 }
+
 
 
 
