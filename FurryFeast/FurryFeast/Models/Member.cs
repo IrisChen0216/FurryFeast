@@ -7,6 +7,7 @@ namespace FurryFeast.Models
     {
         public Member()
         {
+            MsgBoards = new HashSet<MsgBoard>();
             Orders = new HashSet<Order>();
         }
 
@@ -22,6 +23,7 @@ namespace FurryFeast.Models
         public int? ConponId { get; set; }
 
         public virtual Conpon? Conpon { get; set; }
+        public virtual ICollection<MsgBoard> MsgBoards { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }
 }
