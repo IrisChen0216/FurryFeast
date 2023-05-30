@@ -1,0 +1,150 @@
+﻿@section Style{
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	<style>
+		.table-custom th {
+			padding: 4px 10px;
+		}
+
+		.col {
+			text-align: center;
+		}
+	</style>
+}
+
+<div class="index-header">
+	<h2>購物車</h2>
+</div>
+
+
+<div class="container" style="padding-right:100px;padding-left:100px">
+	<!-- shopping-cart-->
+	<div class="table-custom-responsive" id="app">
+		<table class="table-custom table-cart">
+			<thead>
+				<tr>
+					<th>商品名稱</th>
+					<th>商品價格</th>
+					<th>商品數量</th>
+					<th>小計</th>
+					<th>刪除</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr>
+					@*圖片顯示待補*@
+					<td><a class="table-cart-figure link-img" asp-controller="Products" asp-action="ProductDetail" asp-route-id="">商品圖片</a><a class="table-cart-link" asp-controller="Products" asp-action="ProductDetail" asp-route-id="">商品名稱</a></td>
+					<td>$價格</td>
+					<td>
+						<div class="table-cart-stepper">
+							<input id="" class="form-input ProductAmount" type="number" data-zeros="true" value="" min="1" max="1000">
+						</div>
+					</td>
+					<td class="changePrice">$((數量) * (單價))</td>
+					<td>
+						<form name="removeProduct" asp-controller="Cart" asp-action="Remove" asp-route-id="">
+							<button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit"><i class="bi bi-trash"></i></button>
+						</form>
+					</td>
+				</tr>
+
+				<tr>
+					<td class="col" colspan="5">
+						<h4>目前購物車沒有商品唷!</h4>
+					</td>
+				</tr>
+				<tr>
+					<td class="col" colspan="5">
+						<h6><a asp-controller="Products" asp-action="Index">手刀為毛寶貝添購</a></h6>
+					</td>
+				</tr>
+
+
+
+			</tbody>
+		</table>
+	</div>
+	<div class="group-xl group-justify justify-content-center justify-content-md-between">
+		<div>
+			<form class="rd-form rd-mailform rd-form-inline rd-form-coupon">
+				<div class="form-wrap">
+					<input class="form-input form-input-inverse" id="coupon-code" type="text" name="text">
+					<label class="form-label" for="coupon-code">請輸入優惠券代碼</label>
+				</div>
+				<div class="form-button">
+					<button class="button button-lg button-primary button-zakaria" type="submit">兌換</button>
+				</div>
+			</form>
+		</div>
+		<div>
+			<div class="group-xl group-middle">
+				<div>
+					<div class="group-md group-middle">
+						<div class="heading-5 fw-medium text-gray-500">總計</div>
+						<div class="heading-3 fw-normal">$總價</div>
+					</div>
+				</div><a class="button button-lg button-primary button-zakaria" href="checkout.html">結帳</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+		let deleteButton = document.getElementsByClassName('deleteProduct');
+		for (let i = 0; i < deleteButton.length; i++) {
+			deleteButton[i].addEventListener('click', function (event) {
+				if (!confirm('確定要刪除嗎?')) {
+					event.preventDefault();
+				}
+				else {
+					document.getElementsByClassName('deleteProduct').addEventListener('submit', function () {
+						alert('刪除成功');
+					});
+				}
+			})
+		}
+
+		let app = new Vue({
+			el: '#app',
+			data: {
+				showProducts: [],
+
+			},
+			mounted: function () {
+				let _this = this;
+				_this.Products();
+
+			},
+			methods: {
+				//網頁載入就會掛載全部商品資料的方法
+				Products: function () {
+					let _this = this;
+					//var request={};
+					//request.productName=_this.keyword;
+					axios.get(`/api/cart/CartProducts`).then(response => {
+						alert('成功');
+						_this.showProducts = response.data;
+
+					});
+				},
+				AddCart: function (ID) {
+
+					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
+						.then(
+							alert('成功加入購物車!')
+						);
+				},
+			},
+			computed: {
+				AllProductsAmount: function () {
+					let _this = this;
+					return _this.products.length;
+				},
+			},
+		});
+
+	</script>
+    }

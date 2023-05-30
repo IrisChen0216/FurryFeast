@@ -22,7 +22,7 @@ namespace FurryFeast.Controllers
             _context = context;
         }
 
-        // GET: Products
+        // GET: Products //舊版
         public async Task<IActionResult> Index(string type,string searchForm,string file,string sortProducts,int? page)
         {
             IQueryable<Product> products = _context.Products.Where(p => p.ProductState == 1);
@@ -69,6 +69,7 @@ namespace FurryFeast.Controllers
             //return View(products);
         }
 
+        //Vue版
 		public async Task<IActionResult> IndexNewOne()
         {
             return View();
@@ -114,8 +115,12 @@ namespace FurryFeast.Controllers
             return View(cartItems);
         }
 
-		
-		
+		public async Task<IActionResult> ProductCartNew(int? id)
+		{
+
+			return View();
+		}
+
 
 		private bool ProductExists(int id)
         {
