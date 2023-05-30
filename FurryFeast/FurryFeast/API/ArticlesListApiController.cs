@@ -105,32 +105,32 @@ namespace FurryFeast.API
 			return "刪除文章成功!";
 		}
 
-		//[HttpPost]
-		//public async Task<string> AddArticle([FromBody] ArticleViewModel model)
-		//{
+		[HttpPost]
+		public async Task<string> AddArticle([FromBody] ArticleViewModel model)
+		{
 
-		//	Article newArticle = new Article();
+			Article newArticle = new Article();
 
-		//	newArticle.AdminId = model.AdminId;
-		//	newArticle.ArticleTitle = model.ArticleTitle;
-		//	newArticle.ArticleText = model.ArticleText;
-		//	newArticle.ArticleDate = model.ArticleDate;
+			newArticle.AdminId = model.AdminId;
+			newArticle.ArticleTitle = model.ArticleTitle;
+			newArticle.ArticleText = model.ArticleText;
+			newArticle.ArticleDate = model.ArticleDate;
 
-		//	_context.Articles.Add(newArticle);
+			_context.Articles.Add(newArticle);
 
-		//	try
-		//	{
-		//		await _context.SaveChangesAsync();
-		//	}
-		//	catch (DbUpdateConcurrencyException)
-		//	{
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
 
-		//		return "新增文章失敗";
+				return "新增文章失敗";
 
-		//	}
+			}
 
-		//	return "新增文章成功";
-		//}
+			return "Add Success";
+		}
 
 	}
 
