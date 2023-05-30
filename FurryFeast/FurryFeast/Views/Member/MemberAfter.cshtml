@@ -42,11 +42,26 @@
 
 		</tr>
 	</table>
+	<paginate :page-count="5"
+			  :click-handler="ChangePage"
+			  :prev-text="'前一頁'"
+			  :next-text="'下一頁'"
+			  :page-class="'page-item'"
+			  :page-link-class="'page-link'"
+			  :prev-class="'page-item'"
+			  :prev-class-link="'page-link'"
+			  :next-class="'page-item'"
+			  :next-class-link="'page-link'"
+			  :container-class="'className'">
+	</paginate>
 </div>
 
 @section Scripts{
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+	<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
+
 	<script>
+		Vue.component('paginate', VuejsPaginate)
 	let app = new Vue({
 		el:'#app',
 		data:{
@@ -56,6 +71,16 @@
 			let t = this;
 			axios('/api/member/all').then(res=>t.members = res.data)
 		},
+		methods:{
+			ChangePage:function(currentpage){
+				console.log(currentpage)
+			},
+		},
+		computed:{
+			PageCount:function(){
+				return Math.ceil(this.members.length/5);
+			}
+		}
 
 	})
 	</script>
