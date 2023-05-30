@@ -51,6 +51,10 @@ namespace FurryFeast.Controllers {
 			return View();
 		}
 
+		public IActionResult LostFrom()
+		{
+			return View();
+		}
 		public IActionResult News() {
 			using (var dbContext = new db_a989fb_furryfeastContext()) {
 				var articles = _furryFeastContext.Articles.Include(data => data.Admin).ToList();
