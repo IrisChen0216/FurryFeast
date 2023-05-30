@@ -1,1 +1,404 @@
 ﻿
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewData["Title"]</title>
+
+	@section Style {
+		<style>
+			.card-new {
+				transition: transform 0.3s;
+			}
+
+				.card-new:hover {
+					transform: scale(1.05);
+				}
+
+			#search:hover {
+				background-color: #000000 !important;
+				color: #ffffff !important;
+			}
+
+			#select-shelter {
+				width: 250px !important;
+			}
+
+			#search {
+				border-radius: 6px;
+			}
+		</style>
+
+		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
+		<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+	}
+
+</head>
+<body>
+	<div id="app">
+		<div class="index-header">
+			<h2>遺失寵物協尋</h2>
+		</div>
+
+		<div style="text-align: center">
+			<div class="group-sm group-middle">
+				<div class="product-top-panel-sorting">
+					<select v-model="getAnimalKind" id="select-category" data-minimum-results-for-search="Infinity" class="form-select">
+						<option value="">--選擇全部種類--</option>
+						<option v-for="item in animalKindList" v-bind:value="item">{{item}}</option>
+					</select>
+				</div>
+				<div class="product-top-panel-sorting">
+					<select v-model="getAnimalPlace" v-on:change="setAnimalArea" id="select-variety" data-minimum-results-for-search="Infinity" class="form-select">
+						<option value="">--選擇全部地區--</option>
+						<option v-for="item in animalPlaceList" v-bind:value="item">{{item}}</option>
+					</select>
+				</div>
+				<div class="product-top-panel-sorting">
+					<select v-model="getShelter" id="select-shelter" data-minimum-results-for-search="Infinity" class="form-select">
+						<option value="">--選擇全部收容所--</option>
+						<option v-for="item in getAnimalArea" v-bind:value="item.id">{{item.name}}</option>
+					</select>
+				</div>
+				<div class="product-top-panel-sorting">
+					<select v-model="sex" id="select-gender" data-minimum-results-for-search="Infinity" class="form-select">
+						<option value="">--選擇全部性別--</option>
+						<option v-for="item in sexList" v-bind:value="item.id">{{item.sex}}</option>
+					</select>
+				</div>
+				@*				<div class="product-top-panel-sorting">
+				<select id="select-color" data-minimum-results-for-search="Infinity" class="form-select">
+				<option value="">毛色</option>
+				</select>
+				</div>*@
+				<div class="product-top-panel-sorting">
+					<select v-model="age" id="select-age" data-minimum-results-for-search="Infinity" class="form-select">
+						<option value="">--選擇全部年齡--</option>
+						<option v-for="item in ageList" v-bind:value="item.id">{{item.age}}</option>
+					</select>
+				</div>
+
+				<div>
+					<input v-on:click="reSearch" type="submit" class="search-button btn btn-primary" id="search" value="重新搜尋" style="background-color: #ffd33b; color: #ffffff;">
+
+					<input v-on:click="nextPage" type="submit" class="search-button btn btn-primary" id="search" value="下12筆" style="background-color: #ffd33b; color: #ffffff;">
+				</div>
+			</div>
+		</div>
+
+		<div class="container mt-3">
+			<div class="row">
+				<div v-for="item in allData" class="col-lg-4 col-md-4 col-6 mb-4">
+					<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + item.animal_id">
+						<div class="square-img-container">
+							<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
+							<img v-else="" v-bind:src="item.album_file" alt="">
+						</div>
+						<div class="card-body-new">
+							<p class="card-title">{{item.animal_Variety}}</p>
+							<p class="card-text">{{item.animal_place}}</p>
+							<p class="card-text" v-if="item.animal_sex == 'F'">母</p>
+							<p class="card-text" v-if="item.animal_sex == 'M'">公</p>
+							<p class="card-text" v-if="item.animal_sex == 'N'">未知</p>
+							@*<p class="card-text">{{item.animal_colour}}</p>*@
+							<p class="card-text" v-if="item.animal_age == 'CHILD'">幼年</p>
+							<p class="card-text" v-if="item.animal_age == 'ADULT'">成年</p>
+						</div>
+					</div>
+
+					@*modal*@
+					<div class="modal fade" v-bind:id="'qq' + item.animal_id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-xl">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="qqq">{{item.animal_place}}</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
+									<img v-else="" v-bind:src="item.album_file" alt="">
+
+									<p class="card-title">{{item.animal_Variety}}</p>
+									<p class="card-text">{{item.animal_place}}</p>
+									<p class="card-text" v-if="item.animal_sex == 'F'">母</p>
+									<p class="card-text" v-if="item.animal_sex == 'M'">公</p>
+									<p class="card-text" v-if="item.animal_sex == 'N'">未知</p>
+									@*<p class="card-text">{{item.animal_colour}}</p>*@
+									<p class="card-text" v-if="item.animal_age == 'CHILD'">幼年</p>
+									<p class="card-text" v-if="item.animal_age == 'ADULT'">成年</p>
+									<p class="card-text">資料更新時間: {{item.cDate}}</p>
+									<p class="card-text">動物尋獲地: {{item.animal_foundplace}}</p>
+									<p class="card-text">動物狀態: {{item.animal_status}}</p>
+									<p class="card-text">地址: {{item.shelter_address}}</p>
+									<p class="card-text">聯絡電話: {{item.shelter_tel}}</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">關閉</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@section Scripts {
+		<script src="~/js/product/core.min.js"></script>
+		<script src="~/js/product/script.js"></script>
+
+		<script>
+			let app = new Vue({
+				el: "#app",
+				data: {
+					allData: [],
+					getAnimalKind: "",
+					animalKindList: ["貓", "狗", "其他"],
+					getAnimalPlace: "",
+					animalPlaceList: ["北部", "中部", "南部", "東部", "外島"],
+					getAnimalArea: [],
+					getShelter: "",
+					animalAreaList: [
+						{
+							"name": "北部",
+							"areas": [
+								{
+									"id": "48",
+									"name": "基隆市寵物銀行"
+								},
+								{
+									"id": "49",
+									"name": "臺北市動物之家"
+								},
+								{
+									"id": "50",
+									"name": "新北市板橋區公立動物之家"
+								},
+								{
+									"id": "51",
+									"name": "新北市新店區公立動物之家"
+								},
+								{
+									"id": "53",
+									"name": "新北市中和區公立動物之家"
+								},
+								{
+									"id": "55",
+									"name": "新北市淡水區公立動物之家"
+								},
+								{
+									"id": "56",
+									"name": "新北市瑞芳區公立動物之家"
+								},
+								{
+									"id": "58",
+									"name": "新北市五股區公立動物之家"
+								},
+								{
+									"id": "59",
+									"name": "新北市八里區公立動物之家"
+								},
+								{
+									"id": "60",
+									"name": "新北市三芝區公立動物之家"
+								},
+								{
+									"id": "61",
+									"name": "桃園市動物保護教育園區"
+								},
+								{
+									"id": "92",
+									"name": "新北市政府動物保護防疫處"
+								},
+							]
+						},
+						{
+							"name": "中部",
+							"areas": [
+								{
+									"id": "62",
+									"name": "新竹市動物收容所"
+								},
+								{
+									"id": "63",
+									"name": "新竹縣動物收容所"
+								},
+								{
+									"id": "67",
+									"name": "臺中市動物之家南屯園區"
+								},
+								{
+									"id": "68",
+									"name": "臺中市動物之家后里園區"
+								},
+								{
+									"id": "69",
+									"name": "彰化縣流浪狗中途之家"
+								},
+								{
+									"id": "70",
+									"name": "南投縣公立動物收容所"
+								},
+								{
+									"id": "96",
+									"name": "苗栗縣生態保育教育中心"
+								},
+							]
+						},
+						{
+							"name": "南部",
+							"areas": [
+								{
+									"id": "71",
+									"name": "嘉義市流浪犬收容中心"
+								},
+								{
+									"id": "72",
+									"name": "嘉義縣流浪犬中途之家"
+								},
+								{
+									"id": "73",
+									"name": "臺南市動物之家灣裡站"
+								},
+								{
+									"id": "74",
+									"name": "臺南市動物之家善化站"
+								},
+								{
+									"id": "75",
+									"name": "高雄市壽山動物保護教育園區"
+								},
+								{
+									"id": "76",
+									"name": "高雄市燕巢動物保護關愛園區"
+								},
+								{
+									"id": "77",
+									"name": "屏東縣流浪動物收容所"
+								},
+								{
+									"id": "89",
+									"name": "雲林縣流浪動物收容所"
+								},
+							]
+						},
+						{
+							"name": "東部",
+							"areas": [
+								{
+									"id": "78",
+									"name": "宜蘭縣流浪動物中途之家"
+								},
+								{
+									"id": "79",
+									"name": "花蓮縣流浪犬中途之家"
+								},
+								{
+									"id": "80",
+									"name": "臺東縣動物收容中心"
+								},
+							]
+						},
+						{
+							"name": "外島",
+							"areas": [
+								{
+									"id": "81",
+									"name": "連江縣流浪犬收容中心"
+								},
+								{
+									"id": "82",
+									"name": "金門縣動物收容中心"
+								},
+								{
+									"id": "83",
+									"name": "澎湖縣流浪動物收容中心"
+								},
+							]
+						},
+					],
+					top: 12,
+					skip: 0,
+					sex: "",
+					sexList: [{ "id": "F", "sex": "母" }, { "id": "M", "sex": "公" }, { "id": "N", "sex": "未知" }],
+					color: "",
+					colorList: [],
+					age: "",
+					ageList: [{ "id": "CHILD", "age": "幼年" }, { "id": "ADULT", "age": "成年" }],
+				},
+				mounted: function () {
+					this.getAllData();
+				},
+				computed: {
+
+				},
+				methods: {
+					getAllData: function () {
+						let _this = this;
+						let url = `
+												https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL
+												&$top=${this.top}
+												&$skip=${this.skip}
+												&animal_kind=${this.getAnimalKind}
+												&animal_shelter_pkid=${this.getShelter}
+												&animal_sex=${this.sex}
+												&animal_colour=${this.color}
+												&animal_age=${this.age}
+											`;
+
+						console.log(url);
+						axios.get(url).then(response => {
+							_this.allData = response.data
+						});
+					},
+					// 根據選擇的區域變更收容所
+					setAnimalArea: function () {
+						let index = 1;
+
+						switch (this.getAnimalPlace) {
+							case "北部":
+								index = 0;
+								console.log("北部");
+								break;
+							case "中部":
+								index = 1;
+								console.log("中部");
+								break;
+							case "南部":
+								index = 2;
+								console.log("南部");
+								break;
+							case "東部":
+								index = 3;
+								console.log("東部");
+								break;
+							case "外島":
+								index = 4;
+								console.log("外島");
+								break;
+						};
+
+						this.getAnimalArea = this.animalAreaList[index].areas;
+						console.log("setAnimalArea");
+					},
+					// 下12筆資料
+					nextPage: function () {
+						console.log(this.top);
+						console.log(this.skip);
+						this.skip += 12;
+						this.getAllData();
+					},
+
+					// 重新搜尋
+					reSearch: function () {
+						this.skip = 0;
+						console.log(this.skip);
+						this.getAllData();
+					},
+				},
+			});
+		</script>
+	}
+
+</body>
+</html>
