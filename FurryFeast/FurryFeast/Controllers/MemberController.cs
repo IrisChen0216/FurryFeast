@@ -34,8 +34,8 @@ namespace FurryFeast.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                var s = User.FindFirstValue("Id");
-                var member = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(s)).FirstOrDefault();
+                var id = User.FindFirstValue("Id");
+                var member = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(id)).FirstOrDefault();
                 return View(member);
             }
 
@@ -47,7 +47,6 @@ namespace FurryFeast.Controllers
      
         public IActionResult MemberAfter()
         {
-            var a = _context.Members.FirstOrDefault();
             return View();
         }
 
@@ -114,17 +113,12 @@ namespace FurryFeast.Controllers
         {
             var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
-            if (Member == null)
-            {
-                ViewBag.Error = "帳號密碼錯誤!";
-                return View("Login");
-            }
+            if (Member == null) return View("Login");
             
             var ClaimList = new List<Claim>() {
             new Claim(ClaimTypes.Name, Member.MemberName),
             new Claim("Id",Member.MemberId.ToString())
         };
-
 
             var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
@@ -134,13 +128,6 @@ namespace FurryFeast.Controllers
 
         public IActionResult GoogleLogin()
         {
-
-            string? formCredential = Request.Form["credential"]; //回傳憑證
-            string? formToken = Request.Form["g_csrf_token"]; //回傳令牌
-            string? cookiesToken = Request.Cookies["g_csrf_token"]; //Cookie 令牌
-
-
-
             return View();
         }
 
@@ -153,8 +140,18 @@ namespace FurryFeast.Controllers
             return Challenge(prop,FacebookDefaults.AuthenticationScheme);
         }
 
-		public IActionResult FacebookResponse()
+		public async Task<IActionResult> FacebookResponse()
         {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if(result.Succeeded)
+            {
+                var claims=result.Principal.Claims.Select(x => new
+                {
+                    x.Type,
+                    x.Value,
+                });
+                return Json(claims);
+            }
             return Ok();
         }
 
@@ -167,13 +164,10 @@ namespace FurryFeast.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateMemberData()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                var a = User.FindFirstValue("Id");
-                var s = _context.Members.Where(x => x.MemberId == int.Parse(a)).FirstOrDefault();
-                return View(s);
-            }
-            return ViewBag.Error("no");
+         
+            var id = int.Parse(User.Claims.FirstOrDefault(x=>x.Type == "Id").Value);
+            var member = _context.Members.Where(x=>x.MemberId == id).FirstOrDefault();
+            return View(member);
         }
 
         public async Task<IActionResult> ForgetPassword()

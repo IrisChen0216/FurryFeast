@@ -34,16 +34,22 @@ namespace FurryFeast {
 					opt.LoginPath = "/Members/Index";
 					opt.AccessDeniedPath = "/Home/AcessDenied";
 					opt.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+				})
+				.AddFacebook(facebookOptions =>
+				{
+					facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+					facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
+					//facebookOptions.Events.TicketReceived
+					facebookOptions.Events.OnCreatingTicket = (x) =>
+					{
+						return Task.CompletedTask;
+					};
+				})
+				.AddGoogle(googleOptions =>
+				{
+					googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+					googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 				});
-
-            builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-
-                facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
-				//facebookOptions.Events.TicketReceived
-            });
-
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
