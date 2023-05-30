@@ -4,21 +4,53 @@
     ViewData["Title"] = "Edit";
 }
 
+@section Style
+{
+	<style>
+		.inputbox {
+			font-size: 15px;
+			border: none;
+			background: none;
+			height: 40px;
+			border-bottom: 1px solid #ccc;
+			margin-bottom: 20px;
+			padding: 0px 0px 0px 5px;
+			}
+		.inputbox:focus {
+			outline: none;
+			border-color: gray
+		}
 
+
+	</style>
+}
 
 <div class="container"id="app">
 	<h1>Edit</h1>
 	<div v-for="item in aticlesData">
-		<div mb-3>
-			<span>標題</span>
-			<input type="text" v-model="item.articleTitle"/>
-			<input type="text" v-model="item.articleDate" readonly/>
-			<input type="text" v-model="item.adminAccount" readonly/>
-
+		<div class="my-3 row">
+			<div class="col">
+				<span style="padding-right: 10px;vertical-align: initial;">標題</span>
+				<input class="inputbox" type="text" v-model="item.articleTitle" />
+			</div>
+			<div class="col">
+				<span style="
+				             padding-right: 10px;
+				             vertical-align: initial;">發表時間</span>
+				<input class="inputbox" type="text" v-model="item.articleDate" disabled />
+			</div>
+			<div class="col">
+				<span style ="padding-right: 10px;vertical-align: initial;">作者</span>
+				<input class="inputbox" type="text" v-model="item.adminAccount" disabled />
+			</div>
 		</div>
 
 		<div class="m-2" id="editor">{{item.articleText}}</div>
 	</div>
+	
+	<button class="" v-on:click="update">更新</button>
+	<button class="" v-on:click="update">取消</button>
+
 </div>
 
 @section Scripts{
@@ -29,7 +61,7 @@
 				window.editor = editor;
 			})
 			.catch(error => {
-				console.error('There was a problem initializing the editor.', error);
+				console.error('There w	as a problem initializing the editor.', error);
 			});
 	</script>
 	<script>
@@ -38,18 +70,15 @@
 			data: {
 				aticlesData: {},
 				NoEdit: { Edit: true },
-				originalProductName: "",
-				originalProductAmount: "",
-				originalProductPrice: "",
-				originalProductTypeName: "",
-				originalProductDescription: "",
-				originalProductLaunchedTime: "",
-				originalProductSoldTime: "",
+				originalArticleTitle: "",
+				originalArticleText : "",
+				originalArticleTime : "",
 				selected: ""
 			},
 			mounted: function () {
 				let _this = this;
 				_this.aticlesDetail();
+				_this.editProduct();
 
 			},
 			methods: {
@@ -59,16 +88,15 @@
 					axios.get(`/api/articles/GetArticle/${ID}`).then(response => {
 						_this.aticlesData = response.data;
 						console.log(_this.aticlesData);
-
 					});
 				},
 				editProduct: function () {
-					alert("edit");
 					let _this = this;
-					_this.NoEdit.Edit = false;
-					_this.originalProductName = _this.backendProduct.productName;
-					_this.originalProductAmount = _this.backendProduct.productAmount;
-					_this.originalProductPrice = _this.backendProduct.productPrice;
+					//_this.NoEdit.Edit = false;
+					_this.originalArticleTitle = _this.aticlesData.articleTitle;
+					_this.originalArticleText = _this.aticlesData.articleText;
+					_this.originalArticleTime = Date.now();
+					console.log(_this.originalArticleTitle);
 				},
 				cancel: function () {
 					let _this = this;
@@ -81,23 +109,12 @@
 					alert("update");
 					let _this = this;
 					var request = {
-						ProductId: _this.backendProduct.productId,
-						ProductName: _this.backendProduct.productName,
-						ProductAmount: _this.backendProduct.productAmount,
-						ProductPrice: _this.backendProduct.productPrice,
-						ProductState: _this.backendProduct.productState,
-						ProductDescription: _this.backendProduct.productDescription,
-						ProductLaunchedTime: _this.backendProduct.productLaunchedTime,
-						ProductSoldTime: _this.backendProduct.productSoldTime,
-						ProductTypeId: _this.selected,
-						ProductPicImage: _this.backendProduct.productPicImage,
-						ArticlesId: _this.backendProduct.articlesId,
-						ProductTypeName: _this.backendProduct.productTypeName
+						ArticleTitle: _this.originalArticleTitle,
+						ArticleText: _this.originalArticleText,
+						ArticleTime: _this.originalArticleTime
 					};
-					axios.put(`/api/products/PutProduct/`, request).then(response => {
+					axios.post(`/api/articles/EditArticle/`, request).then(response => {
 						alert(response.data);
-						_this.cancel();
-						_this.ProductDetail();
 
 					});
 				},

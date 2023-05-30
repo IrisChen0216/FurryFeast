@@ -70,7 +70,8 @@
 					<div class="form-group  mt-2 col-2">
 						@*新增按鍵*@
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-							新增文章
+							<a :href="'create'">新增文章</a>
+
 						</button>
 					</div>
 
@@ -105,7 +106,7 @@
 										<td>
 											<span class="text-secondary text-xs font-weight-bold">{{item.articleTitle}}</span>
 										</td>
-										<td>
+										<td>	
 											<span class="text-secondary text-xs font-weight-bold">{{item.adminAccount}}</span>
 
 @*											<p class="text-xs font-weight-bold mb-0">{{item.adminAccount}}</p>
@@ -116,8 +117,8 @@
 										<td class="align-middle">
 											<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn">上架</button>
 											<button v-else class="btn bg-gradient-danger  mb-0 toast-btn">下架</button>
-											<button class="btn bg-gradient-info mb-0 toast-btn"><a :href="'Details?id='+item.articleId">編輯</a></button>
-											<button class="btn bg-gradient-danger  mb-0 toast-btn unState">刪除</button>
+											<button class="btn bg-gradient-info mb-0 toast-btn"><a :href="'Edit?id='+item.articleId">編輯</a></button>
+											<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item.articleId)">刪除</button>
 										</td>
 									</template>
 								</tr>
@@ -181,6 +182,7 @@
 
 @section Scripts
 {
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		var app = new Vue({
 			el: '#app',
@@ -202,8 +204,40 @@
 						.catch(error => {
 							console.error(error);
 						});
+				},
+				deleteCheck: function (item) {
+					let _this = this;
+					Swal.fire({
+						title: `確定要刪除文章嗎?`,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: '刪除',
+						cancelButtonText: '取消'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							_this.deleteAticle(item);
+							Swal.fire(
+								'Deleted!',
+								'Your file has been deleted.',
+								'success'
+							);
+						}
+					});
+				},
+				deleteAticle: function (ID) {
+					let _this = this;
+					axios.delete(`/api/articles/deleteAticle/${ID}`).then(response => {
+						alert(response.data);
+						_this.getData();
+
+					});
 				}
+
+
 			}
+
 		})	
 	</script>
 }

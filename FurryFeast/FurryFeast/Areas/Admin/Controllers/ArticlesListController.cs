@@ -29,7 +29,7 @@ namespace FurryFeast.Areas.Admin.Controllers
         // GET: Admin/ArticlesList/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-	        ViewBag.articleId = id;
+	        ViewBag.productId = id;
 	        return View();
         }
 
@@ -65,6 +65,7 @@ namespace FurryFeast.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            ViewBag.articleId = id;
             var article = await _context.Articles.FindAsync(id);
             if (article == null)
             {

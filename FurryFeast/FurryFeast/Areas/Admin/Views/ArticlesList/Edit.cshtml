@@ -5,43 +5,139 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+@section Style
+{
+	<style>
+		.inputbox {
+			font-size: 15px;
+			border: none;
+			background: none;
+			height: 40px;
+			border-bottom: 1px solid #ccc;
+			padding: 0px 0px 0px 5px;
+		}
+		.inputbox:focus {
+			outline: none;
+			border-color: gray
+		}
 
-<h4>Article</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="AdminId" class="control-label"></label>
-                <select asp-for="AdminId" class="form-control" asp-items="ViewBag.AdminId"></select>
-                <span asp-validation-for="AdminId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArticleTitle" class="control-label"></label>
-                <input asp-for="ArticleTitle" class="form-control" />
-                <span asp-validation-for="ArticleTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArticleText" class="control-label"></label>
-                <input asp-for="ArticleText" class="form-control" />
-                <span asp-validation-for="ArticleText" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArticleDate" class="control-label"></label>
-                <input asp-for="ArticleDate" class="form-control" />
-                <span asp-validation-for="ArticleDate" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="ArticleId" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+		.btn-secondary:hover {
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+		}
+
+
+	</style>
+}
+
+
+<div class="container m-3" style="width:95%" id="app">
+	<h4>Article</h4>
+	<hr />
+	<h1>Edit</h1>
+	<div v-for="item in aticlesData">
+		<div class="mb-4 row" style="font-size: 13px;">
+			<div class="col-6">
+				<span style="padding:0 10px 0 5px; vertical-align: initial;">標題</span>
+				<input class="inputbox" style="font-size: 13px;" type="text" v-model="editingArticleTitle" />
+			</div>
+			<div class="col" style="font-size: 13px; text-align: end">
+				<span style="padding-right: 10px; vertical-align: initial;">作者</span>
+				<input class="inputbox" style="font-size: 13px;" type="text" :value="item.adminAccount" disabled />
+			</div>
+			<div class="col" style="font-size: 13px;">
+				<span style="padding-right: 10px; vertical-align: initial;">發表時間</span>
+				<input class="inputbox" style="font-size: 13px;" type="text" v-model="editingArticleDate" disabled />
+			</div>
+		</div>
+		<p class="mb-2" style="font-size: 13px; padding: 5px;font-weight: 400">文章內容</p>
+		<textarea class=" mb-4 inputbox" style="color: #344767; width: 100%; height: 250px; font-size: 13px; line-height: 25px; letter-spacing: 1px;" v-model="editingArticleText">{{editingArticleText}}</textarea>
+	</div>
+	<div>
+		<button class="btn" style="background: yellowgreen; color:white" v-on:click="update">更新</button>
+		<button class="btn ms-2" style="background: darkgray"><a style="color: white" :href="'index'">取消</a></button>
+	</div>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts{
+	<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+@*	<script>
+		ClassicEditor.create(document.querySelector('#editor'))
+			.then(editor => {
+				window.editor = editor;
+			})
+			.catch(error => {
+				console.error('There was a problem initializing the editor.', error);
+			});
+	</script>
+*@	<script>
+		let app = new Vue({
+			el: '#app',
+			data: {
+				aticlesData: {},
+				editingArticleTitle: "",
+				editingArticleText: "",
+				editingArticleDate: ""
+			},
+			mounted: function () {
+				let _this = this;
+				_this.aticlesDetail();
+			},
+			methods: {
+				aticlesDetail: function () {
+					let _this = this;
+					let ID = @ViewBag.articleId;
+					axios.get(`/api/articles/GetArticle/${ID}`).then(response => {
+						_this.aticlesData = response.data;
+						console.log(_this.aticlesData);
+						_this.editingArticleTitle = _this.aticlesData[0].articleTitle;
+						_this.editingArticleText = _this.aticlesData[0].articleText;
+						_this.editingArticleDate = _this.aticlesData[0].articleDate;
+						console.log(_this.editingArticleTitle);
+					});
+
+				},
+				//editAaticle: function () {
+				//	let _this = this;
+				//	//_this.NoEdit.Edit = false;
+				//	_this.editingArticleTitle = _this.aticlesData.articleTitle;
+				//	_this.editingArticleText = _this.aticlesData.articleText;
+				//	_this.editingArticleTime = Date.now();
+				//	console.log(_this.editingArticleTitle);
+				//},
+
+				cancel: function () {
+					let _this = this;
+					_this.NoEdit.Edit = true;
+					_this.aticlesData[0].articleTitle = _this.editingArticleTitle;
+					_this.aticlesData[0].articleText = _this.editingArticleText;
+					_this.aticlesData[0].articleDate = _this.editingArticleDate;
+				},
+				update: function () {
+					//alert("update");
+					let _this = this;
+					_this.aticlesData[0].articleTitle = _this.editingArticleTitle;
+					_this.aticlesData[0].articleText = _this.editingArticleText;
+					_this.aticlesData[0].articleDate = new Date();
+					console.log(_this.aticlesData[0].articleText);
+
+					var request = {
+
+						AdminId: _this.aticlesData[0].adminId,
+						ArticleId: _this.aticlesData[0].articleId,
+						ArticleTitle: _this.aticlesData[0].articleTitle,
+						ArticleText: _this.aticlesData[0].articleText,
+						ArticleDate: _this.aticlesData[0].articleDate
+					};
+					axios.post(`/api/articles/UpdateArticle/`, request).then(response => {
+						console.log(response.data);
+
+					});
+				}
+			}
+		});
+
+	</script>
+    }
+
 

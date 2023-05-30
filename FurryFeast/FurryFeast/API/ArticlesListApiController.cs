@@ -17,6 +17,16 @@ namespace FurryFeast.API
 			_context = context;
 		}
 
+		public object GetAdmin()
+		{
+			return _context.Admins
+				.Select(x => new
+					{
+						x.AdminId,
+						x.AdminAccount
+					}
+				).ToList();
+		}
 		public object GetModel()
 		{
 			return _context.Articles.Include(x => x.Admin)
@@ -51,6 +61,77 @@ namespace FurryFeast.API
 				});
 
 		}
+
+		[HttpPost] //edit
+		public object UpdateArticle([FromBody] ArticleViewModel model)
+		{
+			Article editedArticle = _context.Articles.FirstOrDefault(x => x.ArticleId == model.ArticleId);
+			if (editedArticle != null)
+			{
+				editedArticle.ArticleTitle = model.ArticleTitle;
+				editedArticle.ArticleText = model.ArticleText;
+				editedArticle.ArticleDate = model.ArticleDate;
+
+				_context.Articles.Update(editedArticle);
+				_context.SaveChanges();
+				return new { success = true, message = "Article updated successfully" };
+			}
+			else
+			{
+				return new { success = false, message = "Article not found" };
+			}
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<string> deleteAticle(int id)
+		{
+
+			var aticle = await _context.Articles.FindAsync(id);
+			if (aticle != null)
+			{
+				_context.Articles.Remove(aticle);
+			}
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateException)
+			{
+				return "刪除文章失敗";
+			}
+
+			//return NoContent();
+			return "刪除文章成功!";
+		}
+
+		//[HttpPost]
+		//public async Task<string> AddArticle([FromBody] ArticleViewModel model)
+		//{
+
+		//	Article newArticle = new Article();
+
+		//	newArticle.AdminId = model.AdminId;
+		//	newArticle.ArticleTitle = model.ArticleTitle;
+		//	newArticle.ArticleText = model.ArticleText;
+		//	newArticle.ArticleDate = model.ArticleDate;
+
+		//	_context.Articles.Add(newArticle);
+
+		//	try
+		//	{
+		//		await _context.SaveChangesAsync();
+		//	}
+		//	catch (DbUpdateConcurrencyException)
+		//	{
+
+		//		return "新增文章失敗";
+
+		//	}
+
+		//	return "新增文章成功";
+		//}
+
 	}
 
 }
