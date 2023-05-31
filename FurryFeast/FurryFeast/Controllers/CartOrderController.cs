@@ -27,7 +27,7 @@ namespace FurryFeast.Controllers
 		{
 			if (SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart") == null)
 			{
-				RedirectToAction("ProductCart", "Products");
+				RedirectToAction("ProductCartNew", "Products");
 			}
 
 

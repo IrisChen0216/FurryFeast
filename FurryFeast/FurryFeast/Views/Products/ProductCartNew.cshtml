@@ -43,7 +43,7 @@
 			<tbody v-if="hasProducts">
 
 				<tr v-for="(item,index) in showProducts">
-					@*圖片顯示待補*@
+					
 					<td><a class="table-cart-figure link-img"><img :src="'data:image/png;base64,'+item.productImage" /></a><a class="table-cart-link">{{item.productName}}</a></td>
 					<td>${{item.orderPrice}}</td>
 					<td>
@@ -67,7 +67,7 @@
 				</tr>
 				<tr>
 					<td class="col" colspan="5">
-						<h6><a asp-controller="Products" asp-action="Index">手刀為毛寶貝添購</a></h6>
+						<h6><a asp-controller="Products" asp-action="IndexNewOne">手刀為毛寶貝添購</a></h6>
 					</td>
 				</tr>
 			</tbody>
@@ -92,7 +92,7 @@
 						<div class="heading-5 fw-medium text-gray-500">總計</div>
 						<div class="heading-3 fw-normal">${{TotalPrice}}</div>
 					</div>
-				</div><a class="button button-lg button-primary button-zakaria" href="checkout.html">結帳</a>
+				</div><a asp-controller="CartOrder" asp-action="CheckOrder" class="button button-lg button-primary button-zakaria">結帳</a>
 			</div>
 		</div>
 	</div>
