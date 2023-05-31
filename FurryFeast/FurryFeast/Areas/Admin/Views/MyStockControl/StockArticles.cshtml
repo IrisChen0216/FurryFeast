@@ -36,7 +36,16 @@
 					<div class="col-md-2">
 						<div class="card-body px-0 pb-2">
 							<div class="table-responsive p-0">
-								<table class="table align-items-center mb-0 strap">
+
+								@*搜尋產品*@
+								<div class="ms-md-auto mt-2 d-flex align-items-center">
+									<div class="input-group input-group-outline">
+										<label class="form-label">搜尋編號或名稱...</label>
+										<input type="text" class="form-control" v-model="keyWord" v-on:keyup="productFilter">
+									</div>
+								</div>
+
+								<table class="table align-items-center mb-0 strap table-striped">
 									<thead>
 										<tr>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
@@ -44,7 +53,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="item in Source.StockArticleData">
+										<tr v-for="item in showData">
 											<td class="align-middle text-center">
 												<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
 											</td>
@@ -87,31 +96,31 @@
 									<label class="form-label">備註</label>
 									<input type="text" class="form-control">
 								</div>
-								<div class="input-group input-group-outline">
+								<div class="input-group input-group-outline mt-2">
 									<label class="form-label">價格</label>
 									<input type="text" class="form-control">
 								</div>
-								<div class="input-group input-group-outline">
+								<div class="input-group input-group-outline mt-2">
 									<label class="form-label">數量</label>
 									<input type="text" class="form-control">
 								</div>
-								<div class="input-group input-group-outline">
+								<div class="input-group input-group-outline mt-2">
 									<label class="form-label">產品類別</label>
 									<input type="text" class="form-control">
 								</div>
-								<div class="input-group input-group-outline">
+								<div class="input-group input-group-outline mt-2">
 									<label class="form-label">圖片</label>
 									<input type="text" class="form-control">
 								</div>
-								<div class="input-group input-group-outline">
+								<div class="input-group input-group-outline mt-2">
 									<label class="form-label">計量單位</label>
 									<input type="text" class="form-control">
 								</div>
-								<div class="input-group input-group-outline">
+								<div class="input-group input-group-outline mt-2">
 									<label class="form-label">倉庫</label>
 									<input type="text" class="form-control">
 								</div>
-								<div class="input-group input-group-outline">
+								<div class="input-group input-group-outline mt-2">
 									<label class="form-label">供應商</label>
 									<input type="text" class="form-control">
 								</div>
@@ -148,6 +157,8 @@
 					StockWarehouseGroupsData: [],
 					StockWarehousesData: [],
 				},
+				keyWord: "",
+				showData: [],
 			},
 			mounted: function () {
 				let _this = this;
@@ -167,7 +178,7 @@
 				StockArticles: function () {
 					let _this = this;
 					axios.get(`/api/StockArticlesApi/GetAll`).then(response => {
-						_this.Source.StockArticleData = response.data
+						_this.Source.StockArticleData = _this.showData = response.data
 					});
 				},
 				StockGroups: function () {
@@ -211,6 +222,11 @@
 					axios.get(`/api/StockWarehousesApi/GetAll`).then(response => {
 						_this.Source.StockWarehousesData = response.data
 					});
+				},
+				// 搜尋產品
+				productFilter: function () {
+					let _this = this;
+					_this.showData = _this.Source.StockArticleData.filter(data => data.articlesCode.includes(_this.keyWord) || data.articlesDescription.includes(_this.keyWord));
 				},
 			},
 		});
