@@ -18,9 +18,9 @@
 </div>
 
 
-<div class="container" style="padding-right:100px;padding-left:100px">
+<div class="container" style="padding-right:100px;padding-left:100px" id="app">
 	<!-- shopping-cart-->
-	<div class="table-custom-responsive" id="app">
+	<div class="table-custom-responsive" >
 		<table class="table-custom table-cart">
 			<thead>
 				<tr>
@@ -82,7 +82,7 @@
 				<div>
 					<div class="group-md group-middle">
 						<div class="heading-5 fw-medium text-gray-500">總計</div>
-						<div class="heading-3 fw-normal">$總價</div>
+						<div class="heading-3 fw-normal">${{TotalPrice}}</div>
 					</div>
 				</div><a class="button button-lg button-primary button-zakaria" href="checkout.html">結帳</a>
 			</div>
@@ -160,9 +160,14 @@
 				},
 			},
 			computed: {
-				AllProductsAmount: function () {
+				TotalPrice: function () {
 					let _this = this;
-					return _this.products.length;
+					let total=0;
+					for (let i = 0; i < _this.showProducts.length; i++) {
+						let product = _this.showProducts[i];
+						total += (product.orderPrice) * (product.orderQuantity);
+					};
+					return total;
 				},
 			},
 		});
