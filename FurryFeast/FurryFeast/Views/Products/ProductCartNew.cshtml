@@ -10,6 +10,15 @@
 		.col {
 			text-align: center;
 		}
+
+		.table-cart-stepper input[type="number"] {
+			font-size: 18px;
+			line-height: 1.4;
+			letter-spacing: .1em;
+			color: #151515;
+			background: #ffffff;
+			border-color: #ffffff;
+		}
 	</style>
 }
 
@@ -33,14 +42,13 @@
 			</thead>
 			<tbody v-if="hasProducts">
 
-				<tr v-for="item in showProducts">
+				<tr v-for="(item,index) in showProducts">
 					@*圖片顯示待補*@
 					<td><a class="table-cart-figure link-img"><img :src="'data:image/png;base64,'+item.productImage" /></a><a class="table-cart-link">{{item.productName}}</a></td>
 					<td>${{item.orderPrice}}</td>
 					<td>
 						<div class="table-cart-stepper">
-							{{item.orderQuantity}}
-							<input id="" class="form-input ProductAmount" type="number" data-zeros="true" value="" min="1" max="1000">
+							<input class="form-input ProductAmount" type="number" data-zeros="true" min="1" max="1000" v-model="item.orderQuantity" :data-index="index">
 						</div>
 					</td>
 					<td class="changePrice">${{item.orderPrice*item.orderQuantity}}</td>
@@ -110,16 +118,35 @@
 			})
 		}
 
+		//let ProductAmount = document.getElementsByClassName('ProductAmount');
+		//for (let i = 0; i < deleteButton.length; i++) {
+		//	deleteButton[i].addEventListener('click', function (event) {
+		//		if (!confirm('確定要刪除嗎?')) {
+		//			event.preventDefault();
+		//		}
+		//		else {
+		//			document.getElementsByClassName('deleteProduct').addEventListener('submit', function () {
+		//				alert('刪除成功');
+		//			});
+		//		}
+		//	})
+		//}
+
 		let app = new Vue({
 			el: '#app',
 			data: {
 				showProducts: [],
 				hasProducts: true,
+				orderQuantity: 0,
 			},
 			mounted: function () {
 				let _this = this;
 				_this.Products();
-
+				_this.initializeStepper();
+			},
+			updated: function () {
+				let _this = this;
+				_this.initializeStepper();
 			},
 			methods: {
 				//網頁載入就會掛載全部商品資料的方法
@@ -130,7 +157,7 @@
 
 						_this.showProducts = response.data;
 						_this.hasProducts = _this.showProducts.length > 0;
-
+						
 					});
 				},
 				AddCart: function (ID) {
@@ -158,6 +185,24 @@
 							}
 						});
 				},
+				initializeStepper: function () {
+					let plugins = { stepper: $("input[type='number']"), };
+					let _this = this;
+					if (plugins.stepper.length) {
+						plugins.stepper.stepper({
+							labels: {
+								up: "",
+								down: ""
+							}
+						}).on('change', function () {
+							let newVal = $(this).val(); // 獲取新的值
+							console.log(newVal);
+							let index = $(this).data('index'); // 獲取索引
+							_this.$set(_this.showProducts, index, Object.assign({}, _this.showProducts[index], { orderQuantity: newVal }));
+						});
+					}
+				},
+				
 			},
 			computed: {
 				TotalPrice: function () {
