@@ -14,19 +14,19 @@ namespace FurryFeast.Controllers
 			_context = context;
 		}
 
-		
+		[HttpPost]
 		public async Task<IActionResult> CartAdd([FromBody]CardAddViewModel model)
 		{
 			int finalAnount = model.amount == 0 ? 1 : model.amount;
-			var productPic = _context.ProductPics.Single(p => p.ProductId == model.Id).ProductPicImage;
+			var productPic = _context.ProductPics.FirstOrDefault(p => p.ProductId == model.Id).ProductPicImage;
 			string productImageBase64 = Convert.ToBase64String(productPic);
 			CartItem cartItem = new CartItem
 			{
-				ProductId = _context.Products.Single(p => p.ProductId == model.Id).ProductId,
-				ProductName = _context.Products.Single(p => p.ProductId == model.Id).ProductName,
+				ProductId = _context.Products.FirstOrDefault(p => p.ProductId == model.Id).ProductId,
+				ProductName = _context.Products.FirstOrDefault(p => p.ProductId == model.Id).ProductName,
 				OrderQuantity = finalAnount,
-				OrderPrice = _context.Products.Single(p => p.ProductId == model.Id).ProductPrice,
-				Subtotal = _context.Products.Single(p => p.ProductId == model.Id).ProductPrice,
+				OrderPrice = _context.Products.FirstOrDefault(p => p.ProductId == model.Id).ProductPrice,
+				Subtotal = _context.Products.FirstOrDefault(p => p.ProductId == model.Id).ProductPrice,
 				ProductImage = productImageBase64
 			};
 
@@ -96,7 +96,8 @@ namespace FurryFeast.Controllers
 		//	return NoContent();
 		//}
 
-		public async Task<IActionResult> Remove(int? id)
+		[HttpDelete]
+		public async Task<List<CartItem>> Remove(int? id)
 		{
             List<CartItem> cart = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
 
@@ -111,8 +112,11 @@ namespace FurryFeast.Controllers
 			{
                 SessionHelper.SetProductCartSession(HttpContext.Session, "cart", cart);
             }
-			return RedirectToAction("ProductCart","Products");
-        }
+			List<CartItem> newcart = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
+			return newcart;
+			
+
+		}
 
         public async Task<IActionResult> CartUpdate([FromBody] CardAddViewModel model)
         {

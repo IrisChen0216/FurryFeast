@@ -31,11 +31,11 @@
 					<th>刪除</th>
 				</tr>
 			</thead>
-			<tbody v-if="showProducts.Get==false">
-				
+			<tbody v-if="hasProducts">
+
 				<tr v-for="item in showProducts">
 					@*圖片顯示待補*@
-					<td><a class="table-cart-figure link-img"><img :src="'data:image/png;base64,'+item.productImage"/></a><a class="table-cart-link">{{item.productName}}</a></td>
+					<td><a class="table-cart-figure link-img"><img :src="'data:image/png;base64,'+item.productImage" /></a><a class="table-cart-link">{{item.productName}}</a></td>
 					<td>${{item.orderPrice}}</td>
 					<td>
 						<div class="table-cart-stepper">
@@ -45,9 +45,9 @@
 					</td>
 					<td class="changePrice">${{item.orderPrice*item.orderQuantity}}</td>
 					<td>
-						<form name="removeProduct" asp-controller="Cart" asp-action="Remove" asp-route-id="">
-							<button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit"><i class="bi bi-trash"></i></button>
-						</form>
+						@*<form name="removeProduct" method="post" :href="'/Cart/Remove?id='+item.productId">*@
+						<button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit" v-on:click="deleteProduct(item.productId)"><i class="bi bi-trash"></i></button>
+						@*</form>*@
 					</td>
 				</tr>
 			</tbody>
@@ -95,41 +95,41 @@
 	<script src="~/js/product/script.js"></script>
 	<script src="~/js/slick.min.js"></script>
 	<script>
-	
-			let deleteButton = document.getElementsByClassName('deleteProduct');
-			for (let i = 0; i < deleteButton.length; i++) {
-				deleteButton[i].addEventListener('click', function (event) {
-					if (!confirm('確定要刪除嗎?')) {
-						event.preventDefault();
-					}
-					else {
-						document.getElementsByClassName('deleteProduct').addEventListener('submit', function () {
-							alert('刪除成功');
-						});
-					}
-				})
-			}
 
-			let app = new Vue({
-				el: '#app',
-				data: {
-					showProducts: [],
+		let deleteButton = document.getElementsByClassName('deleteProduct');
+		for (let i = 0; i < deleteButton.length; i++) {
+			deleteButton[i].addEventListener('click', function (event) {
+				if (!confirm('確定要刪除嗎?')) {
+					event.preventDefault();
+				}
+				else {
+					document.getElementsByClassName('deleteProduct').addEventListener('submit', function () {
+						alert('刪除成功');
+					});
+				}
+			})
+		}
 
-				},
-				mounted: function () {
+		let app = new Vue({
+			el: '#app',
+			data: {
+				showProducts: [],
+				hasProducts: true,
+			},
+			mounted: function () {
+				let _this = this;
+				_this.Products();
+
+			},
+			methods: {
+				//網頁載入就會掛載全部商品資料的方法
+				Products: function () {
 					let _this = this;
-					_this.Products();
 
-				},
-				methods: {
-					//網頁載入就會掛載全部商品資料的方法
-					Products: function () {
-						let _this = this;
+					axios.get(`/api/cart/CartProducts`).then(response => {
 
-						axios.get(`/api/cart/CartProducts`).then(response => {
-						_this.showProducts.Get = true;
 						_this.showProducts = response.data;
-
+						_this.hasProducts = _this.showProducts.length > 0;
 
 					});
 				},
@@ -139,6 +139,24 @@
 						.then(
 							alert('成功加入購物車!')
 						);
+					//axios.post(`/Cart/CartAdd?Id=${ID}&amount=1`)
+					//	.then(
+					//		alert('成功加入購物車!')
+					//	);
+				},
+				deleteProduct: function (ID) {
+					let _this=this;
+					axios.delete(`/Cart/Remove?id=${ID}`)
+						.then(response => {
+							//alert('成功移除!');
+							_this.showProducts=response.data;
+							if ((response.data).length <= 0) {
+								_this.hasProducts = false;
+							}
+							else{
+								_this.hasProducts = true;
+							}
+						});
 				},
 			},
 			computed: {
