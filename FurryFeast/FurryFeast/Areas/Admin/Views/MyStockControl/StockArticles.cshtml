@@ -52,7 +52,7 @@
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody v-on:click="clickArticle">
 										<tr v-for="item in showData">
 											<td class="align-middle text-center">
 												<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
@@ -159,17 +159,17 @@
 				},
 				keyWord: "",
 				showData: [],
+				tempData: [],
 			},
 			mounted: function () {
-				let _this = this;
-				_this.StockArticles();
-				_this.StockGroups();
-				_this.StockImages();
-				_this.StockMeasureUnits();
-				_this.StockSuppliers();
-				_this.StockSuppliersGroups();
-				_this.StockWarehouseGroups();
-				_this.StockWarehouses();
+				this.StockArticles();
+				this.StockGroups();
+				this.StockImages();
+				this.StockMeasureUnits();
+				this.StockSuppliers();
+				this.StockSuppliersGroups();
+				this.StockWarehouseGroups();
+				this.StockWarehouses();
 			},
 			computed: {
 
@@ -226,8 +226,12 @@
 				// 搜尋產品
 				productFilter: function () {
 					let _this = this;
-					_this.showData = _this.Source.StockArticleData.filter(data => data.articlesCode.includes(_this.keyWord) || data.articlesDescription.includes(_this.keyWord));
+					this.showData = this.Source.StockArticleData.filter(data => data.articlesCode.includes(this.keyWord) || data.articlesDescription.includes(this.keyWord));
 				},
+				// 選擇產品
+				clickArticle: function () {
+					let _this = this;
+				}
 			},
 		});
 	</script>
