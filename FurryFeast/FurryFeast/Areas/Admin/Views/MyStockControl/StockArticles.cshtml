@@ -5,67 +5,126 @@
 
 @section Style{
 	<style>
-		.leftCulumn {
-			height: 100%;
+		/*固定 table 高度*/
+		.table-responsive {
+			overflow: auto;
+			height: 74.2vh;
 		}
 
-		.table-responsive {
-			overflow: auto; /* 当内容超过容器大小时出现滚动条 */
-			height: 80vh; /* 将高度设置为视窗的高度 */
-		}
 	</style>
 }
 
 <div class="container-fluid" id="app">
 	<div class="row">
-		<div class="col-2 leftCulumn">
+		<div class="col-12">
 			<div class="card my-4">
-				<div class=" px-0 pb-2">
-					<div class="table-responsive p-0">
-						<table class="table align-items-center mb-0">
-							<thead>
-								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="item in StockArticle">
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
-									</td>
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
+						<h6 class="text-white text-capitalize ps-3">庫存管理</h6>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="col-10">
-			<div class="card my-4">
-				<div class=" px-0 pb-2">
-					<div class="table-responsive p-0">
-						<table class="table align-items-center mb-0">
-							<thead>
-								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="item in StockArticle">
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
-									</td>
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitId}}</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+
+				<div class="row">
+					<div class="btnState mx-3 mt-2 pr-10 col-3">
+						<button class="btn bg-gradient-info  mb-0 toast-btn">新增</button>
+						<button class="btn bg-gradient-danger  mb-0 toast-btn">刪除</button>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-2">
+						<div class="card-body px-0 pb-2">
+							<div class="table-responsive p-0">
+								<table class="table align-items-center mb-0 strap">
+									<thead>
+										<tr>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="item in Source.StockArticleData">
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.articlesDescription}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-10">
+						<div class="card-body px-0 pb-2">
+							<div class="table-responsive p-3">
+
+								<div class="row">
+									<div class="col-md-4">
+										<div class="input-group input-group-outline">
+											<label class="form-label">編號</label>
+											<input type="text" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="input-group input-group-outline">
+											<label class="form-label">描述</label>
+											<input type="text" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="input-group input-group-outline">
+											<label class="form-label">是否可選</label>
+											<input type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+
+								<div class="input-group input-group-outline mt-2">
+									<label class="form-label">備註</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="input-group input-group-outline">
+									<label class="form-label">價格</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="input-group input-group-outline">
+									<label class="form-label">數量</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="input-group input-group-outline">
+									<label class="form-label">產品類別</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="input-group input-group-outline">
+									<label class="form-label">圖片</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="input-group input-group-outline">
+									<label class="form-label">計量單位</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="input-group input-group-outline">
+									<label class="form-label">倉庫</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="input-group input-group-outline">
+									<label class="form-label">供應商</label>
+									<input type="text" class="form-control">
+								</div>
+
+								<div class="row">
+									<div class="btnState  mt-2 pr-10 col-3">
+										<button class="btn bg-gradient-success  mb-0 toast-btn">儲存</button>
+										<button class="btn bg-gradient-warning  mb-0 toast-btn">清除</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -79,21 +138,78 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
-				StockArticle: [],
+				Source: {
+					StockArticleData: [],
+					StockGroupsData: [],
+					StockImagesData: [],
+					StockMeasureUnitsData: [],
+					StockSuppliersData: [],
+					StockSuppliersGroupsData: [],
+					StockWarehouseGroupsData: [],
+					StockWarehousesData: [],
+				},
 			},
 			mounted: function () {
 				let _this = this;
-				_this.GetAll();
-
+				_this.StockArticles();
+				_this.StockGroups();
+				_this.StockImages();
+				_this.StockMeasureUnits();
+				_this.StockSuppliers();
+				_this.StockSuppliersGroups();
+				_this.StockWarehouseGroups();
+				_this.StockWarehouses();
 			},
 			computed: {
 
 			},
 			methods: {
-				GetAll: function () {
+				StockArticles: function () {
 					let _this = this;
 					axios.get(`/api/StockArticlesApi/GetAll`).then(response => {
-						_this.StockArticle = response.data
+						_this.Source.StockArticleData = response.data
+					});
+				},
+				StockGroups: function () {
+					let _this = this;
+					axios.get(`/api/StockGroupsApi/GetAll`).then(response => {
+						_this.Source.StockGroupsData = response.data
+					});
+				},
+				StockImages: function () {
+					let _this = this;
+					axios.get(`/api/StockImagesApi/GetAll`).then(response => {
+						_this.Source.StockImagesData = response.data
+					});
+				},
+				StockMeasureUnits: function () {
+					let _this = this;
+					axios.get(`/api/StockMeasureUnitsApi/GetAll`).then(response => {
+						_this.Source.StockMeasureUnitsData = response.data
+					});
+				},
+				StockSuppliers: function () {
+					let _this = this;
+					axios.get(`/api/StockSuppliersApi/GetAll`).then(response => {
+						_this.Source.StockSuppliersData = response.data
+					});
+				},
+				StockSuppliersGroups: function () {
+					let _this = this;
+					axios.get(`/api/StockSuppliersGroupsApi/GetAll`).then(response => {
+						_this.Source.StockSuppliersGroupsData = response.data
+					});
+				},
+				StockWarehouseGroups: function () {
+					let _this = this;
+					axios.get(`/api/StockWarehouseGroupsApi/GetAll`).then(response => {
+						_this.Source.StockWarehouseGroupsData = response.data
+					});
+				},
+				StockWarehouses: function () {
+					let _this = this;
+					axios.get(`/api/StockWarehousesApi/GetAll`).then(response => {
+						_this.Source.StockWarehousesData = response.data
 					});
 				},
 			},
