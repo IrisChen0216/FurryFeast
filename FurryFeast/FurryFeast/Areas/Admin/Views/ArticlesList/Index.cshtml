@@ -31,97 +31,113 @@
 		input {
 			outline-style: none;
 			border: 1px solid #ccc;
-			border-radius: 3px;
+			border-radius: 6px;
 			padding-left:5px;
 			width:100%;
 			height:30px;
 		}
+
+		.h1Header > h4 {
+			position: relative;
+			padding-bottom: 17px;
+		}
+
+		.h1Header > h4:before {
+			content: "";
+			position: absolute;
+			left: 25px;
+			bottom: 6px;
+			width: 100%;
+			height: 4px;
+			background: #ccc;
+		}
 	</style>
 }
 
-<h1>Index</h1>
-
 <div class="container-fluid" id="app">
+@*	<div class="mx-4 h1Header col-7 mb-4">
+		<h4 style="display: inline-block;" class="ms-1 m-0">Article</h4><h2 style="display: inline-block;" class="mt-3 mx-2">Index</h2>
+	</div>*@
+	<div class="p-0 position-relative mt-n4 mx-3 z-index-2">
+		<div class="border-radius-lg pt-4 ">
+			<div class="mx-2 h1Header col-7 ">
+				<h4 style="display: inline-block;" class="ms-1 m-0">Article</h4><h2 style="display: inline-block;" class="mt-3 mx-2">Index</h2>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-12">
-			<div class="card my-4">
+			<div class="my-4" style="background: white; border-radius: 1rem; padding-bottom: 10px; padding: 10px 0px 10px 0px; border: 1px solid rgb(235 235 235);">
 
-				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+				@*				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
 						<h6 class="text-white text-capitalize ps-3">文章管理</h6>
 					</div>
-				</div>
-				<div class="row">
+				</div>*@
+				<div class="row m-0 p-0">
 
 
-					<div class="dropdown mx-3 mt-2 col-1">
+					@*<div class="dropdown mx-3 mt-2 col-1">
 						<button class="btn btn-secondary dropdown-toggle drop" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
 							文章管理
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							<li><button class="dropdown-item" type="button">全部文章</button></li>
 						</ul>
-					</div>
-					<div class="btnState mx-3 mt-2 pr-10 col-3">
-
-						<button class="btn bg-gradient-warning  mb-0 toast-btn">上架中</button>
-						<button class="btn bg-gradient-danger  mb-0 toast-btn unState">未上架</button>
-					</div>
-					<div class="form-group  mt-2 col-2">
+					</div>*@
+					<div class="form-group m-4 col-2">
 						@*新增按鍵*@
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-							<a :href="'create'">新增文章</a>
+						<button type="button" class="btn mb-0 " style="background:lightpink" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+							<a :href="'create'" style="color: white">新增文章</a>
 
 						</button>
 					</div>
 
 					@*搜尋欄*@
-					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
+					<div class="ms-md-auto pe-md-3 d-flex align-items-center col-3 mx-4">
 						<div class="input-group input-group-outline">
 							<label class="form-label">Search ...</label>
-							<input type="text" class="form-control">
+							<input type="text" class="form-control h-100">
 						</div>
 					</div>
 
 				</div>
 
-				<div class="card-body px-0 pb-2">
+				<div class="card-body p-0 pb-2">
 					<div class="table-responsive p-0">
 						<table class="table align-items-center mb-0">
 							<thead>
-								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">文章編號</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">文章標題</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">作者</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
-								</tr>
+							<tr>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">文章編號</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">文章標題</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">作者</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+							</tr>
 							</thead>
 							<tbody>
-								<tr v-for="item in aticlesData" :key="item.articleId">
-									<template>
-										<td class="align-middle text-center">
-											<span class="text-secondary text-xs font-weight-bold">{{item.articleId}}</span>
-										</td>
-										<td>
-											<span class="text-secondary text-xs font-weight-bold">{{item.articleTitle}}</span>
-										</td>
-										<td>	
-											<span class="text-secondary text-xs font-weight-bold">{{item.adminAccount}}</span>
+							<tr v-for="item in aticlesData" :key="item.articleId">
+								<template>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{item.articleId}}</span>
+									</td>
+									<td>
+										<span class="text-secondary text-xs font-weight-bold">{{item.articleTitle}}</span>
+									</td>
+									<td>
+										<span class="text-secondary text-xs font-weight-bold">{{item.adminAccount}}</span>
 
-@*											<p class="text-xs font-weight-bold mb-0">{{item.adminAccount}}</p>
-*@										</td>
-										<td class="align-middle text-center text-sm">
-											<span class="text-secondary text-xs font-weight-bold">{{item.articleDate}}</span>
-										</td>
-										<td class="align-middle">
-											<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn">上架</button>
-											<button v-else class="btn bg-gradient-danger  mb-0 toast-btn">下架</button>
-											<button class="btn bg-gradient-info mb-0 toast-btn"><a :href="'Edit?id='+item.articleId">編輯</a></button>
-											<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item.articleId)">刪除</button>
-										</td>
-									</template>
-								</tr>
+										@*											<p class="text-xs font-weight-bold mb-0">{{item.adminAccount}}</p>
+*@ </td>
+									<td class="align-middle text-center text-sm">
+										<span class="text-secondary text-xs font-weight-bold">{{item.articleDate}}</span>
+									</td>
+									<td class="text-center pe-3">
+										<button class="btn mb-0" style="background: dodgerblue"><a style="color: white" :href="'Edit?id='+item.articleId">編輯</a></button>
+											<button class="btn mb-0 " style="background: crimson; color: white" v-on:click="deleteCheck(item.articleId)">刪除</button>
+									</td>
+								</template>
+							</tr>
 
 							</tbody>
 						</table>
@@ -140,15 +156,15 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label class="form-label">商品名稱:</label>
-						<input class="form-control" required />
+						<input class="form-control" required/>
 					</div>
 					<div class="form-group">
 						<label class="form-label">商品售價:</label>
-						<input class="form-control"required />
+						<input class="form-control"required/>
 					</div>
 					<div class="form-group">
 						<label class="form-label">上架數量:</label>
-						<input class="form-control" required />
+						<input class="form-control" required/>
 					</div>
 					<div class="form-group">
 						<label class="form-label">商品描述:</label>
@@ -173,13 +189,6 @@
 	</div>
 </div>
 
-
-
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
 @section Scripts
 {
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -189,23 +198,33 @@
 			data: {
 				aticlesData: {}
 			},
-			mounted: function () {
+			mounted: function() {
 				let _this = this;
 				_this.getData();
 
 			},
 			methods: {
-				getData: function () {
+				getData: function() {
 					let _this = this;
 					axios.get('/api/articles/GetModel').then(response => {
 						_this.aticlesData = response.data;
 						console.log(_this.aticlesData);
-						})
-						.catch(error => {
-							console.error(error);
-						});
+						let Data = [];
+
+						for (let i = 0; i < _this.aticlesData.length; i++) {
+							let item = _this.aticlesData[i];
+
+							if (typeof item !== 'undefined') {
+								item.OnAndOff = true;
+								Data.push(item);
+							} else {
+								console.warn('Undefined item at index: ', i);
+							}
+						}
+						_this.aticlesData = Data;
+					}).catch(error => { console.error(error); });
 				},
-				deleteCheck: function (item) {
+				deleteCheck: function(item) {
 					let _this = this;
 					Swal.fire({
 						title: `確定要刪除文章嗎?`,
@@ -226,16 +245,13 @@
 						}
 					});
 				},
-				deleteAticle: function (ID) {
+				deleteAticle: function(ID) {
 					let _this = this;
 					axios.delete(`/api/articles/deleteAticle/${ID}`).then(response => {
-						alert(response.data);
 						_this.getData();
 
 					});
 				}
-
-
 			}
 
 		})	

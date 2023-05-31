@@ -114,7 +114,7 @@
 					let _this = this;
 					axios.get('/api/articles/GetAdmin').then(response => {
 						_this.data = response.data;
-						_this.adminAccount = _this.data[0].adminAccount
+						_this.adminAccount = _this.data[0].adminAccount;
 						console.log(_this.data);
 						console.log(_this.adminAccount);
 					});
