@@ -150,7 +150,7 @@
 										
 										<img :src="'data:image/png;base64,'+item.pics" alt="" width="200" height="200" />
 									</div>
-									<h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="">{{item.product.productName}}</a></h5>
+									<h5 class="product-title"><a :href="'/Products/ProductDetailNew?id=' + item.product.productId">{{item.product.productName}}</a></h5>
 									<div class="product-price-wrap">
 										@*<div class="product-price product-price-old">$@item.ProductPrice</div>*@
 										<div class="product-price">${{item.product.productPrice}}</div>
@@ -158,7 +158,7 @@
 								</div>
 								@*<span class="product-badge product-badge-sale">Sale</span>*@
 								<div class="product-button-wrap">
-									<div class="product-button"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="" class="button button-secondary button-zakaria fl-bigmug-line-search74"></a></div>
+									<div class="product-button"><a asp-controller="Products" asp-action="ProductDetailNew"  class="button button-secondary button-zakaria fl-bigmug-line-search74"></a></div>
 									<div class="product-button"><a class="button button-secondary button-zakaria fl-bigmug-line-shopping202" v-on:click="AddCart(item.product.productId)"></a></div>
 								</div>
 							</article>

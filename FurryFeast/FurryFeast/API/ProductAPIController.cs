@@ -171,7 +171,6 @@ namespace FurryFeast.API
 		}
 		public object backEndArticle()
 		{
-
 			return _context.StockArticles.Select(x => new
 			{
 				
@@ -183,10 +182,9 @@ namespace FurryFeast.API
 
 			});
 
-
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("{id}")] //後台商品詳細資訊
 		public async Task<PetMarketViewModel> GetProduct(int id)
 		{
 			var product =await _context.Products.FindAsync(id);
@@ -210,27 +208,35 @@ namespace FurryFeast.API
 			return model;
 		}
 
-		//[HttpPost]
-		//public async Task<string> PostProduct([FromBody] PetMarketViewModel model)
-		//{
-			
-		//	Product product = new Product
-		//	{
-		//		ProductId = model.ProductId,
-		//		ProductName = model.ProductName,
-		//		ProductPrice = model.ProductPrice,
-		//		ProductAmount = model.ProductAmount,
-		//		ProductDescription=model.ProductDescription,
-		//		ProductState=model.ProductState,
-		//		ProductTypeId = model.ProductTypeId,
-			
-		//		ArticlesId = model.ArticlesId
-		//	};
-		//	_context.Products.Add(product);
-		//	await _context.SaveChangesAsync();
+		
+		[HttpGet("{id}")] //前台商品詳細資訊
+		public async Task<ProductDetailViewModel> ProductDetail(int id)
+		{
+			var product = await _context.Products.FindAsync(id);
+			var productPic = _context.ProductPics.Where(p => p.ProductId == id).ToList();
+			List<string> Pic = new List<string>();
 
-		//	return $"新增成功!{product.ProductId}";
-		//}
+			foreach (var pic in productPic)
+			{
+				string Base64Pic = Convert.ToBase64String(pic.ProductPicImage);
+				Pic.Add(Base64Pic);
+			}
+
+			ProductDetailViewModel model = new ProductDetailViewModel
+			{
+				ProductId = product.ProductId,
+				ProductName = product.ProductName,
+				ProductDescription = product.ProductDescription,
+				ProductPrice = product.ProductPrice,
+				ProductAmount = product.ProductAmount,
+				ProductTypeId = product.ProductTypeId,				
+				ProductPicImage = Pic,
+				ProductTypeName = product.ProductType.ProductTypeName,
+			};
+
+			return model;
+		}
+
 
 		[HttpPut]
 		public async Task<string> PutProduct([FromBody]PetMarketViewModel model)

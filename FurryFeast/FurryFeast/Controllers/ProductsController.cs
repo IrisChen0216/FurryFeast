@@ -99,7 +99,15 @@ namespace FurryFeast.Controllers
             return View(product);
         }
 
-        public async Task<IActionResult> ProductCart(int? id)
+        //Vue版
+		public async Task<IActionResult> ProductDetailNew(int id)
+		{
+			ViewBag.productId = id;
+			return View();
+		}
+
+        //舊版
+		public async Task<IActionResult> ProductCart(int? id)
         {
             List<CartItem> cartItems = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session,"cart");
 
@@ -115,6 +123,7 @@ namespace FurryFeast.Controllers
             return View(cartItems);
         }
 
+		//Vue版
 		public async Task<IActionResult> ProductCartNew(int? id)
 		{
 
