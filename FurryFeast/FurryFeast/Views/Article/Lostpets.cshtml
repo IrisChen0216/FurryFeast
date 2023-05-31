@@ -45,36 +45,36 @@
 				<div class="product-top-panel-sorting">
 					<select v-model="getAnimalKind" id="select-category" data-minimum-results-for-search="Infinity" class="form-select">
 						<option value="">--選擇全部種類--</option>
-						<option v-for="item in animalKindList" v-bind:value="item">{{item}}</option>
+						<option v-for="item in PetType" v-bind:value="item">{{item}}</option>
 					</select>
 				</div>
 				<div class="product-top-panel-sorting">
 					<select v-model="getAnimalPlace" v-on:change="setAnimalArea" id="select-variety" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">--選擇全部地區--</option>
-						<option v-for="item in animalPlaceList" v-bind:value="item">{{item}}</option>
+						<option value="">--選擇遺失地點--</option>
+						<option v-for="item in LostLocation" v-bind:value="item">{{item}}</option>
 					</select>
 				</div>
 				<div class="product-top-panel-sorting">
 					<select v-model="getShelter" id="select-shelter" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">--選擇全部收容所--</option>
-						<option v-for="item in getAnimalArea" v-bind:value="item.id">{{item.name}}</option>
+						<option value="">--遺失時間--</option>
+						<option v-for="item in LostTime" v-bind:value="item.id">{{item.LostTime}}</option>
 					</select>
 				</div>
 				<div class="product-top-panel-sorting">
 					<select v-model="sex" id="select-gender" data-minimum-results-for-search="Infinity" class="form-select">
 						<option value="">--選擇全部性別--</option>
-						<option v-for="item in sexList" v-bind:value="item.id">{{item.sex}}</option>
+						<option v-for="item in Gender" v-bind:value="item.id">{{item.Gender}}</option>
 					</select>
 				</div>
-				@*				<div class="product-top-panel-sorting">
-				<select id="select-color" data-minimum-results-for-search="Infinity" class="form-select">
-				<option value="">毛色</option>
-				</select>
-				</div>*@
+				<div class="product-top-panel-sorting">
+					<select id="select-color" data-minimum-results-for-search="Infinity" class="form-select">
+						<option value="">毛色</option>
+					</select>
+				</div>
 				<div class="product-top-panel-sorting">
 					<select v-model="age" id="select-age" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">--選擇全部年齡--</option>
-						<option v-for="item in ageList" v-bind:value="item.id">{{item.age}}</option>
+						<option value="">--選擇品種--</option>
+						<option v-for="item in Breed" v-bind:value="item.id">{{item.Breed}}</option>
 					</select>
 				</div>
 
@@ -97,12 +97,10 @@
 						<div class="card-body-new">
 							<p class="card-title">{{item.animal_Variety}}</p>
 							<p class="card-text">{{item.animal_place}}</p>
-							<p class="card-text" v-if="item.animal_sex == 'F'">母</p>
-							<p class="card-text" v-if="item.animal_sex == 'M'">公</p>
-							<p class="card-text" v-if="item.animal_sex == 'N'">未知</p>
-							@*<p class="card-text">{{item.animal_colour}}</p>*@
-							<p class="card-text" v-if="item.animal_age == 'CHILD'">幼年</p>
-							<p class="card-text" v-if="item.animal_age == 'ADULT'">成年</p>
+							<p class="card-text" v-if="item.animal_sex == '母'">母</p>
+							<p class="card-text" v-if="item.animal_sex == '公'">公</p>
+
+							<p class="card-text">{{item.animal_colour}}</p>
 						</div>
 					</div>
 
@@ -118,19 +116,14 @@
 									<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
 									<img v-else="" v-bind:src="item.album_file" alt="">
 
-									<p class="card-title">{{item.animal_Variety}}</p>
-									<p class="card-text">{{item.animal_place}}</p>
+									<p class="card-title">{{item.PetType}}</p>
 									<p class="card-text" v-if="item.animal_sex == 'F'">母</p>
 									<p class="card-text" v-if="item.animal_sex == 'M'">公</p>
-									<p class="card-text" v-if="item.animal_sex == 'N'">未知</p>
-									@*<p class="card-text">{{item.animal_colour}}</p>*@
-									<p class="card-text" v-if="item.animal_age == 'CHILD'">幼年</p>
-									<p class="card-text" v-if="item.animal_age == 'ADULT'">成年</p>
-									<p class="card-text">資料更新時間: {{item.cDate}}</p>
-									<p class="card-text">動物尋獲地: {{item.animal_foundplace}}</p>
-									<p class="card-text">動物狀態: {{item.animal_status}}</p>
-									<p class="card-text">地址: {{item.shelter_address}}</p>
-									<p class="card-text">聯絡電話: {{item.shelter_tel}}</p>
+									<p class="card-text">品種: {{Breed}}</p>
+									<p class="card-text">{{item.animal_colour}}</p>
+									<p class="card-text">飼主姓名: {{OwnerName}}</p>
+									<p class="card-text">遺失地點: {{LostLocation}}</p>
+									<p class="card-text">聯絡電話: {{item.ContactPhone}}</p>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">關閉</button>
@@ -152,179 +145,14 @@
 				el: "#app",
 				data: {
 					allData: [],
-					getAnimalKind: "",
-					animalKindList: ["貓", "狗", "其他"],
-					getAnimalPlace: "",
-					animalPlaceList: ["北部", "中部", "南部", "東部", "外島"],
-					getAnimalArea: [],
-					getShelter: "",
-					animalAreaList: [
-						{
-							"name": "北部",
-							"areas": [
-								{
-									"id": "48",
-									"name": "基隆市寵物銀行"
-								},
-								{
-									"id": "49",
-									"name": "臺北市動物之家"
-								},
-								{
-									"id": "50",
-									"name": "新北市板橋區公立動物之家"
-								},
-								{
-									"id": "51",
-									"name": "新北市新店區公立動物之家"
-								},
-								{
-									"id": "53",
-									"name": "新北市中和區公立動物之家"
-								},
-								{
-									"id": "55",
-									"name": "新北市淡水區公立動物之家"
-								},
-								{
-									"id": "56",
-									"name": "新北市瑞芳區公立動物之家"
-								},
-								{
-									"id": "58",
-									"name": "新北市五股區公立動物之家"
-								},
-								{
-									"id": "59",
-									"name": "新北市八里區公立動物之家"
-								},
-								{
-									"id": "60",
-									"name": "新北市三芝區公立動物之家"
-								},
-								{
-									"id": "61",
-									"name": "桃園市動物保護教育園區"
-								},
-								{
-									"id": "92",
-									"name": "新北市政府動物保護防疫處"
-								},
-							]
-						},
-						{
-							"name": "中部",
-							"areas": [
-								{
-									"id": "62",
-									"name": "新竹市動物收容所"
-								},
-								{
-									"id": "63",
-									"name": "新竹縣動物收容所"
-								},
-								{
-									"id": "67",
-									"name": "臺中市動物之家南屯園區"
-								},
-								{
-									"id": "68",
-									"name": "臺中市動物之家后里園區"
-								},
-								{
-									"id": "69",
-									"name": "彰化縣流浪狗中途之家"
-								},
-								{
-									"id": "70",
-									"name": "南投縣公立動物收容所"
-								},
-								{
-									"id": "96",
-									"name": "苗栗縣生態保育教育中心"
-								},
-							]
-						},
-						{
-							"name": "南部",
-							"areas": [
-								{
-									"id": "71",
-									"name": "嘉義市流浪犬收容中心"
-								},
-								{
-									"id": "72",
-									"name": "嘉義縣流浪犬中途之家"
-								},
-								{
-									"id": "73",
-									"name": "臺南市動物之家灣裡站"
-								},
-								{
-									"id": "74",
-									"name": "臺南市動物之家善化站"
-								},
-								{
-									"id": "75",
-									"name": "高雄市壽山動物保護教育園區"
-								},
-								{
-									"id": "76",
-									"name": "高雄市燕巢動物保護關愛園區"
-								},
-								{
-									"id": "77",
-									"name": "屏東縣流浪動物收容所"
-								},
-								{
-									"id": "89",
-									"name": "雲林縣流浪動物收容所"
-								},
-							]
-						},
-						{
-							"name": "東部",
-							"areas": [
-								{
-									"id": "78",
-									"name": "宜蘭縣流浪動物中途之家"
-								},
-								{
-									"id": "79",
-									"name": "花蓮縣流浪犬中途之家"
-								},
-								{
-									"id": "80",
-									"name": "臺東縣動物收容中心"
-								},
-							]
-						},
-						{
-							"name": "外島",
-							"areas": [
-								{
-									"id": "81",
-									"name": "連江縣流浪犬收容中心"
-								},
-								{
-									"id": "82",
-									"name": "金門縣動物收容中心"
-								},
-								{
-									"id": "83",
-									"name": "澎湖縣流浪動物收容中心"
-								},
-							]
-						},
-					],
+					動物別: ["貓", "狗", "其他"],
+					遺失地點: ["基隆市", "嘉義市", "台北市", "嘉義縣", "新北市", "台南市", "桃園縣", "高雄市", "新竹市", "屏東縣", "新竹縣", "台東縣", "苗栗縣", "花蓮縣", "台中市", "宜蘭縣", "彰化縣", "澎湖縣", "南投縣", "金門縣", "雲林縣", "連江縣"],
 					top: 12,
 					skip: 0,
-					sex: "",
-					sexList: [{ "id": "F", "sex": "母" }, { "id": "M", "sex": "公" }, { "id": "N", "sex": "未知" }],
-					color: "",
+					性別: "",
+					Gender: [{"sex": "母" }, {  "sex": "公" }],
+					毛色: "",
 					colorList: [],
-					age: "",
-					ageList: [{ "id": "CHILD", "age": "幼年" }, { "id": "ADULT", "age": "成年" }],
 				},
 				mounted: function () {
 					this.getAllData();
@@ -336,14 +164,14 @@
 					getAllData: function () {
 						let _this = this;
 						let url = `
-												https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL
+												http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=IFJomqVzyB0i
 												&$top=${this.top}
 												&$skip=${this.skip}
-												&animal_kind=${this.getAnimalKind}
-												&animal_shelter_pkid=${this.getShelter}
-												&animal_sex=${this.sex}
-												&animal_colour=${this.color}
-												&animal_age=${this.age}
+												&寵物別=${this.寵物別}
+												&遺失地點=${this.遺失地點}
+												&性別=${this.性別}
+												&毛色=${this.毛色}
+												&品種=${this.品種}
 											`;
 
 						console.log(url);
@@ -351,36 +179,7 @@
 							_this.allData = response.data
 						});
 					},
-					// 根據選擇的區域變更收容所
-					setAnimalArea: function () {
-						let index = 1;
 
-						switch (this.getAnimalPlace) {
-							case "北部":
-								index = 0;
-								console.log("北部");
-								break;
-							case "中部":
-								index = 1;
-								console.log("中部");
-								break;
-							case "南部":
-								index = 2;
-								console.log("南部");
-								break;
-							case "東部":
-								index = 3;
-								console.log("東部");
-								break;
-							case "外島":
-								index = 4;
-								console.log("外島");
-								break;
-						};
-
-						this.getAnimalArea = this.animalAreaList[index].areas;
-						console.log("setAnimalArea");
-					},
 					// 下12筆資料
 					nextPage: function () {
 						console.log(this.top);
