@@ -3,6 +3,7 @@ using FurryFeast.Models;
 using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.IO.Pipes;
 
@@ -318,7 +319,7 @@ namespace FurryFeast.API
 		public async Task<string> PostProduct([FromBody] AddProductViewModel model)
 		{
 
-			Product product =new Product();
+			Product product = new Product();
 
 			product.ProductId = model.ProductId;
 			product.ProductName = model.ProductName;
@@ -339,25 +340,70 @@ namespace FurryFeast.API
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				
-			return "新增商品失敗";
+
+				return "新增商品失敗";
 
 			}
 
 			return "新增商品成功";
 		}
 
+		//[HttpPost]//加入圖片版
+		//public async Task<string> PostProduct([FromForm] AddProductViewModel model)
+		//{
+
+		//	Product product = new Product();
+
+		//	product.ProductId = model.ProductId;
+		//	product.ProductName = model.ProductName;
+		//	product.ProductPrice = model.ProductPrice;
+		//	product.ProductAmount = model.ProductAmount;
+		//	product.ProductDescription = model.ProductDescription;
+		//	product.ProductState = model.ProductState;
+		//	product.ProductTypeId = model.ProductTypeId;
+		//	product.ArticlesId = model.ArticlesId;
+		//	product.ProductLaunchedTime = model.ProductLaunchedTime;			
+
+		//	_context.Products.Add(product);
+
+		//ProductPic productPic = new ProductPic();
+		//productPic.ProductId = model.ProductId;
+		//productPic.ProductPicId = model.ProductPicId;
+		////product.ProductPics =
+
+		//_context.ProductPics.Add(productPic);
+
+		//	try
+		//	{
+		//		await _context.SaveChangesAsync();
+		//	}
+		//	catch (DbUpdateConcurrencyException)
+		//	{
+
+		//		return "新增商品失敗";
+
+		//	}
+
+		//	return "新增商品成功";
+		//}
+
 		[HttpPost]
-		public async Task<string> PostProductImage([FromBody] AddProductImageViewModel model)
+		public async Task<string> PostProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] int ProductId)
 		{
+			foreach(var pic in ProductPicImage)
+			{
+				ProductPic image = new ProductPic();
+				//image.ProductPicImage = 
+			};
+			
 
-			AddProductImageViewModel image = new AddProductImageViewModel();
+			//image.ProductPicId = ProductPicImage..ProductPicId;
+			//image.ProductPicImage = model.ProductPicImage;
+			//image.ProductId = model.ProductId;
 
-			image.ProductPicId = model.ProductPicId;
-			image.ProductPicImage = model.ProductPicImage;
 
+			//_context.ProductPics.Add(image);
 
-			_context.Entry(image).State = EntityState.Modified;
 
 			try
 			{
