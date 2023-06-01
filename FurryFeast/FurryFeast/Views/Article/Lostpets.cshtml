@@ -95,12 +95,12 @@
 							<img v-else="" v-bind:src="item.album_file" alt="">
 						</div>
 						<div class="card-body-new">
-							<p class="card-title">{{item.animal_Variety}}</p>
-							<p class="card-text">{{item.animal_place}}</p>
-							<p class="card-text" v-if="item.animal_sex == '母'">母</p>
-							<p class="card-text" v-if="item.animal_sex == '公'">公</p>
+							<p class="card-title">{{item.PetType}}</p>
+							<p class="card-text">{{item.LostLocation}}</p>
+							<p class="card-text" v-if="item.Gender == '母'">母</p>
+							<p class="card-text" v-if="item.Gender == '公'">公</p>
 
-							<p class="card-text">{{item.animal_colour}}</p>
+							<p class="card-text">{{item.Color}}</p>
 						</div>
 					</div>
 
@@ -109,12 +109,12 @@
 						<div class="modal-dialog modal-xl">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="qqq">{{item.animal_place}}</h1>
+									<h1 class="modal-title fs-5" id="qqq">{{item.LostLocation}}}</h1>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
-									<img v-else="" v-bind:src="item.album_file" alt="">
+									<img v-if="item.Picture == ''" src="~/image/no-pictures.png" alt="">
+									<img v-else="" v-bind:src="item.Picture" alt="">
 
 									<p class="card-title">{{item.PetType}}</p>
 									<p class="card-text" v-if="item.animal_sex == 'F'">母</p>
