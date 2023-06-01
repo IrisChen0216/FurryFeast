@@ -320,11 +320,12 @@ namespace FurryFeast.Models
 
             modelBuilder.Entity<Member>(entity =>
             {
+                
                 entity.Property(e => e.MemberId).HasColumnName("Member_ID");
 
                 entity.Property(e => e.ConponId).HasColumnName("Conpon_ID");
-
-                entity.Property(e => e.MemberAccount)
+				entity.Property(x => x.MemberId).ValueGeneratedOnAdd();
+				entity.Property(e => e.MemberAccount)
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("Member_Account");

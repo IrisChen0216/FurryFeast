@@ -15,17 +15,25 @@ using Microsoft.AspNetCore.Authorization;
 using NuGet.Protocol.Plugins;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Authentication.Google;
+using System.Net.Mail;
+using System.Runtime.Intrinsics.Arm;
+using System.Text;
+using System.Net;
+using System.Text.Json;
+using FurryFeast.Services;
 
 namespace FurryFeast.Controllers
 {
     public class MemberController : Controller
     {
         private readonly db_a989fb_furryfeastContext _context;
+		private readonly EncryptService encrypt;
 
-        public MemberController(db_a989fb_furryfeastContext context)
+		public MemberController(db_a989fb_furryfeastContext context,EncryptService encrypt)
         {
             _context = context;
-        }
+			this.encrypt = encrypt;
+		}
 
         // GET: Members
 
@@ -39,9 +47,7 @@ namespace FurryFeast.Controllers
                 var member = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(id)).FirstOrDefault();
                 return View(member);
             }
-
             return ViewBag.Error("錯");
-
         }
 
         [Authorize]
@@ -50,8 +56,6 @@ namespace FurryFeast.Controllers
         {
             return View();
         }
-
-
 
         [Authorize]
     
@@ -96,12 +100,53 @@ namespace FurryFeast.Controllers
                 MemberPhone = list.MemberPhone,
                 MemberBirthday = list.MemberBirthday,
                 MemberGender = list.MemberGender,
-                MemberId = list.MemberId
+                MemberId = list.MemberId,
 
-            });
+            } );
             _context.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            //3天過期
+            var obj = new AesValidationDto(list.MemberPhone, DateTime.Now.AddDays(3));
+            var jstring = JsonSerializer.Serialize(obj);
+            //有自己鍵的方法encrypt.加密後轉成字串
+            var code =  encrypt.AesEncryptToBase64(jstring);
+
+
+            var Mail = new MailMessage()
+            {
+                From = new MailAddress("thm101777@gmail.com"),
+                Subject = "FurryFeast驗證信",
+                Body = @$"歡迎加入FurryFeast，請點擊<a href='https://localhost:7110/Member/Enable?code={code}'>這裡</a>以啟用你的帳號",
+                IsBodyHtml = true,
+                BodyEncoding = Encoding.UTF8
+            };
+
+            Mail.To.Add(new MailAddress(list.MemberAccount));
+
+            using (var sm = new SmtpClient("smtp.gmail.com", 587))
+            {
+                sm.EnableSsl = true;
+                sm.Credentials = new NetworkCredential("thm101777@gmail.com", "krzjbxvibrueypdy");
+                sm.Send(Mail);
+            }
+                return RedirectToAction("Index", "Home");
         }
+
+        public async Task<IActionResult> Enable(string code)
+        {
+			var str = encrypt.AesDecryptToString(code);
+			var obj = JsonSerializer.Deserialize<AesValidationDto>(str);
+			if (DateTime.Now > obj.ExpiredDate)
+			{
+				return BadRequest("過期");
+			}
+			var user = _context.Members.FirstOrDefault(x => x.MemberAccount == obj.MemberAccount);
+			if (user != null)
+			{
+				_context.SaveChanges();
+			}
+			return Ok($@"code:{code}  str:{str}");
+		}
+
 
         public IActionResult Login()
         {
@@ -126,7 +171,6 @@ namespace FurryFeast.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, ClaimPrincipal);
             return RedirectToAction("Index", "Home");
         }
-
         public IActionResult GoogleLogin()
         {
             var prop = new AuthenticationProperties
@@ -184,7 +228,6 @@ namespace FurryFeast.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateMemberData()
         {
-         
             var id = int.Parse(User.Claims.FirstOrDefault(x=>x.Type == "Id").Value);
             var member = _context.Members.Where(x=>x.MemberId == id).FirstOrDefault();
             return View(member);

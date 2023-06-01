@@ -1,5 +1,6 @@
 ﻿using FurryFeast.Data;
 using FurryFeast.Models;
+using FurryFeast.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
@@ -50,6 +51,7 @@ namespace FurryFeast {
 					googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
 					googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 				});
+			builder.Services.AddTransient<EncryptService>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
