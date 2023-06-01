@@ -79,6 +79,8 @@
 				</div>
 
 				<div>
+					<input v-on:click="previousPage" type="submit" class="search-button btn btn-primary" id="search" value="上12筆" style="background-color: #ffd33b; color: #ffffff;">
+
 					<input v-on:click="reSearch" type="submit" class="search-button btn btn-primary" id="search" value="重新搜尋" style="background-color: #ffd33b; color: #ffffff;">
 
 					<input v-on:click="nextPage" type="submit" class="search-button btn btn-primary" id="search" value="下12筆" style="background-color: #ffd33b; color: #ffffff;">
@@ -386,6 +388,14 @@
 						console.log(this.top);
 						console.log(this.skip);
 						this.skip += 12;
+						this.getAllData();
+					},
+
+					// 上12筆資料
+					previousPage: function () {
+						console.log(this.top);
+						console.log(this.skip);
+						this.skip -= 12;
 						this.getAllData();
 					},
 
