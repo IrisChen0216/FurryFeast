@@ -10,11 +10,11 @@ using FurryFeast.Models;
 namespace FurryFeast.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class RecipesController : Controller
+    public class RecipesListController : Controller
     {
         private readonly db_a989fb_furryfeastContext _context;
 
-        public RecipesController(db_a989fb_furryfeastContext context)
+        public RecipesListController(db_a989fb_furryfeastContext context)
         {
             _context = context;
         }
@@ -72,18 +72,8 @@ namespace FurryFeast.Areas.Admin.Controllers
         // GET: Admin/Recipes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Recipes == null)
-            {
-                return NotFound();
-            }
-
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-            ViewData["PetTypesId"] = new SelectList(_context.PetTypes, "PetTypesId", "PetTypesId", recipe.PetTypesId);
-            return View(recipe);
+			ViewBag.recipesId = id;
+			return View();
         }
 
         // POST: Admin/Recipes/Edit/5

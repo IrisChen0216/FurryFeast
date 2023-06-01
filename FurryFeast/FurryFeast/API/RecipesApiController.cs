@@ -80,6 +80,52 @@ public class RecipesApiController : ControllerBase
         };
     }
 
+
+
+	[HttpGet("{id}")]
+	public object GetReciple(int id)
+	{
+		return _context.Recipes
+			.Where(x => x.RecipesId == id)
+			.Select(x => new
+			{
+                x.PetTypesId,
+                x.RecipesId,
+				x.RecipesName,
+				x.RecipesData,
+				x.RecipesMethod,
+				x.RecipesNotes,
+                x.RecipesDescription
+			});
+	}
+
+    [HttpPost]
+    public object UpdateRecipe([FromBody] RecipeViewModel model)
+    {
+        try
+        {
+            var editedRecipe = _context.Recipes.FirstOrDefault(x => x.RecipesId == model.RecipesId);
+            if (editedRecipe == null) return new { success = false, message = "Recipe not found" };
+            editedRecipe.RecipesId = model.RecipesId;
+            editedRecipe.RecipesName = model.RecipesName;
+            editedRecipe.RecipesDescription = model.RecipesDescription;
+            editedRecipe.PetTypesId = model.PetTypesId;
+            editedRecipe.RecipesData = model.RecipesData;
+            editedRecipe.RecipesMethod = model.RecipesMethod;
+            editedRecipe.RecipesNotes = model.RecipesNotes;
+
+            _context.Recipes.Update(editedRecipe);
+            _context.SaveChanges();
+            return new { success = true, message = "Recipe updated successfully" };
+        }
+        catch (Exception e)
+        {
+            return new { success = false, message = e.Message };
+        }
+
+    }
+
+
     [HttpPost]
     [Authorize]
     public async Task<ActionResult<string>> AddComment([FromBody] MsgBoardViewModel msgboard)
@@ -119,4 +165,47 @@ public class RecipesApiController : ControllerBase
         await _context.SaveChangesAsync();
         return "success";
     }
+
+    [HttpPost]
+    public async Task<ActionResult<string>> AddRecipe([FromBody] RecipeViewModel newRecipe)
+    {
+	    Recipe nRecipe = new Recipe();
+	    nRecipe.PetTypesId = newRecipe.PetTypesId;
+	    nRecipe.RecipesName = newRecipe.RecipesName;
+	    nRecipe.RecipesDescription = newRecipe.RecipesDescription;
+	    nRecipe.RecipesData = newRecipe.RecipesData;
+	    nRecipe.RecipesMethod = newRecipe.RecipesMethod;
+	    nRecipe.RecipesNotes = newRecipe.RecipesNotes;
+
+	    _context.Add(nRecipe);
+	    try
+	    {
+		    await _context.SaveChangesAsync();
+	    }
+		catch (DbUpdateConcurrencyException)
+	    {
+
+		    return "新增食譜失敗";
+
+	    }
+
+	    return "新增食譜成功";
+	}
+
+    [HttpDelete("{id}")]
+    public async Task<string> DeleteRecipes(int id)
+    {
+	    try
+	    {
+		    var recipes = await _context.Recipes.FindAsync(id);
+		    if (recipes != null) _context.Recipes.Remove(recipes);
+		    await _context.SaveChangesAsync();
+		    return "刪除食譜成功!";
+	    }
+	    catch (Exception)
+	    {
+		    return "刪除食譜失敗";
+	    }
+    }
+
 }

@@ -45,8 +45,8 @@ public class ArticlesListController : ControllerBase
     [HttpGet("{id}")]
     public object GetArticle(int id)
     {
-        return _context.Articles.Include(x => x.Admin)
-            .Where(x => x.ArticleId == id)
+        return _context.Articles
+	        .Where(x => x.ArticleId == id)
             .Select(x => new
             {
                 x.Admin.AdminAccount,
