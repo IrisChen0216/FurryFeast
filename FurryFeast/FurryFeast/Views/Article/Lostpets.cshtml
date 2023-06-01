@@ -1,203 +1,186 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-	<title>@ViewData["Title"]</title>
+    <title>@ViewData["Title"]</title>
 
-	@section Style {
-		<style>
-			.card-new {
-				transition: transform 0.3s;
-			}
+    <style>
+        .card-new {
+            transition: transform 0.3s;
+        }
 
-				.card-new:hover {
-					transform: scale(1.05);
-				}
+            .card-new:hover {
+                transform: scale(1.05);
+            }
 
-			#search:hover {
-				background-color: #000000 !important;
-				color: #ffffff !important;
-			}
+        #search:hover {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
 
-			#select-shelter {
-				width: 250px !important;
-			}
+        #select-shelter {
+            width: 250px !important;
+        }
 
-			#search {
-				border-radius: 6px;
-			}
-		</style>
+        #search {
+            border-radius: 6px;
+        }
+    </style>
 
-		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
-		<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
-	}
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
+    <link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-	<div id="app">
-		<div class="index-header">
-			<h2>遺失寵物協尋</h2>
-		</div>
+    <div id="app">
+        <div class="index-header">
+            <h2>遺失寵物協尋</h2>
+        </div>
 
-		<div style="text-align: center">
-			<div class="group-sm group-middle">
-				<div class="product-top-panel-sorting">
-					<select v-model="getAnimalKind" id="select-category" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">--選擇全部種類--</option>
-						<option v-for="item in PetType" v-bind:value="item">{{item}}</option>
-					</select>
-				</div>
-				<div class="product-top-panel-sorting">
-					<select v-model="getAnimalPlace" v-on:change="setAnimalArea" id="select-variety" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">--選擇遺失地點--</option>
-						<option v-for="item in LostLocation" v-bind:value="item">{{item}}</option>
-					</select>
-				</div>
-				<div class="product-top-panel-sorting">
-					<select v-model="getShelter" id="select-shelter" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">--遺失時間--</option>
-						<option v-for="item in LostTime" v-bind:value="item.id">{{item.LostTime}}</option>
-					</select>
-				</div>
-				<div class="product-top-panel-sorting">
-					<select v-model="sex" id="select-gender" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">--選擇全部性別--</option>
-						<option v-for="item in Gender" v-bind:value="item.id">{{item.Gender}}</option>
-					</select>
-				</div>
-				<div class="product-top-panel-sorting">
-					<select id="select-color" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">毛色</option>
-					</select>
-				</div>
-				<div class="product-top-panel-sorting">
-					<select v-model="age" id="select-age" data-minimum-results-for-search="Infinity" class="form-select">
-						<option value="">--選擇品種--</option>
-						<option v-for="item in Breed" v-bind:value="item.id">{{item.Breed}}</option>
-					</select>
-				</div>
+        <div style="text-align: center">
+            <div class="group-sm group-middle">
+                <div class="product-top-panel-sorting">
+                    <select v-model="getAnimalKind" id="select-category" data-minimum-results-for-search="Infinity" class="form-select">
+                        <option value="">--選擇全部種類--</option>
+                        <option v-for="item in PetType" v-bind:value="item">{{item.PetType}}</option>
+                    </select>
+                </div>
+                <div class="product-top-panel-sorting">
+                    <select v-model="getAnimalPlace" v-on:change="setAnimalArea" id="select-variety" data-minimum-results-for-search="Infinity" class="form-select">
+                        <option value="">--選擇遺失地點--</option>
+                        <option v-for="item in LostLocation" v-bind:value="item">{{item.LostLocation}}</option>
+                    </select>
+                </div>
+                <div class="product-top-panel-sorting">
+                    <select v-model="getShelter" id="select-shelter" data-minimum-results-for-search="Infinity" class="form-select">
+                        <option value="">--遺失時間--</option>
+                        <option v-for="item in LostTime" v-bind:value="item.id">{{item.LostTime}}</option>
+                    </select>
+                </div>
+                <div class="product-top-panel-sorting">
+                    <select v-model="sex" id="select-gender" data-minimum-results-for-search="Infinity" class="form-select">
+                        <option value="">--選擇全部性別--</option>
+                        <option v-for="item in Gender" v-bind:value="item.id">{{item.Gender}}</option>
+                    </select>
+                </div>
+                <div class="product-top-panel-sorting">
+                    <select id="select-color" data-minimum-results-for-search="Infinity" class="form-select">
+                        <option value="">毛色</option>
+                    </select>
+                </div>
+                <div class="product-top-panel-sorting">
+                    <select v-model="age" id="select-age" data-minimum-results-for-search="Infinity" class="form-select">
+                        <option value="">--選擇品種--</option>
+                        <option v-for="item in Breed" v-bind:value="item.id">{{item.Breed}}</option>
+                    </select>
+                </div>
 
-				<div>
-					<input v-on:click="reSearch" type="submit" class="search-button btn btn-primary" id="search" value="重新搜尋" style="background-color: #ffd33b; color: #ffffff;">
+                <div>
+                    <input v-on:click="reSearch" type="submit" class="search-button btn btn-primary" id="search" value="重新搜尋" style="background-color: #ffd33b; color: #ffffff;">
 
-					<input v-on:click="nextPage" type="submit" class="search-button btn btn-primary" id="search" value="下12筆" style="background-color: #ffd33b; color: #ffffff;">
-				</div>
-			</div>
-		</div>
+                    <input v-on:click="nextPage" type="submit" class="search-button btn btn-primary" id="search" value="下12筆" style="background-color: #ffd33b; color: #ffffff;">
+                </div>
+            </div>
+        </div>
 
-		<div class="container mt-3">
-			<div class="row">
-				<div v-for="item in allData" class="col-lg-4 col-md-4 col-6 mb-4">
-					<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + item.animal_id">
-						<div class="square-img-container">
-							<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
-							<img v-else="" v-bind:src="item.album_file" alt="">
-						</div>
-						<div class="card-body-new">
-							<p class="card-title">{{item.PetType}}</p>
-							<p class="card-text">{{item.LostLocation}}</p>
-							<p class="card-text" v-if="item.Gender == '母'">母</p>
-							<p class="card-text" v-if="item.Gender == '公'">公</p>
+        <div class="container mt-3">
+            <div class="row">
+                <div v-for="item in allData" class="col-lg-4 col-md-4 col-6 mb-4">
+                    <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + item.animal_id">
+                        <div class="square-img-container">
+                            <img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
+                            <img v-else="" v-bind:src="item.album_file" alt="">
+                        </div>
+                        <div class="card-body-new">
+                            <p class="card-title">{{item.PetType}}</p>
+                            <p class="card-text">{{item.LostLocation}}</p>
+                            <p class="card-text" v-if="item.Gender == '母'">母</p>
+                            <p class="card-text" v-if="item.Gender == '公'">公</p>
 
-							<p class="card-text">{{item.Color}}</p>
-						</div>
-					</div>
+                            <p class="card-text">{{item.Color}}</p>
+                        </div>
+                    </div>
 
-					@*modal*@
-					<div class="modal fade" v-bind:id="'qq' + item.animal_id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-xl">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="qqq">{{item.LostLocation}}}</h1>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<img v-if="item.Picture == ''" src="~/image/no-pictures.png" alt="">
-									<img v-else="" v-bind:src="item.Picture" alt="">
+                    <!-- modal -->
+                    <div class="modal fade" v-bind:id="'qq' + item.animal_id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="qqq">{{item.LostLocation}}}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img v-if="item.Picture == ''" src="~/image/no-pictures.png" alt="">
+                                    <img v-else="" v-bind:src="item.Picture" alt="">
 
-									<p class="card-title">{{item.PetType}}</p>
-									<p class="card-text" v-if="item.animal_sex == 'F'">母</p>
-									<p class="card-text" v-if="item.animal_sex == 'M'">公</p>
-									<p class="card-text">品種: {{Breed}}</p>
-									<p class="card-text">{{item.animal_colour}}</p>
-									<p class="card-text">飼主姓名: {{OwnerName}}</p>
-									<p class="card-text">遺失地點: {{LostLocation}}</p>
-									<p class="card-text">聯絡電話: {{item.ContactPhone}}</p>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">關閉</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                    <p class="card-title">{{item.PetType}}</p>
+                                    <p class="card-text" v-if="item.Gender == 'F'">母</p>
+                                    <p class="card-text" v-if="item.Gender == 'M'">公</p>
+                                    <p class="card-text">品種: {{Breed}}</p>
+                                    <p class="card-text">{{item.animal_colour}}</p>
+                                    <p class="card-text">飼主姓名: {{OwnerName}}</p>
+                                    <p class="card-text">遺失地點: {{LostLocation}}</p>
+                                    <p class="card-text">聯絡電話: {{item.ContactPhone}}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">關閉</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	@section Scripts {
-		<script src="~/js/product/core.min.js"></script>
-		<script src="~/js/product/script.js"></script>
+    <script>
+        let app = new Vue({
+            el: "#app",
+            data: {
+                allData: [],
+                PetType: [],
+                LostLocation: [],
+                LostTime: [],
+                Gender: [],
+                Breed: [],
+                getPetType: "",
+                getLostLocation: "",      
+                Gender: "",
+            },
+            mounted: function () {
+                this.getAllData();
+            },
+            methods: {
+                getAllData: function () {
+                    let url = "http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=IFJomqVzyB0i";
+                    let params = {
+                        $top: 12,
+                        $skip: this.allData.length,
+                        寵物別: this.getPetType,
+                        遺失地點: this.getLostLocaton,
+                        遺失時間: this.LostTine,
+                        性別: this.Gender,
+                        品種: this.Breed,
+                    };
 
-		<script>
-			let app = new Vue({
-				el: "#app",
-				data: {
-					allData: [],
-					動物別: ["貓", "狗", "其他"],
-					遺失地點: ["基隆市", "嘉義市", "台北市", "嘉義縣", "新北市", "台南市", "桃園縣", "高雄市", "新竹市", "屏東縣", "新竹縣", "台東縣", "苗栗縣", "花蓮縣", "台中市", "宜蘭縣", "彰化縣", "澎湖縣", "南投縣", "金門縣", "雲林縣", "連江縣"],
-					top: 12,
-					skip: 0,
-					性別: "",
-					Gender: [{"sex": "母" }, {  "sex": "公" }],
-					毛色: "",
-					colorList: [],
-				},
-				mounted: function () {
-					this.getAllData();
-				},
-				computed: {
-
-				},
-				methods: {
-					getAllData: function () {
-						let _this = this;
-						let url = `
-												http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=IFJomqVzyB0i
-												&$top=${this.top}
-												&$skip=${this.skip}
-												&寵物別=${this.寵物別}
-												&遺失地點=${this.遺失地點}
-												&性別=${this.性別}
-												&毛色=${this.毛色}
-												&品種=${this.品種}
-											`;
-
-						console.log(url);
-						axios.get(url).then(response => {
-							_this.allData = response.data
-						});
-					},
-
-					// 下12筆資料
-					nextPage: function () {
-						console.log(this.top);
-						console.log(this.skip);
-						this.skip += 12;
-						this.getAllData();
-					},
-
-					// 重新搜尋
-					reSearch: function () {
-						this.skip = 0;
-						console.log(this.skip);
-						this.getAllData();
-					},
-				},
-			});
-		</script>
-	}
-
+                    axios.get(url, { params: params })
+                        .then(response => {
+                            this.allData = this.allData.concat(response.data);
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                },
+                nextPage: function () {
+                    this.getAllData();
+                },
+                reSearch: function () {
+                    this.allData = [];
+                    this.getAllData();
+                }
+            }
+        });
+    </script>
 </body>
 </html>
