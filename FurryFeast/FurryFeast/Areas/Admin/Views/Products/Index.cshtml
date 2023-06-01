@@ -349,7 +349,8 @@
 					let _this = this;
 					let ID = parseInt(item.backEndProduct.productId);
 					let ProductList = [];
-					if (item.backEndProduct.productState == 0) {
+					let currentState = item.backEndProduct.productState;
+					if (item.OnAndOff == true) {
 						if (confirm('確定要上架?')) {
 							axios.put(`/api/products/PutProductState/?id=${ID}&state=1`).then(response => {
 								alert(response.data);
@@ -370,6 +371,7 @@
 							axios.put(`/api/products/PutProductState/?id=${ID}&state=0`).then(response => {
 								alert(response.data);
 								item.OnAndOff = true;
+								item.backEndProduct.productSoldTime = new Date().toISOString();
 								for (let i = 0; i < _this.showProducts.length; i++) {
 									let product = _this.showProducts[i];
 									ProductList.push(product);
