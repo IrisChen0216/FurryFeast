@@ -24,7 +24,7 @@ namespace FurryFeast.Areas.Admin.Api {
             var result = await _context.StockGroups.Select(data => new StockGroupViewModel {
                 GroupsId = data.GroupsId,
                 GroupsCode = data.GroupsCode,
-                GgroupsDescription = data.GgroupsDescription,
+                GroupsDescription = data.GgroupsDescription,
                 GroupsNotes = data.GroupsNotes
             }).ToListAsync();
             return Ok(result);
@@ -46,7 +46,7 @@ namespace FurryFeast.Areas.Admin.Api {
             result = new StockGroup {
                 GroupsId = data.GroupsId,
                 GroupsCode = data.GroupsCode,
-                GgroupsDescription = data.GgroupsDescription,
+                GgroupsDescription = data.GroupsDescription,
                 GroupsNotes = data.GroupsNotes
             };
 
@@ -94,7 +94,7 @@ namespace FurryFeast.Areas.Admin.Api {
             }
 
             result.GroupsCode = data.GroupsCode;
-            result.GgroupsDescription = data.GgroupsDescription;
+            result.GgroupsDescription = data.GroupsDescription;
             result.GroupsNotes = data.GroupsNotes;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
