@@ -147,13 +147,12 @@
 
 								<div class="mt-2">
 									<div class="form-group">
-										<select class="form-select">
+										<select class="form-select" v-model="tempData.groupId">
 											<option value="" selected>--請選擇產品類別--</option>
-											<option v-for="item in Source.StockGroupsData" v-bind:value="item.groupsId">{{item.groupsCode}}, {{item.groupsDescription}}</option>
+											<option v-for="item in Source.StockGroupsData" v-bind:key="item.groupsCode" v-bind:value="item.groupsId">{{item.groupsCode}}, {{item.groupsDescription}}</option>
 										</select>
 									</div>
 								</div>
-
 
 								<div class="row">
 									<div class="btnState  mt-2 pr-10 col-3">
@@ -193,7 +192,7 @@
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused",
 				classOutlineOff: "input-group input-group-outline mt-2",
-				testData: [],
+				groupData: [],
 			},
 			mounted: function () {
 				this.StockArticles();
@@ -264,9 +263,9 @@
 				},
 				// 選擇產品
 				clickArticle: function (data) {
-					this.testData = this.Source.StockGroupsData.filter(d => d.groupsId == data.groupId);
 					this.tempData = data;
 					this.flag_classOutline = true;
+					this.groupData = this.Source.StockGroupsData.filter(d => d.groupsId == data.groupId);
 				},
 				// 清除資料
 				cleanData: function () {
