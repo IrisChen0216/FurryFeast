@@ -16,7 +16,7 @@ namespace FurryFeast.ViewModels
         public int ProductTypeId { get; set; }
 	
 
-		public byte[]? ProductPicImage { get; set; }
+		public List<string>? ProductPicImage { get; set; }
 		public int ArticlesId { get; set; }
 	
 		public string ProductTypeName { get; set; }

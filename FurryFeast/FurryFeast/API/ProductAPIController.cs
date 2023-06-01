@@ -185,31 +185,64 @@ namespace FurryFeast.API
 
 		}
 
+		//[HttpGet("{id}")] //後台商品詳細資訊
+		//public async Task<PetMarketViewModel> GetProduct(int id)
+		//{
+		//	var product =await _context.Products.FindAsync(id);
+		//	var pic =  _context.ProductPics.Where(x => x.ProductId == id);
+		//	PetMarketViewModel model = new PetMarketViewModel
+		//	{
+
+		//		ProductId = product.ProductId,
+		//		ProductName=product.ProductName,
+		//		ProductDescription=product.ProductDescription,
+		//		ProductPrice=product.ProductPrice,
+		//		ProductAmount=product.ProductAmount,
+		//		ProductTypeId=product.ProductTypeId,
+		//		ProductLaunchedTime=product.ProductLaunchedTime,
+		//		ProductSoldTime=product.ProductSoldTime,
+		//		ProductState=product.ProductState,
+		//		ProductPicImage=pic.ToList(),
+		//		ProductTypeName=product.ProductType.ProductTypeName,
+		//		ArticlesId=product.ArticlesId
+		//	};
+
+		//	return model;
+		//}
+
 		[HttpGet("{id}")] //後台商品詳細資訊
 		public async Task<PetMarketViewModel> GetProduct(int id)
 		{
-			var product =await _context.Products.FindAsync(id);
+			var product = await _context.Products.FindAsync(id);
+			var productPic = _context.ProductPics.Where(p => p.ProductId == id).ToList();
+			List<string> Pic = new List<string>();
+
+			foreach (var pic in productPic)
+			{
+				string Base64Pic = Convert.ToBase64String(pic.ProductPicImage);
+				Pic.Add(Base64Pic);
+			}
 
 			PetMarketViewModel model = new PetMarketViewModel
 			{
+
 				ProductId = product.ProductId,
-				ProductName=product.ProductName,
-				ProductDescription=product.ProductDescription,
-				ProductPrice=product.ProductPrice,
-				ProductAmount=product.ProductAmount,
-				ProductTypeId=product.ProductTypeId,
-				ProductLaunchedTime=product.ProductLaunchedTime,
-				ProductSoldTime=product.ProductSoldTime,
-				ProductState=product.ProductState,
-				ProductPicImage=product.ProductPics.First().ProductPicImage,
-				ProductTypeName=product.ProductType.ProductTypeName,
-				ArticlesId=product.ArticlesId
+				ProductName = product.ProductName,
+				ProductDescription = product.ProductDescription,
+				ProductPrice = product.ProductPrice,
+				ProductAmount = product.ProductAmount,
+				ProductTypeId = product.ProductTypeId,
+				ProductLaunchedTime = product.ProductLaunchedTime,
+				ProductSoldTime = product.ProductSoldTime,
+				ProductState = product.ProductState,
+				ProductPicImage = Pic,
+				ProductTypeName = product.ProductType.ProductTypeName,
+				ArticlesId = product.ArticlesId
 			};
 
 			return model;
 		}
 
-		
 		[HttpGet("{id}")] //前台商品詳細資訊
 		public async Task<ProductDetailViewModel> ProductDetail(int id)
 		{
@@ -255,7 +288,7 @@ namespace FurryFeast.API
 			product.ProductTypeId = model.ProductTypeId;
 			product.ProductType.ProductTypeName = model.ProductTypeName;		
 			product.ArticlesId = model.ArticlesId;
-			product.ProductPics.First().ProductPicImage = model.ProductPicImage;
+			//product.ProductPics.First().ProductPicImage = model.ProductPicImage;
 			product.ProductLaunchedTime = model.ProductLaunchedTime;
 			product.ProductSoldTime = model.ProductSoldTime;
 
@@ -352,44 +385,7 @@ namespace FurryFeast.API
 			return "新增商品成功";
 		}
 
-		//[HttpPost]//加入圖片版
-		//public async Task<string> PostProduct([FromForm] AddProductViewModel model)
-		//{
-
-		//	Product product = new Product();
-
-		//	product.ProductId = model.ProductId;
-		//	product.ProductName = model.ProductName;
-		//	product.ProductPrice = model.ProductPrice;
-		//	product.ProductAmount = model.ProductAmount;
-		//	product.ProductDescription = model.ProductDescription;
-		//	product.ProductState = model.ProductState;
-		//	product.ProductTypeId = model.ProductTypeId;
-		//	product.ArticlesId = model.ArticlesId;
-		//	product.ProductLaunchedTime = model.ProductLaunchedTime;			
-
-		//	_context.Products.Add(product);
-
-		//ProductPic productPic = new ProductPic();
-		//productPic.ProductId = model.ProductId;
-		//productPic.ProductPicId = model.ProductPicId;
-		////product.ProductPics =
-
-		//_context.ProductPics.Add(productPic);
-
-		//	try
-		//	{
-		//		await _context.SaveChangesAsync();
-		//	}
-		//	catch (DbUpdateConcurrencyException)
-		//	{
-
-		//		return "新增商品失敗";
-
-		//	}
-
-		//	return "新增商品成功";
-		//}
+		
 
 		[HttpPost]
 		public async Task<string> PostProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] int ProductId)
