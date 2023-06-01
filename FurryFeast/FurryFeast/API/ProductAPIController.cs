@@ -390,21 +390,28 @@ namespace FurryFeast.API
 		[HttpPost]
 		public async Task<string> PostProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] int ProductId)
 		{
+			//List<ProductPic> productPicImages = new List<ProductPic>();
+			
 			foreach(var pic in ProductPicImage)
 			{
-				ProductPic image = new ProductPic();
-				//image.ProductPicImage = 
+				if (pic != null)
+				{
+
+					byte[] data = null;
+					using (BinaryReader br = new BinaryReader(pic.OpenReadStream())) 
+					{
+
+						data = br.ReadBytes((int)pic.Length);
+						ProductPic image = new ProductPic();
+						image.ProductPicImage = data;
+						image.ProductId = ProductId;
+						_context.ProductPics.Add(image);
+					}
+
+				};
+
 			};
 			
-
-			//image.ProductPicId = ProductPicImage..ProductPicId;
-			//image.ProductPicImage = model.ProductPicImage;
-			//image.ProductId = model.ProductId;
-
-
-			//_context.ProductPics.Add(image);
-
-
 			try
 			{
 				await _context.SaveChangesAsync();

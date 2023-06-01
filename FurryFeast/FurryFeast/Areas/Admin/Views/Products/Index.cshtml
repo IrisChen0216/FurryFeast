@@ -464,8 +464,7 @@
 				InsertImages: function () {
 					let _this = this;
 					let formData = new FormData();
-					//formData.append('productId', _this.selectedProductId);
-					//let ID=parseInt(_this.selectedProductId);
+					
 					formData.append('ProductId', _this.selectedProductId);
 					for (let i = 0; i < 3; i++) {
 						if (_this.productPicImage[i] != null) {
