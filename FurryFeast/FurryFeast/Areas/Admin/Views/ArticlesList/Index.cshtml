@@ -126,9 +126,7 @@
 									</td>
 									<td>
 										<span class="text-secondary text-xs font-weight-bold">{{item.adminAccount}}</span>
-
-										@*											<p class="text-xs font-weight-bold mb-0">{{item.adminAccount}}</p>
-*@ </td>
+									</td>
 									<td class="align-middle text-center text-sm">
 										<span class="text-secondary text-xs font-weight-bold">{{item.articleDate}}</span>
 									</td>
@@ -247,7 +245,7 @@
 				},
 				deleteAticle: function(ID) {
 					let _this = this;
-					axios.delete(`/api/articles/deleteAticle/${ID}`).then(response => {
+					axios.delete(`/api/articles/DeleteAticle/${ID}`).then(response => {
 						_this.getData();
 
 					});

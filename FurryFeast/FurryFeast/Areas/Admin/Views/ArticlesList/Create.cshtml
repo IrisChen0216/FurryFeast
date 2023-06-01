@@ -129,9 +129,15 @@
 
 					};
 					axios.post(`/api/articles/AddArticle/`, request).then(response => {
-						_this.Success();
-						_this.articleTitle = "";
-						_this.articleText = "";
+						if (response.data == "新增文章成功") {
+							_this.Success();
+							_this.articleTitle = "";
+							_this.articleText = "";
+
+							setTimeout(() => {
+								window.location.href = '/Admin/ArticlesList/index';  // 轉向 index 頁面
+							}, 1500);
+						}
 					});
 				},
 				Success: function() {
@@ -139,10 +145,11 @@
 						position: 'center',
 						icon: 'success',
 						title: '新增文章成功',
+						text: '回到文章列表',
 						showConfirmButton: false,
 						timer: 1500
 					});
-				},
+				}
 			}
 		});
 

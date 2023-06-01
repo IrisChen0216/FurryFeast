@@ -59,6 +59,33 @@ public class ArticlesListController : ControllerBase
     }
 
     [HttpPost]
+    public async Task<string> AddArticle([FromBody] ArticleViewModel model)
+    {
+
+        Article newArticle = new Article();
+
+        newArticle.AdminId = model.AdminId;
+        newArticle.ArticleTitle = model.ArticleTitle;
+        newArticle.ArticleText = model.ArticleText;
+        newArticle.ArticleDate = model.ArticleDate;
+
+        _context.Articles.Add(newArticle);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+
+            return "新增文章失敗";
+
+        }
+
+        return "新增文章成功";
+    }
+
+    [HttpPost]
     public object UpdateArticle([FromBody] ArticleViewModel model)
     {
         try

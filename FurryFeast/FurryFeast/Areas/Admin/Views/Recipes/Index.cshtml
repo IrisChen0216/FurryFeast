@@ -1,0 +1,65 @@
+﻿@model IEnumerable<FurryFeast.Models.Recipe>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RecipesName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecipesDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecipesData)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecipesMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecipesNotes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PetTypes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipesName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipesDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipesData)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipesMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipesNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PetTypes.PetTypesId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RecipesId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RecipesId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RecipesId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
