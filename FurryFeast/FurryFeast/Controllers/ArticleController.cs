@@ -81,16 +81,33 @@ namespace FurryFeast.Controllers {
 			return View();
 		}
 
-		// 聯絡我們，送出表單
-		[HttpPost]
-		public IActionResult ContactUs(ContactU contact) {
-			if (ModelState.IsValid) {
-				_furryFeastContext.ContactUs.Add(contact);
-				_furryFeastContext.SaveChanges();
-				return View();
-			}
-			return View(contact);
-		}
+        // 聯絡我們，送出表單
+        [HttpPost]
+        public IActionResult ContactUs(ContactU contact)
+        {
+            if (ModelState.IsValid)
+            {
+                _furryFeastContext.ContactUs.Add(contact);
+                _furryFeastContext.SaveChanges();
+
+                TempData["SuccessMessage"] = "表單送出成功";
+                return RedirectToAction("ContactUsSuccess");
+            }
+
+            TempData["ErrorMessage"] = "表單送出失敗";
+            return RedirectToAction("ContactUsFailure");
+        }
+        public IActionResult ContactUsSuccess()
+        {
+            ViewBag.Message = TempData["SuccessMessage"] as string;
+            return View();
+        }
+
+        public IActionResult ContactUsFailure()
+        {
+            ViewBag.Message = TempData["ErrorMessage"] as string;
+            return View();
+        }
 
 
         public async Task<IActionResult> Lostpets()
