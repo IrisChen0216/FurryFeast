@@ -48,7 +48,7 @@
 				<div class="row">
 					<div class="btnState mx-3 mt-2 pr-10 col-3">
 						<button class="btn bg-gradient-info  mb-0 toast-btn" v-on:click="insertData">新增</button>
-						<button class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="deleteData">刪除</button>
+						<button class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="deleteCheck">刪除</button>
 					</div>
 				</div>
 
@@ -320,13 +320,47 @@
 				// 新增資料
 				insertData: function () {
 					let _this = this;
-					axios.post(`/api/StockArticlesApi/PostData`, _this.choseTableData).then(response => { alert(response.data) }).catch(error => { alert(error) });
+					axios.post(`/api/StockArticlesApi/PostData`, _this.choseTableData).then(response => { alert(response.data); }).catch(error => { alert(error); });
 					this.flag_classOutline = false;
+				},
+				// 刪除確認
+				deleteCheck: function () {
+					Swal.fire({
+						title: `確認刪除?`,
+						text: `編號: ${this.choseTableData.articlesCode}, 描述: ${this.choseTableData.articlesDescription}.`,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: `刪除`,
+						cancelButtonText: '取消',
+					}).then((result) => {
+						if (result.isConfirmed) {
+							this.deleteData();
+						}
+					})
 				},
 				// 刪除資料
 				deleteData: function () {
 					let _this = this;
-					axios.delete(`/api/StockArticlesApi/DeleteData/${this.choseTableData.articlesCode}`).then(response => { alert(response.data); console.log("QQQ"); }).catch(error => { alert(error) });
+					axios.delete(`/api/StockArticlesApi/DeleteData/${this.choseTableData.articlesCode}`).then(response => {
+						Swal.fire({
+							title: `已刪除!`,
+							text: `編號: ${this.choseTableData.articlesCode}, 描述: ${this.choseTableData.articlesDescription}.`,
+							icon: 'success',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						})
+					}).catch(error => {
+						Swal.fire({
+							title: `錯誤!`,
+							text: error,
+							icon: 'error',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						})
+					});
+					this.StockArticles();
 					this.flag_classOutline = false;
 				},
 			},
