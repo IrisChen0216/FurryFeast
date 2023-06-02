@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FurryFeast.API;
 
-[Authorize]
+//[Authorize]
 [Route("/api/Member/[action]")]
 [ApiController]
 public class MemberApiController : ControllerBase
