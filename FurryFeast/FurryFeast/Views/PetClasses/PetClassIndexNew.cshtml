@@ -25,13 +25,13 @@
 			<div class="aside row row-30 row-md-50 justify-content-md-between">
 				<!-- RD Search Form-->
 				<div class="aside-item col-sm-6 col-md-5 col-lg-12">
-					<form class="rd-search form-search" action="search-results.html" method="GET">
+					@*<form class="rd-search form-search" action="search-results.html" method="GET">*@
 						<div class="form-wrap">
 							<label class="form-label" for="search-form">Search ...</label>
-							<input class="form-input" id="search-form" type="text" name="s" autocomplete="off">
-							<button class="button-search fl-bigmug-line-search74" type="submit"></button>
+							<input class="form-input" id="search-form" type="text" name="s" autocomplete="off" v-model="filterObj.keyword">
+							<button class="button-search fl-bigmug-line-search74" type="submit" v-on:click="ClassFilter"></button>
 						</div>
-					</form>
+					@*</form>*@
 					<div></div>
 					<h6 class="aside-title">課程種類</h6>
 					<ul class="list-shop-filter">
@@ -211,18 +211,11 @@
 
 					});
 				},
-				productFilter: function () {
+				ClassFilter: function () {
 					//依照搜尋欄位篩選商品
 					var _this = this;
-
-					_this.showProducts = [];
-					for (var i = 0; i < _this.products.length; i++) {
-						var item = _this.products[i];
-						if (item.product.productName.includes(_this.filterObj.keyword)) {
-							_this.showProducts.push(item);
-						}
-					}
-
+					_this.ShowClasses = _this.ShowClasses.filter(item => item.petClasses.petClassName.includes(_this.filterObj.keyword));
+					
 				},
 				sortBy: function (val) {
 					let _this = this;
