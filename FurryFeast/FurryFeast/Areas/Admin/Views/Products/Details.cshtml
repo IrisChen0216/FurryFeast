@@ -112,7 +112,7 @@
 										@*<h6 class="mb-0"><input v-model="backendProduct.productTypeName" /></h6>*@
 										<h6>
 											<select v-model="selected">
-												<option value="">請選擇</option>
+												<option :value="backendProduct.productTypeId">--請選擇--</option>
 												<option value="1">狗用</option>
 												<option value="2">貓用</option>
 												<option value="3">鮮食</option>
@@ -162,6 +162,7 @@
 									<div class="col-md-8 mb-md-0 mb-4" v-for="(pic,idx) in backendProduct.productPicImage">
 										<h6 class="mb-0">商品圖片：</h6>
 										<img :src="'data:image/png;base64,'+ pic" width="250" />
+										<input type="file" v-on:change="ImgPreview($event,idx)"/>
 									</div>
 								</div>
 							</div>
@@ -247,9 +248,18 @@
 
 					});
 				},
+				ImgPreview:function(event,idx){
+					let _this=this;
+					let newImg=event.target.files[0];
+					let reader= new FileReader();
+					reader.onload=(event)=>{
+						_this.backendProduct.productPicImage[idx]=event.target.result.split(',')[1];
+						//_this.backendProduct.productPicImage[idx]=reader.result;
+						_this.$forceUpdate();
+					};
+					reader.readAsDataURL(newImg);
+				}
 			},
-
-
 			computed: {
 
 			},
