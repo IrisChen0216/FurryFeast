@@ -12,7 +12,7 @@
 	<h2>訂單資料</h2>
 </div>
 <div class="container" style="display:block">
-	<form asp-for="order" method="post" class="form-control" action="ShowOrder">
+	<form method="post" class="form-control" asp-controller="PayMoney" asp-action="SpgatewayPayBill">
 		<div class="row">
 			<div class="col-md-5 col-lg-5">
 				<h4 class="fw-medium">訂單內容</h4>
@@ -38,7 +38,13 @@
 						</tbody>
 					</table>
 					<h4 name="OrderTotalPrice">總計:@ViewBag.Total</h4>
-					<input type="hidden" name="MemberId" value="" />
+					<input type="hidden" name="amount" value="@ViewBag.Total" />
+					<input type="hidden" name="ordernumber" value="@Model.OrderId" />
+					<select name="payType">
+						<option value="CREDIT">信用卡</option>
+						<option value="WEBATM">WEBATM</option>
+						<option value="VACC">ATM 轉帳</option>						
+					</select>
 				</div>
 			</div>
 
