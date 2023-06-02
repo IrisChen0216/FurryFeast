@@ -16,7 +16,7 @@
 			color: #000000;
 			cursor: pointer;
 		}
-
+		/*下拉選單(ul li)*/
 		.drop {
 			background-color: #ffedad;
 			color: #3b3b3b;
@@ -72,7 +72,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="tableHover" v-for="item in showData" v-bind:key="item.articlesCode" v-on:click="clickArticle(item)">
+										<tr class="tableHover" v-for="item in showData" v-bind:key="item.articlesId" v-on:click="clickArticle(item)">
 											<td class="align-middle text-center">
 												<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
 											</td>
@@ -95,61 +95,82 @@
 										@*判斷點選某筆 table 資料時加上 class outline 效果*@
 										<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
 											<label class="form-label">編號</label>
-											<input type="text" class="form-control" v-bind:value="tempData.articlesCode">
+											<input type="text" class="form-control" v-bind:value="choseTableData.articlesCode">
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
 											<label class="form-label">描述</label>
-											<input type="text" class="form-control" v-bind:value="tempData.articlesDescription">
+											<input type="text" class="form-control" v-bind:value="choseTableData.articlesDescription">
 										</div>
 									</div>
 									<div class="col-md-4">
-										<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
+@*										<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
 											<label class="form-label">是否可選</label>
-											<input type="text" class="form-control" v-bind:value="tempData.articlesIsValid">
-										</div>
+											<input type="text" class="form-control" v-bind:value="choseTableData.articlesIsValid">
+										</div>*@
+
+										<input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
+										<label class="btn btn-outline-primary" for="btncheck1">是否可選</label>
+
 									</div>
 								</div>
 
 								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
 									<label class="form-label">備註</label>
-									<input type="text" class="form-control" v-bind:value="tempData.articlesNotes">
+									<input type="text" class="form-control" v-bind:value="choseTableData.articlesNotes">
 								</div>
 								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
 									<label class="form-label">價格</label>
-									<input type="number" class="form-control" v-bind:value="tempData.articlesPrice">
+									<input type="number" class="form-control" v-bind:value="choseTableData.articlesPrice">
 								</div>
 								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
 									<label class="form-label">數量</label>
-									<input type="number" class="form-control" v-bind:value="tempData.articlesQuantity">
+									<input type="number" class="form-control" v-bind:value="choseTableData.articlesQuantity">
 								</div>
-								@*								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
-								<label class="form-label">產品類別</label>
-								<input type="text" class="form-control" v-bind:value="tempData.groupId">
+
+								@*下拉選單*@
+								<div class="mt-2">
+									<div class="form-group">
+										<label class="form-label">請選擇計量單位:</label>
+										<select class="form-select" v-model="choseTableData.measureUnitId">
+											<option v-for="item in Source.StockMeasureUnitsData" v-bind:key="item.measureUnitsId" v-bind:value="item.measureUnitsId">{{item.measureUnitsCode}}, {{item.measureUnitsDescription}}</option>
+										</select>
+									</div>
 								</div>
-								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
-								<label class="form-label">圖片</label>
-								<input type="text" class="form-control" v-bind:value="tempData.imagesId">
-								</div>
-								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
-								<label class="form-label">計量單位</label>
-								<input type="text" class="form-control" v-bind:value="tempData.measureUnitId">
-								</div>
-								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
-								<label class="form-label">供應商</label>
-								<input type="text" class="form-control" v-bind:value="tempData.suppliersId">
-								</div>
-								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
-								<label class="form-label">倉庫</label>
-								<input type="text" class="form-control" v-bind:value="tempData.warehousesId">
-								</div>*@
 
 								<div class="mt-2">
 									<div class="form-group">
-										<select class="form-select" v-model="tempData.groupId">
-											<option value="" selected>--請選擇產品類別--</option>
-											<option v-for="item in Source.StockGroupsData" v-bind:key="item.groupsCode" v-bind:value="item.groupsId">{{item.groupsCode}}, {{item.groupsDescription}}</option>
+										<label class="form-label">請選擇產品類別:</label>
+										<select class="form-select" v-model="choseTableData.groupId">
+											<option v-for="item in Source.StockGroupsData" v-bind:key="item.groupsId" v-bind:value="item.groupsId">{{item.groupsCode}}, {{item.groupsDescription}}</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="mt-2">
+									<div class="form-group">
+										<label class="form-label">請選擇產品倉庫:</label>
+										<select class="form-select" v-model="choseTableData.warehousesId">
+											<option v-for="item in Source.StockWarehousesData" v-bind:key="item.warehousesId" v-bind:value="item.warehousesId">{{item.warehousesCode}}, {{item.warehousesDescription}}</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="mt-2">
+									<div class="form-group">
+										<label class="form-label">請選擇產品供應商:</label>
+										<select class="form-select" v-model="choseTableData.suppliersId">
+											<option v-for="item in Source.StockSuppliersData" v-bind:key="item.suppliersId" v-bind:value="item.suppliersId">{{item.suppliersCode}}, {{item.suppliersDescription}}</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="mt-2">
+									<div class="form-group">
+										<label class="form-label">請選擇產品圖片:</label>
+										<select class="form-select" v-model="choseTableData.imagesId">
+											<option v-for="item in Source.StockImagesData" v-bind:key="item.imagesId" v-bind:value="item.imagesId">{{item.imagesCode}}, {{item.imagesDescription}}</option>
 										</select>
 									</div>
 								</div>
@@ -160,7 +181,6 @@
 										<button class="btn bg-gradient-warning  mb-0 toast-btn" v-on:click="cleanData">清除</button>
 									</div>
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -188,11 +208,11 @@
 				},
 				keyWord: "",
 				showData: [],
-				tempData: [],
+				choseTableData: [],
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused",
 				classOutlineOff: "input-group input-group-outline mt-2",
-				groupData: [],
+				//groupData: [],
 			},
 			mounted: function () {
 				this.StockArticles();
@@ -263,18 +283,18 @@
 				},
 				// 選擇產品
 				clickArticle: function (data) {
-					this.tempData = data;
+					this.choseTableData = data;
 					this.flag_classOutline = true;
-					this.groupData = this.Source.StockGroupsData.filter(d => d.groupsId == data.groupId);
+					//this.groupData = this.Source.StockGroupsData.filter(d => d.groupsId == data.groupId);
 				},
 				// 清除資料
 				cleanData: function () {
-					this.tempData = [];
+					this.choseTableData = [];
 					this.flag_classOutline = false;
 				},
 				// 新增資料
 				newData: function () {
-					this.tempData = [];
+					this.choseTableData = [];
 					this.flag_classOutline = false;
 				},
 			},
