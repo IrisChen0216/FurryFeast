@@ -130,16 +130,16 @@
 					<article class="product-modern text-center text-sm-left">
 						<div class="unit unit-spacing-0 flex-column flex-sm-row">
 							@*<div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="@item.PetClassId"><img src="~/image/cat/class.jpg" alt="" width="250" height="300" /></a></div>*@
-							<div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id=""><img :src="'data:image/png;base64,'+item.petClassPic" /></a></div>
+							<div class="unit-left"><a class="product-modern-figure link-img" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId"><img :src="'data:image/png;base64,'+item.petClassPic" /></a></div>
 
 							<div class="unit-body">
 								<div class="product-modern-body">
-									<h4 class="product-modern-title"><a asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="">{{item.petClasses.petClassName}}</a></h4>
+									<h4 class="product-modern-title"><a :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">{{item.petClasses.petClassName}}</a></h4>
 									<div class="product-price-wrap">
 										@*<div class="product-price product-price-old">${{item.petClasses.petClassPrice}}</div>*@
 										<div class="product-price">${{item.petClasses.petClassPrice}}</div>
 									</div>
-									<p class="product-modern-text JQellipsis">{{item.petClasses.petClassInformation}}</p><a class="button button-primary button-zakaria" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="">課程詳情</a>
+									<p class="product-modern-text JQellipsis">{{item.petClasses.petClassInformation}}</p><a class="button button-primary button-zakaria" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">課程詳情</a>
 								</div>
 							</div>
 						</div><span class="product-badge product-badge-sale">Sale</span>
@@ -165,7 +165,7 @@
 </div>
 
 
-@*描述文字*@
+
 @section Scripts{
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>

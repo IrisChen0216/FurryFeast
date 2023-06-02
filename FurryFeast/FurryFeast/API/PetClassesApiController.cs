@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using FurryFeast.Models;
+using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,5 +64,28 @@ namespace FurryFeast.API
 
             });
         }
-    }
+
+		[HttpGet("{id}")]
+		public async Task<PetClassViewModel> GetPetClass(int id)
+		{
+			var petClass = await _context.PetClasses.FindAsync(id);
+
+			var model = new PetClassViewModel
+			{
+				PetClassId = petClass.PetClassId,
+				PetClassName = petClass.PetClassName,
+				PetClassPrice = petClass.PetClassPrice,
+				PetClassInformation = petClass.PetClassInformation,
+				PetClassDate = petClass.PetClassDate,
+				TeacherId = petClass.TeacherId,
+				PetTypesId = petClass.PetTypesId,
+				PetClassTypeId = petClass.PetClassTypeId,
+				PetClassTypeName = petClass.PetClassType.PetClassTypeName,
+				TeacherName = petClass.Teacher.TeacherName,
+				PetClassPics = petClass.PetClassPics.Select(x => x.PetClassPicImage).FirstOrDefault()
+			};
+
+			return model;
+		}
+	}
 }
