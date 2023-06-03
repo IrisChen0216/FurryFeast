@@ -2,7 +2,8 @@
 
 namespace FurryFeast.Areas.Admin.Controllers
 {
-	public class ContactUsController : Controller
+    [Area("Admin")]
+    public class ContactUsController : Controller
 	{
 		public IActionResult ContactUs()
 		{
