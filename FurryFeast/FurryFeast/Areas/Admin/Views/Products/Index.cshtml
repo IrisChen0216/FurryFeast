@@ -62,7 +62,7 @@
 							<li><button class="dropdown-item" type="button" v-on:click="ProductType(2)">貓咪商品</button></li>
 						</ul>
 					</div>
-					<div class="dropdown mx-3 mt-2 col-1">
+					@*<div class="dropdown mx-3 mt-2 col-1">
 						<button class="btn btn-secondary dropdown-toggle drop" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
 							商品類別
 						</button>
@@ -71,7 +71,7 @@
 							<li><button class="dropdown-item" type="button">生活用品</button></li>
 							<li><button class="dropdown-item" type="button">主食/零食</button></li>
 						</ul>
-					</div>
+					</div>*@
 
 					@*<select>
 					<option>全部商品</option>
@@ -91,7 +91,12 @@
 							新增商品
 						</button>
 					</div>
-
+					<div class="form-group  mt-2 col-2">
+						@*新增按鍵*@
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertImgPage">
+							新增商品圖片
+						</button>
+					</div>
 					@*搜尋欄*@
 					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
 						<div class="input-group input-group-outline">
@@ -210,14 +215,7 @@
 							<option value="3">鮮食</option>
 						</select>
 					</div>
-					@*<div class="form-group" >
-					<label class="form-label">商品圖片1:</label>
-					<input class="form-control" v-model="productPicImage[0]" type="file"/>
-					<label class="form-label">商品圖片2:</label>
-					<input class="form-control" v-model="productPicImage[1]" type="file" />
-					<label class="form-label">商品圖片3:</label>
-					<input class="form-control" v-model="productPicImage[2]" type="file" />
-					</div>*@
+					
 					<div class="form-group">
 						<label class="form-label">商品庫存名稱:</label>
 						<select v-model="selectedArticle">
@@ -229,6 +227,40 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="CloseInsertPage">關閉</button>
 					<button type="button" class="btn btn-primary" v-on:click="AddProduct">新增</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="modal fade " id="insertImgPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" enctype="multipart/form-data">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="form-label">商品名稱:</label>
+
+						<select v-model="selectedProductId">
+							<option>--選擇--</option>
+							<option v-for="item in backendProducts" :value="item.backEndProduct.productId">{{item.backEndProduct.productName}}</option>
+						</select>
+					</div>
+					<div class="form-group">
+					<label class="form-label">商品圖片1:</label>
+					<input class="form-control" v-on:change="FileChange($event,0)" type="file" />
+					<label class="form-label">商品圖片2:</label>
+					<input class="form-control" v-on:change="FileChange($event,1)" type="file" />
+					<label class="form-label">商品圖片3:</label>
+					<input class="form-control" v-on:change="FileChange($event,2)" type="file" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="CloseInsertPage">關閉</button>
+					<button type="button" class="btn btn-primary" v-on:click="InsertImages">新增</button>
 				</div>
 			</div>
 		</div>
@@ -256,9 +288,10 @@
 				productType: "",
 				productState: "",
 				productLaunchedTime: "",
-				productPicImage: ['', '', ''],
+				productPicImage: ["","",""],
 				selectedArticle: "",
 				originState: [],
+				selectedProductId:null,
 			},
 			mounted: function () {
 				let _this = this;
@@ -316,7 +349,8 @@
 					let _this = this;
 					let ID = parseInt(item.backEndProduct.productId);
 					let ProductList = [];
-					if (item.backEndProduct.productState == 0) {
+					let currentState = item.backEndProduct.productState;
+					if (item.OnAndOff == true) {
 						if (confirm('確定要上架?')) {
 							axios.put(`/api/products/PutProductState/?id=${ID}&state=1`).then(response => {
 								alert(response.data);
@@ -337,6 +371,7 @@
 							axios.put(`/api/products/PutProductState/?id=${ID}&state=0`).then(response => {
 								alert(response.data);
 								item.OnAndOff = true;
+								item.backEndProduct.productSoldTime = new Date().toISOString();
 								for (let i = 0; i < _this.showProducts.length; i++) {
 									let product = _this.showProducts[i];
 									ProductList.push(product);
@@ -353,6 +388,11 @@
 					const myModal = new bootstrap.Modal('#insertPage')
 					myModal.show();
 				},
+				showInsertImgPage: function () {
+					const myModal = new bootstrap.Modal('#insertImgPage')
+					myModal.show();
+				},
+
 				CloseInsertPage: function () {
 					const myModal = new bootstrap.Modal('#insertPage')
 					myModal.hide();
@@ -389,7 +429,8 @@
 				},
 				AddProduct: function () {
 					let _this = this;
-					var request = {
+
+					let request = {
 						ProductId: 0,
 						ProductName: _this.productName,
 						ProductAmount: _this.productAmount,
@@ -399,12 +440,14 @@
 						ProductTypeId: _this.productType,
 						ProductLaunchedTime: new Date(),
 						ArticlesId: _this.selectedArticle,
-
+						
+						
 					};
+
 					axios.post(`/api/products/PostProduct/`, request).then(response => {
 						alert(response.data);
 						_this.Products();
-						
+
 						_this.productName = "";
 						_this.productPrice = "";
 						_this.productAmount = "";
@@ -412,6 +455,29 @@
 						_this.productType = "";
 						_this.productState = "";
 						_this.selectedArticle = "";
+						
+					});
+			
+				},
+				FileChange: function (event, idx) {
+					let _this = this;
+					_this.productPicImage[idx] = event.target.files[0];
+				},
+				InsertImages: function () {
+					let _this = this;
+					let formData = new FormData();
+					
+					formData.append('ProductId', _this.selectedProductId);
+					for (let i = 0; i < 3; i++) {
+						if (_this.productPicImage[i] != null) {
+							formData.append('ProductPicImage', _this.productPicImage[i]);
+						}
+					};
+
+					axios.post(`/api/products/PostProductImage/`, formData).then(response => {
+						alert(response.data);
+						_this.Products();
+						_this.productPicImage = ["", "", ""];
 					});
 				},
 				ProductType: function (typeNum) {

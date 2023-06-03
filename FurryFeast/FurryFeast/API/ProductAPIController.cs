@@ -3,6 +3,7 @@ using FurryFeast.Models;
 using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.IO.Pipes;
 
@@ -11,18 +12,18 @@ namespace FurryFeast.API
 	[Route("api/products/[action]")]
 	[ApiController]
 
-	
+
 	public class ProductAPIController : ControllerBase
 	{
 		private readonly db_a989fb_furryfeastContext _context;
 		public ProductAPIController(db_a989fb_furryfeastContext context)
 		{
-			_context=context;
+			_context = context;
 		}
-		
+
 		public object AllProducts()
 		{
-			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x=>x.ProductState==1).Select(x => new
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1).Select(x => new
 			{
 				product = new
 				{
@@ -33,24 +34,24 @@ namespace FurryFeast.API
 					productAmount = x.ProductAmount,
 					productPicId = x.ProductPicId,
 					productLauchedTime = x.ProductLaunchedTime,
-					
+
 
 				},
-				pics = x.ProductPics.Select(p=>p.ProductPicImage).FirstOrDefault(),
+				pics = x.ProductPics.Select(p => p.ProductPicImage).FirstOrDefault(),
 				type = new
 				{
-					productypeName=x.ProductType.ProductTypeName,
-					productypeId= x.ProductType.ProductTypeId
+					productypeName = x.ProductType.ProductTypeName,
+					productypeId = x.ProductType.ProductTypeId
 				}
 
 			});
-			
+
 
 		}
 
 		public object ProductsType(int type)
 		{
-			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1 && x.ProductTypeId==type).Select(x => new
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1 && x.ProductTypeId == type).Select(x => new
 			{
 				product = new
 				{
@@ -78,40 +79,40 @@ namespace FurryFeast.API
 
 		//給後臺用的商品
 		public object backEndProducts()
-        {
-						
-            return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x=>x.Articles).Select(x => new
-            {
-                backEndProduct = new
-                {
-                    productId = x.ProductId,
-                    productName = x.ProductName,
-                    productDescription = x.ProductDescription,
-                    productPrice = x.ProductPrice,
-                    productAmount = x.ProductAmount,
-                    productPicId = x.ProductPicId,
-                    productLauchedTime = x.ProductLaunchedTime,
-                    productSoldTime=x.ProductSoldTime,
-                    productState=x.ProductState,
-					productArticleId=x.ArticlesId
-				},
-                backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
-                backEndType = x.ProductType.ProductTypeName,
-				backEndArticle=new
+		{
+
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x => x.Articles).Select(x => new
+			{
+				backEndProduct = new
 				{
-					ArticleId=x.ArticlesId,
-					ArticleName=x.Articles.ArticlesDescription
+					productId = x.ProductId,
+					productName = x.ProductName,
+					productDescription = x.ProductDescription,
+					productPrice = x.ProductPrice,
+					productAmount = x.ProductAmount,
+					productPicId = x.ProductPicId,
+					productLauchedTime = x.ProductLaunchedTime,
+					productSoldTime = x.ProductSoldTime,
+					productState = x.ProductState,
+					productArticleId = x.ArticlesId
+				},
+				backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
+				backEndType = x.ProductType.ProductTypeName,
+				backEndArticle = new
+				{
+					ArticleId = x.ArticlesId,
+					ArticleName = x.Articles.ArticlesDescription
 				}
 
 			});
 
 
-        }
+		}
 
 		public object backEndProductsType(int type)
 		{
 
-			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x => x.Articles).Where(x=>x.ProductTypeId==type).Select(x => new
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x => x.Articles).Where(x => x.ProductTypeId == type).Select(x => new
 			{
 				backEndProduct = new
 				{
@@ -142,7 +143,7 @@ namespace FurryFeast.API
 		public object backEndProductsState(int state)
 		{
 
-			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x => x.Articles).Where(x => x.ProductState==state).Select(x => new
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Include(x => x.Articles).Where(x => x.ProductState == state).Select(x => new
 			{
 				backEndProduct = new
 				{
@@ -173,7 +174,7 @@ namespace FurryFeast.API
 		{
 			return _context.StockArticles.Select(x => new
 			{
-				
+
 				backEndArticle = new
 				{
 					ArticleId = x.ArticlesId,
@@ -184,31 +185,64 @@ namespace FurryFeast.API
 
 		}
 
+		//[HttpGet("{id}")] //後台商品詳細資訊
+		//public async Task<PetMarketViewModel> GetProduct(int id)
+		//{
+		//	var product =await _context.Products.FindAsync(id);
+		//	var pic =  _context.ProductPics.Where(x => x.ProductId == id);
+		//	PetMarketViewModel model = new PetMarketViewModel
+		//	{
+
+		//		ProductId = product.ProductId,
+		//		ProductName=product.ProductName,
+		//		ProductDescription=product.ProductDescription,
+		//		ProductPrice=product.ProductPrice,
+		//		ProductAmount=product.ProductAmount,
+		//		ProductTypeId=product.ProductTypeId,
+		//		ProductLaunchedTime=product.ProductLaunchedTime,
+		//		ProductSoldTime=product.ProductSoldTime,
+		//		ProductState=product.ProductState,
+		//		ProductPicImage=pic.ToList(),
+		//		ProductTypeName=product.ProductType.ProductTypeName,
+		//		ArticlesId=product.ArticlesId
+		//	};
+
+		//	return model;
+		//}
+
 		[HttpGet("{id}")] //後台商品詳細資訊
 		public async Task<PetMarketViewModel> GetProduct(int id)
 		{
-			var product =await _context.Products.FindAsync(id);
+			var product = await _context.Products.FindAsync(id);
+			var productPic = _context.ProductPics.Where(p => p.ProductId == id).ToList();
+			List<string> Pic = new List<string>();
+
+			foreach (var pic in productPic)
+			{
+				string Base64Pic = Convert.ToBase64String(pic.ProductPicImage);
+				Pic.Add(Base64Pic);
+			}
 
 			PetMarketViewModel model = new PetMarketViewModel
 			{
+
 				ProductId = product.ProductId,
-				ProductName=product.ProductName,
-				ProductDescription=product.ProductDescription,
-				ProductPrice=product.ProductPrice,
-				ProductAmount=product.ProductAmount,
-				ProductTypeId=product.ProductTypeId,
-				ProductLaunchedTime=product.ProductLaunchedTime,
-				ProductSoldTime=product.ProductSoldTime,
-				ProductState=product.ProductState,
-				ProductPicImage=product.ProductPics.First().ProductPicImage,
-				ProductTypeName=product.ProductType.ProductTypeName,
-				ArticlesId=product.ArticlesId
+				ProductName = product.ProductName,
+				ProductDescription = product.ProductDescription,
+				ProductPrice = product.ProductPrice,
+				ProductAmount = product.ProductAmount,
+				ProductTypeId = product.ProductTypeId,
+				ProductLaunchedTime = product.ProductLaunchedTime,
+				ProductSoldTime = product.ProductSoldTime,
+				ProductState = product.ProductState,
+				ProductPicImage = Pic,
+				ProductTypeName = product.ProductType.ProductTypeName,
+				ArticlesId = product.ArticlesId
 			};
 
 			return model;
 		}
 
-		
 		[HttpGet("{id}")] //前台商品詳細資訊
 		public async Task<ProductDetailViewModel> ProductDetail(int id)
 		{
@@ -229,7 +263,7 @@ namespace FurryFeast.API
 				ProductDescription = product.ProductDescription,
 				ProductPrice = product.ProductPrice,
 				ProductAmount = product.ProductAmount,
-				ProductTypeId = product.ProductTypeId,				
+				ProductTypeId = product.ProductTypeId,
 				ProductPicImage = Pic,
 				ProductTypeName = product.ProductType.ProductTypeName,
 			};
@@ -239,11 +273,11 @@ namespace FurryFeast.API
 
 
 		[HttpPut]
-		public async Task<string> PutProduct([FromBody]PetMarketViewModel model)
+		public async Task<string> PutProduct([FromBody] PetMarketViewModel model)
 		{
 
 
-			Product product = _context.Products.Include(x=>x.ProductType).Where(x => x.ProductId == model.ProductId).FirstOrDefault();
+			Product product = _context.Products.Include(x => x.ProductType).Where(x => x.ProductId == model.ProductId).FirstOrDefault();
 
 			product.ProductId = model.ProductId;
 			product.ProductName = model.ProductName;
@@ -252,13 +286,29 @@ namespace FurryFeast.API
 			product.ProductDescription = model.ProductDescription;
 			product.ProductState = model.ProductState;
 			product.ProductTypeId = model.ProductTypeId;
-			product.ProductType.ProductTypeName = model.ProductTypeName;		
+			product.ProductType.ProductTypeName = model.ProductTypeName;
 			product.ArticlesId = model.ArticlesId;
-			product.ProductPics.First().ProductPicImage = model.ProductPicImage;
+			//product.ProductPics.ProductPicImage = model.ProductPicImage;
 			product.ProductLaunchedTime = model.ProductLaunchedTime;
 			product.ProductSoldTime = model.ProductSoldTime;
 
-			
+			//foreach (var pic in model.ProductPicImage)
+			//{
+			//	if (pic != null)
+			//	{
+
+			//		byte[] data = null;
+
+			//		ProductPic image = new ProductPic();
+			//		image.ProductPicImage = data;
+			//		image.ProductId = model.ProductId;
+			//		image.ProductPicId=
+			//		_context.ProductPics.Update(image);
+
+			//	};
+
+			//};
+
 			_context.Entry(product).State = EntityState.Modified;
 
 			try
@@ -281,13 +331,17 @@ namespace FurryFeast.API
 		}
 
 		[HttpPut]
-		public async Task<string> PutProductState(int id,int state)
+		public async Task<string> PutProductState(int id, int state)
 		{
 
 
 			var product = await _context.Products.FindAsync(id);
 
-			product.ProductState=state;
+			if (state == 0)
+			{
+				product.ProductSoldTime = DateTime.Now;
+			}
+			product.ProductState = state;
 
 			_context.Entry(product).State = EntityState.Modified;
 
@@ -299,12 +353,12 @@ namespace FurryFeast.API
 			{
 				if (!ProductExists(id))
 				{
-					if (product.ProductState!=0||product.ProductState!=1)
+					if (product.ProductState != 0 || product.ProductState != 1)
 					{
 						return "修改上架狀態失敗";
 					}
 				}
-					
+
 				else
 				{
 					throw;
@@ -318,7 +372,7 @@ namespace FurryFeast.API
 		public async Task<string> PostProduct([FromBody] AddProductViewModel model)
 		{
 
-			Product product =new Product();
+			Product product = new Product();
 
 			product.ProductId = model.ProductId;
 			product.ProductName = model.ProductName;
@@ -339,25 +393,40 @@ namespace FurryFeast.API
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				
-			return "新增商品失敗";
+
+				return "新增商品失敗";
 
 			}
 
 			return "新增商品成功";
 		}
 
+
+
 		[HttpPost]
-		public async Task<string> PostProductImage([FromBody] AddProductImageViewModel model)
+		public async Task<string> PostProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] int ProductId)
 		{
+			//List<ProductPic> productPicImages = new List<ProductPic>();
 
-			AddProductImageViewModel image = new AddProductImageViewModel();
+			foreach (var pic in ProductPicImage)
+			{
+				if (pic != null)
+				{
 
-			image.ProductPicId = model.ProductPicId;
-			image.ProductPicImage = model.ProductPicImage;
+					byte[] data = null;
+					using (BinaryReader br = new BinaryReader(pic.OpenReadStream()))
+					{
 
+						data = br.ReadBytes((int)pic.Length);
+						ProductPic image = new ProductPic();
+						image.ProductPicImage = data;
+						image.ProductId = ProductId;
+						_context.ProductPics.Add(image);
+					}
 
-			_context.Entry(image).State = EntityState.Modified;
+				};
+
+			};
 
 			try
 			{
@@ -397,5 +466,5 @@ namespace FurryFeast.API
 			return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
 		}
 	}
-	
+
 }
