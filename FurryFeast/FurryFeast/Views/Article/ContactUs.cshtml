@@ -33,8 +33,19 @@
 					$(".rd-mailform")[0].reset();
 				}
 			});
-
+				if(@ViewBag.Message){
+					sweetAlert()
+				}
 		});
+		function sweetAlert() {
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: '送出成功',
+				showConfirmButton: false,
+				timer: 1500
+			})
+		}
 	</script>
 </head>
 <body>
