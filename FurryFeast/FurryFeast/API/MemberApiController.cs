@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
+using System.Security.Claims;
 
 namespace FurryFeast.API
 {
@@ -19,23 +21,53 @@ namespace FurryFeast.API
         }
 
 
-        public object All()
+		public object All()
+		{
+			
+			return _context.Members.Select(x => new
+			{
+				member = new
+				{
+					x.MemberEmail,
+					x.MemberPhone,
+					x.MemberAdress,
+					x.MemberBirthday,
+					x.MemberGender,
+					x.MemberName
+				}
+			});
+		}
+		public object One()
         {
-            return _context.Members.Select(x => new
-
+            var id = User.FindFirstValue("Id");
+            return _context.Members.Where(x => x.MemberId == int.Parse(id)).Select(x => new 
             {
-                member = new
+                Updatemember = new
                 {
-                    memberName = x.MemberName,
-                    memberBirthday = x.MemberBirthday,
-                    memberGender = x.MemberGender,
-                    memberPhone = x.MemberPhone,
-                    memberEmail = x.MemberEmail,
-                    memberAdress = x.MemberAdress,
-                    memberId = x.MemberId
+                    x.MemberEmail,
+                    x.MemberPhone,
+                    x.MemberAdress,
+                    x.MemberBirthday,
+                    x.MemberGender,
+                    x.MemberName
                 }
-
             });
+        }
+        
+        public object Edit(MemberEditDto list)
+        { 
+          var id = User.FindFirstValue("Id");
+          var result = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(id)).FirstOrDefault();
+          result.MemberAdress = list.MemberAdress;
+            result.MemberGender = list.MemberGender;
+            result.MemberPhone = list.MemberPhone;
+            result.MemberEmail = list.MemberEmail;
+            result.MemberName = list.MemberName;
+            result.MemberPassord = list.MemberPassord;
+            _context.SaveChanges();
+            return result;
+
         }
     }
 }
+

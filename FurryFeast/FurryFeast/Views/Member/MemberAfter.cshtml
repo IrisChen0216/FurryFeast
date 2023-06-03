@@ -66,12 +66,16 @@
 		el:'#app',
 		data:{
 			members:[],
+
 		},
 		mounted:function(){
 			let t = this;
 			axios('/api/member/all').then(res=>t.members = res.data)
 		},
 		methods:{
+			EditMember:function(){
+
+			},
 			ChangePage:function(currentpage){
 				console.log(currentpage)
 			},

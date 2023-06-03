@@ -1,59 +1,92 @@
-﻿
-@{
-    ViewData["Title"] = "UpdateMemberData";
+﻿@{
+	ViewData["Title"] = "UpdateMemberData";
 }
 @section Style{
 	<link href="~/css/button.css" rel="stylesheet" />
 }
 <div class="index-header">
-    <h2>修改會員資料</h2>
+	<h2>修改會員資料</h2>
+</div>
+<div id="app">
+	<div v-for="item in getMemberData">
+		<div>
+			<label>姓名</label>
+			<input type="text" class="form-control" v-model="item.updatemember.memberName" />
+
+		</div>
+		<div>
+			<label>性別</label>
+			<input type="radio" name="UpdateGender" />
+			<label>男</label>
+			<input type="radio" name="UpdateGender" />
+			<label>女</label>
+		</div>
+		<div>
+			<label>生日</label>
+			<input type="datetime" name=" UpdateBirth" v-model="item.updatemember.memberBirthday" />
+		</div>
+		<div>
+			<label>手機號碼</label>
+			<input type="text" name="UpdatePhone" maxlength="10" v-model="item.updatemember.memberPhone" />
+		</div>
+		<div>
+			<label>Email</label>
+			<input type="email" name="UpdateEmail" v-model="item.updatemember.memberEmail" />
+		</div>
+		<div>
+			<label>住址</label>
+			<input type="text" name="MemberAdress" v-model="item.updatemember.memberAdress" />
+		</div>
+		<div>
+			<button class="button button-lg button-primary button-zakaria" type="submit">修改資料</button>
+		</div>
+		<hr />
+		<br />
+		<div>
+			<label>輸入原密碼</label>
+			<input type="password" />
+		</div>
+		<div>
+			<label>輸入新密碼</label>
+			<input type="password" />
+		</div>
+	</div>
+
+
+
 </div>
 
+
 <div>
-    <label>姓名</label>
-    <input name="UpdateName" value="" />
+	<button class="button button-lg button-primary button-zakaria" type="submit">更新密碼</button>
 </div>
 <div>
-    <label>性別</label>
-    <input type="radio" name="UpdateGender"  />
-    <label>男</label>
-    <input type="radio" name="UpdateGender"  />
-    <label>女</label>
+	<form asp-action="Index">
+		<button class="button button-lg button-primary button-zakaria">回到上一頁</button>
+	</form>
 </div>
-<div>
-    <label>生日</label>
-    <input type="date" name="UpdateBirth"  />
-</div>
-<div>
-    <label>手機號碼</label>
-    <input type="tel" name="UpdatePhone" maxlength="10"  />
-</div>
-<div>
-    <label>Email</label>
-    <input type="email" name="UpdateEmail" />
-</div>
-<div>
-    <label>住址</label>
-    <input type="text" name="UpdateAdress" />
-</div>
-<div>
-    <button class="button button-lg button-primary button-zakaria" type="submit">修改資料</button>
-</div>
-<hr />
-<br />
-<div>
-    <label>輸入原密碼</label>
-    <input type="password" />
-</div>
-<div>
-    <label>輸入新密碼</label>
-    <input type="password" />
-</div>
-<div>
-    <button class="button button-lg button-primary button-zakaria" type="submit">更新密碼</button>
-</div>
-<div>
-    <form asp-action="Index">
-        <button class="button button-lg button-primary button-zakaria">回到上一頁</button>
-    </form>
-</div>
+
+
+
+@section Scripts{
+
+	<script>
+		var app = new Vue({
+			el: "#app",
+			data: {
+				getMemberData: "",
+
+
+			},
+			mounted: function () {
+				let self = this;
+				axios('/api/member/one').then(res => { self.getMemberData = res.data });
+			},
+			methods: {
+
+			}
+		})
+	</script>
+
+
+}

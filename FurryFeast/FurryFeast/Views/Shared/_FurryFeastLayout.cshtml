@@ -137,9 +137,13 @@
                         <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCart" method="post">
                             <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
                         </form>
+                        <form id="Login" asp-controller="Member" asp-action="Login">
+                            <button id="list1" class="btn btn-dark" controller="Member" action="Login"><i class="bi bi-person-circle"></i></button>
+                        </form>
                         <form id="Logout" asp-controller="Member" asp-action="Logout">
                             <button id="btn" class="btn btn-dark" controller="Member" action="Logout"><i class="bi bi-door-open"></i></button>
                         </form>
+
                     </nav>
                 }
                 else
@@ -233,3 +237,8 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+@section Scripts{
+    <script>
+        document.getElementById("list1")
+    </script>
+}

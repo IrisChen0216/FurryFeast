@@ -104,10 +104,8 @@ namespace FurryFeast.Controllers
 
             } );
             _context.SaveChanges();
-            //3天過期
             var obj = new AesValidationDto(list.MemberPhone, DateTime.Now.AddDays(3));
             var jstring = JsonSerializer.Serialize(obj);
-            //有自己鍵的方法encrypt.加密後轉成字串
             var code =  encrypt.AesEncryptToBase64(jstring);
 
 
@@ -228,9 +226,11 @@ namespace FurryFeast.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateMemberData()
         {
-            var id = int.Parse(User.Claims.FirstOrDefault(x=>x.Type == "Id").Value);
-            var member = _context.Members.Where(x=>x.MemberId == id).FirstOrDefault();
-            return View(member);
+            //var id = User.FindFirstValue("Id");
+            //var id = int.Parse(User.Claims.FirstOrDefault(x=>x.Type == "Id").Value);
+            //var member = _context.Members.Where(x => x.MemberId == int.Parse(id)).FirstOrDefault();
+            //return View(member);
+            return View();
         }
 
         public async Task<IActionResult> ForgetPassword()

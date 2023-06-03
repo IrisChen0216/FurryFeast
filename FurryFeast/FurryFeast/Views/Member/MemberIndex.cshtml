@@ -21,7 +21,7 @@
     </div>
     <div>
         <label>性別</label>
-        <span>@Model.MemberGender</span>
+        <span id="gender"></span>
     </div>
     <div>
         <label>手機號碼</label>
@@ -44,6 +44,11 @@
 
  
 
+@section Scripts{
+    <script>
+        document.getElementById("gender").textContent = (@Model.MemberGender == 0)? "女":"男"
+    </script>
+}
 @*@section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
