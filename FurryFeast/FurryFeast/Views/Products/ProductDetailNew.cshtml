@@ -1,13 +1,11 @@
-﻿@model FurryFeast.Models.Product
-
-@section Style{
+﻿@section Style{
 	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	
 }
 
-@*<section class="section section-sm section-first bg-default">*@
-<div class="container" style="padding:100px">
+<div class="container" style="padding:100px" id="app">
 	<div class="row row-30">
 		<div class="col-lg-6">
 			<div class="slick-vertical slick-product">
@@ -15,35 +13,16 @@
 				<div class="slick-slider carousel-parent" id="carousel-parent" data-items="1" data-swipe="true" data-child="#child-carousel" data-for="#child-carousel">
 					<div class="item">
 						<div class="slick-product-figure">
-							@*<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />*@
-							<img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="530" height="480" />
+							<img :src="selectedImage?'data:image/png;base64,'+ selectedImage : '~/image/noimage.png'" alt="" width="530" height="480" />
 						</div>
 					</div>
-					<div class="item">
-						<div class="slick-product-figure">
-							<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
-						</div>
-					</div>
-					<div class="item">
-						<div class="slick-product-figure">
-							<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
-						</div>
-					</div>
+				
 				</div>
-				<div class="slick-slider child-carousel slick-nav-1" id="child-carousel" data-arrows="true" data-items="3" data-sm-items="3" data-md-items="3" data-lg-items="3" data-xl-items="3" data-xxl-items="3" data-md-vertical="true" data-for="#carousel-parent">
-					<div class="item">
+
+				<div class="slick-slider child-carousel slick-nav-1" id="child-carousel" data-arrows="true" data-items="3" data-sm-items="3" data-md-items="3" data-lg-items="3" data-xl-items="3" data-xxl-items="3" data-md-vertical="true" data-for="#carousel-parent" >
+					<div class="item" v-for="(pic,idx) in ProductDetail.productPicImage" v-on:click="selectImage(pic)">
 						<div class="slick-product-figure">
-							<img src="@Url.Action("GetPicture","Products",new{id=Model.ProductId})" alt="@Model.ProductName" width="530" height="480" />
-						</div>
-					</div>
-					<div class="item">
-						<div class="slick-product-figure">
-							<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
-						</div>
-					</div>
-					<div class="item">
-						<div class="slick-product-figure">
-							<img src="~/image/product/single-product-1-530x480.jpg" alt="" width="530" height="480" />
+							<img :src="'data:image/png;base64,'+pic" alt="" width="530" height="480" />
 						</div>
 					</div>
 				</div>
@@ -51,12 +30,12 @@
 		</div>
 		<div class="col-lg-6">
 			<div class="single-product">
-				<h3 class="text-transform-none fw-medium">@Model.ProductName</h3>
+				<h3 class="text-transform-none fw-medium">{{ProductDetail.productName}}</h3>
 				<div class="group-md group-middle">
-					<div class="single-product-price">$@Model.ProductPrice</div>
+					<div class="single-product-price">${{ProductDetail.productPrice}}</div>
 					<div class="single-product-rating"><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star"></span><span class="icon mdi mdi-star-half"></span></div>
 				</div>
-				<p>@Model.ProductDescription</p>
+				<p>{{ProductDetail.productDescription}}</p>
 				<p></p>
 				<hr class="hr-gray-100">
 
@@ -65,7 +44,7 @@
 					<div class="product-stepper">
 						@*<form asp-controller=" Products" asp-action="ProductCart" asp-route-id="@Model.ProductId" name="cartAdd">*@
 						<input id="ProductAmount" class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
-						<button class="button button-lg button-primary button-zakaria" type="submit" onclick="Amount()">加入購物車</button>
+						<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="AddAmount(ProductDetail.productId)">加入購物車</button>
 						@*</form>*@
 					</div>
 					<div>
@@ -82,29 +61,55 @@
 @*</section>*@
 
 @section Scripts{
+	
+	
+	<script>
+	
+		let app = new Vue({
+			el: '#app',
+			data: {				
+				ProductDetail: [],
+				selectedImage:null,
+				
+			},
+			mounted: function () {
+				let _this = this;
+				_this.Product();
+
+			},
+			methods: {
+				//網頁載入就會掛載全部商品資料的方法
+				Product: function () {
+					let _this = this;
+					let ID = @ViewBag.productId;
+					
+					axios.get(`/api/products/ProductDetail/${ID}`).then(response => {
+						_this.ProductDetail = response.data;
+						_this.selectedImage = _this.ProductDetail.productPicImage[0];
+					});
+				},
+				AddAmount: function (ID) {
+					let Amount = document.getElementById('ProductAmount').value;
+					axios.post(`/Cart/CartAdd`, { Id: ID, amount: Amount })
+						.then(
+							alert('成功加入購物車!')
+						);
+				},
+				selectImage:function(pic){
+					let _this=this;
+					_this.selectedImage = pic;
+				},
+			},
+			computed: {
+
+			},
+
+		});
+		
+
+	</script>
+	
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
-	<script>
-		var address = " https://localhost:7110";
-
-		function Amount() {
-			let cartItem={
-				id:@Model.ProductId,
-				amount: $('#ProductAmount').val()
-			};
-			$.ajax({
-				type: "POST",
-				url: `${address}/Cart/CartAdd`,
-				data: cartItem,
-				success: function () {
-					alert('成功加入購物車!');
-				},
-				error: function (xhr, textStatus, errorThrown) {
-					alert(xhr.status + ": " + errorThrown);
-				}
-			});
-		};
-				
-	</script>
 }
 

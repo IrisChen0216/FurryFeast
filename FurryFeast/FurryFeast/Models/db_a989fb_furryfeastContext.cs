@@ -27,6 +27,7 @@ namespace FurryFeast.Models
         public virtual DbSet<GameOutcome> GameOutcomes { get; set; } = null!;
         public virtual DbSet<GameQue> GameQues { get; set; } = null!;
         public virtual DbSet<GameQuesChoice> GameQuesChoices { get; set; } = null!;
+        public virtual DbSet<LostAnimal> LostAnimals { get; set; } = null!;
         public virtual DbSet<Member> Members { get; set; } = null!;
         public virtual DbSet<MsgBoard> MsgBoards { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
@@ -95,12 +96,10 @@ namespace FurryFeast.Models
                     .HasColumnType("datetime")
                     .HasColumnName("Article_Date");
 
-                entity.Property(e => e.ArticleText)
-                    .HasMaxLength(500)
-                    .HasColumnName("Article_Text");
+                entity.Property(e => e.ArticleText).HasColumnName("Article_Text");
 
                 entity.Property(e => e.ArticleTitle)
-                    .HasMaxLength(10)
+                    .HasMaxLength(50)
                     .HasColumnName("Article_Title");
 
                 entity.HasOne(d => d.Admin)
@@ -316,6 +315,58 @@ namespace FurryFeast.Models
                     .HasForeignKey(d => d.QuesId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Game_QuesChoices_Game_Ques");
+            });
+
+            modelBuilder.Entity<LostAnimal>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LostAnimal");
+
+                entity.Property(e => e.AnimalAge).HasColumnName("Animal_age");
+
+                entity.Property(e => e.AnimalBreed)
+                    .HasMaxLength(10)
+                    .HasColumnName("Animal_breed");
+
+                entity.Property(e => e.AnimalFeature)
+                    .HasMaxLength(100)
+                    .HasColumnName("Animal_Feature");
+
+                entity.Property(e => e.AnimalImage).HasColumnName("Animal_image");
+
+                entity.Property(e => e.AnimalName)
+                    .HasMaxLength(30)
+                    .HasColumnName("Animal_Name");
+
+                entity.Property(e => e.AnimalOwner)
+                    .HasMaxLength(30)
+                    .HasColumnName("Animal_Owner");
+
+                entity.Property(e => e.AnimalOwnerPhone).HasColumnName("Animal_Owner_phone");
+
+                entity.Property(e => e.AnimalPattern)
+                    .HasMaxLength(10)
+                    .HasColumnName("Animal_Pattern");
+
+                entity.Property(e => e.AnimalSex)
+                    .HasMaxLength(5)
+                    .IsUnicode(false)
+                    .HasColumnName("Animal_Sex");
+
+                entity.Property(e => e.AnimalType)
+                    .HasMaxLength(10)
+                    .HasColumnName("Animal_Type");
+
+                entity.Property(e => e.LostAnimalId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("LostAnimal_ID");
+
+                entity.Property(e => e.LostDay).HasColumnType("datetime");
+
+                entity.Property(e => e.LostPlace).HasMaxLength(100);
+
+                entity.Property(e => e.MicrochipId).HasColumnName("microchip_ID");
             });
 
             modelBuilder.Entity<Member>(entity =>

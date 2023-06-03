@@ -29,7 +29,7 @@ namespace FurryFeast.Areas.Admin.Controllers
         // GET: Admin/ArticlesList/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-	        ViewBag.productId = id;
+	        ViewBag.articlesId = id;
 	        return View();
         }
 

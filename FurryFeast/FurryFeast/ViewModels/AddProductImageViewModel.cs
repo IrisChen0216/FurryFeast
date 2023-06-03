@@ -2,7 +2,8 @@
 {
 	public class AddProductImageViewModel
 	{
+		public int ProductId { get; set; }
 		public int ProductPicId { get; set; }
-		public byte[]? ProductPicImage { get; set; }
+		public List<IFormFile>? ProductPicImage { get; set; }
 	}
 }

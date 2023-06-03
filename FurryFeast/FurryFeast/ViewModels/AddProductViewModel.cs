@@ -12,5 +12,8 @@
 		public int ProductTypeId { get; set; }
 		public int ArticlesId { get; set; }
 
+		//加入圖片
+		//public int ProductPicId { get; set; }
+		//public List<IFormFile>? ProductPicImage { get; set; }
 	}
 }

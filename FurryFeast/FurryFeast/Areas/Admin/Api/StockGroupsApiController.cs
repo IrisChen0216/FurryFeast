@@ -24,7 +24,7 @@ namespace FurryFeast.Areas.Admin.Api {
             var result = await _context.StockGroups.Select(data => new StockGroupViewModel {
                 GroupsId = data.GroupsId,
                 GroupsCode = data.GroupsCode,
-                GgroupsDescription = data.GgroupsDescription,
+                GroupsDescription = data.GgroupsDescription,
                 GroupsNotes = data.GroupsNotes
             }).ToListAsync();
             return Ok(result);
@@ -46,7 +46,7 @@ namespace FurryFeast.Areas.Admin.Api {
             result = new StockGroup {
                 GroupsId = data.GroupsId,
                 GroupsCode = data.GroupsCode,
-                GgroupsDescription = data.GgroupsDescription,
+                GgroupsDescription = data.GroupsDescription,
                 GroupsNotes = data.GroupsNotes
             };
 
@@ -88,13 +88,15 @@ namespace FurryFeast.Areas.Admin.Api {
 
             var patchOneData = await _context.StockGroups.Where(d => d.GroupsCode == data.GroupsCode).FirstOrDefaultAsync();
 
-            // 檢查 code 是否存在
-            if (result.GroupsCode != data.GroupsCode && patchOneData != null) {
+			// 檢查 code 是否存在, code 是唯一的字串
+			// code 存在但不同筆 = 回傳錯誤, code 重複命名
+			// code 存在且為同一筆 = 更新這一筆資料
+			if (result.GroupsCode != data.GroupsCode && patchOneData != null) {
                 return BadRequest($"Patch duplicate, GroupsCode: {code}.");
             }
 
             result.GroupsCode = data.GroupsCode;
-            result.GgroupsDescription = data.GgroupsDescription;
+            result.GgroupsDescription = data.GroupsDescription;
             result.GroupsNotes = data.GroupsNotes;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();

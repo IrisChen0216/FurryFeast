@@ -1,0 +1,139 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section Style{
+	<style>
+		.unState {
+			background-color: gray;
+		}
+
+		.btnState {
+			display: inline-block;
+		}
+
+		.drop {
+			background-color: #ffedad;
+			color: #3b3b3b;
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+		}
+
+			.drop:hover {
+				background-color: #ffce78;
+			}
+
+		.btn-secondary:hover {
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+		}
+
+		input {
+			outline-style: none;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			padding-left: 5px;
+			width: 100%;
+			height: 30px;
+		}
+	</style>
+}
+
+<div class="container-fluid" id="app">
+	<div class="row">
+		<div class="col-12">
+			<div class="card my-4">
+
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
+						<h6 class="text-white text-capitalize ps-3">聯絡我們</h6>
+					</div>
+				</div>
+				<div class="row">
+					</div>
+
+
+					<div class="dropdown mx-3 mt-2 col-1">
+						<button class="btn btn-secondary dropdown-toggle drop" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+							聯絡我們
+						</button>
+
+
+
+					@*搜尋欄*@
+					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
+						<div class="input-group input-group-outline">
+							<label class="form-label">Search Product...</label>
+							<input type="text" class="form-control" v-model="keyword" @@keyup="productFilter">
+						</div>
+					</div>
+
+				</div>
+
+				<div class="card-body px-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">留言編號</th>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">客戶姓名</th>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">主旨</th>
+										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">信箱</th>
+										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">電話</th>
+										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">內容</th>
+						
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">留言時間</th>
+								</tr>
+							</thead>
+							<tbody>
+
+										<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade " id="insertPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="form-label">客戶姓名:</label>
+							<input class="form-control" v-model="guest_Name" required />
+					</div>
+					<div class="form-group">
+						<label class="form-label">主旨:</label>
+							<input class="form-control" v-model="guest_subject" required />
+					</div>
+					<div class="form-group">
+						<label class="form-label">信箱:</label>
+							<input class="form-control" v-model="guest_Email" required />
+					</div>
+					<div class="form-group">
+						<label class="form-label">電話:</label>
+							<input class="form-control" v-model="guest_phone" />
+					</div>
+						<div class="form-group">
+							<label class="form-label">內容:</label>
+							<input class="form-control" v-model="guest_context" />
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+
+	
+	</script>
+    }
+
+

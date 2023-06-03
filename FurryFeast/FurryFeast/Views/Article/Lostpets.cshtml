@@ -1,169 +1,164 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
+﻿<style>
+    .card-new {
+        transition: transform 0.3s;
+    }
+    .card-new:hover {
+        transform: scale(1.05);
+    }
+    #search:hover {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+    #select-shelter {
+        width: 250px !important;
+    }
+    #search {
+        border-radius: 6px;
+    }
+</style>
 
-    <link rel="icon" href="images/favicon.ico" type="~/image/x-icon">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
-    @*<link href="~/css/petclass/style.css" rel="stylesheet" />*@
-    <link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
-    @*<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />*@
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900%7CLato%7CKalam:300,400,700">
+<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 
-    <style>
-        .rounded-button {
-            background-color: #ffd33b;
-            color: #ffffff;
-            transition: background-color 0.3s, color 0.3s;
-            border-radius: 6px;
-
-        }
-
-            .rounded-button:hover {
-                background-color: #000000;
-                color: #ffffff;
-            }
-
-            .rounded-button a {
-                color: #ffd33b;
-                transition: color 0.3s;
-      
-            }
-
-            .rounded-button:hover a {
-                color: #ffffff;
-            }
-    </style>
-</head>
-<body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<div id="app">
     <div class="index-header">
-        <h2>寵物遺失啟事</h2>
+        <h2>遺失寵物協尋</h2>
     </div>
 
-    <div style="text-align: center;">
+    <div style="text-align: center">
         <div class="group-sm group-middle">
             <div class="product-top-panel-sorting">
-                <select id="select-category" data-minimum-results-for-search="Infinity">
-                    <option value="">種類</option>
-                    <option value="狗">狗</option>
-                    <option value="貓">貓</option>
-                    <option value="其他">其他</option>
+                <select  id="select-category" data-minimum-results-for-search="Infinity" class="form-select">
+                    <option value="">--選擇全部種類--</option>
+                    <option v-for="item in PetType" v-bind:value="item">{{item.PetType}}</option>
                 </select>
             </div>
             <div class="product-top-panel-sorting">
-                <select id="select-variety" data-minimum-results-for-search="Infinity">
-                    <option value="">品種</option>
+                <select id="select-variety" data-minimum-results-for-search="Infinity" class="form-select">
+                    <option value="">--選擇遺失地點--</option>
+                    <option v-for="item in LostLocation" v-bind:value="item">{{item.LostLocation}}</option>
                 </select>
             </div>
             <div class="product-top-panel-sorting">
-                <select id="select-gender" data-minimum-results-for-search="Infinity">
-                    <option value="">性別</option>
-                    <option value="公">公</option>
-                    <option value="母">母</option>
-                    <option value="未知">未知</option>
+                <select id="select-shelter" data-minimum-results-for-search="Infinity" class="form-select">
+                    <option value="">--遺失時間--</option>
+                    <option v-for="item in LostTime" v-bind:value="item.id">{{item.LostTime}}</option>
                 </select>
             </div>
             <div class="product-top-panel-sorting">
-                <select id="select-color" data-minimum-results-for-search="Infinity">
+                <select  id="select-gender" data-minimum-results-for-search="Infinity" class="form-select">
+                    <option value="">--選擇全部性別--</option>
+                    <option v-for="item in Gender" v-bind:value="item.id">{{item.Gender}}</option>
+                </select>
+            </div>
+            <div class="product-top-panel-sorting">
+                <select id="select-color" data-minimum-results-for-search="Infinity" class="form-select">
                     <option value="">毛色</option>
                 </select>
             </div>
+            <div class="product-top-panel-sorting">
+                <select id="select-age" data-minimum-results-for-search="Infinity" class="form-select">
+                    <option value="">--選擇品種--</option>
+                    <option v-for="item in Breed" v-bind:value="item.id">{{item.Breed}}</option>
+                </select>
+            </div>
+
             <div>
-                <input type="submit" class="search-button btn btn-primary rounded-button card-new" value="搜尋">
+                <input  type="submit" class="search-button btn btn-primary" id="search" value="重新搜尋" style="background-color: #ffd33b; color: #ffffff;">
+
+                <input type="submit" class="search-button btn btn-primary" id="search" value="下12筆" style="background-color: #ffd33b; color: #ffffff;">
             </div>
         </div>
     </div>
 
-    <div class="row row-cols-3">
-        @foreach (var animal in Model)
-        {
-            <div class="col-lg-4 col-md-6 col-12 move-on-hover test">
-                <a href="http://">
-                    <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">
-                        <div class="square-img-container">
-                            <img src="@animal.Picture" alt="" onerror="this.onerror=null; this.src='https://cdn.pixabay.com/photo/2019/07/30/05/53/dog-4372036_960_720.jpg';">
-                        </div>
-                        <div class="card-body-new">
-                            <p>品種: @animal.Breed</p>
-                            <p>毛色: @animal.Color</p>
-                            <p>遺失時間: @animal.LostTime</p>
-                            <p>遺失地點: @animal.LostLocation</p>
-                        </div>
+    <div class="container mt-3">
+        <div class="row">
+            <div v-for="item in allData" class="col-lg-4 col-md-4 col-6 mb-4">
+                <div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + item.animal_id">
+                    <div class="square-img-container">
+                        <img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
+                        <img v-else="" v-bind:src="item.album_file" alt="">
                     </div>
-                </a>
+                    <div class="card-body-new">
+                        <p class="card-title">{{item.PetType}}</p>
+                        <p class="card-text">{{item.LostLocation}}</p>
+                        <p class="card-text" v-if="item.Gender == '母'">母</p>
+                        <p class="card-text" v-if="item.Gender == '公'">公</p>
+
+                        <p class="card-text">{{item.Color}}</p>
+                    </div>
+                </div>                
             </div>
-        }
+        </div>
     </div>
-      @section Scripts {
-    <script src="~/js/product/core.min.js"></script>
-    <script src="~/js/product/script.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#filterForm').on('submit', function (e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
 
-                $.ajax({
-                    url: '@Url.Action("LoadLostPets", "Article")',
-                    type: 'POST',
-                    data: formData,
-                    success: function (data) {
-                        var html = '';
+    <!-- modal -->
+   @* <div class="modal fade" v-bind:id="'qq' + item.animal_id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="qqq">{{item.LostLocation}}}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img v-if="item.Picture == ''" src="~/image/no-pictures.png" alt="">
+                    <img v-else="" v-bind:src="item.Picture" alt="">
 
-                        for (var i = 0; i < data.length; i++) {
-                            var animal = data[i];
-                            html += '<div class="col-lg-4 col-md-6 col-12 move-on-hover test">';
-                            html += '<a href="http://">';
-                            html += '<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05);">';
-                            html += '<div class="square-img-container">';
-                            html += '<img src="' + animal.PICTURE + '" alt="">';
-                            html += '</div>';
-                            html += '<div class="card-body-new">';
-                            html += '<p>品種: ' + animal.品種 + '</p>';
-                            html += '<p>毛色: ' + animal.毛色 + '</p>';
-                            html += '<p>遺失時間: ' + animal.遺失時間 + '</p>';
-                            html += '<p>遺失地點: ' + animal.遺失地點 + '</p>';
-                            html += '</div>';
-                            html += '</div>';
-                            html += '</a>';
-                            html += '</div>';
-                        }
+                    <p class="card-title">{{item.PetType}}</p>
+                    <p class="card-text" v-if="item.Gender == 'F'">母</p>
+                    <p class="card-text" v-if="item.Gender == 'M'">公</p>
+                    <p class="card-text">品種: {{Breed}}</p>
+                    <p class="card-text">{{item.animal_colour}}</p>
+                    <p class="card-text">飼主姓名: {{OwnerName}}</p>
+                    <p class="card-text">遺失地點: {{LostLocation}}</p>
+                    <p class="card-text">聯絡電話: {{item.ContactPhone}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>
 
-                        $('.row').html(html);
-                    }
+<script>
+    let app = new Vue({
+        el: "#app",
+        data: {
+            sys:{
+                count:20,
+                top:20,
+                skip:0
+            },
+            allData: [],
+            PetType: [],
+            LostLocation: [],
+            LostTime: [],
+            Gender: [],
+            Breed: [],
+            getPetType: "",
+            getLostLocation: "",
+            Gender: "",
+        },
+        mounted: function () {
+            this.getAllData();
+        },
+        methods: {
+            getAllData: function () {
+                let url = `https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=IFJomqVzyB0i`;
+                let parm = `&$top=${this.sys.top}&$skip=${this.sys.skip}`
+                axios.get(url+parm).then(response => {
+                    this.allData = response.data;
+                })
+                .catch(error => {
+                    console.error(error);
                 });
-            });
-        });
-    </script>
-    }
-
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Lostpets", new { page = Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 1) })">&lt;&lt;</a>
-            </li>
-            <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Lostpets", new { page = Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 1) })">Previous</a>
-            </li>
-
-            @for (var i = Math.Max(1, Convert.ToInt32(ViewBag.PageNumber) - 5); i <= Math.Min(Convert.ToInt32(ViewBag.PageCount), Convert.ToInt32(ViewBag.PageNumber) + 5); i++)
-            {
-                <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Lostpets", new { page = i })">@i</a>
-                </li>
-                @if (i == Math.Min(Convert.ToInt32(ViewBag.PageCount), Convert.ToInt32(ViewBag.PageNumber) + 5) && i < Convert.ToInt32(ViewBag.PageCount))
-                {
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">...</a>
-                    </li>
-                }
+            },
+            nextPage: function () {
+            },
+            reSearch: function () {
             }
-
-            <li class="page-item @(ViewBag.PageNumber == ViewBag.PageCount ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Lostpets", new { page = Math.Min(Convert.ToInt32(ViewBag.PageNumber) + 1, Convert.ToInt32(ViewBag.PageCount)) })">Next</a>
-            </li>
-            <li class="page-item @(ViewBag.PageNumber == ViewBag.PageCount ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Lostpets", new { page = ViewBag.PageCount })">>></a>
-            </li>
-        </ul>
-    </nav>
-</body>
-</html>
+        }
+    });
+</script>

@@ -114,6 +114,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-white @Html.Raw(temp == "AdminContactUsContactUs"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="ContactUs" asp-action="ContactUs">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">receipt_long</i>
+                        </div>
+                        <span class="nav-link-text ms-1">聯絡我們</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-white @Html.Raw(temp == "AdminHomeStockArticle"? "active bg-gradient-primary" :"")" asp-area="Admin" asp-controller="Home" asp-action="StockArticle">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">shopping_cart</i>
@@ -885,6 +893,9 @@
 
     @*axios*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    @*sweetalert2*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @*<script>
         var ctx = document.getElementById("chart-bars").getContext("2d");

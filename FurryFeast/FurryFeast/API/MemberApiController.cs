@@ -1,19 +1,21 @@
 ﻿using FurryFeast.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using System.Security.Claims;
 
-namespace FurryFeast.API
+
+namespace FurryFeast.API;
+
+//[Authorize]
+[Route("/api/Member/[action]")]
+[ApiController]
+public class MemberApiController : ControllerBase
 {
-    [Authorize]
-    [Route("/api/Member/[action]")]
-    [ApiController]
-    public class MemberApiController : ControllerBase
-    {
-        private readonly db_a989fb_furryfeastContext _context;
+    private readonly db_a989fb_furryfeastContext _context;
+
+
 
         public MemberApiController(db_a989fb_furryfeastContext context)
         {
@@ -69,5 +71,5 @@ namespace FurryFeast.API
 
         }
     }
-}
+
 
