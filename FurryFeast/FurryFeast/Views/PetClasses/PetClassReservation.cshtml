@@ -1,12 +1,15 @@
-﻿@section Style{
+﻿@model FurryFeast.ViewModels.PetClassReservViewModel
+@section Style{
     <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
     @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
     <link href="~/css/petclass/style.css" rel="stylesheet" />
 }
 
-<h3>課程預定單</h3>
-
+<div class="index-header">
+    <h2>課程預定單</h2>
+</div>
 <section class="section section-xl bg-default">
+    <form method="post" class="form-control" asp-controller="PetClasses" asp-action="PetClassAddReservation" >
     <div class="container">
         <!-- shopping-cart-->
         <div class="table-custom-responsive">
@@ -22,10 +25,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a class="table-cart-figure link-img" href="single-product.html"><img src="images/product-big-1-328x330.jpg" alt="" width="328" height="330" /></a><a class="table-cart-link" href="single-product.html">寵物餅乾DIY課程</a></td>
-                        <td>$2300</td>
-                        <td>2023/07/23</td>
-                        <td>台北市南京東路XXXXXX</td>
+                        <td><a class="table-cart-link" href="single-product.html">@Model.PetClassName</a></td>
+                        <td>$@Model.PetClassPrice</td>
+                            <td name="ClassReservetionDate">@Model.PetClassDate</td>
+                        <td>課程地點</td>
                         
                     </tr>
                    
@@ -40,9 +43,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>>王小明</td>
-                        <td>0987654321</td>
-                        <td>xxxx@gmail.com</td>                      
+                        <td>@Model.MemberName</td>
+                        <td>@Model.MemberPhone</td>
+                        <td>@Model.MemberEmail</td>                      
                     </tr>
 
                 </tbody>
@@ -50,18 +53,21 @@
         </div>
         <div class="group-xl group-justify justify-content-center justify-content-md-between">
             <div>
-                
+                    <input type="hidden" name="MemberId" value="@Model.MemberId" />
+                    <input type="hidden" name="PetClassId" value="@Model.PetClassId" />
+                    
             </div>
             <div>
                 <div class="group-xl group-middle">
                     <div>
                         <div class="group-md group-middle">
                             <div class="heading-5 fw-medium text-gray-500">Total</div>
-                            <div class="heading-3 fw-normal">$2000</div>
+                                <div class="heading-3 fw-normal">$@Model.PetClassPrice</div>
                         </div>
-                    </div><a class="button button-lg button-primary button-zakaria" href="checkout.html">確定購課</a>
+                    </div><button class="button button-lg button-primary button-zakaria" type="submit">確定購課</button>
                 </div>
             </div>
         </div>
     </div>
+    </form>
 </section>
