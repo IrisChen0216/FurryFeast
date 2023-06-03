@@ -108,6 +108,7 @@ namespace FurryFeast.Controllers
         //課程確認頁面
 		public async Task<IActionResult> PetClassAddReservation(AddReservationViewModel model)
         {
+
             if (ModelState.IsValid)
             {
                 ClassReservetion classReservetion = new ClassReservetion
@@ -120,15 +121,20 @@ namespace FurryFeast.Controllers
 
                 _context.ClassReservetions.Add(classReservetion);
                 await _context.SaveChangesAsync();
-                return View("PetClassPayReservation");
+                return View("PetClassPayReservation", new { id = classReservetion.ClassReservetionId});
             }
             return View("PetClassAddReservation");
         }
 
         //付款頁面
-        public async Task<IActionResult> PetClassPayReservation(AddReservationViewModel model)
+        public async Task<IActionResult> PetClassPayReservation(int id)
         {
-            return View();
+           
+            var ClassReserve=_context.ClassReservetions.Include(x=>x.PetClass).Where(x=>x.ClassReservetionId== id).ToList();
+
+            
+
+            return View(ClassReserve);
         }
 		private bool PetClassExists(int id)
         {
