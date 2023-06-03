@@ -25,6 +25,7 @@ namespace FurryFeast.API
                 .Select(x => new
                 {
                     x.Member.MemberName,
+                    x.Member.MemberAccount,
                     x.MemberId,
                     x.OrderId,
                     x.OrderCreateDate,
@@ -59,6 +60,7 @@ namespace FurryFeast.API
 		        .Select(x => new
 		        {
 			        x.Member.MemberName,
+                    x.Member.MemberAccount,
 			        x.MemberId,
 			        x.OrderId,
 			        x.OrderCreateDate,
