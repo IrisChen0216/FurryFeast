@@ -109,7 +109,13 @@
 		<div class="col-lg-8 col-xl-9">
 			<div class="product-top-panel group-md">
 				<p class="product-top-panel-title">Showing 1–3 of 28 results</p>
-		
+		@*		<template>
+					<div>
+						<date-picker v-model="time1" valueType="format"></date-picker>
+						<date-picker v-model="time2" type="datetime"></date-picker>
+						<date-picker v-model="time3" range></date-picker>
+					</div>
+				</template>*@
 				<div>
 					<div class="group-sm group-middle">
 						<div class="product-top-panel-sorting" >
@@ -171,10 +177,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 	@*<script src="https://code.jquery.com/jquery-latest.min.js"></script>*@
 	<script>
-		
-		//import Datepicker from 'vue-datepicker';
-		//Vue.component('datepicker', Datepicker);
-		
+
 
 		let app = new Vue({
 			el: '#app',
@@ -190,7 +193,7 @@
 					name: "",
 					keyword: "",
 				},
-
+				selectedPrice:"",
 			},
 			mounted: function () {
 				let _this = this;
