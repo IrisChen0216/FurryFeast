@@ -1,0 +1,18 @@
+﻿<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+	let message = "@ViewBag.Message";
+	if (message == 1) {
+		Swal.fire({
+			position: 'center',
+			icon: 'success',
+			title: '傳送成功!!!',
+		});
+	} else if (message == 0) {
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: '傳送失敗...',
+		});
+	} else { };
+</script>
