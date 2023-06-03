@@ -98,8 +98,10 @@ namespace FurryFeast.Areas.Admin.Api {
 
             var patchOneData = await _context.StockWarehouses.Where(d => d.WarehousesCode == data.WarehousesCode).FirstOrDefaultAsync();
 
-            // 檢查 code 是否存在
-            if (result.WarehousesCode != data.WarehousesCode && patchOneData != null) {
+			// 檢查 code 是否存在, code 是唯一的字串
+			// code 存在但不同筆 = 回傳錯誤, code 重複命名
+			// code 存在且為同一筆 = 更新這一筆資料
+			if (result.WarehousesCode != data.WarehousesCode && patchOneData != null) {
                 return BadRequest($"Patch duplicate, WarehousesCode: {code}.");
             }
 

@@ -7,7 +7,7 @@ namespace FurryFeast.Areas.Admin.ViewModels {
 		[Required]
 		public string GroupsCode { get; set; } = null!;
 		[Required]
-		public string GgroupsDescription { get; set; } = null!;
+		public string GroupsDescription { get; set; } = null!;
 		public string? GroupsNotes { get; set; }
 	}
 }
