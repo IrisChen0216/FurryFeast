@@ -90,12 +90,14 @@ namespace FurryFeast.Controllers {
                 _furryFeastContext.ContactUs.Add(contact);
                 _furryFeastContext.SaveChanges();
 
-                TempData["SuccessMessage"] = "表單送出成功";
-                return RedirectToAction("ContactUsSuccess");
+                //TempData["SuccessMessage"] = "表單送出成功";
+                ViewBag.Message = "傳送成功!!";
+                return View();
             }
 
-            TempData["ErrorMessage"] = "表單送出失敗";
-            return RedirectToAction("ContactUsFailure");
+            //TempData["ErrorMessage"] = "表單送出失敗";
+            ViewBag.Message = "傳送失敗!!";
+            return View();
         }
         public IActionResult ContactUsSuccess()
         {
