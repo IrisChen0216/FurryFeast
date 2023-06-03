@@ -100,7 +100,7 @@ namespace FurryFeast.Controllers
 
         public async Task<IActionResult> ProductCart(int? id)
         {
-            List<CartViewModel> cartItems = SessionHelper.GetProductCartSession<List<CartViewModel>>(HttpContext.Session,"cart");
+            List<CartItem> cartItems = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session,"cart");
 
             if (cartItems != null)
             {

@@ -8,7 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\backend\js\NewFolder\**" />
+    <Content Remove="wwwroot\backend\js\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\backend\js\NewFolder\**" />
+    <None Remove="wwwroot\backend\js\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="bundleconfig.json" />
+    <Content Remove="Views\Article\LostForm.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -394,6 +402,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.60.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.15" />
@@ -408,7 +419,6 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\ViewModels\" />
   </ItemGroup>
 
 </Project>

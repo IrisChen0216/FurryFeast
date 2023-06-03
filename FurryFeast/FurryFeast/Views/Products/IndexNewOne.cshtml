@@ -85,7 +85,7 @@
 					<ul class="list-shop-filter">
 						<li>
 							<label class="checkbox-inline">
-								<a asp-controller="Products" asp-action="Index" asp-route-type="@ViewBag.AllProducts">全部商品</a>
+								<a v-on:click="AllProducts">全部商品</a>
 							</label><span class="list-shop-filter-number">({{AllProductsAmount}})</span>
 						</li>
 						<li>
@@ -95,13 +95,13 @@
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<a asp-controller="Products" asp-action="DogProducts">狗狗專區</a>
-							</label><span class="list-shop-filter-number">數量</span>
+								<a v-on:click="ProductType(1)">狗狗專區</a>
+							</label><span class="list-shop-filter-number">({{DogProductsAmount}})</span>
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<a asp-controller="Products" asp-action="Index" asp-route-type="@ViewBag.CatProducts">貓咪專區</a>
-							</label><span class="list-shop-filter-number">數量</span>
+								<a v-on:click="ProductType(2)">貓咪專區</a>
+							</label><span class="list-shop-filter-number">({{CatProductsAmount}})</span>
 						</li>
 					</ul>
 
@@ -147,7 +147,8 @@
 								<div class="product-body">
 									<div class="product-figure">
 										@*<partial name="_ShowPictruePartial" model="@item"></partial>*@
-										<img src="'data:image/png;base64,'${item.pics[0]}" alt="" width="200" height="200" />
+										
+										<img :src="'data:image/png;base64,'+item.pics" alt="" width="200" height="200" />
 									</div>
 									<h5 class="product-title"><a asp-controller="Products" asp-action="ProductDetail" asp-route-id="">{{item.product.productName}}</a></h5>
 									<div class="product-price-wrap">
@@ -181,13 +182,13 @@
 
 
 @section Scripts{
-	
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
 	<script src="~/js/slick.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	
 	<script>
 
 		let app = new Vue({
@@ -202,24 +203,33 @@
 				filterObj:{
 					name:"",
 					keyword: "",
-				}
-				
+				},
+
 			},
 			mounted: function () {
 				let _this = this;
-				_this.filterProducts();
+				_this.AllProducts();
 				
 				//_this.imageData=res.pics
 			},
 			methods: {
 				//網頁載入就會掛載全部商品資料的方法
-				filterProducts:function(){
+				AllProducts:function(){
 					let _this=this;
 					//var request={};
 					//request.productName=_this.keyword;
-					axios.post(`/api/products/AllProducts`).then(response => {
+					axios.get(`/api/products/AllProducts`).then(response => {
 						_this.products = _this.showProducts = response.data;
 						
+					});
+				},
+				ProductType: function (typeNum) {
+					let _this = this;
+					//var request={};
+					//request.productName=_this.keyword;
+					axios.get(`/api/products/ProductsType?type=${typeNum}`).then(response => {
+						_this.showProducts  = response.data;
+
 					});
 				},
 				AddCart: function (ID) {
@@ -232,13 +242,13 @@
 				productFilter:function(){
 					//依照搜尋欄位篩選商品
 					var _this = this;
-					//console.log(_this.products);
+
 					_this.showProducts=[];
-					for (var i = 0; i < _this.products.length;i++) {
+					for (var i = 0; i < _this.products.length; i++) {
 						var item = _this.products[i];
 						if (item.product.productName.includes(_this.filterObj.keyword)) {
 							_this.showProducts.push(item);
-						 }						
+						 }
 					}
 					
 				},
@@ -259,18 +269,21 @@
 				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
 				//	}
 				//}
-				GetImg:function(pic){
-					return `data:image/jpeg;base64,${pic.picData}`;
-				},
+				
+
 			},
 			computed: {
 				AllProductsAmount:function(){
 					let _this=this;
 					return _this.products.length;
 				},
-				DogProductsAmount:function(){
+				DogProductsAmount: function () {
 					let _this = this;
-					return _this.products.length;
+					return _this.products.filter((a) => a.type.productypeId == 1).length;
+				},
+				CatProductsAmount: function () {
+					let _this = this;
+					return _this.products.filter((a) => a.type.productypeId == 2).length;
 				},
 			},
 			

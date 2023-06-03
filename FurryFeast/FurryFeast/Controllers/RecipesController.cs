@@ -22,16 +22,5 @@ namespace FurryFeast.Controllers
 		{
 			return View();
 		}
-
-		//public IActionResult Recipes()
-		//{
-		//	return View();
-		//}
-		[HttpGet]
-		public IActionResult GetAllRecipes()
-		{
-			
-			return Ok(_context.Recipes);
-		}
 	}
 }

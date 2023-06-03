@@ -1,0 +1,125 @@
+﻿@model FurryFeast.Models.Article
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@section Style
+{
+	<style>
+		.inputbox {
+			font-size: 15px;
+			border: none;
+			background: none;
+			height: 40px;
+			border-bottom: 1px solid #ccc;
+			margin-bottom: 20px;
+			padding: 0px 0px 0px 5px;
+			}
+		.inputbox:focus {
+			outline: none;
+			border-color: gray
+		}
+
+
+	</style>
+}
+
+<div class="container"id="app">
+	<h1>Edit</h1>
+	<div v-for="item in aticlesData">
+		<div class="my-3 row">
+			<div class="col">
+				<span style="padding-right: 10px;vertical-align: initial;">標題</span>
+				<input class="inputbox" type="text" v-model="item.articleTitle" />
+			</div>
+			<div class="col">
+				<span style="
+				             padding-right: 10px;
+				             vertical-align: initial;">發表時間</span>
+				<input class="inputbox" type="text" v-model="item.articleDate" disabled />
+			</div>
+			<div class="col">
+				<span style ="padding-right: 10px;vertical-align: initial;">作者</span>
+				<input class="inputbox" type="text" v-model="item.adminAccount" disabled />
+			</div>
+		</div>
+
+		<div class="m-2" id="editor">{{item.articleText}}</div>
+	</div>
+	
+	<button class="" v-on:click="update">更新</button>
+	<button class="" v-on:click="update">取消</button>
+
+</div>
+
+@section Scripts{
+	<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+	<script>
+		ClassicEditor.create(document.querySelector('#editor'))
+			.then(editor => {
+				window.editor = editor;
+			})
+			.catch(error => {
+				console.error('There w	as a problem initializing the editor.', error);
+			});
+	</script>
+	<script>
+		let app = new Vue({
+			el: '#app',
+			data: {
+				aticlesData: {},
+				NoEdit: { Edit: true },
+				originalArticleTitle: "",
+				originalArticleText : "",
+				originalArticleTime : "",
+				selected: ""
+			},
+			mounted: function () {
+				let _this = this;
+				_this.aticlesDetail();
+				_this.editProduct();
+
+			},
+			methods: {
+				aticlesDetail: function () {
+					let _this = this;
+					let ID = @ViewBag.articleId;
+					axios.get(`/api/articles/GetArticle/${ID}`).then(response => {
+						_this.aticlesData = response.data;
+						console.log(_this.aticlesData);
+					});
+				},
+				editProduct: function () {
+					let _this = this;
+					//_this.NoEdit.Edit = false;
+					_this.originalArticleTitle = _this.aticlesData.articleTitle;
+					_this.originalArticleText = _this.aticlesData.articleText;
+					_this.originalArticleTime = Date.now();
+					console.log(_this.originalArticleTitle);
+				},
+				cancel: function () {
+					let _this = this;
+					_this.NoEdit.Edit = true;
+					_this.backendProduct.productName = _this.originalProductName;
+					_this.backendProduct.productAmount = _this.originalProductAmount;
+					_this.backendProduct.productPrice = _this.originalProductPrice;
+				},
+				update: function () {
+					alert("update");
+					let _this = this;
+					var request = {
+						ArticleTitle: _this.originalArticleTitle,
+						ArticleText: _this.originalArticleText,
+						ArticleTime: _this.originalArticleTime
+					};
+					axios.post(`/api/articles/EditArticle/`, request).then(response => {
+						alert(response.data);
+
+					});
+				},
+			}
+		});
+
+	</script>
+    }

@@ -1,0 +1,108 @@
+﻿using FurryFeast.Areas.Admin.ViewModels;
+using FurryFeast.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace FurryFeast.Areas.Admin.Api {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class StockImagesApiController : ControllerBase {
+        private db_a989fb_furryfeastContext _context;
+
+        public StockImagesApiController(db_a989fb_furryfeastContext context) {
+            _context = context;
+        }
+
+        // 查詢所有資料
+        [HttpGet]
+        public async Task<object> GetAll() {
+            if (_context.StockImages == null) {
+                return NotFound("StockImages is null.");
+            }
+
+            var result = await _context.StockImages.Select(data => new StockImageViewModel {
+                ImagesId = data.ImagesId,
+                ImagesCode = data.ImagesCode,
+                ImagesDescription = data.ImagesDescription,
+                ImagesFileCrc = data.ImagesFileCrc,
+                ImagesBitmapFile = data.ImagesBitmapFile
+            }).ToListAsync();
+            return Ok(result);
+        }
+
+        // 新增一筆資料
+        [HttpPost]
+        public async Task<object> PostData([FromBody] StockImageViewModel data) {
+            if (_context.StockImages == null) {
+                return NotFound("StockImages is null.");
+
+            }
+
+            // 如果資料重複
+            var result = await _context.StockImages.Where(d => d.ImagesCode == data.ImagesCode).FirstOrDefaultAsync();
+            if (result != null) {
+                return Conflict($"Data duplicate, ImagesCode: {data.ImagesCode}");
+            }
+
+            result = new StockImage {
+                ImagesId = data.ImagesId,
+                ImagesCode = data.ImagesCode,
+                ImagesDescription = data.ImagesDescription,
+                ImagesFileCrc = data.ImagesFileCrc,
+                ImagesBitmapFile = data.ImagesBitmapFile
+            };
+
+            _context.StockImages?.Add(result);
+            await _context.SaveChangesAsync();
+            return Ok($"Post success, ImagesCode: {data.ImagesCode}.");
+        }
+
+        // 刪除一筆資料
+        [HttpDelete("{code}")]
+        public async Task<object> DeleteData(string code) {
+            if (_context.StockImages == null) {
+                return NotFound("StockImages is null");
+            }
+
+            // 檢查資料是否存在
+            var result = await _context.StockImages.Where(d => d.ImagesCode == code).FirstOrDefaultAsync();
+            if (result == null) {
+                return BadRequest($"Delete failed, ImagesCode: {code}");
+            }
+
+            _context.StockImages.Remove(result);
+            await _context.SaveChangesAsync();
+            return Ok($"Delete success, ImagesCode: {code}.");
+        }
+
+        // 更新一筆資料
+        [HttpPatch("{code}")]
+        public async Task<object> PatchData(string code, [FromBody] StockImageViewModel data) {
+            if (_context.StockImages == null) {
+                return NotFound("StockImages is null");
+            }
+
+            // 檢查資料是否存在
+            var result = await _context.StockImages.Where(d => d.ImagesCode == code).FirstOrDefaultAsync();
+            if (result == null) {
+                return BadRequest($"Patch failed, ImagesCode: {code}.");
+            }
+
+            var patchOneData = await _context.StockImages.Where(d => d.ImagesCode == data.ImagesCode).FirstOrDefaultAsync();
+
+            // 檢查 code 是否存在
+            if (result.ImagesCode != data.ImagesCode && patchOneData != null) {
+                return BadRequest($"Patch duplicate, ImagesCode: {code}.");
+            }
+
+            result.ImagesCode = data.ImagesCode;
+            result.ImagesDescription = data.ImagesDescription;
+            result.ImagesFileCrc = data.ImagesFileCrc;
+            result.ImagesBitmapFile = data.ImagesBitmapFile;
+            _context.Entry(result).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok($"Patch success, ImagesCode: {code}.");
+        }
+    }
+}

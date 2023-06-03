@@ -11,7 +11,7 @@ namespace FurryFeast.Models
         }
 
         public int ArticlesId { get; set; }
-        public string AarticlesCode { get; set; } = null!;
+        public string ArticlesCode { get; set; } = null!;
         public decimal ArticlesIsValid { get; set; }
         public string ArticlesDescription { get; set; } = null!;
         public string? ArticlesNotes { get; set; }
