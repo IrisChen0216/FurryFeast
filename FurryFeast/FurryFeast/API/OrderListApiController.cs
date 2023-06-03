@@ -1,4 +1,5 @@
 ﻿using FurryFeast.Models;
+using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -79,10 +80,31 @@ namespace FurryFeast.API
 				        y.OrderQuantity,
 				        y.Product.ProductName,
 				        y.Product.ProductPrice
-				        //y.Product.ProductPics
 			        }).ToList()
 		        }).ToList();
         }
 
-	}
+        [HttpPost]
+        public object Update([FromBody]OrdersListViewModel model)
+        {
+	        try
+	        {
+		        var editedOrder = _context.Orders.FirstOrDefault(x => x.OrderId == model.OrderId);
+		        if (editedOrder == null) return new { success = false, message = "Order not found" };
+		        editedOrder.OrderId = model.OrderId;
+		        editedOrder.OrderRecipientName = model.OrderRecipientName;
+		        editedOrder.OrderRecipientAdress = model.OrderRecipientAdress;
+		        editedOrder.OrderRecipientPhone = model.OrderRecipientPhone;
+
+		        _context.Orders.Update(editedOrder);
+		        _context.SaveChanges();
+		        return new { success = true, message = "Order updated successfully" };
+	        }
+	        catch (Exception e)
+	        {
+		        return new { success = false, message = e.Message };
+	        }
+        }
+
+    }
 }
