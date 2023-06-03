@@ -10,79 +10,80 @@ using FurryFeast.Models;
 namespace FurryFeast.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ArticlesListController : Controller
+    public class RecipesListController : Controller
     {
         private readonly db_a989fb_furryfeastContext _context;
 
-        public ArticlesListController(db_a989fb_furryfeastContext context)
+        public RecipesListController(db_a989fb_furryfeastContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/ArticlesList
+        // GET: Admin/Recipes
         public async Task<IActionResult> Index()
         {
-            var db_a989fb_furryfeastContext = _context.Articles.Include(a => a.Admin);
+            var db_a989fb_furryfeastContext = _context.Recipes.Include(r => r.PetTypes);
             return View(await db_a989fb_furryfeastContext.ToListAsync());
         }
 
-        // GET: Admin/ArticlesList/Details/5
+        // GET: Admin/Recipes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-	        ViewBag.articlesId = id;
-	        return View();
+            if (id == null || _context.Recipes == null)
+            {
+                return NotFound();
+            }
+
+            var recipe = await _context.Recipes
+                .Include(r => r.PetTypes)
+                .FirstOrDefaultAsync(m => m.RecipesId == id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            return View(recipe);
         }
 
-        // GET: Admin/ArticlesList/Create
+        // GET: Admin/Recipes/Create
         public IActionResult Create()
         {
-            ViewData["AdminId"] = new SelectList(_context.Admins, "AdminId", "AdminId");
+            ViewData["PetTypesId"] = new SelectList(_context.PetTypes, "PetTypesId", "PetTypesId");
             return View();
         }
 
-        // POST: Admin/ArticlesList/Create
+        // POST: Admin/Recipes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdminId,ArticleTitle,ArticleText,ArticleDate,ArticleId")] Article article)
+        public async Task<IActionResult> Create([Bind("RecipesId,PetTypesId,RecipesName,RecipesDescription,RecipesData,RecipesMethod,RecipesNotes")] Recipe recipe)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(article);
+                _context.Add(recipe);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdminId"] = new SelectList(_context.Admins, "AdminId", "AdminId", article.AdminId);
-            return View(article);
+            ViewData["PetTypesId"] = new SelectList(_context.PetTypes, "PetTypesId", "PetTypesId", recipe.PetTypesId);
+            return View(recipe);
         }
 
-        // GET: Admin/ArticlesList/Edit/5
+        // GET: Admin/Recipes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Articles == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.articleId = id;
-            var article = await _context.Articles.FindAsync(id);
-            if (article == null)
-            {
-                return NotFound();
-            }
-            ViewData["AdminId"] = new SelectList(_context.Admins, "AdminId", "AdminId", article.AdminId);
-            return View(article);
+			ViewBag.recipesId = id;
+			return View();
         }
 
-        // POST: Admin/ArticlesList/Edit/5
+        // POST: Admin/Recipes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AdminId,ArticleTitle,ArticleText,ArticleDate,ArticleId")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("RecipesId,PetTypesId,RecipesName,RecipesDescription,RecipesData,RecipesMethod,RecipesNotes")] Recipe recipe)
         {
-            if (id != article.ArticleId)
+            if (id != recipe.RecipesId)
             {
                 return NotFound();
             }
@@ -91,12 +92,12 @@ namespace FurryFeast.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(article);
+                    _context.Update(recipe);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ArticleExists(article.ArticleId))
+                    if (!RecipeExists(recipe.RecipesId))
                     {
                         return NotFound();
                     }
@@ -107,51 +108,51 @@ namespace FurryFeast.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdminId"] = new SelectList(_context.Admins, "AdminId", "AdminId", article.AdminId);
-            return View(article);
+            ViewData["PetTypesId"] = new SelectList(_context.PetTypes, "PetTypesId", "PetTypesId", recipe.PetTypesId);
+            return View(recipe);
         }
 
-        // GET: Admin/ArticlesList/Delete/5
+        // GET: Admin/Recipes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Articles == null)
+            if (id == null || _context.Recipes == null)
             {
                 return NotFound();
             }
 
-            var article = await _context.Articles
-                .Include(a => a.Admin)
-                .FirstOrDefaultAsync(m => m.ArticleId == id);
-            if (article == null)
+            var recipe = await _context.Recipes
+                .Include(r => r.PetTypes)
+                .FirstOrDefaultAsync(m => m.RecipesId == id);
+            if (recipe == null)
             {
                 return NotFound();
             }
 
-            return View(article);
+            return View(recipe);
         }
 
-        // POST: Admin/ArticlesList/Delete/5
+        // POST: Admin/Recipes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Articles == null)
+            if (_context.Recipes == null)
             {
-                return Problem("Entity set 'db_a989fb_furryfeastContext.Articles'  is null.");
+                return Problem("Entity set 'db_a989fb_furryfeastContext.Recipes'  is null.");
             }
-            var article = await _context.Articles.FindAsync(id);
-            if (article != null)
+            var recipe = await _context.Recipes.FindAsync(id);
+            if (recipe != null)
             {
-                _context.Articles.Remove(article);
+                _context.Recipes.Remove(recipe);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ArticleExists(int id)
+        private bool RecipeExists(int id)
         {
-          return (_context.Articles?.Any(e => e.ArticleId == id)).GetValueOrDefault();
+          return (_context.Recipes?.Any(e => e.RecipesId == id)).GetValueOrDefault();
         }
     }
 }

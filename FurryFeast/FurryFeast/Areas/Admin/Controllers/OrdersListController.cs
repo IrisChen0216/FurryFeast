@@ -10,79 +10,78 @@ using FurryFeast.Models;
 namespace FurryFeast.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ArticlesListController : Controller
+    public class OrdersListController : Controller
     {
         private readonly db_a989fb_furryfeastContext _context;
 
-        public ArticlesListController(db_a989fb_furryfeastContext context)
+        public OrdersListController(db_a989fb_furryfeastContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/ArticlesList
+        // GET: Admin/OrdersList
         public async Task<IActionResult> Index()
         {
-            var db_a989fb_furryfeastContext = _context.Articles.Include(a => a.Admin);
+            var db_a989fb_furryfeastContext = _context.Orders.Include(o => o.Member);
             return View(await db_a989fb_furryfeastContext.ToListAsync());
         }
 
-        // GET: Admin/ArticlesList/Details/5
+        // GET: Admin/OrdersList/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-	        ViewBag.articlesId = id;
-	        return View();
-        }
-
-        // GET: Admin/ArticlesList/Create
-        public IActionResult Create()
-        {
-            ViewData["AdminId"] = new SelectList(_context.Admins, "AdminId", "AdminId");
+	        ViewBag.orderId = id;
             return View();
         }
 
-        // POST: Admin/ArticlesList/Create
+        // GET: Admin/OrdersList/Create
+        public IActionResult Create()
+        {
+            ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "MemberId");
+            return View();
+        }
+
+        // POST: Admin/OrdersList/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdminId,ArticleTitle,ArticleText,ArticleDate,ArticleId")] Article article)
+        public async Task<IActionResult> Create([Bind("OrderId,OrderCreateDate,OrderShipDate,OrderRecipientName,OrderRecipientAdress,OrderRecipientPhone,OrderTotalPrice,OrderStatus,MemberId")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(article);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdminId"] = new SelectList(_context.Admins, "AdminId", "AdminId", article.AdminId);
-            return View(article);
+            ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "MemberId", order.MemberId);
+            return View(order);
         }
 
-        // GET: Admin/ArticlesList/Edit/5
+        // GET: Admin/OrdersList/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Articles == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            ViewBag.articleId = id;
-            var article = await _context.Articles.FindAsync(id);
-            if (article == null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
-            ViewData["AdminId"] = new SelectList(_context.Admins, "AdminId", "AdminId", article.AdminId);
-            return View(article);
+            ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "MemberId", order.MemberId);
+            return View(order);
         }
 
-        // POST: Admin/ArticlesList/Edit/5
+        // POST: Admin/OrdersList/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AdminId,ArticleTitle,ArticleText,ArticleDate,ArticleId")] Article article)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderId,OrderCreateDate,OrderShipDate,OrderRecipientName,OrderRecipientAdress,OrderRecipientPhone,OrderTotalPrice,OrderStatus,MemberId")] Order order)
         {
-            if (id != article.ArticleId)
+            if (id != order.OrderId)
             {
                 return NotFound();
             }
@@ -91,12 +90,12 @@ namespace FurryFeast.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(article);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ArticleExists(article.ArticleId))
+                    if (!OrderExists(order.OrderId))
                     {
                         return NotFound();
                     }
@@ -107,51 +106,51 @@ namespace FurryFeast.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdminId"] = new SelectList(_context.Admins, "AdminId", "AdminId", article.AdminId);
-            return View(article);
+            ViewData["MemberId"] = new SelectList(_context.Members, "MemberId", "MemberId", order.MemberId);
+            return View(order);
         }
 
-        // GET: Admin/ArticlesList/Delete/5
+        // GET: Admin/OrdersList/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Articles == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var article = await _context.Articles
-                .Include(a => a.Admin)
-                .FirstOrDefaultAsync(m => m.ArticleId == id);
-            if (article == null)
+            var order = await _context.Orders
+                .Include(o => o.Member)
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(article);
+            return View(order);
         }
 
-        // POST: Admin/ArticlesList/Delete/5
+        // POST: Admin/OrdersList/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Articles == null)
+            if (_context.Orders == null)
             {
-                return Problem("Entity set 'db_a989fb_furryfeastContext.Articles'  is null.");
+                return Problem("Entity set 'db_a989fb_furryfeastContext.Orders'  is null.");
             }
-            var article = await _context.Articles.FindAsync(id);
-            if (article != null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
             {
-                _context.Articles.Remove(article);
+                _context.Orders.Remove(order);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ArticleExists(int id)
+        private bool OrderExists(int id)
         {
-          return (_context.Articles?.Any(e => e.ArticleId == id)).GetValueOrDefault();
+          return (_context.Orders?.Any(e => e.OrderId == id)).GetValueOrDefault();
         }
     }
 }

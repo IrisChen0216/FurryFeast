@@ -1,0 +1,300 @@
+﻿@{
+	ViewData["Title"] = "Index";
+}
+
+@section Style{
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	<style>
+		.JQellipsiss {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+	</style>
+}
+
+
+<div class="index-header">
+	<h2>寵物課程</h2>
+</div>
+<div class="container" id="app">
+	<div class="row row-50">
+		<div class="col-lg-4 col-xl-3">
+			<div class="aside row row-30 row-md-50 justify-content-md-between">
+				<!-- RD Search Form-->
+				<div class="aside-item col-sm-6 col-md-5 col-lg-12">
+					@*<form class="rd-search form-search" action="search-results.html" method="GET">*@
+						<div class="form-wrap">
+							<label class="form-label" for="search-form">Search ...</label>
+							<input class="form-input" id="search-form" type="text" name="s" autocomplete="off" v-model="filterObj.keyword">
+							<button class="button-search fl-bigmug-line-search74" type="submit" v-on:click="ClassFilter"></button>
+						</div>
+					@*</form>*@
+					<div></div>
+					<h6 class="aside-title">課程種類</h6>
+					<ul class="list-shop-filter">
+						<li>
+							<label class="checkbox-inline">
+								<a name="input-group-radio" v-on:click="AllClasses()">全部課程</a>
+
+							</label><span class="list-shop-filter-number">({{AllClassAmount}})</span>
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<a name="input-group-radio" v-on:click="PetClassType(1)">寵物美容課程</a>
+
+
+							</label><span class="list-shop-filter-number">({{PrettyClassAmount}})</span>
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<a name="input-group-radio" v-on:click="PetClassType(2)">寵物訓練課程</a>
+
+							</label><span class="list-shop-filter-number">({{TrainClassAmount}})</span>
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<a name="input-group-radio" v-on:click="PetClassType(3)">寵物DIY課程</a>
+							</label><span class="list-shop-filter-number">({{DIYClassAmount}})</span>
+						</li>
+					</ul>
+
+
+				</div>
+				<div class="aside-item col-sm-6 col-lg-12">
+					<h6 class="aside-title">熱門課程</h6>
+					<div class="row row-10 row-lg-20 gutters-10">
+						<div class="col-4 col-sm-6 col-md-12">
+							<!-- Product Minimal-->
+							<article class="product-minimal">
+								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
+									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-1-106x104.jpg" alt="" width="106" height="104" /></a></div>
+									<div class="unit-body">
+										<p class="product-minimal-title"><a href="single-product.html">寵物鮮食DIY課程</a></p>
+										<p class="product-minimal-price">$2500</p>
+									</div>
+								</div>
+							</article>
+						</div>
+						<div class="col-4 col-sm-6 col-md-12">
+							<!-- Product Minimal-->
+							<article class="product-minimal">
+								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
+									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-2-106x104.jpg" alt="" width="106" height="104" /></a></div>
+									<div class="unit-body">
+										<p class="product-minimal-title"><a href="single-product.html">寵物餅乾DIY課程 </a></p>
+										<p class="product-minimal-price">$3000</p>
+									</div>
+								</div>
+							</article>
+						</div>
+						<div class="col-4 col-sm-6 col-md-12">
+							<!-- Product Minimal-->
+							<article class="product-minimal">
+								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
+									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-3-106x104.jpg" alt="" width="106" height="104" /></a></div>
+									<div class="unit-body">
+										<p class="product-minimal-title"><a href="single-product.html">寵物肉乾DIY課程</a></p>
+										<p class="product-minimal-price">$2000</p>
+									</div>
+								</div>
+							</article>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-8 col-xl-9">
+			<div class="product-top-panel group-md">
+				<p class="product-top-panel-title">Showing 1–3 of 28 results</p>
+		@*		<template>
+					<div>
+						<date-picker v-model="time1" valueType="format"></date-picker>
+						<date-picker v-model="time2" type="datetime"></date-picker>
+						<date-picker v-model="time3" range></date-picker>
+					</div>
+				</template>*@
+				<div>
+					<div class="group-sm group-middle">
+						<div class="product-top-panel-sorting" >
+							<select v-model="selectedPrice" @@change="sortBy">
+								<option value="">價格排序</option>
+								<option value="1">由低到高</option>
+								<option value="2">由高到低</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class="row row-30 row-md-50 row-lg-60">
+
+				<div class="col-12" v-for="item in ShowClasses">
+					<!-- Product-->
+					<article class="product-modern text-center text-sm-left">
+						<div class="unit unit-spacing-0 flex-column flex-sm-row">
+							@*<div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="@item.PetClassId"><img src="~/image/cat/class.jpg" alt="" width="250" height="300" /></a></div>*@
+							<div class="unit-left"><a class="product-modern-figure link-img" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId"><img :src="'data:image/png;base64,'+item.petClassPic" /></a></div>
+
+							<div class="unit-body">
+								<div class="product-modern-body">
+									<h4 class="product-modern-title"><a :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">{{item.petClasses.petClassName}}</a></h4>
+									<div class="product-price-wrap">
+										@*<div class="product-price product-price-old">${{item.petClasses.petClassPrice}}</div>*@
+										<div class="product-price">${{item.petClasses.petClassPrice}}</div>
+									</div>
+									<p class="product-modern-text JQellipsis">{{item.petClasses.petClassInformation}}</p><a class="button button-primary button-zakaria" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">課程詳情</a>
+								</div>
+							</div>
+						</div><span class="product-badge product-badge-sale">Sale</span>
+					</article>
+				</div>
+
+
+			</div>
+			<div class="pagination-wrap">
+				<!-- Bootstrap Pagination-->
+				<nav aria-label="Page navigation">
+					<ul class="pagination">
+						<li class="page-item page-item-control disabled"><a class="page-link" href="#" aria-label="Previous"><span class="icon" aria-hidden="true"></span></a></li>
+						<li class="page-item active"><span class="page-link">1</span></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Next"><span class="icon" aria-hidden="true"></span></a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+@section Scripts{
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	@*<script src="https://code.jquery.com/jquery-latest.min.js"></script>*@
+	<script>
+
+
+		let app = new Vue({
+			el: '#app',
+			data: {
+				ShowClasses: [],
+				PetClasses: [],
+				dates: [],
+				//AllProductsAmount:"",
+				//FoodProductsAmount: "",
+				//DogProductsAmount: "",
+				//CatProductsAmount: "",
+				filterObj: {
+					name: "",
+					keyword: "",
+				},
+				selectedPrice:"",
+			},
+			mounted: function () {
+				let _this = this;
+				_this.AllClasses();
+
+			},
+			methods: {
+				//網頁載入就會掛載全部商品資料的方法
+				AllClasses: function () {
+					let _this = this;
+
+					axios.get(`/api/petclasses/AllClasses`).then(response => {
+						_this.ShowClasses = _this.PetClasses = response.data;
+
+					});
+				},
+				PetClassType: function (typeNum) {
+					let _this = this;
+					//var request={};
+					//request.productName=_this.keyword;
+					axios.get(`/api/petclasses/PetClassType?type=${typeNum}`).then(response => {
+						_this.ShowClasses = response.data;
+
+					});
+				},
+				ClassFilter: function () {
+					//依照搜尋欄位篩選商品
+					let _this = this;
+
+					_this.ShowClasses = _this.PetClasses.filter(item => item.petClasses.petClassName.includes(_this.filterObj.keyword));
+					_this.filterObj.keyword = "";
+
+				},
+				//想改成日期選擇
+				sortBy: function () {
+					let _this = this;
+
+					//依照價格排序
+					console.log('Sorting...');
+					if (_this.selectedPrice == 1) {
+						
+						return _this.ShowClasses.sort((a, b) => a.petClasses.petClassPrice - b.petClasses.petClassPrice);
+					}
+					if (_this.selectedPrice == 2) {
+
+						return _this.ShowClasses.sort((a, b) => b.petClasses.petClassPrice - a.petClasses.petClassPrice);
+					}
+				},
+				//onSelect(valueString, value) {
+				//	this.dates = value;
+				//},
+				//onPopupVisibleChange(visible) {
+				//	if (!visible) {
+				//		this.dates = []
+				//	}
+				//},
+				//disabledDate(current) {
+				//	const dates = this.dates;
+				//	if (dates && dates.length) {
+				//		const tooLate = dates[0] && Math.abs((new Date(current) - dates[0]) / (24 * 60 * 60 * 1000)) > 7;
+				//		const tooEarly = dates[1] && Math.abs((new Date(current) - dates[1]) / (24 * 60 * 60 * 1000)) > 7;
+				//		return tooEarly || tooLate;
+				//	}
+				//	return false;
+				//}
+			},
+			computed: {
+				AllClassAmount: function () {
+					let _this = this;
+					return _this.PetClasses.length;
+				},
+				PrettyClassAmount: function () {
+					let _this = this;
+					return _this.PetClasses.filter((a) => a.petClassType.petClassTypeId == 1).length;
+				},
+				TrainClassAmount: function () {
+					let _this = this;
+					return _this.PetClasses.filter((a) => a.petClassType.petClassTypeId == 2).length;
+				},
+				DIYClassAmount: function () {
+					let _this = this;
+					return _this.PetClasses.filter((a) => a.petClassType.petClassTypeId == 3).length;
+				},
+			},
+
+		});
+
+				//$(function () {
+				//    var len = 50; // 超過50個字以"..."取代
+				//    $(".JQellipsis").each(function (i) {
+				//        if ($(this).text().length > len) {
+				//            $(this).attr("title", $(this).text());
+				//            var text = $(this).text().substring(0, len - 1) + "...";
+				//            $(this).text(text);
+				//        }
+				//    });
+				//});
+
+
+	</script>
+	<script src="~/js/product/core.min.js"></script>
+	@*<script src="~/js/product/script.js"></script>*@
+
+}
