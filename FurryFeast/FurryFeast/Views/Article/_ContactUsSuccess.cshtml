@@ -1,9 +1,14 @@
 ﻿<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-	Swal.fire({
-		position: 'center',
-		icon: 'info',
-		title: '@ViewBag.Message',
-	});
+	let message = "@ViewBag.Message";
+	if (message == 1) {
+		Swal.fire({
+			position: 'center',
+			icon: 'success',
+			title: '傳送成功!!!',
+		});
+	} else if (message == 0) {
+		console.log("QQQ");
+	} else {};
 </script>

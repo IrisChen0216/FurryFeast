@@ -78,6 +78,7 @@ namespace FurryFeast.Controllers {
 
 		// 聯絡我們
 		public IActionResult ContactUs() {
+			ViewBag.Message = 3;
 			return View();
 		}
 
@@ -91,12 +92,12 @@ namespace FurryFeast.Controllers {
                 _furryFeastContext.SaveChanges();
 
                 //TempData["SuccessMessage"] = "表單送出成功";
-                ViewBag.Message = "傳送成功!!";
+                ViewBag.Message = 1;
                 return View();
             }
 
             //TempData["ErrorMessage"] = "表單送出失敗";
-            ViewBag.Message = "傳送失敗!!";
+            ViewBag.Message = 0;
             return View();
         }
         public IActionResult ContactUsSuccess()
