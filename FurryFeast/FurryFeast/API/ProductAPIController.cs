@@ -299,6 +299,7 @@ public class ProductApiController : ControllerBase
         return "新增圖片成功";
     }
 
+
     [HttpDelete("{id}")]
     public async Task<string> DeleteProduct(int id)
     {
@@ -316,3 +317,4 @@ public class ProductApiController : ControllerBase
         }
     }
 }
+

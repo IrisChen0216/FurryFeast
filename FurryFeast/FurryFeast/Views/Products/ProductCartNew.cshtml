@@ -1,0 +1,223 @@
+﻿@section Style{
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	<style>
+		.table-custom th {
+			padding: 4px 10px;
+		}
+
+		.col {
+			text-align: center;
+		}
+
+		.table-cart-stepper input[type="number"] {
+			font-size: 18px;
+			line-height: 1.4;
+			letter-spacing: .1em;
+			color: #151515;
+			background: #ffffff;
+			border-color: #ffffff;
+		}
+	</style>
+}
+
+<div class="index-header">
+	<h2>購物車</h2>
+</div>
+
+
+<div class="container" style="padding-right:100px;padding-left:100px" id="app">
+	<!-- shopping-cart-->
+	<div class="table-custom-responsive" >
+		<table class="table-custom table-cart">
+			<thead>
+				<tr>
+					<th>商品名稱</th>
+					<th>商品價格</th>
+					<th>商品數量</th>
+					<th>小計</th>
+					<th>刪除</th>
+				</tr>
+			</thead>
+			<tbody v-if="hasProducts">
+
+				<tr v-for="(item,index) in showProducts">
+					
+					<td><a class="table-cart-figure link-img"><img :src="'data:image/png;base64,'+item.productImage" /></a><a class="table-cart-link">{{item.productName}}</a></td>
+					<td>${{item.orderPrice}}</td>
+					<td>
+						<div class="table-cart-stepper">
+							<input :id="'stepper-' + index" class="form-input ProductAmount" type="number" data-zeros="true" min="1" max="1000" v-model="item.orderQuantity" :data-index="index">
+						</div>
+					</td>
+					<td class="changePrice">${{item.orderPrice*item.orderQuantity}}</td>
+					<td>
+						@*<form name="removeProduct" method="post" :href="'/Cart/Remove?id='+item.productId">*@
+						<button id="deleteProduct" class="btn btn-dark deleteProduct" type="submit" v-on:click="deleteProduct(item.productId)"><i class="bi bi-trash"></i></button>
+						@*</form>*@
+					</td>
+				</tr>
+			</tbody>
+			<tbody v-else>
+				<tr>
+					<td class="col" colspan="5">
+						<h4>目前購物車沒有商品唷!</h4>
+					</td>
+				</tr>
+				<tr>
+					<td class="col" colspan="5">
+						<h6><a asp-controller="Products" asp-action="IndexNewOne">手刀為毛寶貝添購</a></h6>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="group-xl group-justify justify-content-center justify-content-md-between">
+		<div>
+			<form class="rd-form rd-mailform rd-form-inline rd-form-coupon">
+				<div class="form-wrap">
+					<input class="form-input form-input-inverse" id="coupon-code" type="text" name="text">
+					<label class="form-label" for="coupon-code">請輸入優惠券代碼</label>
+				</div>
+				<div class="form-button">
+					<button class="button button-lg button-primary button-zakaria" type="submit">兌換</button>
+				</div>
+			</form>
+		</div>
+		<div>
+			<div class="group-xl group-middle">
+				<div>
+					<div class="group-md group-middle">
+						<div class="heading-5 fw-medium text-gray-500">總計</div>
+						<div class="heading-3 fw-normal">${{TotalPrice}}</div>
+					</div>
+				</div><a asp-controller="CartOrder" asp-action="CheckOrder" class="button button-lg button-primary button-zakaria">結帳</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script src="~/js/product/core.min.js"></script>
+	<script src="~/js/product/script.js"></script>
+	<script src="~/js/slick.min.js"></script>
+	<script>
+
+		let deleteButton = document.getElementsByClassName('deleteProduct');
+		for (let i = 0; i < deleteButton.length; i++) {
+			deleteButton[i].addEventListener('click', function (event) {
+				if (!confirm('確定要刪除嗎?')) {
+					event.preventDefault();
+				}
+				else {
+					document.getElementsByClassName('deleteProduct').addEventListener('submit', function () {
+						alert('刪除成功');
+					});
+				}
+			})
+		}
+
+
+		let app = new Vue({
+			el: '#app',
+			data: {
+				showProducts: [],
+				hasProducts: true,
+				orderQuantity: 0,
+			},
+			mounted: function () {
+				let _this = this;
+				_this.Products();
+				_this.initializeStepper();
+			},
+			updated: function () {
+				let _this = this;
+				_this.initializeStepper();
+			},
+			methods: {
+				//網頁載入就會掛載全部商品資料的方法
+				Products: function () {
+					let _this = this;
+
+					axios.get(`/api/cart/CartProducts`).then(response => {
+
+						_this.showProducts = response.data;
+						_this.hasProducts = _this.showProducts.length > 0;
+						
+					});
+				},
+				AddCart: function (ID) {
+
+					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
+						.then(
+							alert('成功加入購物車!')
+						);
+
+				},
+				UpdateCart: function (ID, newVal) {
+
+					axios.post(`/Cart/CartUpdate`, { Id: ID, amount: newVal })
+						.then(
+							//alert('成功修改購物車!')
+						);
+				},
+				deleteProduct: function (ID) {
+					let _this=this;
+					axios.delete(`/Cart/Remove?id=${ID}`)
+						.then(response => {
+							//alert('成功移除!');
+							_this.showProducts=response.data;
+							if ((response.data).length <= 0) {
+								_this.hasProducts = false;
+							}
+							else{
+								_this.hasProducts = true;
+							}
+						});
+				},
+				initializeStepper: function () {
+					//let plugins = { stepper: $("input[type='number']"), };
+					let _this = this;
+					let newVal;
+					let ID;
+					_this.showProducts.forEach(function (item, index){
+						let stepper = $('#stepper-' + index);
+						if (stepper.length) {
+							stepper.off('change');
+							stepper.stepper({
+								labels: {
+									up: "",
+									down: ""
+								}
+							}).on('change', function () {
+								newVal = $(this).val(); // 獲取新的值
+								let index = $(this).data('index'); // 獲取索引
+								_this.$set(_this.showProducts, index, Object.assign({}, _this.showProducts[index], { orderQuantity: newVal }));
+								ID = _this.showProducts[index].productId;
+								_this.UpdateCart(ID, newVal);
+								
+							});
+						};
+
+					});
+					
+					
+				},
+				
+			},
+			computed: {
+				TotalPrice: function () {
+					let _this = this;
+					let total=0;
+					for (let i = 0; i < _this.showProducts.length; i++) {
+						let product = _this.showProducts[i];
+						total += (product.orderPrice) * (product.orderQuantity);
+					};
+					return total;
+				},
+			},
+		});
+
+	</script>
+	}
