@@ -2,6 +2,7 @@
 let MapData = [];
 let MapCenter;
 let ClickMarkerDetail;
+let leftOffset = -0.004;
 
 // //程式進入點
 $(function () {
@@ -65,11 +66,13 @@ $("#ChooseCity").change(function (event) {
                     value: MapData[i].PostCode[j],
                     text: MapData[i].county[j]
                 }))
-                MapCenter = new google.maps.LatLng(MapData[i].cityLng, MapData[i].cityLat);
+                MapCenter = new google.maps.LatLng(MapData[i].cityLng-0.05, MapData[i].cityLat);
             }
         }
     }
+    console.log("MapCenter:"+MapCenter);
     console.log("選擇了" + option_value);
+
 
     checkDropdown("#ChooseCounty");
     DropDownStyle("#ChooseCounty");
@@ -80,7 +83,11 @@ $("#ChooseCity").change(function (event) {
 
     deleteMarkers();
     Reset();
-    $(".card-new #pp").remove();
+    console.log("visually-hidden");
+
+    if (!$('#infoBox').hasClass("visually-hidden")) {
+        $('#infoBox').addClass("visually-hidden");
+    }
 });
 
 // 取得所選鄉鎮的郵遞區號
@@ -96,23 +103,24 @@ $("#ChooseCounty").change(function (e) {
         }
     }
     console.log("選擇地區的郵遞區號是" + Value);
+    $("#infoBox").removeClass("visually-hidden");
     PlaceLatLng();
     drop();
     Reset();
-    $(".card-new #pp").remove();
+    $("#infoBox #pp").remove();
 
     if (area.length == 1) {
         placeID = area[0].place_id;
         MarkerDetail();
         initStreetView();
         map.setZoom(12);
-        $(".card-new").prepend($('<p>', { id: "pp", style: "font-size:12px; letter-spacing: 3px; color: gray;", text: `共${area.length}筆資料` }));
+        $("#infoBox").prepend($('<p>', { id: "pp", style: "font-size:12px; letter-spacing: 3px; color: gray;", text: `共${area.length}筆資料` }));
 
     }
     else
     {
         GetPlaceList();
-        $(".card-new").prepend($('<p>', { id: "pp", style: "font-size:12px; letter-spacing: 3px; color: gray;", text: `共${area.length}筆資料` }));
+        $("#infobox").prepend($('<p>', { id: "pp", style: "font-size:12px; letter-spacing: 3px; color: gray;", text: `共${area.length}筆資料` }));
 
     }
 
@@ -148,6 +156,7 @@ function GetPlaceList() {
 //點擊list
 window.addEventListener('click', (e) => {
     for (let i = 0; i < area.length; i++) {
+        console.log(e.target.id);
         if (e.target.id == area[i].place_id) {
             ClickMarkerDetail = {
                 Name: area[i].name,
@@ -162,14 +171,19 @@ window.addEventListener('click', (e) => {
                 OpenHours: area[i].opening_hours_weekday,
                 Type: area[i].icon
             }
-            MapCenter = { lat:ClickMarkerDetail.Lat, lng:ClickMarkerDetail.Lng}
 
+            MapCenter = { lat:ClickMarkerDetail.Lat, lng:ClickMarkerDetail.Lng}
+            var newLng = MapCenter.lng - leftOffset; // 計算新的經度
+            // 移動中心點往左
+            var newCenter = new google.maps.LatLng(MapCenter.lat, newLng); // 新的中心點位置
+            
             Reset();
             initStreetView();
             OutputInfo();
 
             map.setZoom(16);
-            map.panTo(MapCenter);
+            map.panTo(newCenter); // 使用 panTo 函數移動中心點
+
         }
     }
 });
@@ -211,6 +225,9 @@ function drop() {
     }
     if (AreaLatLng.length !== 0) {
         /*map.setZoom(13);*/
+        var newLng = MapCenter.lng - 0.05; // 計算新的經度
+        // 移動中心點往左
+        var newCenter = new google.maps.LatLng(MapCenter.lat, newLng); // 新的中心點位置
         map.setCenter(MapCenter);
     }
 }
@@ -230,8 +247,8 @@ function CreateMarkers() {
         //marker的監聽事件
         marker.addListener("click", (e) => {
             Reset();
-            if (!$(".card-new #pp")) {
-                $(".card-new #pp").remove();
+            if (!$("#infoBox #pp")) {
+                $("#infoBox #pp").remove();
             }
             placeID = AreaLatLng[1].PlaceID;
             MarkerDetail();
@@ -291,7 +308,7 @@ function Reset() {
     $("#InfoBoxBody >.col-9").empty();
     $("#PlaceList >ul").empty();
     /*$(".card-new #pp").remove();*/
-    $(".card-new .BtnReturn").remove();
+    $("#infoBox .BtnReturn").remove();
 
 
     if (!$('#btn_StreetView').hasClass("visually-hidden")) {
@@ -309,6 +326,8 @@ function Reset() {
 
 // 輸出商家細節
 function OutputInfo() {
+    $("#infoBox").removeClass("visually-hidden");
+
     let StarWidth = ClickMarkerDetail.Rating * 20;
 
     Reset();
@@ -355,7 +374,7 @@ function OutputInfo() {
     $('#btn_StreetView').removeClass("visually-hidden");
 
     if ($("#BtnReturn") && area.length>1) {
-        $(".card-new").append($('<button>').text("Return").addClass("BtnReturn").on('click', GetPlaceList));
+        $("#infoBox").append($('<button>').text("Return").addClass("BtnReturn").on('click', GetPlaceList));
     }
 } 
 

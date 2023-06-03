@@ -13,7 +13,7 @@
 	<p>愛寵物，就像愛自己一樣</p>
 	<p>我們周邊需要更多的寵物友善環境。</p>
 </div>
-<div class="container mt-5">
+<div class="container mt-5" style="z-index: 999">
 	<div id="form" class="row">
 		<div class="col-3">
 			<select id="ChooseCity">
@@ -29,10 +29,10 @@
 </div>
 <div class="container my-3">
 	<div class="row" style="height: 600px;">
-		<div id="map" class="col-lg-7 col-sm-12 m-0 p-3" style="max-width: 100%; border-radius: 1rem;">
+		<div id="map" class="col-lg-7 col-sm-12 m-0 p-3 border-2" style="width: 100%;">
 		</div>
-		<div class="col-lg-5 col-sm-12 ">
-			<div class="card-new" style="overflow: scroll; height: 600px;">
+		<div class="col-lg-5 col-sm-12 visually-hidden" id="infoBox" style="border: 2px solid;position: absolute;z-index: 99;height: 575px;width: 412px;border-radius: 1rem;background: white;overflow: scroll;top: 418px;right: 132px;">
+			<div class="">
 				<div id="PlaceList">
 					<ul>
 
@@ -72,6 +72,7 @@
 
 			</div>
 		</div>
+
 	</div>
 </div>
 
