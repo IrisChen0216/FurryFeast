@@ -101,11 +101,11 @@
                                 <tr>
 	                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單編號</th>
 	                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員ID</th>
+	                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員帳號</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單成立日期</th>
 	                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">發貨日期</th>
-	                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單狀況</th>
 	                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">總金額</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">明細</th>
+	                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">明細</th>
 	                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                                 </tr>
                             </thead>
@@ -116,7 +116,10 @@
                                             <span class="text-secondary text-xs font-weight-bold">{{item.orderId}}</span>
                                         </td>
 	                                    <td>
-                                            <span class="text-secondary text-xs font-weight-bold">{{item.memberId}}</span>
+		                                    <span class="text-secondary text-xs font-weight-bold">{{item.memberId}}</span>
+	                                    </td>
+	                                    <td>
+                                            <span class="text-secondary text-xs font-weight-bold">{{item.memberAccount}}</span>
 	                                    </td>
 	                                    <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold">{{item.orderCreateDate}}</span>
@@ -125,15 +128,14 @@
                                             <span class="text-secondary text-xs font-weight-bold">{{item.orderShipDate}}</span>
 	                                    </td>
 	                                    <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold">{{item.orderStatus}}</span>
-	                                    </td>
-	                                    <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold">{{item.orderTotalPrice}}</span>
 	                                    </td>
 	                                    <td class="text-center pe-3">
 		                                    <button class="btn mb-0" style="background: dodgerblue"><a style="color: white" :href="'Details/'+item.orderId">觀看明細</a></button>
-                                            <button class="btn mb-0 " style="background: crimson; color: white">Active</button>
-                                        </td>
+	                                    </td>
+	                                    <td>
+		                                    <button class="btn mb-0 " style="background: crimson; color: white">Active</button>
+	                                    </td>
                                     </template>
                                 </tr>
 

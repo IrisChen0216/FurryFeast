@@ -14,8 +14,8 @@
 			letter-spacing: 0.5px;
 			border: none;
 			background: none;
-			height: 40px;
-			border-bottom: 1px solid #ccc;
+			height: 50px;
+			border-bottom: 1px dashed #ccc;
 			padding: 0px 0px 0px 5px;
 		}
 
@@ -27,6 +27,10 @@
 		.btn-secondary:hover {
 			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 		}
+
+/*		tbody tr:last-of-type {
+			border-bottom: 1px solid #f0f2f5;
+		}*/
 
 		.btn-typeId {
 			border: 1px solid black;
@@ -54,20 +58,25 @@
 			background: white;
 			border-radius: 1rem;
 			padding-bottom: 10px;
-			padding: 50px 50px 15px 50px;
+			padding: 15px 20px;
 			border: 1px solid rgb(235 235 235);
 			font-size: 14px;
 		}
 
-		.recipeName {
+		.title {
 			vertical-align: initial;
 			font-weight: bold;
-			font-size: 15px
+			font-size: 15px;
+			text-align: center;
 		}
 
-		.recipeText {
+		.text {
 			font-size: 13px;
 			letter-spacing: 2px
+		}
+
+		table td {
+			text-align: right;
 		}
 	</style>
 }
@@ -80,65 +89,116 @@
 			<h2 style="display: inline-block;" class="mt-3 mx-2">Details</h2>
 		</div>
 	</div>
-	<div class="text-end pe-2">
-		<template v-if="false">
-			<button class="btn m-0" style="background: yellowgreen; color: white" v-on:click="update">更新</button>
-			<button class="btn m-0" style="background: darkgray"><a style="color: white" :href="'index'">取消</a></button>
-		</template>
-		<template v-elas>
-			<button class="btn m-0" style="background: black; color: white">編輯</button>
-			<button class="btn m-0" style="background: yellowgreen; color: white" :href="'index'">回到訂單明細</button>
-		</template>
+	<div class="text-end pe-2 mb-2">
+		<button class="btn m-0" style="color: gray; font-size: 14px;" :href="'index'">回到訂單明細</button>
 	</div>
-	<div class="box mt-3" v-for="item in orderData">
-		<div class="mb-4">
-			<div class="col">
-				<span class="recipeName">訂單編號</span>
-				<input class="inputbox ms-2" type="text" v-model="item.orderId" />
-			</div>
-			<div class="col" style="font-size: 13px;">
-				<span class="recipeName">訂單成立時間</span>
-				<input class="inputbox ms-2" type="text" v-model="item.orderCreateDate" />
-			</div>
-			<div class="col" style="font-size: 13px;">
-				<span class="recipeName">會員編號</span>
-				<input class="inputbox ms-2" type="text" v-model="item.memberId" />
-			</div>
-			<div class="col" style="font-size: 13px;">
-				<span class="recipeName">會員名稱</span>
-				<input class="inputbox ms-2" type="text" v-model="item.memberName" />
-			</div>
-			<div class="my-4">
-				<div class="mb-4 mt-3">
-					<p class="recipeName">購買明細</p>
-					<span class="recipeName">商品名稱</span>
-					<input class="inputbox ms-2" type="text" v-model="item.orderDetail[0].productName" />
-					<span class="recipeName">商品價格</span>
-					<input class="inputbox ms-2" type="text" v-model="item.orderDetail[0].productPrice" />
-					<span class="recipeName">購買數量</span>
-					<input class="inputbox ms-2" type="text" v-model="item.orderDetail[0].orderQuantity" />
-					<span class="recipeName">商品金額</span>
-					<input class="inputbox ms-2" type="text" v-model="item.orderDetail[0].orderPrice" />
-					<span class="recipeName">總金額</span>
-					<input class="inputbox ms-2" type="text" v-model="item.orderTotalPrice" />
-					<div class="ms-1 mt-1" v-for="(item, index) in editingRecipeData" :key="index">
-						<input class="inputbox" style="width:80%" type="text" v-model="editingRecipeData[index]" />
-					</div>
-				</div>
+
+	<div class="box row" v-for="item in orderData">
+		<div class="col">
+			<h4 class=" col mt-3">訂單資訊</h4>
+			<div class="box mb-4 mt-3 ">
+				<table >
+					<tr>
+						<td><span class="title">訂單編號</span></td>
+						<td><input class="inputbox ms-3" type="text" v-model="item.orderId" disabled/></td>
+					</tr>
+					<tr>
+						<td><span class="title">訂單成立時間</span></td>
+						<td style="width: auto"><input class="inputbox ms-3" type="text" v-model="item.orderCreateDate" disabled/></td>
+					</tr>
+					<tr>
+						<td><span class="title">出貨時間</span></td>
+						<td><input class="inputbox ms-3" type="text" v-model="item.orderShipDate" disabled/>
+					</tr>
+				</table>
 			</div>
 		</div>
-	</div>
-	<div class="box mt-3" v-for="item in orderData">
-		<div class="mb-4 mt-3">
-			<p class="recipeName">收件者明細</p>
-			<span class="recipeName">收件者名稱</span>
-			<input class="inputbox ms-2" type="text" v-model="item.orderRecipientName" />
-			<span class="recipeName">收件者地址</span>
-			<input class="inputbox ms-2" type="text" v-model="item.orderRecipientAdress" />
-			<span class="recipeName">收件者電話</span>
-			<input class="inputbox ms-2" type="text" v-model="item.orderRecipientPhone" />
-			<span class="recipeName ">出貨時間</span>
-			<input class="inputbox ms-2" type="text" v-model="item.orderShipDate" />
+		<div class="col">
+			<h4 class="mt-3 px-2">會員資料</h4>
+			<div class="box mb-4 mt-3">
+				<table>
+					<tr>
+						<td><span class="title">會員編號</span></td>
+						<td><input class="inputbox ms-3" type="text" v-model="item.memberId" disabled></td>
+					</tr>
+					<tr>
+						<td><span class="title">會員名稱</span></td>
+						<td><input class="inputbox ms-3" type="text" v-model="item.memberName" disabled/></td>
+					</tr>
+					<tr>
+						<td><span class="title">會員帳號</span></td>
+						<td><input class="inputbox ms-3" type="text" v-model="item.memberAccount" disabled/>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div>
+			<h4 class="mt-3 ps-2">購買明細</h4>
+			<div class="box mb-4 mt-3">
+				<table class="table align-items-center mb-0">
+					<thead>
+					<tr>
+						<th class=" font-weight-bolder opacity-7 text-center">商品編號</th>
+						<th class=" font-weight-bolder opacity-7 text-center">商品名稱</th>
+						<th class=" font-weight-bolder opacity-7 text-center">商品單價</th>
+						<th class=" font-weight-bolder opacity-7 text-center">購買數量</th>
+						<th class=" font-weight-bolder opacity-7 text-center">總金額</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr style="height: 50px" v-for="item in orderData[0].orderDetail">
+						<td class="align-middle text-center">
+							<span class="text-secondary font-weight-bold">{{item.productId}}</span>
+						</td>
+						<td class="align-middle text-center">
+							<span class="text-secondary font-weight-bold">{{item.productName}}</span>
+						</td>
+						<td class="align-middle text-center">
+							<span class="text-secondary font-weight-bold">{{item.productPrice}}</span>
+						</td>
+						<td class="align-middle text-center">
+							<span class="text-secondary font-weight-bold">{{item.orderQuantity}}</span>
+						</td>
+						<td class="align-middle text-center">
+							<span class="text-secondary font-weight-bold">{{item.orderPrice}}</span>
+						</td>
+					</tr >
+					<tr style="height: 50px; font-size: 25px;">
+						<td colspan="3"></td>
+						<td class="align-middle text-center">
+							<span class="text-secondary font-weight-bold">總計</span>
+						</td>
+						<td class="align-middle text-center">
+							<span class="text-secondary font-weight-bold">{{item.orderTotalPrice}}</span>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div>
+			<h4 style="display: inline-block; vertical-align: sub;">收件者明細</h4>
+			<template v-if="item.isEdit != true">
+				<button class="btn m-0 ms-3" style="background: yellowgreen; color: white" v-on:click="edit(item)">編輯</button>
+			</template>
+			<template v-else>
+				<button class="btn m-0 ms-3" style="background: yellowgreen; color: white" v-on:click="update">更新</button>
+				<button class="btn m-0" style="background: darkgray"><a style="color: white" :href="'index'">取消</a></button>
+			</template>
+		</div>
+		<div class="box mb-4 mt-3" v-for="item in orderData">
+			<div>
+				<span class="title">收件者名稱</span>
+				<input class="inputbox ms-2" type="text" v-model="item.orderRecipientName" disabled/>
+			</div>
+			<div>
+				<span class="title">收件者地址</span>
+				<input class="inputbox ms-2" type="text" v-model="item.orderRecipientAdress" disabled/>
+			</div>
+			<div>
+				<span class="title">收件者電話</span>
+				<input class="inputbox ms-2" type="text" v-model="item.orderRecipientPhone" disabled/>
+			</div>
 		</div>
 	</div>
 </div>
@@ -150,6 +210,7 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
+				isEdit: false,
 				orderData: [],
 				editingRecipeTitle: "",
 				editingRecipeDesr: "",
@@ -158,55 +219,32 @@
 				editingRecipeMethod: [],
 				editingNotes: ""
 			},
-			mounted: function () {
+			mounted: function() {
 				let _this = this;
 				_this.orderDetail();
 			},
 			methods: {
-				orderDetail: function () {
+				orderDetail: function() {
 					let _this = this;
 					let ID = @ViewBag.orderId;
 					axios.get(`/api/orders/GetData/${ID}`).then(response => {
 						_this.orderData = response.data;
+
+						for (let i = 0; i < _this.orderData.length; i++) {
+							_this.orderData[i].isEdit = false;
+						}
 						console.log(_this.orderData);
-
-						//_this.editingRecipeTitle = _this.recipesData[0].recipesName;
-						//_this.editingRecipeDesr = _this.recipesData[0].recipesDescription;
-						//_this.editingType = _this.recipesData[0].petTypesId;
-						//_this.editingRecipeData = _this.recipesData[0].recipesData.split("/");
-						//_this.editingRecipeMethod = _this.recipesData[0].recipesMethod.split("/");
-						//_this.editingNotes = _this.recipesData[0].recipesNotes;
-						//console.log(_this.editingRecipeData);
 					});
-
 				},
-				addDataInput: function () {
-					let _this = this;
-					let newItem = "";
-					_this.editingRecipeData.push(newItem);
-				},
-				addMethodInput: function () {
-					let _this = this;
-					let newItem = "";
-					_this.editingRecipeMethod.push(newItem);
-				},
-				minusDataInput: function (item) {
-					let _this = this;
-					_this.editingRecipeData = _this.editingRecipeData.filter(function (i) {
-						return i !== item;
-					});
-					console.log(_this.editingRecipeData);
-				},
-				minusMethodInput: function (item) {
-					let _this = this;
-					_this.editingRecipeMethod = _this.editingRecipeMethod.filter(function (i) {
-						return i !== item;
-					});
-					console.log(_this.editingRecipeMethod);
+				edit: function(item) {
+					item.isEdit = false;
+					console.log(item.isEdit);
 				},
 
-				cancel: function () {
+				cancel: function() {
 					let _this = this;
+					_this.orderData.isEdit = false;
+
 					_this.recipesData[0].recipesName = _this.editingRecipeTitle;
 					_this.recipesData[0].recipesDescription = _this.editingRecipeDesr;
 					_this.recipesData[0].petTypesId = _this.editingType;
@@ -214,7 +252,7 @@
 					_this.recipesData[0].recipesMethod = _this.editingRecipeMethod;
 					_this.recipesData[0].recipesNotes = _this.editingNotes;
 				},
-				update: function () {
+				update: function() {
 					let _this = this;
 					_this.recipesData[0].recipesName = _this.editingRecipeTitle;
 					_this.recipesData[0].recipesDescription = _this.editingRecipeDesr;
@@ -241,13 +279,13 @@
 						console.log(response.data);
 						_this.Success();
 						setTimeout(() => {
-							window.location.href = '/Admin/RecipesList/index'; // 轉向 index 頁面
-						},
+								window.location.href = '/Admin/RecipesList/index'; // 轉向 index 頁面
+							},
 							1500);
 
 					});
 				},
-				Success: function () {
+				Success: function() {
 					Swal.fire({
 						position: 'center',
 						icon: 'success',
