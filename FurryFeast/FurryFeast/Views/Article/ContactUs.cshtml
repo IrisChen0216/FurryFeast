@@ -33,19 +33,21 @@
 					$(".rd-mailform")[0].reset();
 				}
 			});
-				if(@ViewBag.Message){
-					sweetAlert()
-				}
+			//$("#sendBtn").on("click", function(){
+			//	if (@ViewBag.Message) {
+			//		sweetAlert();
+			//	}
+			//});
 		});
-		function sweetAlert() {
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: '送出成功',
-				showConfirmButton: false,
-				timer: 1500
-			})
-		}
+				//function sweetAlert() {
+				//	Swal.fire({
+				//		position: 'center',
+				//		icon: 'success',
+				//		title: '送出成功',
+				//		showConfirmButton: false,
+				//		timer: 1500
+				//	})
+				//}
 	</script>
 </head>
 <body>
@@ -75,7 +77,7 @@
 							</div>
 							<div class="col-sm-6">
 								<div class="form-wrap">
-									<input class="form-input" asp-for="GuestPhone" type="phone" placeholder="電話" />
+									<input class="form-input" asp-for="GuestPhone" type="tel" placeholder="電話" />
 								</div>
 							</div>
 						</div>
@@ -87,7 +89,6 @@
 					</div>
 				</div>
 				<button id="sendBtn" class="button button-lg button-primary button-zakaria" type="submit">Send Message</button>
-				<h4 style="color:red">@ViewBag.Message</h4>
 			</form>
 		</div>
 	</section>
@@ -122,4 +123,7 @@
 		</div>
 	</section>
 </body>
+@section scripts {
+	<partial name="_ContactUsSuccess"></partial>
+}
 </html>
