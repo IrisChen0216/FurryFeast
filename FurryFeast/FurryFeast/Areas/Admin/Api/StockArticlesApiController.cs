@@ -91,16 +91,16 @@ namespace FurryFeast.Areas.Admin.Api {
         }
 
         // 更新一筆資料
-        [HttpPatch("{code}")]
-        public async Task<object> PatchData(string code, [FromBody] StockArticleViewModel data) {
+        [HttpPatch]
+        public async Task<object> PatchData([FromBody] StockArticleViewModel data) {
             if (_context.StockArticles == null) {
                 return NotFound("StockArticles is null");
             }
 
             // 檢查資料是否存在
-            var result = await _context.StockArticles.Where(d => d.ArticlesCode == code).FirstOrDefaultAsync();
+            var result = await _context.StockArticles.Where(d => d.ArticlesId == data.ArticlesId).FirstOrDefaultAsync();
             if (result == null) {
-                return BadRequest($"Patch failed, ArticlesCode: {code}.");
+                return BadRequest($"Patch failed, ArticlesCode: {data.ArticlesCode}.");
             }
 
             var patchOneData = await _context.StockArticles.Where(d => d.ArticlesCode == data.ArticlesCode).FirstOrDefaultAsync();
@@ -109,7 +109,7 @@ namespace FurryFeast.Areas.Admin.Api {
 			// code 存在但不同筆 = 回傳錯誤, code 重複命名
 			// code 存在且為同一筆 = 更新這一筆資料
 			if (result.ArticlesCode != data.ArticlesCode && patchOneData != null) {
-                return BadRequest($"Patch duplicate, ArticlesCode: {code}.");
+                return BadRequest($"Patch duplicate, ArticlesCode: {data.ArticlesCode}.");
             }
 
             result.ArticlesCode = data.ArticlesCode;
@@ -125,7 +125,7 @@ namespace FurryFeast.Areas.Admin.Api {
             result.ImagesId = data.ImagesId;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok($"Patch success, ArticlesCode: {code}.");
+            return Ok($"Patch success, ArticlesCode: {data.ArticlesCode}.");
         }
     }
 }
