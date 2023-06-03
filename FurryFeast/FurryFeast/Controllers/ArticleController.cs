@@ -1,13 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Net.Http;
-using System.Threading.Tasks;
 using FurryFeast.Models;
-using System.Linq;
-using FurryFeast.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Controllers {
@@ -113,7 +105,7 @@ namespace FurryFeast.Controllers {
         }
 
 
-        public async Task<IActionResult> Lostpets()
+        public IActionResult LostPets()
         {
             return View();
         }
