@@ -119,21 +119,17 @@
 				<div class="row m-0 p-0">
 					@*訂單管理*@
 					<div class="col m-4 align-items-start">
-						<button type="button" class="nBtn btn_red mb-0 me-2" data-bs-toggle="dropdown" data-bs-aria-expanded="false">訂單管理</button>
-						<ul class="submenu" aria-labelledby="dropdownMenu2">
-							<li>
-								<button type="button">全部訂單</button>
-							</li>
-							<li>
-								<button type="button">已結單</button>
-							</li>
-							<li>
-								<button type="button">未結單</button>
-							</li>
+						<button class="nBtn btn_red mb-0 me-2 dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+							商品專區
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							<li><button class="dropdown-item" type="button" v-on:click="getData">全部訂單</button></li>
+							<li><button class="dropdown-item" type="button" v-on:click="Active(1)">已付款</button></li>
+							<li><button class="dropdown-item" type="button" v-on:click="Active(0)">未付款</button></li>
 						</ul>
 
 						<button type="button" class="btn mb-0 " style="border: 1px solid goldenrod; color: goldenrod;" v-on:click="selectAll">全部勾選</button>
-						<button type="button" class="btn mb-0 " style="border:1px solid goldenrod; color: goldenrod;" v-on:click="deselectAll">取消勾選</button>
+						<button type="button" class="btn mb-0 " style="border: 1px solid goldenrod; color: goldenrod;" v-on:click="deselectAll">取消勾選</button>
 						<button type="button" class="btn mb-0 " style="background: gray; color: white;" v-on:click="setActive">未付款</button>
 						<button type="button" class="btn mb-0 " style="background: #3b3b3b; color: white;" v-on:click="setInative">已付款</button>
 
@@ -141,8 +137,8 @@
 					@*搜尋欄*@
 					<div class="ms-md-auto pe-md-3 d-flex align-items-center col-3 mx-4">
 						<div class="input-group input-group-outline">
-							<label class="form-label">Search ...</label>
-							<input id="search" type="text" class="form-control h-100" v-on:key="searchBar">
+							<label class="form-label">請輸入訂單編號</label>
+							<input id="search" type="text" class="form-control h-100" v-on:keyup="searchBar" v-model="keyword">
 						</div>
 					</div>
 
@@ -189,15 +185,12 @@
 										<span>{{item.orderTotalPrice}}</span>
 									</td>
 									<template v-if="item.orderStatus==0">
-										<td class="align-middle text-center text-xs font-weight-bold"><button class="btn mb-0 " style="background: gray; color: white;">未付款</button>
-										</td>
+										<td class="align-middle text-center text-xs font-weight-bold"><button type="button" class="btn mb-0 " style="background: gray; color: white;" v-on:click="setActive">未付款</button></td>
 									</template>
 									<template v-else>
-											<td class="align-middle text-center text-xs font-weight-bold">
-												<button class="btn mb-0 " style="background: #3b3b3b; color: white;">已付款</button>
-										</td>
+										<td class="align-middle text-center text-xs font-weight-bold"><button type="button" class="btn mb-0 " style="background: #3b3b3b; color: white;" v-on:click="setInative">已付款</button></td>
 									</template>
-									<td class="">
+									<td>
 										<button class="btn mb-0" style="background: dodgerblue">
 											<a style="color: white" :href="'Details/'+item.orderId">觀看明細</a>
 										</button>
@@ -224,37 +217,22 @@
 				selectArr: [],
 				OrderShipDate: "",
 				OrderCreateDate: "",
-				ordersData: {},
-
-				btnActive: {
-					visibility: "visible",
-					background: "red",
-					color: "white"
-				},
-				btnInactive: {
-					visibility: "hidden",
-					background: "green",
-					color: "black"
-				}
+				ordersData: [],
+				originalOrdersData:[],
+				keyword: ""
 			},
 			mounted: function() {
-				const _this = this;
+				let _this = this;
 				_this.getData();
 
 			},
 			methods: {
 				getData: function() {
-					const _this = this;
+					let _this = this;
 					axios.get('/api/orders/GetData').then(response => {
 						_this.ordersData = response.data;
+						_this.originalOrdersData = [...response.data];
 						console.log(_this.ordersData);
-						//_this.ordersData.forEach((item) => {
-						//	if (item.orderStatus == 0) {
-						//		$("#info").css("background", "");
-						//	} else {
-						//		$("#info").css("background", "gainsboro");
-						//	}
-						//});
 
 						_this.OrderShipDate = _this.setDate(_this.ordersData[0].orderShipDate);
 						_this.OrderCreateDate = _this.setDate(_this.ordersData[0].orderCreateDate);
@@ -267,7 +245,7 @@
 				},
 				// 未付款
 				setInative: function() {
-					const _this = this;
+					let _this = this;
 					_this.selectArr.forEach((item) => {
 						if (item.orderStatus == 0) {
 							item.orderStatus = 1;
@@ -288,7 +266,7 @@
 				},
 				//已付款
 				setActive: function() {
-					const _this = this;
+					let _this = this;
 					_this.selectArr.forEach((item) => {
 						if (item.orderStatus == 1) {
 							item.orderStatus = 0;
@@ -304,23 +282,22 @@
 							});
 					});
 					// 取消勾選
-					_this.ordersData = _this.ordersData.map(item => ({ ...item, checked: false }));
-					_this.selectArr = [];
+					_this.deselectAll();
 				},
 				selectAll: function() {
-					const _this = this;
+					let _this = this;
+					_this.selectArr = [];
 					_this.ordersData = _this.ordersData.map(item => ({ ...item, checked: true }));
 					_this.ordersData.forEach((item) => {
 						if (item.orderStatus === 0 || item.orderStatus === 1) {
 							_this.selectArr.push({ orderId: item.orderId, orderStatus: item.orderStatus });
 						}
 					});
-
 					console.log(_this.selectArr);
 				},
 
 				deselectAll: function() {
-					const _this = this;
+					let _this = this;
 					_this.ordersData = _this.ordersData.map(item => ({ ...item, checked: false }));
 					_this.selectArr = [];
 				},
@@ -337,24 +314,18 @@
 					console.log(_this.selectArr);
 					console.log(item.orderId);
 				},
-				//inactiveCss: function(item) {
-				//	if (item.orderStatus === 1) {
-				//		$("#info").css("background", "gainsboro");
-				//	}
-				//},
-				//activeCss: function(item) {
-				//	if (item.orderStatus === 0) {
-				//		$("#info").css("background", "");
-				//	}
-				//},
 				searchBar: function() {
 					let _this = this;
-					_this.ordersData.forEach((item) => {
-						console.log(item.memberId);
-						console.log(item.orderId);
-						console.log($("#search")[0].value);
-					});
-					
+					if (_this.keyword !== "") {
+						_this.ordersData = _this.originalOrdersData.filter(item => item.orderId == _this.keyword);
+					} else {
+						_this.ordersData = [..._this.originalOrdersData];
+					}
+				},
+				Active: function(num) {
+					let _this = this;
+					_this.ordersData = [..._this.originalOrdersData];
+					_this.ordersData = _this.originalOrdersData.filter(item => item.orderStatus == num);
 				}
 			}
 		})
