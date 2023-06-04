@@ -1,22 +1,15 @@
-﻿
-using System;
-
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-
-namespace FurryFeast.Models
-{
-    public partial class db_a989fb_furryfeastContext : DbContext
-    {
-        public db_a989fb_furryfeastContext()
-        {
+namespace FurryFeast.Models {
+    public partial class db_a989fb_furryfeastContext : DbContext {
+        public db_a989fb_furryfeastContext() {
         }
 
         public db_a989fb_furryfeastContext(DbContextOptions<db_a989fb_furryfeastContext> options)
-            : base(options)
-        {
+            : base(options) {
         }
 
         public virtual DbSet<Admin> Admins { get; set; } = null!;
@@ -54,19 +47,15 @@ namespace FurryFeast.Models
         public virtual DbSet<StockWarehouseGroup> StockWarehouseGroups { get; set; } = null!;
         public virtual DbSet<Teachere> Teacheres { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=SQL5110.site4now.net;Database=db_a989fb_furryfeast;User Id=db_a989fb_furryfeast_admin;Password=THM101group777;");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            if (!optionsBuilder.IsConfigured) {
+                IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeastDb"));
             }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Admin>(entity =>
-            {
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Admin>(entity => {
                 entity.ToTable("Admin");
 
                 entity.Property(e => e.AdminId).HasColumnName("Admin_ID");
@@ -87,8 +76,7 @@ namespace FurryFeast.Models
                     .HasColumnName("Admin_Password");
             });
 
-            modelBuilder.Entity<Article>(entity =>
-            {
+            modelBuilder.Entity<Article>(entity => {
                 entity.ToTable("Article");
 
                 entity.Property(e => e.ArticleId).HasColumnName("Article_ID");
@@ -112,8 +100,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Article_Admin1");
             });
 
-            modelBuilder.Entity<Authority>(entity =>
-            {
+            modelBuilder.Entity<Authority>(entity => {
                 entity.HasNoKey();
 
                 entity.ToTable("Authority");
@@ -139,8 +126,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Authority_Role");
             });
 
-            modelBuilder.Entity<ClassReservetion>(entity =>
-            {
+            modelBuilder.Entity<ClassReservetion>(entity => {
                 entity.ToTable("ClassReservetion");
 
                 entity.Property(e => e.ClassReservetionId).HasColumnName("ClassReservetion_ID");
@@ -162,8 +148,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_ClassReservetion_PetClass");
             });
 
-            modelBuilder.Entity<Conpon>(entity =>
-            {
+            modelBuilder.Entity<Conpon>(entity => {
                 entity.ToTable("Conpon");
 
                 entity.Property(e => e.ConponId).HasColumnName("Conpon_ID");
@@ -189,8 +174,7 @@ namespace FurryFeast.Models
                     .HasColumnName("Conpon_StartTime");
             });
 
-            modelBuilder.Entity<ContactU>(entity =>
-            {
+            modelBuilder.Entity<ContactU>(entity => {
                 entity.HasKey(e => e.GuestId);
 
                 entity.Property(e => e.GuestId).HasColumnName("guest_ID");
@@ -215,8 +199,7 @@ namespace FurryFeast.Models
                     .HasColumnName("guest_Subject");
             });
 
-            modelBuilder.Entity<Donate>(entity =>
-            {
+            modelBuilder.Entity<Donate>(entity => {
                 entity.ToTable("Donate");
 
                 entity.Property(e => e.DonateId).HasColumnName("Donate_ID");
@@ -234,8 +217,7 @@ namespace FurryFeast.Models
                 entity.Property(e => e.DogDonateTotal).HasColumnName("Dog_Donate_total");
             });
 
-            modelBuilder.Entity<EditedMsgRecord>(entity =>
-            {
+            modelBuilder.Entity<EditedMsgRecord>(entity => {
                 entity.HasKey(e => e.EditedMsgId);
 
                 entity.ToTable("EditedMsgRecord");
@@ -259,8 +241,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_EditedMsgRecord_MsgBoard");
             });
 
-            modelBuilder.Entity<GameOutcome>(entity =>
-            {
+            modelBuilder.Entity<GameOutcome>(entity => {
                 entity.HasKey(e => e.AnswerId);
 
                 entity.ToTable("Game_Outcomes");
@@ -278,8 +259,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Game_Outcomes_Game_QuesChoices");
             });
 
-            modelBuilder.Entity<GameQue>(entity =>
-            {
+            modelBuilder.Entity<GameQue>(entity => {
                 entity.HasKey(e => e.QuesId);
 
                 entity.ToTable("Game_Ques");
@@ -297,8 +277,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Game_Ques_PetTypes");
             });
 
-            modelBuilder.Entity<GameQuesChoice>(entity =>
-            {
+            modelBuilder.Entity<GameQuesChoice>(entity => {
                 entity.HasKey(e => e.ChoicesId);
 
                 entity.ToTable("Game_QuesChoices");
@@ -316,8 +295,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Game_QuesChoices_Game_Ques");
             });
 
-            modelBuilder.Entity<LostAnimal>(entity =>
-            {
+            modelBuilder.Entity<LostAnimal>(entity => {
                 entity.HasNoKey();
 
                 entity.ToTable("LostAnimal");
@@ -368,14 +346,13 @@ namespace FurryFeast.Models
                 entity.Property(e => e.MicrochipId).HasColumnName("microchip_ID");
             });
 
-            modelBuilder.Entity<Member>(entity =>
-            {
-                
+            modelBuilder.Entity<Member>(entity => {
+
                 entity.Property(e => e.MemberId).HasColumnName("Member_ID");
 
                 entity.Property(e => e.ConponId).HasColumnName("Conpon_ID");
-				entity.Property(x => x.MemberId).ValueGeneratedOnAdd();
-				entity.Property(e => e.MemberAccount)
+                entity.Property(x => x.MemberId).ValueGeneratedOnAdd();
+                entity.Property(e => e.MemberAccount)
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("Member_Account");
@@ -416,8 +393,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Members_Conpon");
             });
 
-            modelBuilder.Entity<MsgBoard>(entity =>
-            {
+            modelBuilder.Entity<MsgBoard>(entity => {
                 entity.HasKey(e => e.MsgId);
 
                 entity.ToTable("MsgBoard");
@@ -449,8 +425,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_MsgBoard_User");
             });
 
-            modelBuilder.Entity<Order>(entity =>
-            {
+            modelBuilder.Entity<Order>(entity => {
                 entity.Property(e => e.OrderId).HasColumnName("Order_ID");
 
                 entity.Property(e => e.MemberId).HasColumnName("Member_ID");
@@ -488,8 +463,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Members_Orders");
             });
 
-            modelBuilder.Entity<OrderDetail>(entity =>
-            {
+            modelBuilder.Entity<OrderDetail>(entity => {
                 entity.Property(e => e.OrderDetailId).HasColumnName("OrderDetail_ID");
 
                 entity.Property(e => e.OrderId).HasColumnName("Order_ID");
@@ -513,8 +487,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_OrderDetails_Products");
             });
 
-            modelBuilder.Entity<PetClass>(entity =>
-            {
+            modelBuilder.Entity<PetClass>(entity => {
                 entity.ToTable("PetClass");
 
                 entity.Property(e => e.PetClassId).HasColumnName("PetClass_ID");
@@ -558,8 +531,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_PetClass_Teacheres");
             });
 
-            modelBuilder.Entity<PetClassPic>(entity =>
-            {
+            modelBuilder.Entity<PetClassPic>(entity => {
                 entity.ToTable("PetClassPic");
 
                 entity.Property(e => e.PetClassPicId).HasColumnName("PetClassPic_ID");
@@ -575,8 +547,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_PetClassPic_PetClass");
             });
 
-            modelBuilder.Entity<PetClassType>(entity =>
-            {
+            modelBuilder.Entity<PetClassType>(entity => {
                 entity.Property(e => e.PetClassTypeId).HasColumnName("PetClassType_ID");
 
                 entity.Property(e => e.PetClassTypeName)
@@ -585,8 +556,7 @@ namespace FurryFeast.Models
                     .IsFixedLength();
             });
 
-            modelBuilder.Entity<PetType>(entity =>
-            {
+            modelBuilder.Entity<PetType>(entity => {
                 entity.HasKey(e => e.PetTypesId);
 
                 entity.Property(e => e.PetTypesId).HasColumnName("PetTypes_ID");
@@ -594,8 +564,7 @@ namespace FurryFeast.Models
                 entity.Property(e => e.PetTypes).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Product>(entity =>
-            {
+            modelBuilder.Entity<Product>(entity => {
                 entity.Property(e => e.ProductId).HasColumnName("Product_ID");
 
                 entity.Property(e => e.ArticlesId).HasColumnName("Articles_ID");
@@ -639,8 +608,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Products_ProductType");
             });
 
-            modelBuilder.Entity<ProductPic>(entity =>
-            {
+            modelBuilder.Entity<ProductPic>(entity => {
                 entity.ToTable("ProductPic");
 
                 entity.Property(e => e.ProductPicId).HasColumnName("ProductPic_ID");
@@ -656,8 +624,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_ProductPic_Products");
             });
 
-            modelBuilder.Entity<ProductType>(entity =>
-            {
+            modelBuilder.Entity<ProductType>(entity => {
                 entity.ToTable("ProductType");
 
                 entity.Property(e => e.ProductTypeId).HasColumnName("ProductType_ID");
@@ -675,8 +642,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_ProductType_PetTypes");
             });
 
-            modelBuilder.Entity<Recipe>(entity =>
-            {
+            modelBuilder.Entity<Recipe>(entity => {
                 entity.HasKey(e => e.RecipesId);
 
                 entity.Property(e => e.RecipesId).HasColumnName("Recipes_ID");
@@ -702,8 +668,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Recipes_PetTypes");
             });
 
-            modelBuilder.Entity<Role>(entity =>
-            {
+            modelBuilder.Entity<Role>(entity => {
                 entity.ToTable("Role");
 
                 entity.Property(e => e.RoleId).HasColumnName("Role_ID");
@@ -714,8 +679,7 @@ namespace FurryFeast.Models
                     .HasColumnName("Role_Name");
             });
 
-            modelBuilder.Entity<StockArticle>(entity =>
-            {
+            modelBuilder.Entity<StockArticle>(entity => {
                 entity.HasKey(e => e.ArticlesId);
 
                 entity.ToTable("Stock_articles");
@@ -789,8 +753,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Stock_articles_Stock_warehouses");
             });
 
-            modelBuilder.Entity<StockGroup>(entity =>
-            {
+            modelBuilder.Entity<StockGroup>(entity => {
                 entity.HasKey(e => e.GroupsId);
 
                 entity.ToTable("Stock_groups");
@@ -814,8 +777,7 @@ namespace FurryFeast.Models
                     .HasColumnName("Groups_notes");
             });
 
-            modelBuilder.Entity<StockImage>(entity =>
-            {
+            modelBuilder.Entity<StockImage>(entity => {
                 entity.HasKey(e => e.ImagesId);
 
                 entity.ToTable("Stock_images");
@@ -841,8 +803,7 @@ namespace FurryFeast.Models
                     .HasDefaultValueSql("((1))");
             });
 
-            modelBuilder.Entity<StockMeasureUnit>(entity =>
-            {
+            modelBuilder.Entity<StockMeasureUnit>(entity => {
                 entity.HasKey(e => e.MeasureUnitsId);
 
                 entity.ToTable("Stock_measure_units");
@@ -862,8 +823,7 @@ namespace FurryFeast.Models
                     .HasColumnName("Measure_units_description");
             });
 
-            modelBuilder.Entity<StockSupplier>(entity =>
-            {
+            modelBuilder.Entity<StockSupplier>(entity => {
                 entity.HasKey(e => e.SuppliersId);
 
                 entity.ToTable("Stock_suppliers");
@@ -930,8 +890,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Stock_suppliers_Stock_suppliers_groups");
             });
 
-            modelBuilder.Entity<StockSuppliersGroup>(entity =>
-            {
+            modelBuilder.Entity<StockSuppliersGroup>(entity => {
                 entity.HasKey(e => e.SuppliersGroupsId);
 
                 entity.ToTable("Stock_suppliers_groups");
@@ -951,8 +910,7 @@ namespace FurryFeast.Models
                     .HasColumnName("Suppliers_groups_description");
             });
 
-            modelBuilder.Entity<StockWarehouse>(entity =>
-            {
+            modelBuilder.Entity<StockWarehouse>(entity => {
                 entity.HasKey(e => e.WarehousesId);
 
                 entity.ToTable("Stock_warehouses");
@@ -999,8 +957,7 @@ namespace FurryFeast.Models
                     .HasConstraintName("FK_Stock_warehouses_Stock_warehouse_groups");
             });
 
-            modelBuilder.Entity<StockWarehouseGroup>(entity =>
-            {
+            modelBuilder.Entity<StockWarehouseGroup>(entity => {
                 entity.HasKey(e => e.WarehouseGroupsId);
 
                 entity.ToTable("Stock_warehouse_groups");
@@ -1020,8 +977,7 @@ namespace FurryFeast.Models
                     .HasColumnName("Warehouse_groups_description");
             });
 
-            modelBuilder.Entity<Teachere>(entity =>
-            {
+            modelBuilder.Entity<Teachere>(entity => {
                 entity.HasKey(e => e.TeacherId);
 
                 entity.Property(e => e.TeacherId).HasColumnName("Teacher_ID");
