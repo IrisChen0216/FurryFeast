@@ -1,165 +1,216 @@
-﻿@model IEnumerable<FurryFeast.Models.Order>
+﻿@model IEnumerable<Order>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 @section Style{
-    <style>
-        .unState {
-            background-color: gray;
-        }
+	<style>
+		.unState { background-color: gray; }
 
-        .btnState {
-            display: inline-block;
-        }
+		.btnState { display: inline-block; }
 
-        .drop {
-            background-color: #ffedad;
-            color: #3b3b3b;
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-        }
+		.drop {
+			background-color: #ffedad;
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+			color: #3b3b3b;
+		}
 
-        .drop:hover {
-	        background-color: #ffce78;
-        }
+		.drop:hover { background-color: #ffce78; }
 
-        .btn-secondary:hover {
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-        }
+		.btn-secondary:hover { box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-        input {
-            outline-style: none;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            padding-left: 5px;
-            width: 100%;
-            height: 30px;
-        }
+		input {
+			border: 1px solid #ccc;
+			border-radius: 6px;
+			height: 30px;
+			outline-style: none;
+			padding-left: 5px;
+			width: 100%;
+		}
 
-        .h1Header > h4 {
-            position: relative;
-            padding-bottom: 17px;
-        }
+		.h1Header > h4 {
+			padding-bottom: 17px;
+			position: relative;
+		}
 
-        .h1Header > h4:before {
-            content: "";
-            position: absolute;
-            left: 25px;
-            bottom: 6px;
-            width: 100%;
-            height: 4px;
-            background: #ccc;
-        }
+		.h1Header > h4:before {
+			background: #ccc;
+			bottom: 6px;
+			content: "";
+			height: 4px;
+			left: 25px;
+			position: absolute;
+			width: 100%;
+		}
 
-        .inActive {
-	        background: gray; 
-        }
-        .inActive >td>span {
-	        color: black;
-        }
+		.inActive { background: gray; }
 
-        .checked-class {
-            background-color: lightblue;
-	        color: black;
-        }
-    </style>
+		.inActive > td > span { color: black; }
+
+		.checked-class {
+			background-color: lightblue;
+			color: cadetblue
+		}
+
+		.nBtn {
+			background: none;
+			border-radius: 6px;
+			font-size: 14px;
+			padding: 10px;
+		}
+
+		.btn_gray {
+			background: white;
+			border: 1px solid gray;
+			color: gray;
+		}
+
+		.btn_gray:hover {
+			background: white;
+			border: 1px solid black;
+			color: black;
+		}
+
+		.btn_green {
+			background: yellowgreen;
+			border: 1px solid yellowgreen;
+			color: white;
+			padding: 10px 20px;
+		}
+
+		.btn_green:hover {
+			background: white;
+			border: 1px solid yellowgreen;
+			color: black;
+		}
+
+		.btn_red {
+			background: firebrick;
+			border: none;
+			color: white;
+		}
+
+		.box {
+			background: white;
+			border: 1px solid rgb(235 235 235);
+			border-radius: 1rem;
+			padding: 10px 0px 10px 0px;
+			padding-bottom: 10px;
+		}
+
+		input .checkbox { height: auto; }
+
+	</style>
 }
 
 <div class="container-fluid" id="app">
 	<div class="p-0 position-relative mt-n4 mx-3 z-index-2">
-        <div class="border-radius-lg pt-4 ">
-            <div class="mx-2 h1Header col-7 ">
-                <h4 style="display: inline-block;" class="ms-1 m-0">Orders</h4><h2 style="display: inline-block;" class="mt-3 mx-2">Index</h2>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="my-4" style="background: white; border-radius: 1rem; padding-bottom: 10px; padding: 10px 0px 10px 0px; border: 1px solid rgb(235 235 235);">
-                <div class="row m-0 p-0">
-                    @*訂單管理*@
-                    <div class="col-2 m-4">
-                        <button type="button" class="btn mb-0 " style="background: firebrick" data-bs-toggle="dropdown" data-bs-aria-expanded="false">
-                            <a :href="'create'" style="color: white">訂單管理</a>
-                        </button>
-                        <ul class="dropdown" aria-labelledby="dropdownMenu2">
-                            <li><button type="button">全部訂單</button></li>
-                            <li><button type="button">已結單</button></li>
-                            <li><button type="button">未結單</button></li>
-                        </ul>
-                    </div>
-                    <div class="form-group m-4 col-2 align-items-start">
-                        @*新增按鍵*@
-                        <button type="button" class="btn mb-0 " style="background: lightpink" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-	                        <a :href="'create'" style="color: white">新增訂單</a>
-                        </button>
-                        <button type="button" class="btn mb-0 " style="background: lightpink" v-on:click="selectAll">全部勾選</button>
-                        <button type="button" class="btn mb-0 " style="background: lightpink" v-on:click="deselectAll">取消勾選</button>
-                        <button type="button" class="btn mb-0 " style="background: lightpink" v-on:click="">上架</button>
-                        <button type="button" class="btn mb-0 " style="background: lightpink" v-on:click="">下架</button>
-                    </div>
+		<div class="border-radius-lg pt-4 ">
+			<div class="mx-2 h1Header col-7 ">
+				<h4 style="display: inline-block;" class="ms-1 m-0">Orders</h4>
+				<h2 style="display: inline-block;" class="mt-3 mx-2">Index</h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="box my-4">
+				<div class="row m-0 p-0">
+					@*訂單管理*@
+					<div class="col m-4 align-items-start">
+						<button type="button" class="nBtn btn_red mb-0 me-2" data-bs-toggle="dropdown" data-bs-aria-expanded="false">訂單管理</button>
+						<ul class="submenu" aria-labelledby="dropdownMenu2">
+							<li>
+								<button type="button">全部訂單</button>
+							</li>
+							<li>
+								<button type="button">已結單</button>
+							</li>
+							<li>
+								<button type="button">未結單</button>
+							</li>
+						</ul>
 
-                    @*搜尋欄*@
-                    <div class="ms-md-auto pe-md-3 d-flex align-items-center col-3 mx-4">
-                        <div class="input-group input-group-outline">
-                            <label class="form-label">Search ...</label>
-                            <input type="text" class="form-control h-100">
-                        </div>
-                    </div>
+						<button type="button" class="btn mb-0 " style="border: 1px solid goldenrod; color: goldenrod;" v-on:click="selectAll">全部勾選</button>
+						<button type="button" class="btn mb-0 " style="border:1px solid goldenrod; color: goldenrod;" v-on:click="deselectAll">取消勾選</button>
+						<button type="button" class="btn mb-0 " style="background: gray; color: white;" v-on:click="setActive">未付款</button>
+						<button type="button" class="btn mb-0 " style="background: #3b3b3b; color: white;" v-on:click="setInative">已付款</button>
 
-                </div>
+					</div>
+					@*搜尋欄*@
+					<div class="ms-md-auto pe-md-3 d-flex align-items-center col-3 mx-4">
+						<div class="input-group input-group-outline">
+							<label class="form-label">Search ...</label>
+							<input id="search" type="text" class="form-control h-100" v-on:key="searchBar">
+						</div>
+					</div>
 
-                <div class="card-body p-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                            <tr>
-	                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
-	                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單編號</th>
-	                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員ID</th>
-	                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員帳號</th>
-	                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">訂單成立日期</th>
-	                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">發貨日期</th>
-	                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">總金額</th>
-	                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">明細</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(item, index) in ordersData" :key="index" :class="{ 'checked-class': item.checked }">
-	                            <td><input type="checkbox" v-model="item.checked"></td>
-	                            <template >
-		                            <td class="align-middle text-center text-secondary text-xs font-weight-bold">
-			                            <span class="">{{item.orderId}}</span>
-		                            </td>
-                                        <td class="align-middle text-center text-secondary text-xs font-weight-bold">
-                                            <span>{{item.memberId}}</span>
-		                            </td>
-                                        <td class="align-middle text-center text-secondary text-xs font-weight-bold">
-                                            <span>{{item.memberAccount}}</span>
-		                            </td>
-                                        <td class="align-middle text-center text-secondary text-xs font-weight-bold">
-                                            <span></span>
-		                            </td>
-                                        <td class="align-middle text-center text-secondary text-xs font-weight-bold">
-                                            <span></span>
-		                            </td>
-                                        <td class="align-middle text-center text-secondary text-xs font-weight-bold">
-                                            <span>{{item.orderTotalPrice}}</span>
-		                            </td>
-		                            <td class="">
-			                            <button class="btn mb-0" style="background: dodgerblue"><a style="color: white" :href="'Details/'+item.orderId">觀看明細</a></button>
-		                            </td>
-	                            </template>
-                            </tr>
+				</div>
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="p-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table align-items-center mb-0">
+							<thead>
+							<tr>
+								<th style="padding: 0;"></th>
+								<th class="text-center text-xs font-weight-bolder">訂單編號</th>
+								<th class="text-center text-xs font-weight-bolder">會員ID</th>
+								<th class="text-center text-xs font-weight-bolder">會員帳號</th>
+								<th class="text-center text-xs font-weight-bolder">訂單成立日期</th>
+								<th class="text-center text-xs font-weight-bolder">出貨日期</th>
+								<th class="text-center text-xs font-weight-bolder">總金額</th>
+								<th class="text-center text-xs font-weight-bolder">付款狀態</th>
+								<th class="text-center text-xs font-weight-bolder">明細</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr id="info" v-for="(item, index) in ordersData" :key="index" :class="{ 'checked-class': item.checked }">
+								<td class="ms-2">
+									<input type="checkbox" class="checkbox" v-model="item.checked" v-on:click="checkBoxArr(item)">
+								</td>
+								<template >
+									<td class="align-middle text-center text-xs font-weight-bold">
+										<span class="">{{item.orderId}}</span>
+									</td>
+									<td class="align-middle text-center text-xs font-weight-bold">
+										<span>{{item.memberId}}</span>
+									</td>
+									<td class="align-middle text-center  text-xs font-weight-bold">
+										<span>{{item.memberAccount}}</span>
+									</td>
+									<td class="align-middle text-center  text-xs font-weight-bold">
+										<span>{{item.orderCreateDate}}</span>
+									</td>
+									<td class="align-middle text-center text-xs font-weight-bold">
+										<span>{{item.orderShipDate}}</span>
+									</td>
+									<td class="align-middle text-center text-xs font-weight-bold">
+										<span>{{item.orderTotalPrice}}</span>
+									</td>
+									<template v-if="item.orderStatus==0">
+										<td class="align-middle text-center text-xs font-weight-bold"><button class="btn mb-0 " style="background: gray; color: white;">未付款</button>
+										</td>
+									</template>
+									<template v-else>
+											<td class="align-middle text-center text-xs font-weight-bold">
+												<button class="btn mb-0 " style="background: #3b3b3b; color: white;">已付款</button>
+										</td>
+									</template>
+									<td class="">
+										<button class="btn mb-0" style="background: dodgerblue">
+											<a style="color: white" :href="'Details/'+item.orderId">觀看明細</a>
+										</button>
+									</td>
+								</template>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 @section Scripts
@@ -170,57 +221,142 @@
 		var app = new Vue({
 			el: '#app',
 			data: {
+				selectArr: [],
 				OrderShipDate: "",
-				OrderCreateDate:"", 
+				OrderCreateDate: "",
 				ordersData: {},
-				
+
 				btnActive: {
-                    visibility: "visible",
+					visibility: "visible",
 					background: "red",
 					color: "white"
 				},
 				btnInactive: {
-					visibility:"hidden",
+					visibility: "hidden",
 					background: "green",
 					color: "black"
 				}
 			},
 			mounted: function() {
-				let _this = this;
+				const _this = this;
 				_this.getData();
 
 			},
 			methods: {
 				getData: function() {
-					let _this = this;
-                    axios.get('/api/orders/GetData').then(response => {
-                        _this.ordersData = response.data;
-                        console.log(_this.ordersData);
+					const _this = this;
+					axios.get('/api/orders/GetData').then(response => {
+						_this.ordersData = response.data;
+						console.log(_this.ordersData);
+						//_this.ordersData.forEach((item) => {
+						//	if (item.orderStatus == 0) {
+						//		$("#info").css("background", "");
+						//	} else {
+						//		$("#info").css("background", "gainsboro");
+						//	}
+						//});
 
-                        _this.OrderShipDate = _this.setDate(_this.ordersData[0].orderShipDate);
-                        _this.OrderCreateDate = _this.setDate(_this.ordersData[0].orderCreateDate);
+						_this.OrderShipDate = _this.setDate(_this.ordersData[0].orderShipDate);
+						_this.OrderCreateDate = _this.setDate(_this.ordersData[0].orderCreateDate);
 
-                    }).catch(error => { console.error(error); });
+					}).catch(error => { console.error(error); });
 
 				},
 				setDate: function(Date) {
 					return dayjs(Date).format('YYYY-MM-DD ddd HH:mm:ss');
 				},
-                setActive: function(item) {
-	                if (item.orderStatus == 0) {
-		                item.orderStatus = 1;
-	                } else {
-		                item.orderStatus = 0;
-	                }
-                },
-				selectAll() {
-					this.ordersData = this.ordersData.map(item => ({ ...item, checked: true }));
+				// 未付款
+				setInative: function() {
+					const _this = this;
+					_this.selectArr.forEach((item) => {
+						if (item.orderStatus == 0) {
+							item.orderStatus = 1;
+						}
+						axios.post('/api/orders/UpdateActive', { OrderId: item.orderId, OrderStatus: item.orderStatus })
+							.then(response => {
+								console.log(response.data);
+								_this.getData();
+							})
+							.catch(error => {
+								console.error(error);
+							});
+					});
+					// 取消勾選
+					_this.ordersData = _this.ordersData.map(item => ({ ...item, checked: false }));
+					_this.selectArr = [];
+
 				},
-				deselectAll() {
-					this.ordersData = this.ordersData.map(item => ({ ...item, checked: false }));
+				//已付款
+				setActive: function() {
+					const _this = this;
+					_this.selectArr.forEach((item) => {
+						if (item.orderStatus == 1) {
+							item.orderStatus = 0;
+						}
+						console.log(item.orderId);
+						axios.post('/api/orders/UpdateActive', { OrderId: item.orderId, OrderStatus: item.orderStatus })
+							.then(response => {
+								console.log(response.data);
+								_this.getData();
+							})
+							.catch(error => {
+								console.error(error);
+							});
+					});
+					// 取消勾選
+					_this.ordersData = _this.ordersData.map(item => ({ ...item, checked: false }));
+					_this.selectArr = [];
+				},
+				selectAll: function() {
+					const _this = this;
+					_this.ordersData = _this.ordersData.map(item => ({ ...item, checked: true }));
+					_this.ordersData.forEach((item) => {
+						if (item.orderStatus === 0 || item.orderStatus === 1) {
+							_this.selectArr.push({ orderId: item.orderId, orderStatus: item.orderStatus });
+						}
+					});
+
+					console.log(_this.selectArr);
+				},
+
+				deselectAll: function() {
+					const _this = this;
+					_this.ordersData = _this.ordersData.map(item => ({ ...item, checked: false }));
+					_this.selectArr = [];
+				},
+
+				checkBoxArr: function(item) {
+					const _this = this;
+					const exists = _this.selectArr.some((x) => x.orderId === item.orderId);
+					if (!exists) {
+						_this.selectArr.push({ orderId: item.orderId, orderStatus: item.orderStatus });
+					} else {
+						_this.selectArr = _this.selectArr.filter((x) => x.orderId !== item.orderId);
+					}
+
+					console.log(_this.selectArr);
+					console.log(item.orderId);
+				},
+				//inactiveCss: function(item) {
+				//	if (item.orderStatus === 1) {
+				//		$("#info").css("background", "gainsboro");
+				//	}
+				//},
+				//activeCss: function(item) {
+				//	if (item.orderStatus === 0) {
+				//		$("#info").css("background", "");
+				//	}
+				//},
+				searchBar: function() {
+					let _this = this;
+					_this.ordersData.forEach((item) => {
+						console.log(item.memberId);
+						console.log(item.orderId);
+						console.log($("#search")[0].value);
+					});
+					
 				}
 			}
-
-		})	
+		})
 	</script>
 }
