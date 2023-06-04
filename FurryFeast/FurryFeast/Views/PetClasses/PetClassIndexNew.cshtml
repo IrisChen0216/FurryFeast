@@ -229,7 +229,6 @@
 				},
 				changePage: function (currentPage) {
 					let _this=this;
-					console.log(currentPage);
 					_this.Page = currentPage;
 				},
 
@@ -317,13 +316,14 @@
 					return ((this.Page - 1) * this.maxCount)+1;
 				},
 				EndCount: function () {
+
 					if (this.Page == this.PageCount){
-						return (((this.Page - 1)+1) * this.maxCount) - (this.ShowPageCount.length % this.maxCount);
+						return ((this.Page - 1) * this.maxCount) + this.ShowPageCount.length;
 					}
 					else{
 						return (this.Page * this.maxCount);
 					}
-					// 2*2>4
+					
 				},
 			},
 
