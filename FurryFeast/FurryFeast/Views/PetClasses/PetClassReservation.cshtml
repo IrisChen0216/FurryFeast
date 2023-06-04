@@ -1,73 +1,139 @@
 ﻿@model FurryFeast.ViewModels.PetClassReservViewModel
 @section Style{
-    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
-    <link href="~/css/petclass/style.css" rel="stylesheet" />
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+
+	<style>
+		.table-cart td:first-child {
+			width: unset;
+			min-width: unset;
+		}
+
+		th {
+			font-weight: 500;
+		}
+
+		td {
+			text-align: left;
+		}
+
+		.table-cart th {
+			/*color: #ffd33b;*/
+			font-size: 16px;
+		}
+
+		.table-cart td {
+			font-size: 16px;
+		}
+
+		.order {
+			padding-right: 100px;
+			padding-left: 100px;
+		}
+
+		.index-header {
+			position: relative;
+		}
+
+			.index-header img {
+				display: block;
+				width: 100%;
+				height: auto;
+				max-height: 200px;
+				object-fit: cover;
+			}
+
+			.index-header h2 {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1;
+			}
+	</style>
 }
 
-<div class="index-header">
-    <h2>課程預定單</h2>
-</div>
-<section class="section section-xl bg-default">
-    <form method="post" class="form-control" asp-controller="PetClasses" asp-action="PetClassAddReservation" >
-    <div class="container">
-        <!-- shopping-cart-->
-        <div class="table-custom-responsive">
-            <table class="table-custom table-cart">
-                <thead>
-                    <tr>
-                        <th>課程名稱</th>
-                        <th>課程價格</th>
-                        <th>課程時間</th>
-                        <th>課程地點</th>
-                        
-                    </tr>                   
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><a class="table-cart-link" href="single-product.html">@Model.PetClassName</a></td>
-                        <td>$@Model.PetClassPrice</td>
-                            <td name="ClassReservetionDate">@Model.PetClassDate</td>
-                        <td>課程地點</td>
-                        
-                    </tr>
-                   
-                </tbody>
-                <thead>
-                    <tr>
-                        <th>會員姓名</th>
-                        <th>會員電話</th>
-                        <th>會員信箱</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>@Model.MemberName</td>
-                        <td>@Model.MemberPhone</td>
-                        <td>@Model.MemberEmail</td>                      
-                    </tr>
 
-                </tbody>
-            </table>
-        </div>
-        <div class="group-xl group-justify justify-content-center justify-content-md-between">
-            <div>
-                    <input type="hidden" name="MemberId" value="@Model.MemberId" />
-                    <input type="hidden" name="PetClassId" value="@Model.PetClassId" />
-                    
-            </div>
-            <div>
-                <div class="group-xl group-middle">
-                    <div>
-                        <div class="group-md group-middle">
-                            <div class="heading-5 fw-medium text-gray-500">Total</div>
-                                <div class="heading-3 fw-normal">$@Model.PetClassPrice</div>
-                        </div>
-                    </div><button class="button button-lg button-primary button-zakaria" type="submit">確定購課</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    </form>
-</section>
+<div class="index-header">
+	<img src="~/image/product/bg-cta-1.jpg" />
+	<h2>課程預定單</h2>
+
+</div>
+<div style="height:20px"></div>
+
+@*<section class="section section-xl bg-default">*@
+<form method="post" asp-controller="PetClasses" asp-action="PetClassAddReservation">
+	<div class="container order">
+		<!-- shopping-cart-->
+		<div class="table-custom-responsive">
+			<table class="table-custom table-cart">
+				<thead>
+					<tr>
+						<th>課程名稱</th>
+						<td colspan="3">@Model.PetClassName</td>
+					</tr>
+					<tr>
+						<th>課程價格</th>
+						<td colspan="3">$@Model.PetClassPrice</td>
+					</tr>
+					<tr>
+						<th>課程時間</th>
+						<td colspan="3">@Model.PetClassDate</td>
+					</tr>
+					<tr>
+						<th>課程地點</th>
+						<td colspan="3">課程地點: 台北市中山區寵愛路毛寶街1號</td>
+					</tr>
+				</thead>
+
+				<thead>
+					<tr>
+					</tr>
+				</thead>
+				<thead>
+					<tr>
+						<th>會員姓名</th>
+						<th>會員電話</th>
+						<th colspan="2">會員信箱</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>@Model.MemberName</td>
+						<td>@Model.MemberPhone</td>
+						<td colspan="2">@Model.MemberEmail</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<div class="group-xl group-justify justify-content-center justify-content-md-between">
+			<div>
+				<input type="hidden" name="MemberId" value="@Model.MemberId" />
+				<input type="hidden" name="PetClassId" value="@Model.PetClassId" />
+				<input type="hidden" name="PetClassName" value="@Model.PetClassName" />
+				<input type="hidden" name="PetClassPrice" value="@Model.PetClassPrice" />
+				<input type="hidden" name="PetClassDate" value="@Model.PetClassDate" />
+				<input type="hidden" name="TeacherId" value="@Model.TeacherId" />
+				<input type="hidden" name="PetClassTypeId" value="@Model.PetClassTypeId" />
+				<input type="hidden" name="MemberName" value="@Model.MemberName" />
+				<input type="hidden" name="MemberEmail" value="@Model.MemberEmail" />
+				<input type="hidden" name="MemberPhone" value="@Model.MemberPhone" />
+
+			</div>
+			<div>
+				<div class="group-xl group-middle">
+					<div>
+						<div class="group-md group-middle">
+							<div class="heading-5 fw-medium text-gray-500">Total</div>
+							<div class="heading-3 fw-normal">$@Model.PetClassPrice</div>
+						</div>
+					</div><button class="button button-lg button-primary button-zakaria" type="submit">確定購課</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+@*</section>*@

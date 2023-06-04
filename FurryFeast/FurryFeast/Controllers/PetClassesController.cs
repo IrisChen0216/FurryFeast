@@ -119,23 +119,57 @@ namespace FurryFeast.Controllers
                     ClassReservetionState = 0,
                 };
 
+
                 _context.ClassReservetions.Add(classReservetion);
                 await _context.SaveChangesAsync();
-                return View("PetClassPayReservation", new { id = classReservetion.ClassReservetionId});
+
+                PayReservationViewModel petClassPayReserve = new PayReservationViewModel
+                {
+                    MemberName = model.MemberName,
+                    MemberEmail = model.MemberEmail,
+                    MemberPhone = model.MemberPhone,
+                    MemberId= model.MemberId,
+                    PetClassName= model.PetClassName,
+                    PetClassPrice = model.PetClassPrice,
+                    PetClassDate = model.PetClassDate,
+                    TeacherId = model.TeacherId,
+                    PetClassTypeId = model.PetClassTypeId,
+                    ClassReservetionId= classReservetion.ClassReservetionId,
+                    ClassReservetionDate= classReservetion.ClassReservetionDate,
+                    ClassReservetionState= classReservetion.ClassReservetionState
+                };
+
+                return View("PetClassPayReservation", petClassPayReserve);
             }
             return View("PetClassAddReservation");
         }
 
         //付款頁面
-        public async Task<IActionResult> PetClassPayReservation(int id)
+        public async Task<IActionResult> PetClassPayReservation(PayReservationViewModel payReservation)
         {
            
-            var ClassReserve=_context.ClassReservetions.Include(x=>x.PetClass).Where(x=>x.ClassReservetionId== id).ToList();
+            var ClassReserve=_context.ClassReservetions.Include(x=>x.PetClass).Where(x=>x.ClassReservetionId== payReservation.ClassReservetionId).ToList();
+            PayReservationViewModel pay = new PayReservationViewModel
+            {
+                MemberName = payReservation.MemberName,
+                MemberEmail = payReservation.MemberEmail,
+                MemberPhone = payReservation.MemberPhone,
+                MemberId = payReservation.MemberId,
+                PetClassName = payReservation.PetClassName,
+                PetClassPrice = payReservation.PetClassPrice,
+                PetClassDate = payReservation.PetClassDate,
+                TeacherId = payReservation.TeacherId,
+                PetClassTypeId = payReservation.PetClassTypeId,
+                ClassReservetionId = payReservation.ClassReservetionId,
+                ClassReservetionDate= payReservation.ClassReservetionDate,
+                ClassReservetionState= payReservation.ClassReservetionState,
+            };
 
-            
 
-            return View(ClassReserve);
+
+            return View(pay);
         }
+
 		private bool PetClassExists(int id)
         {
           return (_context.PetClasses?.Any(e => e.PetClassId == id)).GetValueOrDefault();

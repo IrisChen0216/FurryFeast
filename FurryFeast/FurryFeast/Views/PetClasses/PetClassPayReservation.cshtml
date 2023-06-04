@@ -1,73 +1,106 @@
-﻿@model ClassReservetion
+﻿@model FurryFeast.ViewModels.PayReservationViewModel
 @section Style{
-    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-    @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
-    <link href="~/css/petclass/style.css" rel="stylesheet" />
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+
+	<style>
+		th {
+			font-weight: 500;
+			text-align: left;
+		}
+
+		td {
+			text-align: left;
+			padding: 10px;
+		}
+
+		.memberInfo {
+			margin-top: 35px;
+		}
+	</style>
 }
 
 <div class="index-header">
-    <h2>課程預定單</h2>
+	<h2>課程預定明細</h2>
 </div>
-<section class="section section-xl bg-default">
-    <form method="post" class="form-control" asp-controller="PetClasses" asp-action="PetClassAddReservation">
-        <div class="container">
-            <!-- shopping-cart-->
-            <div class="table-custom-responsive">
-                <table class="table-custom table-cart">
-                    <thead>
-                        <tr>
-                            <th>課程名稱</th>
-                            <th>課程價格</th>
-                            <th>課程時間</th>
-                            <th>課程地點</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><a class="table-cart-link" href="single-product.html">@Model.PetClass.PetClassName</a></td>
-                            <td>$@Model.PetClass.PetClassPrice</td>
-                            <td name="ClassReservetionDate">@Model.ClassReservetionDate</td>
-                            <td>課程地點</td>
+<form method="post" asp-controller="PayMoney" asp-action="SpgatewayPayBill">
+	<div class="row">
+		<div class="container col-4 memberInfo">
+			<!-- shopping-cart-->
+			<div class="table-custom-responsive">
+				<table>
+					
+					<tbody>
+						<tr>
+							<th>付款人姓名:</th>
+							<td>@Model.MemberName</td>
+						</tr>
+						<tr>
+							<th>付款人電話:</th>
+							<td>@Model.MemberPhone</td>
+						</tr>
+						<tr>
+							<th>付款人信箱:</th>
+							<td>@Model.MemberEmail</td>
+						</tr>
+						<tr>
+							<th>付款方式:</th>
+							<td>
+								@*<select name="payType">
+								<option value="CREDIT">信用卡</option>
+								<option value="WEBATM">WEBATM</option>
+								<option value="VACC">ATM 轉帳</option>
+								</select>*@
+								<label>
+									<input type="checkbox" name="payType" value="CREDIT"> 信用卡
+								</label>
+								<label>
+									<input type="checkbox" name="payType" value="WEBATM"> WEBATM
+								</label>
+								<label>
+									<input type="checkbox" name="payType" value="VACC"> ATM 轉帳
+								</label>
+							</td>
+						</tr>
+					</tbody>
 
-                        </tr>
+				</table>
+			</div>
+			<div class="col-1">
+				<input type="hidden" name="amount" value="@Model.PetClassPrice" />
+				<input type="hidden" name="ordernumber" value="@Model.ClassReservetionId" />
+			</div>
+			
+		</div>
+		<div class="container col-4">
+			<div>
+				<article class="pricing-classic">
+				<div class="pricing-classic-header">
+					<div class="pricing-colored-figure bg-secondary"></div>
+					<div class="pricing-classic-caption">
+						<div>
+							<h3 class="pricing-classic-title">@Model.PetClassName</h3>
+							<div class="pricing-classic-price-wrap">
+								
+								<div class="pricing-classic-price heading-4">$@Model.PetClassPrice</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="pricing-classic-body">
+					<ul class="pricing-classic-list">
+						<li><span>課程時間:</span></li>
+						<li><span>@Model.PetClassDate</span></li>
+						<li><span>課程地點:</span></li>
+						<li><span>台北市中山區寵愛路毛寶街1號</span></li>
+						</ul><button class="button button-lg button-primary button-zakaria" type="submit">確定付款</button>
+				</div>
+				</article>
+			</div>
+		</div>
+	</div>
 
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <th>購買人姓名</th>
-                            <th>購買人電話</th>
-                            <th>購買人信箱</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.MemberId.</td>
-                            @*<td>@Model.MemberPhone</td>*@
-                            @*<td>@Model.MemberEmail</td>*@
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="group-xl group-justify justify-content-center justify-content-md-between">
-                <div>
-                    <input type="hidden" name="MemberId" value="@Model.MemberId" />
-                    <input type="hidden" name="PetClassId" value="@Model.PetClassId" />
-
-                </div>
-                <div>
-                    <div class="group-xl group-middle">
-                        <div>
-                            <div class="group-md group-middle">
-                                <div class="heading-5 fw-medium text-gray-500">Total</div>
-                                @*<div class="heading-3 fw-normal">$@Model.PetClassPrice</div>*@
-                            </div>
-                        </div><button class="button button-lg button-primary button-zakaria" type="submit">確定付款</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-</section>
+</form>
