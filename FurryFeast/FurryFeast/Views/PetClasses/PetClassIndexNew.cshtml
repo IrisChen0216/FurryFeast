@@ -117,6 +117,13 @@
 					</div>
 				</template>*@
 				<div>
+					<datepicker v-model="startDate"></datepicker> ~
+					<datepicker v-model="endDate"></datepicker>
+					<button v-on:click="ClassDateFilter">搜尋</button>
+					<button v-on:click="ClassDateFilterClean">清除</button>
+				</div>
+				
+				<div>
 					<div class="group-sm group-middle">
 						<div class="product-top-panel-sorting" >
 							<select v-model="selectedPrice" @@change="sortBy">
@@ -154,18 +161,6 @@
 
 
 			</div>
-			<@*div class="pagination-wrap">
-				<!-- Bootstrap Pagination-->
-				<nav aria-label="Page navigation">
-					<ul class="pagination">
-						<li class="page-item page-item-control disabled"><a class="page-link" href="#" aria-label="Previous"><span class="icon" aria-hidden="true"></span></a></li>
-						<li class="page-item active"><span class="page-link">1</span></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Next"><span class="icon" aria-hidden="true"></span></a></li>
-					</ul>
-				</nav>
-			</div>*@
 
 				<div class="row justify-content-center">
 					<paginate :page-count="PageCount"
@@ -197,12 +192,21 @@
 	
 		Vue.component('paginate', VuejsPaginate)
 
-
+		Vue.component('datepicker', {
+			template: `<input v-bind:value="value" v-on:input="updateValue($event.target.value)" type="date">`,
+			props: ['value'],
+			methods: {
+				updateValue: function (value) {
+					this.$emit('input', value);
+				}
+			}
+		});
 		let app = new Vue({
 			el: '#app',
 			data: {
 				ShowClasses: [],
 				PetClasses: [],
+				OrinClassType:[],
 				dates: [],
 				maxCount:2,
 				Page:1,
@@ -211,6 +215,8 @@
 					keyword: "",
 				},
 				selectedPrice:"",
+				startDate: null,
+				endDate: null,
 			},
 			mounted: function () {
 				let _this = this;
@@ -223,7 +229,7 @@
 					let _this = this;
 
 					axios.get(`/api/petclasses/AllClasses`).then(response => {
-						_this.ShowClasses = _this.PetClasses = response.data;
+						_this.ShowClasses = _this.PetClasses=_this.OrinClassType = response.data;
 
 					});
 				},
@@ -237,7 +243,7 @@
 					//var request={};
 					//request.productName=_this.keyword;
 					axios.get(`/api/petclasses/PetClassType?type=${typeNum}`).then(response => {
-						_this.ShowClasses = response.data;
+						_this.ShowClasses= _this.OrinClassType = response.data;
 
 					});
 				},
@@ -249,14 +255,27 @@
 					_this.filterObj.keyword = "";
 					_this.Page=1;
 				},
-				//想改成日期選擇
+				ClassDateFilter: function () {
+					let _this = this;
+					let start = new Date(_this.startDate);
+					let end = new Date(_this.endDate);
+
+					_this.ShowClasses = _this.OrinClassType.filter((x) => {
+						let classDate = new Date(x.petClasses.petClassDate); 
+						return classDate >= start && classDate <= end; });
+				},
+				ClassDateFilterClean:function(){
+					let _this = this;
+					_this.startDate=null;
+					_this.endDate=null;
+					_this.ShowClasses= _this.OrinClassType;
+				},
 				sortBy: function () {
 					let _this = this;
-
 					//依照價格排序
-					console.log('Sorting...');
+					
 					if (_this.selectedPrice == 1) {
-						
+
 						return _this.ShowClasses.sort((a, b) => a.petClasses.petClassPrice - b.petClasses.petClassPrice);
 					}
 					if (_this.selectedPrice == 2) {
@@ -264,23 +283,6 @@
 						return _this.ShowClasses.sort((a, b) => b.petClasses.petClassPrice - a.petClasses.petClassPrice);
 					}
 				},
-				//onSelect(valueString, value) {
-				//	this.dates = value;
-				//},
-				//onPopupVisibleChange(visible) {
-				//	if (!visible) {
-				//		this.dates = []
-				//	}
-				//},
-				//disabledDate(current) {
-				//	const dates = this.dates;
-				//	if (dates && dates.length) {
-				//		const tooLate = dates[0] && Math.abs((new Date(current) - dates[0]) / (24 * 60 * 60 * 1000)) > 7;
-				//		const tooEarly = dates[1] && Math.abs((new Date(current) - dates[1]) / (24 * 60 * 60 * 1000)) > 7;
-				//		return tooEarly || tooLate;
-				//	}
-				//	return false;
-				//}
 			},
 			computed: {
 				AllClassAmount: function () {
@@ -307,7 +309,7 @@
 					let _this = this;
 					let start = (_this.Page - 1) * _this.maxCount;
 					let end = _this.Page * _this.maxCount;
-					return _this.ShowClasses.slice(start,end);
+					return _this.ShowClasses.slice(start, end);
 				},
 				AllClassCount:function(){
 					return this.ShowClasses.length;
