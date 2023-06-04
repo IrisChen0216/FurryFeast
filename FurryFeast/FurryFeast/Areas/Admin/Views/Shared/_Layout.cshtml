@@ -140,16 +140,60 @@
 					</a>
 					<ul class="submenu">
 						<li>
-							<a href="#">Web Design</a>
+							<a class="nav-link text-white @Html.Raw(temp == "AdminMyStockControlStockArticles" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockArticles">
+								<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								</div>
+								<span class="nav-link-text ms-1">庫存物品</span>
+							</a>
 						</li>
 						<li>
-							<a href="#">Hosting</a>
+							<a class="nav-link text-white @Html.Raw(temp == "AdminMyStockControlStockMeasureUnits" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockMeasureUnits">
+								<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								</div>
+								<span class="nav-link-text ms-1">計量單位</span>
+							</a>
 						</li>
 						<li>
-							<a href="#">Design</a>
+							<a class="nav-link text-white @Html.Raw(temp == "AdminMyStockControlStockGroups" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockGroups">
+								<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								</div>
+								<span class="nav-link-text ms-1">物品類別</span>
+							</a>
 						</li>
 						<li>
-							<a href="#">Consulting</a>
+							<a class="nav-link text-white @Html.Raw(temp == "AdminMyStockControlStockImages" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockImages">
+								<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								</div>
+								<span class="nav-link-text ms-1">物品圖片</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link text-white @Html.Raw(temp == "AdminMyStockControlStockWarehouses" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockWarehouses">
+								<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								</div>
+								<span class="nav-link-text ms-1">倉庫管理</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link text-white @Html.Raw(temp == "AdminMyStockControlStockWarehouseGroups" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockWarehouseGroups">
+								<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								</div>
+								<span class="nav-link-text ms-1">倉庫類別</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link text-white @Html.Raw(temp == "AdminMyStockControlStockSuppliers" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockSuppliers">
+								<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								</div>
+								<span class="nav-link-text ms-1">供應商管理</span>
+							</a>
+						</li>
+						<li>
+							<a class="nav-link text-white @Html.Raw(temp == "AdminMyStockControlStockSuppliersGroups" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockSuppliersGroups">
+								<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+								</div>
+								<span class="nav-link-text ms-1">供應商類別</span>
+							</a>
 						</li>
 					</ul>
 				</li>
@@ -354,7 +398,6 @@
 			$('.accordionMenu').click(function (e) {
 				e.preventDefault();
 				$(this).next('.submenu').slideToggle();
-				console.log('submenu');
 			});
 
 			$('.submenu').hide();
