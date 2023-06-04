@@ -1,4 +1,4 @@
-﻿@model ClassReservetion
+﻿@model FurryFeast.ViewModels.PayReservationViewModel
 @section Style{
     <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
     @*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
@@ -6,10 +6,10 @@
 }
 
 <div class="index-header">
-    <h2>課程預定單</h2>
+    <h2>課程預定明細</h2>
 </div>
 <section class="section section-xl bg-default">
-    <form method="post" class="form-control" asp-controller="PetClasses" asp-action="PetClassAddReservation">
+    <form method="post" class="form-control" asp-controller="PayMoney" asp-action="SpgatewayPayBill">
         <div class="container">
             <!-- shopping-cart-->
             <div class="table-custom-responsive">
@@ -25,27 +25,34 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a class="table-cart-link" href="single-product.html">@Model.PetClass.PetClassName</a></td>
-                            <td>$@Model.PetClass.PetClassPrice</td>
-                            <td name="ClassReservetionDate">@Model.ClassReservetionDate</td>
-                            <td>課程地點</td>
+                            <td><a class="table-cart-link" href="single-product.html">@Model.PetClassName</a></td>
+                            <td>$@Model.PetClassPrice</td>
+                            <td>@Model.ClassReservetionDate</td>
+                            <td>課程地點: 台北市中山區寵愛路毛寶街1號</td>
 
                         </tr>
 
                     </tbody>
                     <thead>
                         <tr>
-                            <th>購買人姓名</th>
-                            <th>購買人電話</th>
-                            <th>購買人信箱</th>
-
+                            <th>付款人姓名</th>
+                            <th>付款人電話</th>
+                            <th>付款人信箱</th>
+                            <th>付款方式</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@Model.MemberId.</td>
-                            @*<td>@Model.MemberPhone</td>*@
-                            @*<td>@Model.MemberEmail</td>*@
+                            <td>@Model.MemberName</td>
+                            <td>@Model.MemberPhone</td>
+                            <td>@Model.MemberEmail</td>
+                            <td>
+                                <select name="payType">
+                                    <option value="CREDIT">信用卡</option>
+                                    <option value="WEBATM">WEBATM</option>
+                                    <option value="VACC">ATM 轉帳</option>
+                                </select>
+                            </td>
                         </tr>
 
                     </tbody>
@@ -53,8 +60,8 @@
             </div>
             <div class="group-xl group-justify justify-content-center justify-content-md-between">
                 <div>
-                    <input type="hidden" name="MemberId" value="@Model.MemberId" />
-                    <input type="hidden" name="PetClassId" value="@Model.PetClassId" />
+                    <input type="hidden" name="amount" value="@Model.PetClassPrice" />
+                    <input type="hidden" name="ordernumber" value="@Model.ClassReservetionId" />
 
                 </div>
                 <div>
