@@ -16,13 +16,12 @@
 			background: none;
 			height: 50px;
 			border-bottom: 1px dashed #ccc;
-			padding: 0px 0px 0px 5px;
 		}
 
-			.inputbox:focus {
-				outline: none;
-				border-color: gray
-			}
+		.inputbox:focus {
+			outline: none;
+			border-color: gray
+		}
 
 		.btn-secondary:hover {
 			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -44,15 +43,15 @@
 			padding-bottom: 17px;
 		}
 
-			.h1Header > h4:before {
-				content: "";
-				position: absolute;
-				left: 25px;
-				bottom: 6px;
-				width: 100%;
-				height: 4px;
-				background: #ccc;
-			}
+		.h1Header > h4:before {
+			content: "";
+			position: absolute;
+			left: 25px;
+			bottom: 6px;
+			width: 100%;
+			height: 4px;
+			background: #ccc;
+		}
 
 		.box {
 			background: white;
@@ -67,17 +66,51 @@
 			vertical-align: initial;
 			font-weight: bold;
 			font-size: 15px;
-			text-align: center;
+			display: block;
+			text-align: right;
 		}
 
 		.text {
 			font-size: 13px;
-			letter-spacing: 2px
+			letter-spacing: 2px;
 		}
 
-		table td {
-			text-align: right;
+		.orderTable {
+			width: 100%;
 		}
+
+		.nBtn {
+			background: none;
+			padding: 10px;
+			font-size: 14px;
+			border-radius: 6px;
+		}
+
+		.btn_gray {
+			background: white;
+			border: 1px solid gray;
+			color: gray;
+		}
+
+		.btn_gray:hover {
+			border: 1px solid black;
+			background: white;
+			color: black;
+		}
+
+		.btn_green {
+			padding: 10px 20px;
+			border: 1px solid yellowgreen;
+			background: yellowgreen;
+			color: white;
+		}
+
+		.btn_green:hover {
+			border: 1px solid yellowgreen;
+			background: white;
+			color: black;
+		}
+
 	</style>
 }
 
@@ -89,26 +122,26 @@
 			<h2 style="display: inline-block;" class="mt-3 mx-2">Details</h2>
 		</div>
 	</div>
-	<div class="text-end pe-2 mb-2">
-		<button class="btn m-0" style="color: gray; font-size: 14px;" :href="'index'">回到訂單明細</button>
+	<div class="text-end">
+		<button class="nBtn btn_gray mb-3" :href="'index'">回到訂單列表</button>
 	</div>
 
 	<div class="box row" v-for="item in orderData">
 		<div class="col">
 			<h4 class=" col mt-3">訂單資訊</h4>
 			<div class="box mb-4 mt-3 ">
-				<table >
+				<table class="orderTable">
 					<tr>
 						<td><span class="title">訂單編號</span></td>
-						<td><input class="inputbox ms-3" type="text" v-model="item.orderId" disabled/></td>
+						<td><input class="inputbox ms-3" type="text" v-model="item.orderId" disabled /></td>
 					</tr>
 					<tr>
 						<td><span class="title">訂單成立時間</span></td>
-						<td style="width: auto"><input class="inputbox ms-3" type="text" v-model="item.orderCreateDate" disabled/></td>
+						<td><input class="inputbox ms-3" type="text" v-model="OrderCreateDate" disabled /></td>
 					</tr>
 					<tr>
 						<td><span class="title">出貨時間</span></td>
-						<td><input class="inputbox ms-3" type="text" v-model="item.orderShipDate" disabled/>
+						<td><input class="inputbox ms-3" type="text" v-model="OrderShipDate" disabled />
 					</tr>
 				</table>
 			</div>
@@ -116,19 +149,21 @@
 		<div class="col">
 			<h4 class="mt-3 px-2">會員資料</h4>
 			<div class="box mb-4 mt-3">
-				<table>
-					<tr>
-						<td><span class="title">會員編號</span></td>
-						<td><input class="inputbox ms-3" type="text" v-model="item.memberId" disabled></td>
-					</tr>
-					<tr>
-						<td><span class="title">會員名稱</span></td>
-						<td><input class="inputbox ms-3" type="text" v-model="item.memberName" disabled/></td>
-					</tr>
-					<tr>
-						<td><span class="title">會員帳號</span></td>
-						<td><input class="inputbox ms-3" type="text" v-model="item.memberAccount" disabled/>
-					</tr>
+				<table class="orderTable">
+					<tbody>
+						<tr>
+							<td><span class="title">會員編號</span></td>
+							<td><input class="inputbox ms-3" type="text" v-model="item.memberId" disabled></td>
+						</tr>
+						<tr>
+							<td><span class="title">會員名稱</span></td>
+							<td><input class="inputbox ms-3" type="text" v-model="item.memberName" disabled/></td>
+						</tr>
+						<tr>
+							<td><span class="title">會員帳號</span></td>
+							<td><input class="inputbox ms-3" type="text" v-model="item.memberAccount" disabled/>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -177,47 +212,50 @@
 			</div>
 		</div>
 		<div>
-			<h4 style="display: inline-block; vertical-align: sub;">收件者明細</h4>
-			<template v-if="item.isEdit != true">
-				<button class="btn m-0 ms-3" style="background: yellowgreen; color: white" v-on:click="edit(item)">編輯</button>
+			<h4 class="mt-3 ps-2" style="display: inline-block; vertical-align: sub;">收件者明細</h4>
+			<template v-if="isEdit == false">
+				<button class="nBtn btn_green m-0 ms-3" v-on:click="edit">編輯</button>
 			</template>
 			<template v-else>
-				<button class="btn m-0 ms-3" style="background: yellowgreen; color: white" v-on:click="update">更新</button>
-				<button class="btn m-0" style="background: darkgray"><a style="color: white" :href="'index'">取消</a></button>
+				<button class="nBtn btn_green m-0 ms-3" v-on:click="update">更新</button>
+				<button class="m-0 nBtn btn_gray ms-2" v-on:click="cancel">取消編輯</button>
 			</template>
-		</div>
-		<div class="box mb-4 mt-3" v-for="item in orderData">
-			<div>
-				<span class="title">收件者名稱</span>
-				<input class="inputbox ms-2" type="text" v-model="item.orderRecipientName" disabled/>
-			</div>
-			<div>
-				<span class="title">收件者地址</span>
-				<input class="inputbox ms-2" type="text" v-model="item.orderRecipientAdress" disabled/>
-			</div>
-			<div>
-				<span class="title">收件者電話</span>
-				<input class="inputbox ms-2" type="text" v-model="item.orderRecipientPhone" disabled/>
+			<div class="box mb-4 mt-3">
+				<table v-for="item in orderData">
+					<tr>
+						<td class=" font-weight-bolder opacity-7 text-center" style="width: 10%">收件者</td>
+						<td><input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipient" v-bind:disabled="isDisabled"/></td>
+					</tr>
+					<tr>
+						<td class=" font-weight-bolder opacity-7 text-center">收件者地址</td>
+						<td><input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipientAdress" v-bind:disabled="isDisabled"/></td>
+					</tr>
+					<tr>
+						<td class=" font-weight-bolder opacity-7 text-center">收件者電話</td>
+						<td><input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipientPhone" v-bind:disabled="isDisabled"/></td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
 </div>
 
-
 @section Scripts{
+	<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 	<script>
 		let app = new Vue({
 			el: '#app',
 			data: {
 				isEdit: false,
+				isDisabled: true,
 				orderData: [],
-				editingRecipeTitle: "",
-				editingRecipeDesr: "",
-				editingType: "",
-				editingRecipeData: [],
-				editingRecipeMethod: [],
-				editingNotes: ""
+				editingRecipient: "",
+				editingRecipientAdress: "",
+				editingRecipientPhone: "",
+				OrderCreateDate: "",
+				OrderShipDate: ""
 			},
 			mounted: function() {
 				let _this = this;
@@ -229,74 +267,86 @@
 					let ID = @ViewBag.orderId;
 					axios.get(`/api/orders/GetData/${ID}`).then(response => {
 						_this.orderData = response.data;
-
-						for (let i = 0; i < _this.orderData.length; i++) {
-							_this.orderData[i].isEdit = false;
-						}
 						console.log(_this.orderData);
+						_this.orderData.forEach(function(item, i) {
+							_this.editingRecipient = item.orderRecipientName;
+							_this.editingRecipientAdress = item.orderRecipientAdress;
+							_this.editingRecipientPhone = item.orderRecipientPhone;
+						});
+						_this.OrderShipDate = _this.setDate(_this.orderData[0].orderShipDate);
+						_this.OrderCreateDate = _this.setDate(_this.orderData[0].orderCreateDate);
+
 					});
 				},
-				edit: function(item) {
-					item.isEdit = false;
-					console.log(item.isEdit);
+				setDate: function(Date) {
+					return dayjs(Date).format('YYYY-MM-DD ddd HH:mm:ss');
+				},
+
+				edit: function() {
+					let _this = this;
+					_this.isEdit = true;
+					_this.isDisabled = false;
 				},
 
 				cancel: function() {
 					let _this = this;
-					_this.orderData.isEdit = false;
+					_this.isEdit = false;
+					_this.isDisabled = true;
 
-					_this.recipesData[0].recipesName = _this.editingRecipeTitle;
-					_this.recipesData[0].recipesDescription = _this.editingRecipeDesr;
-					_this.recipesData[0].petTypesId = _this.editingType;
-					_this.recipesData[0].recipesData = _this.editingRecipeData;
-					_this.recipesData[0].recipesMethod = _this.editingRecipeMethod;
-					_this.recipesData[0].recipesNotes = _this.editingNotes;
+					_this.editingRecipient = _this.orderData[0].orderRecipientName;
+					_this.editingRecipientAdress = _this.orderData[0].orderRecipientAdress;
+					_this.editingRecipientPhone = _this.orderData[0].orderRecipientPhone;
+
 				},
 				update: function() {
 					let _this = this;
-					_this.recipesData[0].recipesName = _this.editingRecipeTitle;
-					_this.recipesData[0].recipesDescription = _this.editingRecipeDesr;
-					_this.recipesData[0].petTypesId = _this.editingType;
-					_this.recipesData[0].recipesData = _this.editingRecipeData.join('/');
-					_this.recipesData[0].recipesMethod = _this.editingRecipeMethod.join('/');
-					_this.recipesData[0].recipesNotes = _this.editingNotes;
-
-					console.log(_this.recipesData[0].recipesMethod);
+					_this.isEdit = false;
+					_this.isDisabled = true;
+					
+					_this.orderData.orderRecipientName = _this.editingRecipient;
+					_this.orderData.orderRecipientAdress = _this.editingRecipientAdress;
+					_this.orderData.orderRecipientPhone = _this.editingRecipientPhone;
 
 					var request = {
-						RecipesId: _this.recipesData[0].recipesId,
-						RecipesName: _this.recipesData[0].recipesName,
-						RecipesDescription: _this.recipesData[0].recipesDescription,
-						PetTypesId: _this.recipesData[0].petTypesId,
-						RecipesData: _this.recipesData[0].recipesData,
-						RecipesMethod: _this.recipesData[0].recipesMethod,
-						RecipesNotes: _this.recipesData[0].recipesNotes
+							OrderId: _this.orderData[0].orderId,
+							OrderRecipientName: _this.orderData.orderRecipientName,
+							OrderRecipientAdress: _this.orderData.orderRecipientAdress,
+							OrderRecipientPhone: _this.orderData.orderRecipientPhone
 					};
 
-					console.log(request);
-
-					axios.post(`/api/recipes/UpdateRecipe/`, request).then(response => {
+					axios.post(`/api/orders/Update/`, request).then(response => {
 						console.log(response.data);
-						_this.Success();
-						setTimeout(() => {
-								window.location.href = '/Admin/RecipesList/index'; // 轉向 index 頁面
-							},
-							1500);
+						if (response.data.success) {
+							_this.Success();
+						}
+						//setTimeout(() => {
+						//		window.location.href = '/Admin/RecipesList/index'; // 轉向 index 頁面
+						//	},
+						//	1500);
+					});
 
-					});
-				},
-				Success: function() {
-					Swal.fire({
-						position: 'center',
-						icon: 'success',
-						title: '編輯食譜成功',
-						text: '回到文章列表',
-						showConfirmButton: false,
-						timer: 1500
-					});
 				}
+			}, 
+			Success: function() {
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: '更新收件者資料成功',
+				text: '回到列表',
+				showConfirmButton: false,
+				timer: 1500
+			});
+			}, 
+			Errorrrr: function() { 
+				Swal.fire({ 
+					position: 'center', 
+					icon: 'warning', 
+					title: '您未更新任何資料', 
+					text: '請重新編輯', 
+					showConfirmButton: false, 
+					timer: 2000
+				});
 			}
 		});
-
 	</script>
 }
