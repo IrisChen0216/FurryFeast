@@ -41,7 +41,7 @@
 
 				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
-						<h6 class="text-white text-capitalize ps-3">庫存管理</h6>
+						<h6 class="text-white text-capitalize ps-3">物品管理</h6>
 					</div>
 				</div>
 
@@ -111,8 +111,8 @@
 										<input type="text" class="form-control" v-bind:value="choseTableData.articlesIsValid">
 										</div>*@
 
-										<button v-if="choseTableData.articlesIsValid" class="btn bg-gradient-success mb-0 toast-btn btnMargonTop">上架</button>
-										<button v-else class="btn bg-gradient-danger mb-0 toast-btn btnMargonTop">下架</button>
+										<button v-if="choseTableData.articlesIsValid" class="btn bg-gradient-success mb-0 toast-btn btnMargonTop" v-on:click="changeArticlesIsValid">上架</button>
+										<button v-else class="btn bg-gradient-danger mb-0 toast-btn btnMargonTop" v-on:click="changeArticlesIsValid">下架</button>
 
 									</div>
 								</div>
@@ -178,7 +178,7 @@
 
 								<div class="row">
 									<div class="btnState  mt-2 pr-10 col-3">
-										<button class="btn bg-gradient-success  mb-0 toast-btn" v-on:click="patchData">儲存</button>
+										<button class="btn bg-gradient-success  mb-0 toast-btn" v-on:click="patchData">更新</button>
 										<button class="btn bg-gradient-warning  mb-0 toast-btn" v-on:click="cleanData">清除</button>
 									</div>
 								</div>
@@ -209,7 +209,7 @@
 				},
 				keyWord: "",
 				showData: [],
-				templateData: {
+				choseTableData: {
 					"articlesCode": "",
 					"articlesDescription": "",
 					"articlesId": 0,
@@ -223,9 +223,8 @@
 					"suppliersId": "",
 					"warehousesId": "",
 				},
-				choseTableData: {},
 				flag_classOutline: false,
-				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused",
+				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
 			},
 			mounted: function () {
@@ -234,8 +233,9 @@
 				this.StockImages();
 				this.StockMeasureUnits();
 				this.StockSuppliers();
-				this.StockSuppliersGroups();
-				this.StockWarehouseGroups();
+				// 這兩個這畫面用不到
+				//this.StockSuppliersGroups();
+				//this.StockWarehouseGroups();
 				this.StockWarehouses();
 			},
 			computed: {
@@ -246,7 +246,7 @@
 					let _this = this;
 					axios.get(`/api/StockArticlesApi/GetAll`).then(response => {
 						_this.Source.StockArticleData = response.data;
-						_this.showData = response.data;
+						_this.showData = _this.Source.StockArticleData;
 					});
 				},
 				StockGroups: function () {
@@ -255,9 +255,10 @@
 						_this.Source.StockGroupsData = response.data
 					});
 				},
+				//不需要圖片資料
 				StockImages: function () {
 					let _this = this;
-					axios.get(`/api/StockImagesApi/GetAll`).then(response => {
+					axios.get(`/api/StockImagesApi/GetAllWithoutBitmap`).then(response => {
 						_this.Source.StockImagesData = response.data
 					});
 				},
@@ -296,14 +297,27 @@
 					let _this = this;
 					this.showData = this.Source.StockArticleData.filter(data => data.articlesCode.includes(_this.keyWord) || data.articlesDescription.includes(_this.keyWord));
 				},
-				// 選擇產品
+				// 選擇產品 做深度拷貝 先轉成字串再轉回JSON 避免右邊資料影響左邊
 				clickArticle: function (data) {
-					this.choseTableData = data;
+					this.choseTableData = JSON.parse(JSON.stringify(data));
 					this.flag_classOutline = true;
 				},
 				// 清除資料
 				cleanData: function () {
-					this.choseTableData = this.templateData;
+					this.choseTableData = {
+						"articlesCode": null,
+						"articlesDescription": "",
+						"articlesId": 0,
+						"articlesIsValid": 1,
+						"articlesNotes": "",
+						"articlesPrice": "",
+						"articlesQuantity": "",
+						"groupId": "",
+						"imagesId": "",
+						"measureUnitId": "",
+						"suppliersId": "",
+						"warehousesId": "",
+					};
 					this.flag_classOutline = false;
 				},
 				// 新增資料 請求改成同步
@@ -321,14 +335,13 @@
 					}).catch(error => {
 						Swal.fire({
 							title: `錯誤!`,
-							text: error,
+							text: error.response.data,
 							icon: 'error',
 							confirmButtonColor: '#3085d6',
 							confirmButtonText: `確認`,
 						});
 					});
 					this.StockArticles();
-					this.cleanData();
 				},
 				// 刪除確認
 				deleteCheck: function () {
@@ -352,8 +365,8 @@
 					let _this = this;
 					await axios.delete(`/api/StockArticlesApi/DeleteData/${this.choseTableData.articlesCode}`).then(response => {
 						Swal.fire({
-							title: `已刪除!`,
-							text: ``,
+							title: `刪除成功!`,
+							text: response.data,
 							icon: 'success',
 							confirmButtonColor: '#3085d6',
 							confirmButtonText: `確認`,
@@ -361,7 +374,7 @@
 					}).catch(error => {
 						Swal.fire({
 							title: `錯誤!`,
-							text: error,
+							text: error.response.data,
 							icon: 'error',
 							confirmButtonColor: '#3085d6',
 							confirmButtonText: `確認`,
@@ -373,7 +386,7 @@
 				// 更新資料 請求改成同步
 				patchData: async function () {
 					let _this = this;
-					await axios.patch(`/api/StockArticlesApi/PatchData/${this.choseTableData.articlesId}`, _this.choseTableData).then(response => {
+					await axios.patch(`/api/StockArticlesApi/PatchData`, _this.choseTableData).then(response => {
 						Swal.fire({
 							title: `更新成功!`,
 							text: response.data,
@@ -384,12 +397,21 @@
 					}).catch(error => {
 						Swal.fire({
 							title: `錯誤!`,
-							text: error,
+							text: error.response.data,
 							icon: 'error',
 							confirmButtonColor: '#3085d6',
 							confirmButtonText: `確認`,
 						});
 					});
+					this.StockArticles();
+				},
+				// 更新上下架
+				changeArticlesIsValid: function () {
+					if (this.choseTableData.articlesIsValid) {
+						this.choseTableData.articlesIsValid = 0;
+					} else {
+						this.choseTableData.articlesIsValid = 1;
+					}
 				},
 			},
 		});

@@ -31,6 +31,22 @@ namespace FurryFeast.Areas.Admin.Api {
             return Ok(result);
         }
 
+        // 查詢所有資料 但沒有圖片
+        [HttpGet]
+        public async Task<object> GetAllWithoutBitmap() {
+            if (_context.StockImages == null) {
+                return NotFound("StockImages is null.");
+            }
+
+            var result = await _context.StockImages.Select(data => new StockImageWithoutBitmapViewModel {
+                ImagesId = data.ImagesId,
+                ImagesCode = data.ImagesCode,
+                ImagesDescription = data.ImagesDescription,
+                ImagesFileCrc = data.ImagesFileCrc
+            }).ToListAsync();
+            return Ok(result);
+        }
+
         // 新增一筆資料
         [HttpPost]
         public async Task<object> PostData([FromBody] StockImageViewModel data) {
