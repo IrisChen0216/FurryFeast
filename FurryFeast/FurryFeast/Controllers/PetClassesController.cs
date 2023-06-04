@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FurryFeast.Models;
+using System.Security.Claims;
+using FurryFeast.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FurryFeast.Controllers
 {
@@ -45,6 +48,13 @@ namespace FurryFeast.Controllers
 			return View();
 		}
 
+		//VUE用
+		public async Task<IActionResult> PetClassReservationNew(int? id)
+		{
+			ViewBag.Id = id;
+			return View();
+		}
+
 		public async Task<FileResult> GetPicture(int id)
         {
             PetClass p = await _context.PetClasses.FindAsync(id);     
@@ -60,24 +70,73 @@ namespace FurryFeast.Controllers
         //        .Include(p => p.PetTypes)
         //        .Include(p => p.Teacher)
         //        .FirstOrDefaultAsync(m => m.PetClassId == id);
-           
+
         //    return View(petClass);
         //}
 
+
+        [Authorize]
         public async Task<IActionResult> PetClassReservation(int? id)
         {
             var petClass = await _context.PetClasses
-                
+
                 .Include(p => p.PetClassType)
                 .Include(p => p.PetTypes)
                 .Include(p => p.Teacher)
                 .FirstOrDefaultAsync(m => m.PetClassId == id);
 
-            return View(petClass);
+            int userID = int.Parse(User.FindFirstValue("Id"));
+            var member = await _context.Members.FindAsync(userID);
+            PetClassReservViewModel reservetion = new PetClassReservViewModel
+            {
+                PetClassId=petClass.PetClassId,
+                ClassReservetionDate=DateTime.Now,
+                PetClassName=petClass.PetClassName,
+                PetClassPrice=petClass.PetClassPrice,
+                PetClassDate= petClass.PetClassDate,
+                TeacherId = petClass.TeacherId,
+                PetClassTypeId = petClass.PetClassTypeId,
+                MemberId= userID,
+                MemberName=member.MemberName,
+                MemberEmail=member.MemberEmail,
+                MemberPhone=member.MemberPhone
+            };
+
+            return View(reservetion);
         }
-        
-        
-        private bool PetClassExists(int id)
+
+        //課程確認頁面
+		public async Task<IActionResult> PetClassAddReservation(AddReservationViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                ClassReservetion classReservetion = new ClassReservetion
+                {
+                    MemberId = model.MemberId,
+                    PetClassId = model.PetClassId,
+                    ClassReservetionDate = DateTime.Now,
+                    ClassReservetionState = 0,
+                };
+
+                _context.ClassReservetions.Add(classReservetion);
+                await _context.SaveChangesAsync();
+                return View("PetClassPayReservation", new { id = classReservetion.ClassReservetionId});
+            }
+            return View("PetClassAddReservation");
+        }
+
+        //付款頁面
+        public async Task<IActionResult> PetClassPayReservation(int id)
+        {
+           
+            var ClassReserve=_context.ClassReservetions.Include(x=>x.PetClass).Where(x=>x.ClassReservetionId== id).ToList();
+
+            
+
+            return View(ClassReserve);
+        }
+		private bool PetClassExists(int id)
         {
           return (_context.PetClasses?.Any(e => e.PetClassId == id)).GetValueOrDefault();
         }

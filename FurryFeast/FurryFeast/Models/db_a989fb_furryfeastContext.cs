@@ -1,7 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using System;
+
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Metadata;
+
 
 namespace FurryFeast.Models
 {
@@ -55,9 +58,9 @@ namespace FurryFeast.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-				IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-				optionsBuilder.UseSqlServer(configuration.GetConnectionString("FurryFeastDb"));
-			}
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=SQL5110.site4now.net;Database=db_a989fb_furryfeast;User Id=db_a989fb_furryfeast_admin;Password=THM101group777;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -146,11 +149,7 @@ namespace FurryFeast.Models
                     .HasColumnType("datetime")
                     .HasColumnName("ClassReservetion_Date");
 
-                entity.Property(e => e.ClassReservetionState)
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .HasColumnName("ClassReservetion_State")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.ClassReservetionState).HasColumnName("ClassReservetion_State");
 
                 entity.Property(e => e.MemberId).HasColumnName("Member_ID");
 

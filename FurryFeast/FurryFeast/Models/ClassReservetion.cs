@@ -9,7 +9,7 @@ namespace FurryFeast.Models
         public int MemberId { get; set; }
         public int PetClassId { get; set; }
         public DateTime ClassReservetionDate { get; set; }
-        public string ClassReservetionState { get; set; } = null!;
+        public int ClassReservetionState { get; set; }
 
         public virtual PetClass PetClass { get; set; } = null!;
     }
