@@ -234,8 +234,9 @@
 				this.StockImages();
 				this.StockMeasureUnits();
 				this.StockSuppliers();
-				this.StockSuppliersGroups();
-				this.StockWarehouseGroups();
+				// 這兩個這畫面用不到
+				//this.StockSuppliersGroups();
+				//this.StockWarehouseGroups();
 				this.StockWarehouses();
 			},
 			computed: {
@@ -255,9 +256,10 @@
 						_this.Source.StockGroupsData = response.data
 					});
 				},
+				//不需要圖片資料
 				StockImages: function () {
 					let _this = this;
-					axios.get(`/api/StockImagesApi/GetAll`).then(response => {
+					axios.get(`/api/StockImagesApi/GetAllWithoutBitmap`).then(response => {
 						_this.Source.StockImagesData = response.data
 					});
 				},
