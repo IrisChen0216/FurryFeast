@@ -31,91 +31,98 @@
 		.product-figure {
 			min-height: 100px;
 		}
+
+		/*.tabs-jean * + .nav-tabs-wrap {
+			margin-top: 35px;
+		}*/
+		.about{
+			max-width:1050px;
+		}
+
+		.nav-tabs-wrap{
+			height:130px;
+		}
+
+		.donate-txt{
+			margin-top:20px;
+		}
+		/*.nav-link{
+			font-size:16px;
+		}*/
+		.donate-product{
+			background-color: #ffd33b;
+			height:100px;
+			border-radius:6px;
+			
+		}
+
+		.donate-product h2{
+			padding-top:20px;
+		}
 	</style>
 }
 
 
-<div class="container">
-	<div class="slider productsTitleSlick">
-		<div>
-			<img src="~/image/product/home-bg-1.jpg" width="100%" />
-		</div>
-		<div>
-			<img src="~/image/product/home-bg-1.jpg" width="100%" />
-		</div>
-		<div>
-			<img src="~/image/product/home-bg-1.jpg" width="100%" />
-		</div>
-	</div>
-</div>
-
 <div class="container" id="app">
-	<div class="row row-50">
-		<div class="col-lg-4 col-xl-3">
-			@*待固定*@
-			<div class="aside row row-30 row-md-50 justify-content-md-between" style="position:sticky;top:100px">
-
-				<div class="aside-item col-12">
-					<h6 class="aside-title">商 品 價 格</h6>
-					<!-- RD Range-->
-					<div class="rd-range" data-min="0" data-max="999" data-min-diff="100" data-start="[66, 635]" data-step="1" data-tooltip="false" data-input=".rd-range-input-value-1" data-input-2=".rd-range-input-value-2"></div>
-					
-					@*<div style="margin-top:200px;padding:100px;">
-						<s-region-slider :minValue="300" :maxValue="700" :step="40" @@up="up" @@down="down" @@move="move" />
-					</div>*@
-					<div class="group-xs group-justify">
-						<div>
-							<button class="button button-sm button-primary button-zakaria" type="button">搜尋</button>
+	<div class="container about">
+		<div class="index-header">
+			<h2>關於。浪浪捐贈</h2>
+		</div>
+		<div class="row row-30 row-lg justify-content-center">
+			<div class="col-sm-8 col-md-7 col-lg-6 wow fadeInLeft">
+				<img src="~/image/product/grid-gallery-3-1200x800-original2.jpg" />
+				<div class="donate-txt">
+					<h4>- 捐贈糧食，FurryFeast同浪浪感激您 -</h4>
+				</div>
+				
+			</div>
+			<div class="col-md-10 col-lg-6 wow fadeInRight">
+				<!-- Bootstrap tabs-->
+				<div class="tabs-custom tabs-jean" id="tabs-1">
+					<!-- Tab panes-->
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="tabs-1-1">
+							<div class="box-info-creative">
+								<h4 class="box-info-creative-title">糧食的力量，為流浪動物帶來希望！FurryFeast致力為無家可歸的毛孩們帶來美味和溫暖!</h4>
+								<div class="box-info-creative-text">讓我們攜手，給予這些無辜生命一個飽腹和愛的滋養。請捐贈一份糧食，讓他們感受到人間的溫情與關懷。一份小小的善舉，將為他們帶來無盡的感激和喜悅！</div>
+							</div>
 						</div>
-						<div>
-							<div class="rd-range-wrap">
-								<div class="rd-range-title">Price:</div>
-								<div class="rd-range-form-wrap">
-									<span>$</span>
-									<input class="rd-range-input rd-range-input-value-1" id="test" type="text" name="value-1">
-								</div>
-								<div class="rd-range-divider"></div>
-								<div class="rd-range-form-wrap">
-									<span>$</span>
-									<input class="rd-range-input rd-range-input-value-2" type="text" name="value-2">
-								</div>
+						<div class="tab-pane fade" id="tabs-1-2">
+							<div class="box-info-creative">
+								<h4 class="box-info-creative-title">當我們走在街上，偶遇浪浪，你是否曾感到無奈？現在，您可以用一份善心改變他們的命運！</h4>
+								<div class="box-info-creative-text">您購買的糧食將成為他們的力量，幫助他們克服飢餓和艱難，讓他們感受到飽腹和溫暖的感覺，以及世界上還有人願意為他們付出關懷和愛心！</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="tabs-1-3">
+							<div class="box-info-creative">
+								<h4 class="box-info-creative-title">期待您的參與，與我們一同為流浪動物帶來希望，並享受會員專屬福利以及獨特專屬優惠！</h4>
+								<div class="box-info-creative-text">當您在我們的店面購買糧食，不僅能夠提供食物給需要幫助的浪浪，還能累積寶貴的會員點數。每一次購買都是一次善舉，一起攜手為浪浪的生命帶來溫暖和愛！</div>
 							</div>
 						</div>
 					</div>
-				</div>
-
-				<div class="aside-item col-sm-6 col-md-5 col-lg-12">
-					<h6 class="aside-title">商 品 分 類</h6>
-					<ul class="list-shop-filter">
-						<li>
-							<label class="checkbox-inline">
-								<a v-on:click="AllProducts">全部商品</a>
-							</label><span class="list-shop-filter-number">({{AllProductsAmount}})</span>
-						</li>
-						<li>
-							<label class="checkbox-inline">
-								<input name="input-group-radio" value="checkbox-4" type="button">鮮食專區
-							</label><span class="list-shop-filter-number">(8)</span> @*待補*@
-						</li>
-						<li>
-							<label class="checkbox-inline">
-								<a v-on:click="ProductType(1)">狗狗專區</a>
-							</label><span class="list-shop-filter-number">({{DogProductsAmount}})</span>
-						</li>
-						<li>
-							<label class="checkbox-inline">
-								<a v-on:click="ProductType(2)">貓咪專區</a>
-							</label><span class="list-shop-filter-number">({{CatProductsAmount}})</span>
-						</li>
-					</ul>
-
+					<!-- Nav tabs-->
+					<div class="nav-tabs-wrap">
+						<ul class="nav nav-tabs">
+							<li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-1-1" data-bs-toggle="tab">理 念</a></li>
+							<li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2" data-bs-toggle="tab">做 法</a></li>
+							<li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-3" data-bs-toggle="tab">回 饋</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="container">
+		<div class="index-header donate-product">
+			<h2>捐贈商品</h2>
+		</div>
+	</div>
+	<div class="row row-50">
+		
 
 
 
-		<div class="col-lg-8 col-xl-9">
+		<div class="col col-12">
 			<div class="row row-30 row-md-50 row-lg-60">
 				<div class="col-12">
 					<div class="row">
@@ -146,7 +153,7 @@
 					<div class="row">
 
 
-						<div class="col col-3 " v-for="item in ShowPageCount" :key="item.product.productId">
+						<div class="col col-2 " v-for="item in ShowPageCount" :key="item.product.productId">
 							<article class="product" style="margin-bottom:30px">
 								<div class="product-body">
 									<div class="product-figure">
@@ -202,12 +209,12 @@
 @section Scripts{
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-	
-	
-	
+
+
+
 	<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
-	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-	<script src="~/js/slick.min.js"></script>
+
+
 	<script>
 		Vue.component('paginate', VuejsPaginate);
 		let app = new Vue({
@@ -215,7 +222,7 @@
 			data: {
 				products: [],
 				showProducts: [],
-				maxCount: 4,
+				maxCount: 6,
 				Page: 1,
 				filterObj: {
 					name: "",
@@ -284,7 +291,7 @@
 					let _this = this;
 					_this.Page = currentPage;
 				},
-				
+
 				//ProductType:function(val){
 				//	let _this = this;
 				//	if (val == 'food') {
@@ -323,20 +330,9 @@
 
 
 
-		$('.productsTitleSlick').slick({
-			dots: true,
-			infinite: true,
-			speed: 300,
-			slidesToShow: 1,
-			adaptiveHeight: true,
-			autoplay: true
-		});
-		$(".slick-prev.slick-arrow").text("");
-		$(".slick-next.slick-arrow").text("");
-
 	</script>
-	
+
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
-	
+
 }
