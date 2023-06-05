@@ -31,6 +31,22 @@
 		.product-figure {
 			min-height: 100px;
 		}
+
+		/*.product::before {
+			background-color:white;
+		}*/
+
+		.desktop .product-button-wrap {
+			background-color: white;
+		}
+
+		/*.aside-title {
+			padding-bottom:32px;
+		}*/
+
+		.search-product{
+			margin-top:-20px;
+		}
 	</style>
 }
 
@@ -58,7 +74,16 @@
 				<div class="aside-item col-12">
 					<h6 class="aside-title">商 品 價 格</h6>
 					<!-- RD Range-->
-					<div class="rd-range" data-min="0" data-max="999" data-min-diff="100" data-start="[66, 635]" data-step="1" data-tooltip="false" data-input=".rd-range-input-value-1" data-input-2=".rd-range-input-value-2"></div>
+					@*<div class="region-slider">
+						<input  type="range"
+							   :min="min"
+							   :max="max"
+							   v-model.number="currentValue" />
+					</div>*@
+					<div class="rd-range" :data-min="min" :data-max="max" :data-min-diff="minDiff" :data-start="start" :data-step="step" :data-tooltip="tooltip">
+						<input v-model="value1" class="rd-range-input-value-1">
+						<input v-model="value2" class="rd-range-input-value-2">
+					</div>
 					
 					@*<div style="margin-top:200px;padding:100px;">
 						<s-region-slider :minValue="300" :maxValue="700" :step="40" @@up="up" @@down="down" @@move="move" />
@@ -118,7 +143,7 @@
 		<div class="col-lg-8 col-xl-9">
 			<div class="row row-30 row-md-50 row-lg-60">
 				<div class="col-12">
-					<div class="row">
+					<div class="row search-product">
 						<!-- 搜尋列-->
 						<div class="col col-6">
 							<form>
@@ -212,6 +237,18 @@
 		Vue.component('paginate', VuejsPaginate);
 		let app = new Vue({
 			el: '#app',
+			props: {
+				min: Number,
+				max: Number,
+				minDiff: Number,
+				start: {
+					type:Array,
+					default:function(){
+					return	[0,0]}
+				},
+				step: 1,
+				tooltip: Boolean
+			},
 			data: {
 				products: [],
 				showProducts: [],
@@ -221,12 +258,16 @@
 					name: "",
 					keyword: "",
 				},
+				value1: null,
+				value2: null,
 
 			},
 			mounted: function () {
 				let _this = this;
-				_this.AllProducts();
-
+				_this.AllProducts();				
+				_this.value1=_this.start[0];
+				_this.value2 = _this.start[1];
+				_this.PriceSlider();
 				//_this.imageData=res.pics
 			},
 			methods: {
@@ -267,7 +308,7 @@
 							_this.showProducts.push(item);
 						}
 					}
-
+					_this.Page=1;
 				},
 				sortBy: function (val) {
 					let _this = this;
@@ -284,7 +325,9 @@
 					let _this = this;
 					_this.Page = currentPage;
 				},
-				
+				PriceSlider:function(){
+
+				},
 				//ProductType:function(val){
 				//	let _this = this;
 				//	if (val == 'food') {
