@@ -242,20 +242,20 @@
 					let _this = this;
 					//var request={};
 					//request.productName=_this.keyword;
-					axios.get(`/api/products/AllProducts`).then(response => {
+					axios.get(`/api/products/DonateProducts`).then(response => {
 						_this.products = _this.showProducts = response.data;
 
 					});
 				},
-				ProductType: function (typeNum) {
-					let _this = this;
-					//var request={};
-					//request.productName=_this.keyword;
-					axios.get(`/api/products/ProductsType?type=${typeNum}`).then(response => {
-						_this.showProducts = response.data;
+				//ProductType: function (typeNum) {
+				//	let _this = this;
+				//	//var request={};
+				//	//request.productName=_this.keyword;
+				//	axios.get(`/api/products/ProductsType?type=${typeNum}`).then(response => {
+				//		_this.showProducts = response.data;
 
-					});
-				},
+				//	});
+				//},
 				AddCart: function (ID) {
 
 					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
@@ -302,18 +302,7 @@
 
 			},
 			computed: {
-				AllProductsAmount: function () {
-					let _this = this;
-					return _this.products.length;
-				},
-				DogProductsAmount: function () {
-					let _this = this;
-					return _this.products.filter((a) => a.type.productypeId == 1).length;
-				},
-				CatProductsAmount: function () {
-					let _this = this;
-					return _this.products.filter((a) => a.type.productypeId == 2).length;
-				},
+				
 				PageCount: function () {
 					let _this = this;
 					return Math.ceil(_this.showProducts.length / _this.maxCount);
