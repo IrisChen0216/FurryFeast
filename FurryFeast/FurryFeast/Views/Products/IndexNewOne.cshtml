@@ -94,8 +94,8 @@
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<input name="input-group-radio" value="checkbox-4" type="button">鮮食專區
-							</label><span class="list-shop-filter-number">(8)</span> @*待補*@
+								<a v-on:click="ProductType(3)">鮮食專區</a>
+							</label><span class="list-shop-filter-number">({{FreshFoodsAmount}})</span> 
 						</li>
 						<li>
 							<label class="checkbox-inline">
@@ -306,6 +306,10 @@
 				CatProductsAmount: function () {
 					let _this = this;
 					return _this.products.filter((a) => a.type.productypeId == 2).length;
+				},
+				FreshFoodsAmount:function(){
+					let _this = this;
+					return _this.products.filter((a) => a.type.productypeId == 3).length;
 				},
 				PageCount: function () {
 					let _this = this;
