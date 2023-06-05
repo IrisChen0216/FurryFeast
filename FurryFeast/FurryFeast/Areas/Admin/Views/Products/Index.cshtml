@@ -56,10 +56,11 @@
 							商品專區
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							<li><button class="dropdown-item" type="button" v-on:click="Products">全部商品</button></li>
-							<li><button class="dropdown-item" type="button">鮮食商品</button></li>
+							<li><button class="dropdown-item" type="button" v-on:click="Products">全部商品</button></li>		
 							<li><button class="dropdown-item" type="button" v-on:click="ProductType(1)">狗狗商品</button></li>
 							<li><button class="dropdown-item" type="button" v-on:click="ProductType(2)">貓咪商品</button></li>
+							<li><button class="dropdown-item" type="button" v-on:click="ProductType(3)">鮮食商品</button></li>
+							<li><button class="dropdown-item" type="button" v-on:click="ProductType(4)">捐贈商品</button></li>
 						</ul>
 					</div>
 					@*<div class="dropdown mx-3 mt-2 col-1">
@@ -227,6 +228,7 @@
 							<option value="1">狗用</option>
 							<option value="2">貓用</option>
 							<option value="3">鮮食</option>
+							<option value="4">捐贈</option>
 						</select>
 					</div>
 					
