@@ -2,6 +2,9 @@
 @{
 	// 取得當前 controller 和 index 名稱, 把 / 去掉, 用在 class="active"
 	var temp = HttpContextAccessor.HttpContext.Request.Path.Value.Replace("/", "");
+	// 選擇庫存管理的手風琴選單也會啟用 class = active
+	// 但是長度少於7會掛掉...
+	var temp1 = temp.Substring(0, 7);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -134,7 +137,9 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white accordionMenu @Html.Raw(temp == "AdminMyStockControlStockArticles" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockArticles">
+					@*選擇庫存管理的手風琴選單也會啟用 class = active
+					但是長度少於7會掛掉...*@
+					<a class="nav-link text-white accordionMenu @Html.Raw(temp1 == "AdminMy" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="MyStockControl" asp-action="StockArticles">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">shopping_cart</i>
 						</div>
