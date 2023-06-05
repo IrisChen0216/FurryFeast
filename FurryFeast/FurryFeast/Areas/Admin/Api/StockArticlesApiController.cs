@@ -3,7 +3,6 @@ using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 
 namespace FurryFeast.Areas.Admin.Api {
     [Route("api/[controller]/[action]")]

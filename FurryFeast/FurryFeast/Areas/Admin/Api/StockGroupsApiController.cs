@@ -50,7 +50,7 @@ namespace FurryFeast.Areas.Admin.Api {
                 GroupsNotes = data.GroupsNotes
             };
 
-            _context.StockGroups?.Add(result);
+            _context.StockGroups.Add(result);
             await _context.SaveChangesAsync();
             return Ok($"Post success, GroupsCode: {data.GroupsCode}.");
         }
@@ -74,16 +74,16 @@ namespace FurryFeast.Areas.Admin.Api {
         }
 
         // 更新一筆資料
-        [HttpPatch("{code}")]
-        public async Task<object> PatchData(string code, [FromBody] StockGroupViewModel data) {
+        [HttpPatch]
+        public async Task<object> PatchData([FromBody] StockGroupViewModel data) {
             if (_context.StockGroups == null) {
                 return NotFound("StockGroups is null");
             }
 
             // 檢查資料是否存在
-            var result = await _context.StockGroups.Where(d => d.GroupsCode == code).FirstOrDefaultAsync();
+            var result = await _context.StockGroups.Where(d => d.GroupsId == data.GroupsId).FirstOrDefaultAsync();
             if (result == null) {
-                return BadRequest($"Patch failed, GroupsCode: {code}.");
+                return BadRequest($"Patch failed, GroupsCode: {data.GroupsCode}.");
             }
 
             var patchOneData = await _context.StockGroups.Where(d => d.GroupsCode == data.GroupsCode).FirstOrDefaultAsync();
@@ -92,7 +92,7 @@ namespace FurryFeast.Areas.Admin.Api {
 			// code 存在但不同筆 = 回傳錯誤, code 重複命名
 			// code 存在且為同一筆 = 更新這一筆資料
 			if (result.GroupsCode != data.GroupsCode && patchOneData != null) {
-                return BadRequest($"Patch duplicate, GroupsCode: {code}.");
+                return BadRequest($"Patch duplicate, GroupsCode: {data.GroupsCode}.");
             }
 
             result.GroupsCode = data.GroupsCode;
@@ -100,7 +100,7 @@ namespace FurryFeast.Areas.Admin.Api {
             result.GroupsNotes = data.GroupsNotes;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok($"Patch success, GroupsCode: {code}.");
+            return Ok($"Patch success, GroupsCode: {data.GroupsCode}.");
         }
     }
 }

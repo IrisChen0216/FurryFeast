@@ -68,7 +68,7 @@ namespace FurryFeast.Areas.Admin.Api {
                 SupplierGroupId = data.SupplierGroupId
             };
 
-            _context.StockSuppliers?.Add(result);
+            _context.StockSuppliers.Add(result);
             await _context.SaveChangesAsync();
             return Ok($"Post success, SuppliersCode: {data.SuppliersCode}.");
         }
@@ -92,16 +92,16 @@ namespace FurryFeast.Areas.Admin.Api {
         }
 
         // 更新一筆資料
-        [HttpPatch("{code}")]
-        public async Task<object> PatchData(string code, [FromBody] StockSupplierViewModel data) {
+        [HttpPatch]
+        public async Task<object> PatchData([FromBody] StockSupplierViewModel data) {
             if (_context.StockSuppliers == null) {
                 return NotFound("StockSuppliers is null");
             }
 
             // 檢查資料是否存在
-            var result = await _context.StockSuppliers.Where(d => d.SuppliersCode == code).FirstOrDefaultAsync();
+            var result = await _context.StockSuppliers.Where(d => d.SuppliersId == data.SuppliersId).FirstOrDefaultAsync();
             if (result == null) {
-                return BadRequest($"Patch failed, SuppliersCode: {code}.");
+                return BadRequest($"Patch failed, SuppliersCode: {data.SuppliersCode}.");
             }
 
             var patchOneData = await _context.StockSuppliers.Where(d => d.SuppliersCode == data.SuppliersCode).FirstOrDefaultAsync();
@@ -110,7 +110,7 @@ namespace FurryFeast.Areas.Admin.Api {
 			// code 存在但不同筆 = 回傳錯誤, code 重複命名
 			// code 存在且為同一筆 = 更新這一筆資料
 			if (result.SuppliersCode != data.SuppliersCode && patchOneData != null) {
-                return BadRequest($"Patch duplicate, SuppliersCode: {code}.");
+                return BadRequest($"Patch duplicate, SuppliersCode: {data.SuppliersCode}.");
             }
 
             result.SuppliersCode = data.SuppliersCode;
@@ -127,7 +127,7 @@ namespace FurryFeast.Areas.Admin.Api {
             result.SupplierGroupId = data.SupplierGroupId;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok($"Patch success, SuppliersCode: {code}.");
+            return Ok($"Patch success, SuppliersCode: {data.SuppliersCode}.");
         }
     }
 }
