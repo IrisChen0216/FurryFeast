@@ -55,19 +55,21 @@ public class MemberApiController : ControllerBase
                 }
             });
         }
-        
-        public object Edit([FromBody]MemberEditDto list)
+
+         [HttpPut]
+        public async Task<IActionResult> Edit([FromBody]MemberEditDto list)
         { 
           var id = User.FindFirstValue("Id");
-          var result = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(id)).FirstOrDefault();
+          var result =  _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(id)).FirstOrDefault();
           result.MemberAdress = list.MemberAdress;
             result.MemberGender = list.MemberGender;
             result.MemberPhone = list.MemberPhone;
             result.MemberEmail = list.MemberEmail;
             result.MemberName = list.MemberName;
             result.MemberBirthday = list.MemberBirthday;
-            _context.SaveChanges();
-            return result;
+        
+           _context.SaveChanges();
+            return NoContent();
 
         }
     }
