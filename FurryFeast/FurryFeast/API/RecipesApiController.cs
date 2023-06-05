@@ -36,8 +36,9 @@ public class RecipesApiController : ControllerBase
                     MsgBoards = x.MsgBoards.Select(mb => new
                     {
                         msgId = mb.MsgId,
-                        recipesId = mb.MsgRecipesId,
                         userId = mb.UserId,
+						userAccount = mb.User.MemberAccount,
+						recipesId = mb.MsgRecipesId,
                         Content = mb.MsgContent,
                         DateTime = mb.MsgDateTime,
                         Active = mb.MsgActive,
@@ -128,23 +129,31 @@ public class RecipesApiController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<string>> AddComment([FromBody] MsgBoardViewModel msgboard)
+    public object AddComment([FromBody] MsgBoardViewModel model)
     {
-        var userId = User.Claims.FirstOrDefault(x => x.Type == "Id")?.Value;
+	    try
+	    {
+		    var userId = _context.Members.FirstOrDefault(x => x.MemberId == model.MsgId);
+		    if (userId == null) return new { success = false, message = "Id not found" };
 
-        var newComment = new MsgBoard
-        {
-            UserId = msgboard.UserId,
-            MsgRecipesId = msgboard.MsgRecipesId,
-            MsgContent = msgboard.MsgContent, //留言內容
-            MsgDateTime = msgboard.MsgDateTime, //時間
-            MsgActive = msgboard.MsgActive //狀態	
-        };
-        _context.Add(newComment);
-        await _context.SaveChangesAsync();
-        return "success";
+		    var newComment = new MsgBoard
+		    {
+			    MsgId = model.MsgId,
+			    MsgRecipesId = model.MsgRecipesId,
+			    MsgContent = model.MsgContent, //留言內容
+			    MsgDateTime = model.MsgDateTime, //時間
+			    MsgActive = model.MsgActive //狀態	
+		    };
+		    _context.Add(newComment);
+		    _context.SaveChanges();
+		    return new { success = true, message = "Add Comment successfully" };
 
-    }
+		}
+		catch (Exception e)
+		{
+			return new { success = false, message = e.Message };
+		}
+	}
 
     /// <summary>
     /// Edit Update
