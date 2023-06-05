@@ -133,12 +133,12 @@ public class RecipesApiController : ControllerBase
     {
 	    try
 	    {
-		    var userId = _context.Members.FirstOrDefault(x => x.MemberId == model.MsgId);
-		    if (userId == null) return new { success = false, message = "Id not found" };
+		    //var userId = _context.Members.FirstOrDefault(x => x.MemberId == model.MsgId);
+		    //if (userId == null) return new { success = false, message = "Id not found" };
 
 		    var newComment = new MsgBoard
 		    {
-			    MsgId = model.MsgId,
+			    //MsgId = model.MsgId,
 			    MsgRecipesId = model.MsgRecipesId,
 			    MsgContent = model.MsgContent, //留言內容
 			    MsgDateTime = model.MsgDateTime, //時間
@@ -155,12 +155,40 @@ public class RecipesApiController : ControllerBase
 		}
 	}
 
-    /// <summary>
-    /// Edit Update
-    /// </summary>
-    /// <param name="editedMsgRecord"></param>
-    /// <returns></returns>
-    [HttpPost]
+    public object SetActive([FromBody] MsgBoardViewModel model)
+    {
+	    try
+	    {
+		    //var msgid = _context.MsgBoards.FirstOrDefault(x => x.MsgId == model.MsgId);
+		    //if (msgid == null) return new { success = false, message = "Id not found" };
+
+		    var setMsgActive = new MsgBoard
+		    {
+                //UserId = model.UserId,
+                //MsgId = model.MsgId,
+                MsgRecipesId = model.MsgRecipesId,
+			    MsgContent = model.MsgContent, //留言內容
+			    MsgDateTime = model.MsgDateTime, //時間
+			    MsgActive = model.MsgActive //狀態	
+		    };
+		    _context.Add(setMsgActive);
+		    _context.SaveChanges();
+		    return new { success = true, message = "setActive successfully" };
+
+	    }
+	    catch (Exception e)
+	    {
+		    return new { success = false, message = e.InnerException.Message };
+	    }
+    }
+
+
+	/// <summary>
+	/// Edit Update
+	/// </summary>
+	/// <param name="editedMsgRecord"></param>
+	/// <returns></returns>
+	[HttpPost]
     [Authorize]
     public async Task<ActionResult<string>> EditedMsg([FromBody] EditedMsgRecordViewModel editedMsgRecord)
     {
