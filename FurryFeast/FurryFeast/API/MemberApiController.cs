@@ -23,22 +23,22 @@ public class MemberApiController : ControllerBase
         }
 
 
-		public object All()
-		{
+		//public object All()
+		//{
 			
-			return _context.Members.Select(x => new
-			{
-				member = new
-				{
-					x.MemberEmail,
-					x.MemberPhone,
-					x.MemberAdress,
-					x.MemberBirthday,
-					x.MemberGender,
-					x.MemberName
-				}
-			});
-		}
+		//	return _context.Members.Select(x => new
+		//	{
+		//		member = new
+		//		{
+		//			x.MemberEmail,
+		//			x.MemberPhone,
+		//			x.MemberAdress,
+		//			x.MemberBirthday,
+		//			x.MemberGender,
+		//			x.MemberName
+		//		}
+		//	});
+		//}
 		public object One()
         {
             var id = User.FindFirstValue("Id");

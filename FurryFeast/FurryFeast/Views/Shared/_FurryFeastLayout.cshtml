@@ -137,13 +137,20 @@
                         <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCart" method="post">
                             <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
                         </form>
-                        <form id="Login" asp-controller="Member" asp-action="">
-                            <button id="list1" class="btn btn-dark" controller="Member" action="Login"><i class="bi bi-person-circle"></i></button>
+                        <form >
+                            <button id="app" class="btn btn-dark" @@mouseenter="showDropdown" @@mouseleave="hideDropdown">
+                                <i class="bi bi-person-circle"></i>
+                               </button>
+                            <ul id="app" v-if="showOptions">
+                                   <li> <a asp-controller="Member" asp-action="UpdateMemberData">會員資料</a></li>
+                                   <li> <a asp-controller="Member" asp-action="UpdateMemberData">我的訂單</a></li>
+                                   <li><a asp-controller="Member" asp-action="UpdateMemberData">我的課程</a></li>
+                                   <li><a asp-controller="Member" asp-action="UpdateMemberData">修改會員資料及密碼</a></li>
+                               </ul>
                         </form>
                         <form id="Logout" asp-controller="Member" asp-action="Logout">
-                            <button id="btn" class="btn btn-dark" controller="Member" action="Logout"><i class="bi bi-door-open"></i></button>
+                            <button id="list1" class="btn btn-dark" controller="Member" action="Logout"> <i class="bi bi-door-open"></i></button>
                         </form>
-
                     </nav>
                 }
                 else
@@ -242,8 +249,20 @@
 </html>
 @section Scripts{
     <script>
-       var person = document.getElementById("list1")
-       list1.addEventListener(""
+        var app = new Vue({
+            el:"#app",
+            data:{
+                showOptions:false
+            },
+            methods:{
+                showDropdown:{
+                    this.showOptions:true;
+                },
+                hideDropdown:{
+                    this.showOptiions:false;
+                }
+            }
+        })
 
     </script>
 }

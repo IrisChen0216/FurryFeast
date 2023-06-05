@@ -1,5 +1,4 @@
-﻿
-@section Style{
+﻿@section Style{
 
 }
 
@@ -20,7 +19,7 @@
 	</div>
 </div>
 
-	<div id="app" class="pagination">
+<div id="app" class="">
 	<table>
 		<tr>
 			<th>會員編號</th>
@@ -52,7 +51,7 @@
 			  :prev-class-link="'page-link'"
 			  :next-class="'page-item'"
 			  :next-class-link="'page-link'"
-			  :container-class="'pagination'">
+			  :container-class="'className'">
 	</paginate>
 </div>
 
@@ -62,32 +61,32 @@
 
 	<script>
 		Vue.component('paginate', VuejsPaginate)
-	let app = new Vue({
-		el:'#app',
-		data:{
-			members:[],
+		let app = new Vue({
+			el: '#app',
+			data: {
+				members: [],
 
-		},
-		mounted:function(){
-			let self = this;
-			self.getMember();
-			
-		},
-		methods:{
-			getMember:function(){
+			},
+			mounted: function () {
 				let self = this;
-				axios.get('/api/member/all').then(res => self.members = res.data)
-			},
-			ChangePage:function(currentpage){
-				console.log(currentpage)
-			},
-		},
-		computed:{
-			PageCount:function(){
-				return Math.ceil(this.members.length/5);
-			}
-		}
+				self.getMember();
 
-	})
+			},
+			methods: {
+				getMember: function () {
+					let self = this;
+					axios.get('/api/member/all').then(res => self.members = res.data)
+				},
+				ChangePage: function (currentpage) {
+					console.log(currentpage)
+				},
+			},
+			computed: {
+				PageCount: function () {
+					return Math.ceil(this.members.length / 5);
+				}
+			}
+
+		})
 	</script>
 }

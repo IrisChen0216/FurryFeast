@@ -76,7 +76,7 @@
 					memberAdress:"",
 					memberGender:0,
 					memberEmail:"",
-					memberBirthday:"" ,
+					memberBirthday: new Date().toISOString(),
 				},
 				//EditPassword:{
 				//	memberPassord:""
@@ -96,7 +96,7 @@
 						self.EditMember.memberAdress= "",
 						self.EditMember.memberGender= 0,
 						self.EditMember.memberEmail="",
-						self.EditMember.memberBirthday ="";
+						self.EditMember.memberBirthday = new Date().toISOString();
 					})
 				},
 				EditComfirm:function(item){
