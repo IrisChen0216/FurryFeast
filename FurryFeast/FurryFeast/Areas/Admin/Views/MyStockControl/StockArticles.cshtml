@@ -16,6 +16,10 @@
 			color: #000000;
 			cursor: pointer;
 		}
+		/*選中的 tr*/
+		.trColor {
+			background-color: #DFE7F2;
+		}
 		/*下拉選單選中時外框*/
 		.form-select:focus {
 			border-color: #d2d6da;
@@ -73,7 +77,8 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr class="tableHover" v-for="(item,index) in showData" v-bind:key="item.articlesId" v-on:click="clickArticle(item)">
+										@*給選中的 tr 上個底色*@
+										<tr class="tableHover" v-for="item in showData" v-bind:key="item.articlesId" v-on:click="clickArticle(item)" v-bind:class="{trColor : item.articlesId == choseTableData.articlesId}">
 											<td class="align-middle text-center">
 												<span class="text-secondary text-xs font-weight-bold">{{item.articlesCode}}</span>
 											</td>
