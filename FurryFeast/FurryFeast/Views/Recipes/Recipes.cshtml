@@ -20,7 +20,7 @@
 	<div class="row m-4">
 		<div class="col-md-3  pt-4">
 			<ul id="recipesList" class="nav justify-content-center">
-				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item)">{{item.name}}</li>
+				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item.recipesId)">{{item.name}}</li>
 			</ul>
 		</div>
 
@@ -61,13 +61,15 @@
 					<template v-if="MemberData!=null">
 						<form class="input-group">
 							<textarea class="form-control" style="border-radius: 6px; margin-right: 9px;" v-model="commentContent" required></textarea>
-							<button type="submit" style="border-radius: 6px;" class="btn btn-primary" v-on:click="addComment">送出</button>
+							<button type="button" style="border-radius: 6px;" class="btn btn-primary" v-on:click="addComment">送出</button>
 						</form>
 					</template>
 					<template v-else>
 						<div class="border border-1 p-4 my-2">
-							<p class="mb-2">請先登入會員</p>
-							<a href="/Member/Login" class="nBtn">登入</a>
+							<form>
+								<p class="mb-2">請先登入會員</p>
+								<button type="button" v-on:click="submitForm" class="nBtn">登入</button>
+							</form>
 						</div>
 					</template>
 				</template>
@@ -127,13 +129,14 @@
 {
 	<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/plugin/relativeTime.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 
 	<script>
 
 		let app = new Vue({
 			el: '#app',
 			data: {
-				imageKeyword:"",
 				MemberData: [],
 				editedMsg: [],
 				recipes: [],
@@ -147,12 +150,36 @@
 				dateTime: "",
 				showRecipeDetails: false
 			},
-			mounted() {
+			mounted: async function () {
 				const _this = this;
-				_this.allRecipes();
+				await _this.allRecipes();
 				_this.getUserData();
+
+
+				let params = new URLSearchParams(window.location.search);
+				let returnUrl = params.get('returnUrl');
+				let typeID = params.get('typeID');
+				let recipeID = params.get('recipeID');
+
+				if (typeID != null && recipeID != null) {
+					_this.chooseType(typeID);
+					_this.getRecipe(recipeID);
+				}
 			},
 			methods: {
+				submitForm: function () {
+					let _this = this;
+					let typeID = _this.selectedRecipe.petTypesId;
+					let recipeID = _this.selectedRecipeId;
+					let URL = window.location.href;
+
+					let returnUrl = encodeURIComponent(URL) + '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);
+
+					// 將 returnUrl 作為參數傳遞到登入頁面
+					window.location.href = '/Member/login?returnUrl=' + returnUrl;
+
+				},
+
 				getUserData: function() {
 					const _this = this;
 					axios('/api/recipes/GetUserData').then(response => {
@@ -169,7 +196,7 @@
 							relativeTime: {
 								future: "in %s",
 								past: "%s前",
-								s: '幾秒前',
+								s: '幾秒',
 								m: "1 分",
 								mm: "%d 分",
 								h: "an 小時",
@@ -187,10 +214,10 @@
 					return dayjs(item.dateTime).fromNow();
 				},
 
-				allRecipes: function() {
+				allRecipes: async function() {
 					const _this = this;
 					const request = {};
-					axios.get('/api/recipes/AllData', request).then(response => {
+					await axios.get('/api/recipes/AllData', request).then(response => {
 						_this.recipes = response.data;
 						const recipesData = [];
 
@@ -211,7 +238,7 @@
 					});
 				},
 
-				chooseType: function(typeNum) {
+				chooseType:async  function(typeNum) {
 
 					const _this = this;
 					_this.filteredRecipe = [];
@@ -223,9 +250,9 @@
 						}
 					}
 					if (typeNum == 1) {
-						_this.getRecipe(this.filteredRecipe[0]);
+						_this.getRecipe(this.filteredRecipe[0].recipesId);
 					} else {
-						_this.getRecipe(this.filteredRecipe[0]);
+						_this.getRecipe(this.filteredRecipe[0].recipesId);
 					}
 				},
 
@@ -233,12 +260,14 @@
 					return item.split(symbol);
 				},
 
-				getRecipe: function(item) {
+				getRecipe: function (recipesId) {
 					const _this = this;
-					_this.selectedRecipeId = item.recipesId;
-					_this.selectedRecipe = item;
-					_this.selectedRecipeData = _this.splitArr(item.data, "/");
-					_this.selectedRecipeMethod = _this.splitArr(item.method, "/");
+					var selectedItem = _this.filteredRecipe.find(x => x.recipesId == recipesId);
+					console.log(selectedItem);
+					_this.selectedRecipeId = selectedItem.recipesId;
+					_this.selectedRecipe = selectedItem;
+					_this.selectedRecipeData = _this.splitArr(selectedItem.data, "/");
+					_this.selectedRecipeMethod = _this.splitArr(selectedItem.method, "/");
 					_this.showRecipeDetails = true;
 				},
 
@@ -246,21 +275,23 @@
 				addComment: function() {
 					const _this = this;
 
-					const msgboard = {
-						//UserId: _this.MemberData.memberId,
+					const msgBoard = {
+
+						UserId: _this.MemberData.memberId,
 						MsgRecipesId: _this.selectedRecipe.recipesId,
 						MsgContent: _this.commentContent, //留言內容
-						MsgDateTime: new Date, //時間
+						MsgDateTime: moment().format(), //時間
 						MsgActive: true //狀態
 					};
 
-					axios.post('/api/recipes/AddComment', msgboard)
+					console.log(msgBoard);
+					axios.post('/api/recipes/AddComment', msgBoard)
 						.then(response => {
 							console.log(response);
 							_this.addCommentSuccess(); // success feedback
 							_this.commentContent = ''; // empty content
 						});
-
+						
 				},
 				//success
 				addCommentSuccess: function() {
@@ -302,8 +333,8 @@
 					const editedMsgRecord = {
 						MsgId: item.msgId,
 						EditedText: _this.editedContent,
-						Msg: _this.commentContent
-					};
+						EditedTime: moment().format()
+				};
 					axios.post('/api/recipes/EditedMsg', editedMsgRecord)
 						.then(response => {
 							this.editCommentSuccess(response); // success feedback
@@ -319,18 +350,15 @@
 
 				// delete in Client only
 				deleteComment: function (item) {
-					//let _this = this;
 					item.active = false;
 
 					const msgActive = {
 
-						//UserId: _this.MemberData.memberId,
 						MsgId: item.msgId,
-						MsgRecipesId: item.recipesId,
-						MsgContent: item.content, //留言內容
-						MsgDateTime: item.dateTime, //時間
 						MsgActive: item.active //狀態
+
 					};
+					console.log(msgActive);
 					axios.post('/api/recipes/SetActive', msgActive)
 						.then(response => {
 							console.log(response);

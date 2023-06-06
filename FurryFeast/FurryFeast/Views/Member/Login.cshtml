@@ -16,7 +16,7 @@
 </div>
 
 <form action="/Member/Login" method="post">
-	<div class="Login">
+	<div id="app" class="Login">
 
 		<div>
 			<label>帳號</label>
@@ -26,8 +26,9 @@
 			<label>密碼</label>
 			<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord">
 		</div>
-			<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
-			<button class="button button-lg button-primary button-zakaria"  type="submit">登入</button>
+		<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
+		<a v-on:click="loginSuccess">button</a>
+		<button class="button button-lg button-primary button-zakaria" v-on:click="loginSuccess" type="submit">登入</button>
 		</div>
 </form>
 		<div>
@@ -56,6 +57,34 @@
 		//data - shape="rectangular"
 		//data - logo_alignment="left" >
 		//</div>
+		let app = new Vue({
+			el: '#app',
+			data: {
+				returnUrl: "", 
+				typeID:"",
+				recipeID:""
+			},
+			mounted() { 
+				const params = new URLSearchParams(window.location.search);
+  
+				// 獲取 returnUrl、typeID 和 recipeID 參數的值
+				returnUrl = params.get('returnUrl');
+				typeID = params.get('typeID');
+				recipeID = params.get('recipeID');
+				// 在控制台上輸出 returnUrl 的值
+				console.log(returnUrl);
+				console.log(typeID);
+				console.log(recipeID); 
+			},
+			methods : { 
+				loginSuccess: function() {
+					this.returnUrl = encodeURIComponent(returnUrl) + '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);;
+					window.location.href = '/Recipes/Recipes?returnUrl=' + this.returnUrl;
+
+				}
+			}
+		})
+
 	</script>
 	}
 

@@ -137,9 +137,9 @@ public class RecipesApiController : ControllerBase
 		    //if (userId == null) return new { success = false, message = "Id not found" };
 
 		    var newComment = new MsgBoard
-		    {
-			    //MsgId = model.MsgId,
-			    MsgRecipesId = model.MsgRecipesId,
+			{
+				UserId = model.UserId,
+				MsgRecipesId = model.MsgRecipesId,
 			    MsgContent = model.MsgContent, //留言內容
 			    MsgDateTime = model.MsgDateTime, //時間
 			    MsgActive = model.MsgActive //狀態	
@@ -155,39 +155,29 @@ public class RecipesApiController : ControllerBase
 		}
 	}
 
-    public object SetActive([FromBody] MsgBoardViewModel model)
+    // delete in Client Only
+    public object SetActive([FromBody] DeleteMsgViewModel model)
     {
 	    try
 	    {
-		    //var msgid = _context.MsgBoards.FirstOrDefault(x => x.MsgId == model.MsgId);
-		    //if (msgid == null) return new { success = false, message = "Id not found" };
+            var msgId = _context.MsgBoards.FirstOrDefault(x => x.MsgId == model.MsgId);
+            if (msgId == null) return new { success = false, message = "Id not found" };
 
-		    var setMsgActive = new MsgBoard
-		    {
-                //UserId = model.UserId,
-                //MsgId = model.MsgId,
-                MsgRecipesId = model.MsgRecipesId,
-			    MsgContent = model.MsgContent, //留言內容
-			    MsgDateTime = model.MsgDateTime, //時間
-			    MsgActive = model.MsgActive //狀態	
-		    };
-		    _context.Add(setMsgActive);
+            msgId.MsgActive = model.MsgActive; //狀態	
+		    
+		    //_context.Update(setMsgActive);
 		    _context.SaveChanges();
 		    return new { success = true, message = "setActive successfully" };
 
 	    }
 	    catch (Exception e)
 	    {
-		    return new { success = false, message = e.InnerException.Message };
+		    return new { success = false, message = e.Message };
 	    }
     }
 
-
-	/// <summary>
-	/// Edit Update
-	/// </summary>
-	/// <param name="editedMsgRecord"></param>
-	/// <returns></returns>
+	
+	//edit
 	[HttpPost]
     [Authorize]
     public async Task<ActionResult<string>> EditedMsg([FromBody] EditedMsgRecordViewModel editedMsgRecord)
@@ -197,7 +187,7 @@ public class RecipesApiController : ControllerBase
             MsgId = editedMsgRecord.MsgId,
             EditedText = editedMsgRecord.EditedText,
             EditedTime = editedMsgRecord.EditedTime
-        };
+		};
         _context.Add(editedComment);
         await _context.SaveChangesAsync();
         return "success";
