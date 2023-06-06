@@ -35,6 +35,34 @@
 			/*margin-bottom: 1rem;*/
 			margin-top: 0.4rem;
 		}
+		/*選擇檔案外框和背景色*/
+		.form-control::file-selector-button {
+			padding: 0.375rem 0.75rem;
+			margin: -0.375rem -0.75rem;
+			-webkit-margin-end: 0.75rem;
+			margin-inline-end: 0.75rem;
+			color: #212529;
+			background-color: #e9ecef;
+			pointer-events: none;
+			border-color: inherit;
+			border-style: solid;
+			border-width: 0;
+			border-inline-end-width: 1px;
+			border-radius: 0;
+			transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+		}
+
+		.form-control:focus {
+			color: #212529;
+			background-color: #fff;
+			border-color: #86b7fe;
+			outline: 0;
+			box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+		}
+
+		.form-control {
+			border: 1px solid #d2d6da;
+		}
 	</style>
 }
 
@@ -112,7 +140,17 @@
 									</div>
 								</div>
 
-								<img v-bind:src="'data:image/png;base64,'+ pic" width="250" />
+								@*上傳和預覽圖片*@
+								<div class="row">
+									<div class="col-md-8">
+										<div class="mt-2">
+											<img class="img-fluid" v-bind:src="'data:image/png;base64,'+ choseTableData.imagesBitmapFile" />
+											<div class="mt-2">
+												<input class="form-control" type="file" v-on:change="imgPreview($event)">
+											</div>
+										</div>
+									</div>
+								</div>
 
 								<div class="row">
 									<div class="btnState  mt-2 pr-10 col-3">
@@ -271,6 +309,16 @@
 						});
 					});
 					this.StockImages();
+				},
+				// 上傳和預覽圖片
+				imgPreview: function (event) {
+					let _this = this;
+					let newImg = event.target.files[0];
+					let reader = new FileReader();
+					reader.onload = (event) => {
+						_this.$forceUpdate();
+					};
+					reader.readAsDataURL(newImg);
 				},
 			},
 		});
