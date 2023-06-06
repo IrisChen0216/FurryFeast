@@ -78,12 +78,12 @@
 									</thead>
 									<tbody>
 										@*給選中的 tr 上個底色*@
-										<tr class="tableHover" v-for="item in showData" v-bind:key="item.measureUnitsId" v-on:click="clickArticle(item)" v-bind:class="{trColor : item.measureUnitsId == choseTableData.measureUnitsId}">
+										<tr class="tableHover" v-for="item in showData" v-bind:key="item.warehouseGroupsId" v-on:click="clickArticle(item)" v-bind:class="{trColor : item.warehouseGroupsId == choseTableData.warehouseGroupsId}">
 											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitsCode}}</span>
+												<span class="text-secondary text-xs font-weight-bold">{{item.warehouseGroupsCode}}</span>
 											</td>
 											<td class="align-middle text-center">
-												<span class="text-secondary text-xs font-weight-bold">{{item.measureUnitsDescription}}</span>
+												<span class="text-secondary text-xs font-weight-bold">{{item.warehouseGroupsDescription}}</span>
 											</td>
 										</tr>
 									</tbody>
@@ -101,13 +101,13 @@
 										@*判斷點選某筆 table 資料時加上 class outline 效果*@
 										<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
 											<label class="form-label">編號</label>
-											<input type="text" class="form-control" v-model="choseTableData.measureUnitsCode">
+											<input type="text" class="form-control" v-model="choseTableData.warehouseGroupsCode">
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
 											<label class="form-label">描述</label>
-											<input type="text" class="form-control" v-model="choseTableData.measureUnitsDescription">
+											<input type="text" class="form-control" v-model="choseTableData.warehouseGroupsDescription">
 										</div>
 									</div>
 								</div>
@@ -134,37 +134,37 @@
 			el: '#app',
 			data: {
 				Source: {
-					StockMeasureUnitsData: [],
+					StockWarehouseGroupsData: [],
 				},
 				keyWord: "",
 				showData: [],
 				choseTableData: {
-					"measureUnitsCode": "",
-					"measureUnitsDescription": "",
-					"measureUnitsId": 0,
+					"warehouseGroupsCode": "",
+					"warehouseGroupsDescription": "",
+					"warehouseGroupsId": 0,
 				},
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
 			},
 			mounted: function () {
-				this.StockMeasureUnits();
+				this.StockWarehouseGroups();
 			},
 			computed: {
 
 			},
 			methods: {
-				StockMeasureUnits: function () {
+				StockWarehouseGroups: function () {
 					let _this = this;
-					axios.get(`/api/StockMeasureUnitsApi/GetAll`).then(response => {
-						_this.Source.StockMeasureUnitsData = response.data;
-						_this.showData = _this.Source.StockMeasureUnitsData;
+					axios.get(`/api/StockWarehouseGroupsApi/GetAll`).then(response => {
+						_this.Source.StockWarehouseGroupsData = response.data;
+						_this.showData = _this.Source.StockWarehouseGroupsData;
 					});
 				},
 				// 搜尋產品
 				productFilter: function () {
 					let _this = this;
-					this.showData = this.Source.StockMeasureUnitsData.filter(data => data.measureUnitsCode.includes(_this.keyWord) || data.measureUnitsDescription.includes(_this.keyWord));
+					this.showData = this.Source.StockWarehouseGroupsData.filter(data => data.warehouseGroupsCode.includes(_this.keyWord) || data.warehouseGroupsDescription.includes(_this.keyWord));
 				},
 				// 選擇產品 做深度拷貝 先轉成字串再轉回JSON 避免右邊資料影響左邊
 				clickArticle: function (data) {
@@ -174,17 +174,17 @@
 				// 清除資料
 				cleanData: function () {
 					this.choseTableData = {
-						"measureUnitsCode": "",
-						"measureUnitsDescription": "",
-						"measureUnitsId": 0,
+						"warehouseGroupsCode": "",
+						"warehouseGroupsDescription": "",
+						"warehouseGroupsId": 0,
 					};
 					this.flag_classOutline = false;
 				},
 				// 新增資料 請求改成同步
 				insertData: async function () {
 					let _this = this;
-					this.choseTableData.measureUnitsId = 0;
-					await axios.post(`/api/StockMeasureUnitsApi/PostData`, _this.choseTableData).then(response => {
+					this.choseTableData.warehouseGroupsId = 0;
+					await axios.post(`/api/StockWarehouseGroupsApi/PostData`, _this.choseTableData).then(response => {
 						Swal.fire({
 							title: `新增成功!`,
 							text: response.data,
@@ -201,14 +201,14 @@
 							confirmButtonText: `確認`,
 						});
 					});
-					this.StockMeasureUnits();
+					this.StockWarehouseGroups();
 					this.cleanData();
 				},
 				// 刪除確認
 				deleteCheck: function () {
 					Swal.fire({
 						title: `確認刪除?`,
-						text: `編號: ${this.choseTableData.measureUnitsCode}, 描述: ${this.choseTableData.measureUnitsDescription}.`,
+						text: `編號: ${this.choseTableData.warehouseGroupsCode}, 描述: ${this.choseTableData.warehouseGroupsDescription}.`,
 						icon: 'warning',
 						showCancelButton: true,
 						confirmButtonColor: '#3085d6',
@@ -224,7 +224,7 @@
 				// 刪除資料 請求改成同步
 				deleteData: async function () {
 					let _this = this;
-					await axios.delete(`/api/StockMeasureUnitsApi/DeleteData/${this.choseTableData.measureUnitsCode}`).then(response => {
+					await axios.delete(`/api/StockWarehouseGroupsApi/DeleteData/${this.choseTableData.warehouseGroupsCode}`).then(response => {
 						Swal.fire({
 							title: `刪除成功!`,
 							text: response.data,
@@ -241,13 +241,13 @@
 							confirmButtonText: `確認`,
 						});
 					});
-					this.StockMeasureUnits();
+					this.StockWarehouseGroups();
 					this.cleanData();
 				},
 				// 更新資料 請求改成同步
 				patchData: async function () {
 					let _this = this;
-					await axios.patch(`/api/StockMeasureUnitsApi/PatchData`, _this.choseTableData).then(response => {
+					await axios.patch(`/api/StockWarehouseGroupsApi/PatchData`, _this.choseTableData).then(response => {
 						Swal.fire({
 							title: `更新成功!`,
 							text: response.data,
@@ -264,7 +264,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
-					this.StockMeasureUnits();
+					this.StockWarehouseGroups();
 				},
 			},
 		});
