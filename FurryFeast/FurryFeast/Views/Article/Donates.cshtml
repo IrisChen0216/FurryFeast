@@ -147,7 +147,8 @@
             <div class="donate-goal">目標 NT$ @Model.DogDonateTotal</div>
             <div class="donate-current">目前 NT$ @Model.DogDonateMoney</div>
             <div class="donate-people">捐贈人數 @Model.DogDonatePeople 人</div>
-            <button class="donate-btn">我要捐贈</button>
+                @Html.ActionLink("我要捐贈", "Donate", "Products", null, new { @class = "donate-btn" })
+
         </div>
     </div>
     <div class="donate-item">
@@ -169,7 +170,8 @@
             <div class="donate-goal">目標 NT$ @Model.CatDonateTotal</div>
             <div class="donate-current">目前 NT$ @Model.CatDonateMoney</div>
             <div class="donate-people">捐贈人數 @Model.CatDonatePeople 人</div>
-            <button class="donate-btn">我要捐贈</button>
+                @Html.ActionLink("我要捐贈", "Donate", "Products", null, new { @class = "donate-btn" })
+
         </div>
     </div>
 </div>
