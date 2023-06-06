@@ -2,4 +2,278 @@
 	ViewData["Title"] = "StockGroups";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-物品類別
+
+@section Style{
+	<style>
+		/*固定 table 高度*/
+		.table-responsive {
+			overflow: auto;
+			height: 74.2vh;
+		}
+		/*選擇 table 效果*/
+		.tableHover:hover {
+			background-color: #DFE7F2;
+			color: #000000;
+			cursor: pointer;
+		}
+		/*選中的 tr*/
+		.trColor {
+			background-color: #DFE7F2;
+		}
+		/*下拉選單選中時外框*/
+		.form-select:focus {
+			border-color: #d2d6da;
+			outline: 0;
+			box-shadow: none;
+		}
+
+		.form-select {
+			padding-left: 10px;
+		}
+		/*產品上架下架位置調整*/
+		.btnMargonTop {
+			/*margin-bottom: 1rem;*/
+			margin-top: 0.4rem;
+		}
+	</style>
+}
+
+<div class="container-fluid" id="app">
+	<div class="row">
+		<div class="col-12">
+			<div class="card my-4">
+
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
+						<h6 class="text-white text-capitalize ps-3">物品類別</h6>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="btnState mx-3 mt-2 pr-10 col-3">
+						<button class="btn bg-gradient-info  mb-0 toast-btn" v-on:click="insertData">新增</button>
+						<button class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="deleteCheck">刪除</button>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-2">
+						<div class="card-body px-0 pb-2">
+							<div class="table-responsive p-0">
+
+								@*搜尋產品*@
+								<div class="mx-md-2 mt-2 d-flex align-items-center">
+									<div class="input-group input-group-outline">
+										<label class="form-label">搜尋編號或名稱...</label>
+										<input type="text" class="form-control" v-model="keyWord" v-on:keyup="productFilter">
+									</div>
+								</div>
+
+								<table class="table align-items-center mb-0 strap">
+									<thead>
+										<tr>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
+											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">名稱</th>
+										</tr>
+									</thead>
+									<tbody>
+										@*給選中的 tr 上個底色*@
+										<tr class="tableHover" v-for="item in showData" v-bind:key="item.groupsId" v-on:click="clickArticle(item)" v-bind:class="{trColor : item.groupsId == choseTableData.groupsId}">
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.groupsCode}}</span>
+											</td>
+											<td class="align-middle text-center">
+												<span class="text-secondary text-xs font-weight-bold">{{item.groupsDescription}}</span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-10">
+						<div class="card-body px-0 pb-2">
+							<div class="table-responsive p-3">
+
+								<div class="row">
+									<div class="col-md-4">
+										@*判斷點選某筆 table 資料時加上 class outline 效果*@
+										<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
+											<label class="form-label">編號</label>
+											<input type="text" class="form-control" v-model="choseTableData.groupsCode">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
+											<label class="form-label">描述</label>
+											<input type="text" class="form-control" v-model="choseTableData.groupsDescription">
+										</div>
+									</div>
+								</div>
+
+								<div v-bind:class="flag_classOutline ? classOutlineShow : classOutlineOff">
+									<label class="form-label">備註</label>
+									<input type="text" class="form-control" v-model="choseTableData.groupsNotes">
+								</div>
+
+								<div class="row">
+									<div class="btnState  mt-2 pr-10 col-3">
+										<button class="btn bg-gradient-success  mb-0 toast-btn" v-on:click="patchData">更新</button>
+										<button class="btn bg-gradient-warning  mb-0 toast-btn" v-on:click="cleanData">清除</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+
+		let app = new Vue({
+			el: '#app',
+			data: {
+				Source: {
+					StockGroupsData: [],
+				},
+				keyWord: "",
+				showData: [],
+				choseTableData: {
+					"groupsCode": "",
+					"groupsDescription": "",
+					"groupsId": 0,
+					"groupsNotes": "",
+				},
+				flag_classOutline: false,
+				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
+				classOutlineOff: "input-group input-group-outline mt-2",
+			},
+			mounted: function () {
+				this.StockGroups();
+			},
+			computed: {
+
+			},
+			methods: {
+				StockGroups: function () {
+					let _this = this;
+					axios.get(`/api/StockGroupsApi/GetAll`).then(response => {
+						_this.Source.StockGroupsData = response.data;
+						_this.showData = _this.Source.StockGroupsData;
+					});
+				},
+				// 搜尋產品
+				productFilter: function () {
+					let _this = this;
+					this.showData = this.Source.StockGroupsData.filter(data => data.groupsCode.includes(_this.keyWord) || data.groupsDescription.includes(_this.keyWord));
+				},
+				// 選擇產品 做深度拷貝 先轉成字串再轉回JSON 避免右邊資料影響左邊
+				clickArticle: function (data) {
+					this.choseTableData = JSON.parse(JSON.stringify(data));
+					this.flag_classOutline = true;
+				},
+				// 清除資料
+				cleanData: function () {
+					this.choseTableData = {
+						"groupsCode": "",
+						"groupsDescription": "",
+						"groupsId": 0,
+						"groupsNotes": "",
+					};
+					this.flag_classOutline = false;
+				},
+				// 新增資料 請求改成同步
+				insertData: async function () {
+					let _this = this;
+					this.choseTableData.groupsId = 0;
+					await axios.post(`/api/StockGroupsApi/PostData`, _this.choseTableData).then(response => {
+						Swal.fire({
+							title: `新增成功!`,
+							text: response.data,
+							icon: 'success',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						});
+					}).catch(error => {
+						Swal.fire({
+							title: `錯誤!`,
+							text: error.response.data,
+							icon: 'error',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						});
+					});
+					this.StockGroups();
+					this.cleanData();
+				},
+				// 刪除確認
+				deleteCheck: function () {
+					Swal.fire({
+						title: `確認刪除?`,
+						text: `編號: ${this.choseTableData.groupsCode}, 描述: ${this.choseTableData.groupsDescription}.`,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: `刪除`,
+						cancelButtonText: '取消',
+					}).then((result) => {
+						if (result.isConfirmed) {
+							this.deleteData();
+						}
+					});
+				},
+				// 刪除資料 請求改成同步
+				deleteData: async function () {
+					let _this = this;
+					await axios.delete(`/api/StockGroupsApi/DeleteData/${this.choseTableData.groupsCode}`).then(response => {
+						Swal.fire({
+							title: `刪除成功!`,
+							text: response.data,
+							icon: 'success',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						})
+					}).catch(error => {
+						Swal.fire({
+							title: `錯誤!`,
+							text: error.response.data,
+							icon: 'error',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						});
+					});
+					this.StockGroups();
+					this.cleanData();
+				},
+				// 更新資料 請求改成同步
+				patchData: async function () {
+					let _this = this;
+					await axios.patch(`/api/StockGroupsApi/PatchData`, _this.choseTableData).then(response => {
+						Swal.fire({
+							title: `更新成功!`,
+							text: response.data,
+							icon: 'success',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						});
+					}).catch(error => {
+						Swal.fire({
+							title: `錯誤!`,
+							text: error.response.data,
+							icon: 'error',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						});
+					});
+					this.StockGroups();
+				},
+			},
+		});
+	</script>
+    }

@@ -257,44 +257,44 @@
 				StockGroups: function () {
 					let _this = this;
 					axios.get(`/api/StockGroupsApi/GetAll`).then(response => {
-						_this.Source.StockGroupsData = response.data
+						_this.Source.StockGroupsData = response.data;
 					});
 				},
 				//不需要圖片資料
 				StockImages: function () {
 					let _this = this;
 					axios.get(`/api/StockImagesApi/GetAllWithoutBitmap`).then(response => {
-						_this.Source.StockImagesData = response.data
+						_this.Source.StockImagesData = response.data;
 					});
 				},
 				StockMeasureUnits: function () {
 					let _this = this;
 					axios.get(`/api/StockMeasureUnitsApi/GetAll`).then(response => {
-						_this.Source.StockMeasureUnitsData = response.data
+						_this.Source.StockMeasureUnitsData = response.data;
 					});
 				},
 				StockSuppliers: function () {
 					let _this = this;
 					axios.get(`/api/StockSuppliersApi/GetAll`).then(response => {
-						_this.Source.StockSuppliersData = response.data
+						_this.Source.StockSuppliersData = response.data;
 					});
 				},
 				StockSuppliersGroups: function () {
 					let _this = this;
 					axios.get(`/api/StockSuppliersGroupsApi/GetAll`).then(response => {
-						_this.Source.StockSuppliersGroupsData = response.data
+						_this.Source.StockSuppliersGroupsData = response.data;
 					});
 				},
 				StockWarehouseGroups: function () {
 					let _this = this;
 					axios.get(`/api/StockWarehouseGroupsApi/GetAll`).then(response => {
-						_this.Source.StockWarehouseGroupsData = response.data
+						_this.Source.StockWarehouseGroupsData = response.data;
 					});
 				},
 				StockWarehouses: function () {
 					let _this = this;
 					axios.get(`/api/StockWarehousesApi/GetAll`).then(response => {
-						_this.Source.StockWarehousesData = response.data
+						_this.Source.StockWarehousesData = response.data;
 					});
 				},
 				// 搜尋產品
@@ -347,6 +347,7 @@
 						});
 					});
 					this.StockArticles();
+					this.cleanData();
 				},
 				// 刪除確認
 				deleteCheck: function () {

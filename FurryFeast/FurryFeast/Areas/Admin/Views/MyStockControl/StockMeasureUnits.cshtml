@@ -157,7 +157,7 @@
 				StockMeasureUnits: function () {
 					let _this = this;
 					axios.get(`/api/StockMeasureUnitsApi/GetAll`).then(response => {
-						_this.Source.StockMeasureUnitsData = response.data
+						_this.Source.StockMeasureUnitsData = response.data;
 						_this.showData = _this.Source.StockMeasureUnitsData;
 					});
 				},
@@ -202,6 +202,7 @@
 						});
 					});
 					this.StockMeasureUnits();
+					this.cleanData();
 				},
 				// 刪除確認
 				deleteCheck: function () {
