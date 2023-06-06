@@ -4,16 +4,25 @@
 	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
 	<style>
+		.memberInfo {
+			justify-content: center;
+		}
 
+		.send {
+			width:60%;
+		}
 	</style>
 }
 
 <div class="index-header">
+	<img src="~/image/product/bg-cta-1.jpg" />
 	<h2>訂單資料</h2>
+
 </div>
+
 <div class="container" style="display:block">
 	<form asp-for="order" method="post" class="form-control" action="AddOrder">
-		<div class="row">
+		<div class="row memberInfo">
 
 
 			<div class="col-md-5 col-lg-5">
@@ -38,31 +47,32 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-5 col-lg-5">
-					<h4 class="fw-medium">收件人資料</h4>
-					<div class="table-custom-responsive form-group">
-						<table class="table-custom table-custom-primary table-checkout">
-							<tbody>
-								<tr>
-									<td><span class="fw-medium">收件人姓名</span></td>
-									<td><span class="fw-medium"><input name="OrderRecipientName" /></span></td>
-								</tr>
-								<tr>
-									<td><span class="fw-medium">收件人電話</span></td>
-									<td><span class="fw-medium"><input name="OrderRecipientPhone" /></span></td> @*待改*@
-								</tr>
-								<tr>
-									<td><span class="fw-medium">付款人地址</span></td>
-									<td><span class="fw-medium"><input name="OrderRecipientAdress" /></span></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+			</div>
+			<div class="col-md-6 col-lg-6">
+				<h4 class="fw-medium">收件人資料</h4>
+				<div class="table-custom-responsive form-group">
+					<table class="table-custom table-custom-primary table-checkout">
+						<tbody>
+							<tr>
+								<td><span class="fw-medium">收件人姓名</span></td>
+								<td><span class="fw-medium"><input name="OrderRecipientName" /></span></td>
+							</tr>
+							<tr>
+								<td><span class="fw-medium">收件人電話</span></td>
+								<td><span class="fw-medium"><input name="OrderRecipientPhone" /></span></td> @*待改*@
+							</tr>
+							<tr>
+								<td><span class="fw-medium">付款人地址</span></td>
+								<td><span class="fw-medium"><input name="OrderRecipientAdress" /></span></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
+
 		</div>
-		<div class="row">
-			<div class="col-md-5 col-lg-5">
+		<div class="row memberInfo">
+			<div class="col-md-8 col-lg-8">
 				<h4 class="fw-medium">訂單內容</h4>
 				<div class="table-custom-responsive">
 					<table class="table-custom table-custom-primary table-checkout form-group">
@@ -83,15 +93,24 @@
 								</tr>
 							}
 
-						</tbody>					
+						</tbody>
 					</table>
-					<h4>總計: @Model.Order.OrderTotalPrice</h4>
-					<input type="hidden" name="OrderTotalPrice" value="@Model.Order.OrderTotalPrice" />
+
 				</div>
 			</div>
-
+			<div class="col-md-3 col-lg-3 d-flex flex-column">
+				<div class="mt-auto">
+					<div class="row send">
+						<h4>總計: @Model.Order.OrderTotalPrice</h4>
+					</div>
+					<div class="row send">
+						<input type="hidden" name="OrderTotalPrice" value="@Model.Order.OrderTotalPrice" />
+						<button class="button button-sm button-primary button-zakaria" type="submit">送出訂單</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		
-		<button type="submit">送出訂單</button>
+
+
 	</form>
 </div>
