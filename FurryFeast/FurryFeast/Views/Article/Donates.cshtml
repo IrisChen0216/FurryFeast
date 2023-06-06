@@ -180,17 +180,16 @@
 
 <script>
     window.onload = function () {
-        let CouponNum = @ViewBag.CouponNum;
-        let DonateNum =@ViewBag.DonateNum;
-        let DonatePercentage = Math.min(Math.floor((CouponNum / ViewBag.DonateNum) * 100), 100);
-        document.getElementById('dog-donate-progress-path').style.strokeDashoffset = ((100 - dogDonatePercentage) / 100) * 364.4;
-        document.getElementById('dog-donate-percentage').innerText = dogDonatePercentage + '%';
+        let couponNum = @ViewBag.CouponNum;
+        let donateNum = @ViewBag.DonateNum;
 
-        let CouponNum; = @ViewBag.CouponNum;
-        let DonateNum; = @ViewBag.DonateNum;
-        let DonatePercentage = Math.min(Math.floor((CouponNum / ViewBag.DonateNum) * 100), 100);
-        document.getElementById('cat-donate-progress-path').style.strokeDashoffset = ((100 - catDonatePercentage) / 100) * 364.4;
-        document.getElementById('cat-donate-percentage').innerText = catDonatePercentage + '%';
+        let goalAmount = 50000;  // your goal amount
+        let donatePercentage = Math.min(Math.floor((couponNum / goalAmount) * 100), 100);
+
+        document.getElementById('dog-donate-progress-path').style.strokeDashoffset = ((100 - donatePercentage) / 100) * 364.4;
+        document.getElementById('dog-donate-percentage').innerText = donatePercentage + '%';
+
+        document.getElementById('cat-donate-progress-path').style.strokeDashoffset = ((100 - donatePercentage) / 100) * 364.4;
+        document.getElementById('cat-donate-percentage').innerText = donatePercentage + '%';
     }
-
 </script>
