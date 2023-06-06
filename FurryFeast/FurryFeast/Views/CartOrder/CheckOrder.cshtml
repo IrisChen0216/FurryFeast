@@ -11,6 +11,26 @@
 		.send {
 			width:60%;
 		}
+
+		.index-header {
+			position: relative;
+		}
+
+			.index-header img {
+				display: block;
+				width: 100%;
+				height: auto;
+				max-height: 200px;
+				object-fit: cover;
+			}
+
+			.index-header h2 {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1;
+			}
 	</style>
 }
 
@@ -19,9 +39,9 @@
 	<h2>訂單資料</h2>
 
 </div>
-
+<div style="height:50px"></div>
 <div class="container" style="display:block">
-	<form asp-for="order" method="post" class="form-control" action="AddOrder">
+	<form asp-for="order" method="post"  action="AddOrder">
 		<div class="row memberInfo">
 
 
@@ -62,7 +82,7 @@
 								<td><span class="fw-medium"><input name="OrderRecipientPhone" /></span></td> @*待改*@
 							</tr>
 							<tr>
-								<td><span class="fw-medium">付款人地址</span></td>
+								<td><span class="fw-medium">收件人地址</span></td>
 								<td><span class="fw-medium"><input name="OrderRecipientAdress" /></span></td>
 							</tr>
 						</tbody>
