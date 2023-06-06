@@ -9,6 +9,6 @@
         public string MemberEmail { get; set; }
         public string MemberAdress { get; set; }
 
-        public string MemberPassord { get; set; } = null!;
+        
     }
 }

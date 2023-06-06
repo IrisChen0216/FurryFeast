@@ -137,7 +137,7 @@
                         <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCart" method="post">
                             <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
                         </form>
-                        <form id="Login" asp-controller="Member" asp-action="Login">
+                        <form id="Login" asp-controller="Member" asp-action="">
                             <button id="list1" class="btn btn-dark" controller="Member" action="Login"><i class="bi bi-person-circle"></i></button>
                         </form>
                         <form id="Logout" asp-controller="Member" asp-action="Logout">
@@ -242,6 +242,8 @@
 </html>
 @section Scripts{
     <script>
-        document.getElementById("list1")
+       var person = document.getElementById("list1")
+       list1.addEventListener(""
+
     </script>
 }
