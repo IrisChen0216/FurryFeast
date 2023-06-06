@@ -11,14 +11,14 @@
 	<div v-for="item in getMemberData">
 		<div>
 			<label>姓名</label>
-			<input type="text" class="form-control" v-model="item.updatemember.memberName" />
+			<input type="text" v-model="item.updatemember.memberName" />
 
 		</div>
 		<div>
 			<label>性別</label>
-			<input type="radio" name="UpdateGender" />
+			<input type="radio" name="UpdateGender" :value="1" v-model="item.updatemember.memberGender" />
 			<label>男</label>
-			<input type="radio" name="UpdateGender" />
+			<input type="radio" name="UpdateGender" :value="0" v-model="item.updatemember.memberGender" />
 			<label>女</label>
 		</div>
 		<div>
@@ -27,7 +27,7 @@
 		</div>
 		<div>
 			<label>手機號碼</label>
-			<input type="text" name="UpdatePhone" maxlength="10" v-model="item.updatemember.memberPhone" />
+			<input type="text" name="MemberPhone" maxlength="10" v-model="item.updatemember.memberPhone" />
 		</div>
 		<div>
 			<label>Email</label>
@@ -38,7 +38,7 @@
 			<input type="text" name="MemberAdress" v-model="item.updatemember.memberAdress" />
 		</div>
 		<div>
-			<button class="button button-lg button-primary button-zakaria" type="submit">修改資料</button>
+			<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="Edit(item)">修改資料</button>
 		</div>
 		<hr />
 		<br />
@@ -51,14 +51,9 @@
 			<input type="password" />
 		</div>
 	</div>
-
-
-
-</div>
-
-
-<div>
-	<button class="button button-lg button-primary button-zakaria" type="submit">更新密碼</button>
+	<div>
+		<button class="button button-lg button-primary button-zakaria" type="submit">更新密碼</button>
+	</div>
 </div>
 <div>
 	<form asp-action="Index">
@@ -75,7 +70,17 @@
 			el: "#app",
 			data: {
 				getMemberData: "",
-
+				EditMember:{
+					memberName:"",
+					memberPhone:"",
+					memberAdress:"",
+					memberGender:0,
+					memberEmail:"",
+					memberBirthday:"" ,
+				},
+				//EditPassword:{
+				//	memberPassord:""
+				//}
 
 			},
 			mounted: function () {
@@ -83,6 +88,35 @@
 				axios('/api/member/one').then(res => { self.getMemberData = res.data });
 			},
 			methods: {
+				Edit:function(){
+					let self=this;
+					axios.post('/api/member/edit',self.EditMember).then(res=>{
+						self.EditMember.memberName="",
+						self.EditMember.memberPhone= "",
+						self.EditMember.memberAdress= "",
+						self.EditMember.memberGender= 0,
+						self.EditMember.memberEmail="",
+						self.EditMember.memberBirthday ="";
+					})
+				},
+				EditComfirm:function(item){
+					this.EditMember.memberName	  = item.Updatemember.memberName
+					this.EditMember.memberPhone   = item.Updatemember.memberPhone
+					this.EditMember.memberAdress  = item.Updatemember.memberAdress
+					this.EditMember.memberGender  = item.Updatemember.memberGender
+					this.EditMember.memberEmail   = item.Updatemember.memberEmail
+					this.EditMember.memberBirthday =item.Updatemember.memberBirthday
+
+				}
+				//EditPassword:function(){
+				//	let self = this;
+				//	axios.post('/api/member/editpassword',self.EditPassword).then(res=>{
+						
+				//		if(res.memberPassord == self.getMemberData.memberPassord){
+				//			self.getMemberData.memberPassord = res.memberPassord
+				//		}
+				//	})
+				//}
 
 			}
 		})

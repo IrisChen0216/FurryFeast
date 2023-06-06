@@ -56,7 +56,7 @@ public class MemberApiController : ControllerBase
             });
         }
         
-        public object Edit(MemberEditDto list)
+        public object Edit([FromBody]MemberEditDto list)
         { 
           var id = User.FindFirstValue("Id");
           var result = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(id)).FirstOrDefault();
@@ -65,7 +65,7 @@ public class MemberApiController : ControllerBase
             result.MemberPhone = list.MemberPhone;
             result.MemberEmail = list.MemberEmail;
             result.MemberName = list.MemberName;
-            result.MemberPassord = list.MemberPassord;
+            result.MemberBirthday = list.MemberBirthday;
             _context.SaveChanges();
             return result;
 
