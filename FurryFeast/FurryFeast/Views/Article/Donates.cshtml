@@ -1,4 +1,4 @@
-﻿@model FurryFeast.Models.Donate
+﻿@*@model FurryFeast.Models.*@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <style>
@@ -144,9 +144,9 @@
                 </svg>
                 <div class="donate-progress-percentage" id="dog-donate-percentage"></div>
             </div>
-            <div class="donate-goal">目標 NT$ @Model.DogDonateTotal</div>
-            <div class="donate-current">目前 NT$ @Model.DogDonateMoney</div>
-            <div class="donate-people">捐贈人數 @Model.DogDonatePeople 人</div>
+            <div class="donate-goal">目標 NT$ 50000</div>
+            <div class="donate-current">目前 NT$ @ViewBag.CouponNum</div>
+            <div class="donate-people">捐贈人數 @ViewBag.DonateNum 人</div>
                 @Html.ActionLink("我要捐贈", "Donate", "Products", null, new { @class = "donate-btn" })
 
         </div>
@@ -167,9 +167,9 @@
                 </svg>
                 <div class="donate-progress-percentage" id="cat-donate-percentage"></div>
             </div>
-            <div class="donate-goal">目標 NT$ @Model.CatDonateTotal</div>
-            <div class="donate-current">目前 NT$ @Model.CatDonateMoney</div>
-            <div class="donate-people">捐贈人數 @Model.CatDonatePeople 人</div>
+            <div class="donate-goal">目標 50000</div>
+            <div class="donate-current">目前 NT$ @ViewBag.CouponNum</div>
+            <div class="donate-people">捐贈人數 @ViewBag.DonateNum 人</div>
                 @Html.ActionLink("我要捐贈", "Donate", "Products", null, new { @class = "donate-btn" })
 
         </div>
@@ -180,15 +180,15 @@
 
 <script>
     window.onload = function () {
-        let dogDonateMoney = @Model.DogDonateMoney;
-        let dogDonateTotal = @Model.DogDonateTotal;
-        let dogDonatePercentage = Math.min(Math.floor((dogDonateMoney / dogDonateTotal) * 100), 100);
+        let CouponNum = @ViewBag.CouponNum;
+        let DonateNum =@ViewBag.DonateNum;
+        let DonatePercentage = Math.min(Math.floor((CouponNum / ViewBag.DonateNum) * 100), 100);
         document.getElementById('dog-donate-progress-path').style.strokeDashoffset = ((100 - dogDonatePercentage) / 100) * 364.4;
         document.getElementById('dog-donate-percentage').innerText = dogDonatePercentage + '%';
 
-        let catDonateMoney = @Model.CatDonateMoney;
-        let catDonateTotal = @Model.CatDonateTotal;
-        let catDonatePercentage = Math.min(Math.floor((catDonateMoney / catDonateTotal) * 100), 100);
+        let CouponNum; = @ViewBag.CouponNum;
+        let DonateNum; = @ViewBag.DonateNum;
+        let DonatePercentage = Math.min(Math.floor((CouponNum / ViewBag.DonateNum) * 100), 100);
         document.getElementById('cat-donate-progress-path').style.strokeDashoffset = ((100 - catDonatePercentage) / 100) * 364.4;
         document.getElementById('cat-donate-percentage').innerText = catDonatePercentage + '%';
     }

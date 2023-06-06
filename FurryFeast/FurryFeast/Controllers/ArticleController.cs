@@ -57,8 +57,13 @@ namespace FurryFeast.Controllers {
 
 
 		public IActionResult Donates() {
-			var donate = _furryFeastContext.Donates.FirstOrDefault();
-			return View(donate);
+		
+			
+			int order = _furryFeastContext.OrderDetails.Where(x => x.Product.ProductTypeId == 2 && x.Order.OrderStatus==0).Count();
+			int price = _furryFeastContext.OrderDetails.Where(x => x.Product.ProductTypeId == 4 && x.Order.OrderStatus == 0).Sum(x=>x.Product.ProductPrice);
+			ViewBag.DonateNum=order;
+			ViewBag.CouponNum=price;
+			return View();
 		}
 
 		public async Task<IActionResult> Shelter() {
