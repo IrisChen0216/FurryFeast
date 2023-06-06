@@ -31,6 +31,14 @@
 			background-color:darkgrey;
 			border-color: darkgrey;
 		}
+
+		.product-minimal-figure img {	
+			width:106px;
+		}
+
+		.product-minimal-price{
+			text-align:left;
+		}
 	</style>
 }
 
@@ -85,19 +93,19 @@
 				<div class="aside-item col-sm-6 col-lg-12">
 					<h6 class="aside-title">熱門課程</h6>
 					<div class="row row-10 row-lg-20 gutters-10">
-						<div class="col-4 col-sm-6 col-md-12">
+						<div class="col-4 col-sm-6 col-md-12" v-for="item in HotClass">
 							<!-- Product Minimal-->
 							<article class="product-minimal">
 								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-1-106x104.jpg" alt="" width="106" height="104" /></a></div>
+									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img :src="'data:image/png;base64,'+item.petClassPicImage" alt="" width="106" height="104" /></a></div>
 									<div class="unit-body">
-										<p class="product-minimal-title"><a href="single-product.html">寵物鮮食DIY課程</a></p>
-										<p class="product-minimal-price">$2500</p>
+										<p class="product-minimal-title"><a href="single-product.html">{{item.petClassName}}</a></p>
+										<p class="product-minimal-price">${{item.petClassPrice}}</p>
 									</div>
 								</div>
 							</article>
 						</div>
-						<div class="col-4 col-sm-6 col-md-12">
+						@*<div class="col-4 col-sm-6 col-md-12">
 							<!-- Product Minimal-->
 							<article class="product-minimal">
 								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
@@ -120,7 +128,7 @@
 									</div>
 								</div>
 							</article>
-						</div>
+						</div>*@
 					</div>
 				</div>
 			</div>
@@ -236,11 +244,12 @@
 				selectedPrice:"",
 				startDate: null,
 				endDate: null,
+				HotClass:[],
 			},
 			mounted: function () {
 				let _this = this;
 				_this.AllClasses();
-
+				_this.HorClasses();
 			},
 			methods: {
 				//網頁載入就會掛載全部商品資料的方法
@@ -249,6 +258,14 @@
 
 					axios.get(`/api/petclasses/AllClasses`).then(response => {
 						_this.ShowClasses = _this.PetClasses=_this.OrinClassType = response.data;
+
+					});
+				},
+				HorClasses:function(){
+					let _this = this;
+
+					axios.get(`/api/petclasses/HotClasses`).then(response => {
+						_this.HotClass  = response.data;
 
 					});
 				},
