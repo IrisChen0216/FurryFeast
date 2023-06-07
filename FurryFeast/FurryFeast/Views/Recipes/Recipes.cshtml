@@ -8,36 +8,45 @@
 {
 	<link href="~/css/recipestyle.css" rel="stylesheet"/>
 }
+<style>
+	.centered {
+		width: 40%;
+		text-align: left;
+	}
+</style>
 
-<div class="row" style="height: 300px; margin-top: 40px;">
-	<div class=" col p-0" style="overflow: hidden;">
-		<img style="object-fit: cover; height: 100%; object-position: bottom; " src="/image/cute-pet-collage-isolated (1).jpg">
+<div id="app" class="p-0" style="background: #f1f1f1">
+		<div class="p-0 m-0" style="background: #f1f1f1">
+	@*	<div class="p-0 m-0" style="background: #f1f1f1; background-image: url(' /image/cute-pet-collage-isolated.jpg'),url('/image/english-cream-golden-retriever-isolated.jpg');; background-size:contain; background-repeat: no-repeat,no-repeat; background-position: left, right;">*@
+	<div class="index-header">
+		<h2>寵物鮮食食譜</h2>
+		</div>
+	<div style="display: flex; justify-content: center; align-items: center;">
+		<p class="centered">為你的毛孩營造更健康的飲食體驗，親手自製鮮食，讓每一口都充滿愛與關懷。我們用新鮮食材，製作出營養豐富，口感美味的鮮食。毛孩的健康，由你我共同守護。嘗試自製鮮食，讓愛，從口而入。</p>
 	</div>
-	<div class="col row m-4">
-		<button class="col btn btn-primary p-5 " type="button" v-on:click="chooseType(1)">Dog</button>
-		<button class="col btn btn-primary p-5 ms-3" type="button" v-on:click="chooseType(2)">Cat</button>
+	<div class=" p-0 mt-5 pb-4">
+		<img src="~/image/pet_recipies.png" style="width: 130px;"/>
+		<p class="mb-3" style="font-size: 20px; letter-spacing: 6px; font-weight: 600;">請選擇動物的類別</p>
+		<button class="me-2" style="background: white; font-size: 30px ; width: 20%;padding: 50px;border-radius: 6px;opacity: 0.8;" type="button" v-on:click="chooseType(1)"><img src="~/image/bone.png" style="width: 60%; margin-bottom: 22px;" /><h3>狗勾</h3></button>
+		<button class="ms-2" style="background: white; font-size: 30px ; width: 20%;padding: 50px;border-radius: 6px;opacity: 0.8;" type="button" v-on:click="chooseType(2)"><img src="~/image/sardines.png" style="width: 60%; margin-bottom: 22px;" /><h3>貓貓</h3></button>
 	</div>
+	<button class="scroll-down" style="border: none;">
+		<span class="arrow">&#8595;</span>
+	</button>
+
 </div>
-<div class="index-header">
-	<h2>寵物鮮食食譜</h2>
-</div>
-<div id="app" class="container">
-@*	<div class="" style="position: relative; width: 100%; padding-bottom: 25%; overflow: hidden;">
-		@*		<img src="https://shorturl.at/eiwPR" />
-		@*<img class="px-4" style="position: absolute; top: 0;left: 0; width: 100%; height: 100%; object-position:top; object-fit: cover;" src="https://shorturl.at/sKTY8" />
-	</div>*@
-	
-	<div class="row m-4">
-		<div class="col-md-3  pt-4">
-			<ul id="recipesList" class="nav justify-content-center">
+
+	<div class="row m-4 mt-5">
+		<div class="col-md-3  p-3">
+			<ul id="recipesList" class="nav justify-content-center" style="border-radius: 6px; background: white">
 				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item.recipesId)">{{item.name}}</li>
 			</ul>
 		</div>
 
-		<div class="col p-3 ms-3" v-if="showRecipeDetails">
-			<div class="m-3 p-3" style="height: auto; border: 1px solid black;">
-				<div class="row m-0" style="background: brown;">
-					<div style="color: white;" class="py-3 recipes-header ">{{selectedRecipe.name}}</div>
+		<div class="col p-3 ms-3" v-if="showRecipeDetails" >
+			<div class="p-4" style="height: auto; background: white; border-radius: 6px;">
+				<div class="row m-0" style="border-radius: 6px; background: brown;">
+					<div style="color: white; border-radius: 6px;" class="py-3 recipes-header ">{{selectedRecipe.name}}</div>
 					<div style="color: white; font-weight: 900; padding: 10px;">{{selectedRecipe.desc}}</div>
 				</div>
 				<div class="row m-0 mt-3 recipes-box">
@@ -65,7 +74,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="container text-center mb-2">
+			<div class=" text-center mb-2">
 				<h4 class="py-3">回應區</h4>
 				<template v-if="selectedRecipe">
 					<template v-if="MemberData!=null">
@@ -75,29 +84,27 @@
 						</form>
 					</template>
 					<template v-else>
-						<div class="border border-1 p-4 my-2">
-							<form>
-								<p class="mb-2">請先登入會員</p>
-								<button type="button" v-on:click="submitForm" class="nBtn">登入</button>
-							</form>
+						<div class="border border-1 p-4 my-2" style="border-radius: 6px; background: white;">
+							<p class="mb-2">請先登入會員</p>
+							<button type="button" v-on:click="submitForm" class="nBtn login">登入</button>
 						</div>
 					</template>
 				</template>
 
 
 				@*msg*@
-				<div class="response mt-3">
+				<div class="response mt-3 ">
 					<template v-for="item in selectedRecipe.msgBoards">
-						<div class="m-4" v-if="item.active">
+						<div class="my-4 p-3" v-if="item.active" style="background: white; border-radius: 6px;">
 							<div class="my-2 align-content-end" v-if="!item.isEditable">
-								<div class="row pb-2" style="border-bottom: 1px dashed #ccc;">
+								<div class="row pb-2">
 									<div class="text-end" v-if="MemberData!=null">
 										<template v-if="MemberData.memberAccount == item.userAccount">
 											<button type="button" class="nBtn edit" v-on:click="editComment(item);">編輯</button>
 											<button type="button" class="nBtn delete" v-on:click="deleteComment(item);">刪除</button>
 										</template>
 									</div>
-									<div class="col px-3 py-2 m-0 text-start">
+									<div class="col px-3 m-0 text-start">
 										<p class="m-0 px-3 user-icon ">會員</p>
 										<p class="ms-1" style="display: inline-block; font-weight: 600">{{item.userAccount}}</p>
 										<p class="m-0 ps-2 pt-1" style="font-size: small;">{{relativeDate(item)}}</p>

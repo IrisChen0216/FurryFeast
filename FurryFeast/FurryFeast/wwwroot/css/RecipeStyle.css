@@ -63,6 +63,15 @@
     font-size: 14px;
 }
 
+.login {
+    border: black;
+    background: black;
+    border-radius: 6px;
+    color: white;
+    padding: 10px 20px;
+    font-size: medium;
+}
+
 .edit {
     border: yellowgreen;
     background: yellowgreen;
@@ -115,14 +124,41 @@
     font-weight: 900;
 }
 .recipes-header {
-    font-size: 30px;
+    font-size: 35px;
     font-weight: bolder;
-    letter-spacing: 4px;
+    letter-spacing: 8px;
     color: white;
-    border-bottom: 6px solid white;
-    background: brown;
     height: 150px;
     display: flex;
     align-items: center;
     justify-content: center; 
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-20px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.scroll-down {
+    /*position: fixed;*/
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: none;
+    border: none;
+    color: #000; /* Adjust color as needed */
+    font-size: 3em;
+}
+
+.arrow {
+    animation: bounce 2s infinite;
 }
