@@ -45,15 +45,15 @@
 		<br />
 		<div>
 			<label>輸入原密碼</label>
-			<input type="password" />
+			<input type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
 		</div>
 		<div>
 			<label>輸入新密碼</label>
-			<input type="password" />
+			<input type="password" name="newPassord" v-model="EditPassord.newPassord" />
 		</div>
 	</div>
 	<div>
-		<button class="button button-lg button-primary button-zakaria" type="submit">更新密碼</button>
+		<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="Edit()">更新密碼</button>
 	</div>
 </div>
 <div>
@@ -89,9 +89,10 @@
 					memberBirthday: null,
 
 				},
-				//EditPassword:{
-				//	memberPassord:""
-				//}
+				EditPassord:{
+					checkPassord:"",
+					newPassord:""
+				}
 
 			},
 			mounted: function () {
@@ -120,9 +121,7 @@
 						MemberBirthday: self.EditMember.memberBirthday
 					};
 					axios.put('/api/member/edit', request).then(res => {
-						//Swal.fire('修改成功')
-						Swal.fire('修改成公'
-						)
+						Swal.fire('修改成功')
 							//self.EditMember.memberName = "",
 							//	self.EditMember.memberPhone = "",
 							//	self.EditMember.memberAdress = "",
@@ -151,15 +150,17 @@
 			//	this.EditMember.memberBirthday = item.updatemember.memberBirthday
 
 			//}
-			//EditPassword:function(){
-			//	let self = this;
-			//	axios.post('/api/member/editpassword',self.EditPassword).then(res=>{
+			Edit:function(){
+				let self = this;
+				let request = {
+						checkPassord: self.EditPassord.checkPassord,
+						newPassord: self.EditPassord.newPassord
+				}
+				axios.put('/api/member/editpassord',request).then(res=>{
+							Swal.fire('修改成功');
 
-			//		if(res.memberPassord == self.getMemberData.memberPassord){
-			//			self.getMemberData.memberPassord = res.memberPassord
-			//		}
-			//	})
-			//}
+				})
+			}
 
 		}
 				})

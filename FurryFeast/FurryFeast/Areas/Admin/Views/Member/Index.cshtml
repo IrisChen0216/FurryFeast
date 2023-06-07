@@ -1,25 +1,44 @@
 ﻿@section Style{
+	<style>
+		.unState {
+			background-color: gray;
+		}
 
+		.btnState {
+			display: inline-block;
+		}
+
+		.drop {
+			background-color: #ffedad;
+			color: #3b3b3b;
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+		}
+
+			.drop:hover {
+				background-color: #ffce78;
+			}
+
+		.btn-secondary:hover {
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+		}
+
+		input {
+			outline-style: none;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			padding-left: 5px;
+			width: 100%;
+			height: 30px;
+		}
+	</style>
 }
 
-<div class="index-header">
-	<h2>會員管理</h2>
-</div>
 
-<div class="container">
-	<div class="row">
-		<div class="col-8">
-			<input id="searchm" class="form-input form-control" type="search" name="search" value="" />
-		</div>
-		<div class="col-4">
-			<form>
-				<button class="button button-lg button-primary button-zakaria" type="submit">查詢</button>
-			</form>
-		</div>
+
+@*<div id="app" class="">
+	<div>
+		<input type ="text" v-model="keyword"/>
 	</div>
-</div>
-
-<div id="app" class="">
 	<table>
 		<tr>
 			<th>會員編號</th>
@@ -41,19 +60,98 @@
 
 		</tr>
 	</table>
-	<paginate :page-count="5"
-			  :click-handler="ChangePage"
-			  :prev-text="'前一頁'"
-			  :next-text="'下一頁'"
-			  :page-class="'page-item'"
-			  :page-link-class="'page-link'"
-			  :prev-class="'page-item'"
-			  :prev-class-link="'page-link'"
-			  :next-class="'page-item'"
-			  :next-class-link="'page-link'"
-			  :container-class="'className'">
-	</paginate>
-</div>
+	
+</div>*@
+
+
+<div class="container-fluid" id="app">
+	<div class="row">
+		<div class="col-12">
+			<div class="card my-4">
+
+				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
+						<h6 class="text-white text-capitalize ps-3">會員管理</h6>
+					</div>
+				</div>
+					@*搜尋欄*@
+					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
+						<div class="input-group input-group-outline">
+							<label class="form-label">Search Member...</label>
+							<input type="text" class="form-control" v-model="keyword">
+						</div>
+					</div>
+
+				</div>
+
+				<div class="card-body px-0 pb-2">
+					<div class="table-responsive p-0">
+						<table class="table align-items-center mb-0">
+							<thead>
+								<tr>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員編號</th>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">姓名</th>
+									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">性別</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">手機號碼</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">地址</th>
+									<th class="text-secondary opacity-7"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="i in members" >
+
+									<td class="align-middle text-center">
+									<span class="text-secondary text-xs font-weight-bold">{{i.member.memberId}}</span>
+									</td>
+									<td>
+										<div class="d-flex px-2 py-1">
+											<div class="d-flex flex-column justify-content-center">
+													<h6 class="mb-0 text-sm">{{i.member.memberName}}</h6>
+											</div>
+										</div>
+									</td>
+									<td>
+										<p class="text-xs font-weight-bold mb-0">{{i.member.memberGender}}</p>
+				
+									</td>
+									<td class="align-middle text-center text-sm">
+									<h6 class="mb-0 text-sm">{{i.member.memberPhone}}</h6>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{i.member.memberEmail}}</span>
+									</td>
+									<td class="align-middle text-center">
+										<span class="text-secondary text-xs font-weight-bold">{{i.member.memberAdress}}</span>
+									</td>
+									<td class="align-middle">
+								@*	<a :href="'Details?id='+item.backEndProduct.productId">*@
+										<button class="btn bg-gradient-info mb-0 toast-btn">新增</button>
+										<button class="btn bg-gradient-info mb-0 toast-btn">編輯</button>
+									<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(i)">刪除</button>
+									</td>
+
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<paginate :page-count="5"
+		  :click-handler="ChangePage"
+		  :prev-text="'前一頁'"
+		  :next-text="'下一頁'"
+		  :page-class="'page-item'"
+		  :page-link-class="'page-link'"
+		  :prev-class="'page-item'"
+		  :prev-class-link="'page-link'"
+		  :next-class="'page-item'"
+		  :next-class-link="'page-link'"
+		  :container-class="'className'">
+</paginate>
 
 @section Scripts{
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
@@ -65,6 +163,17 @@
 			el: '#app',
 			data: {
 				members: [],
+				keyword:"",
+				editinto:[],
+				//deleteinto:{
+				//	memberId:"",
+				//	MemberName:"",
+				//	MemberGender:"",
+				//	MemberEmail:"",
+				//	MemberAdress:"",
+				//	MemberPhone:""
+				//},
+				createinto:[]
 
 			},
 			mounted: function () {
@@ -77,8 +186,52 @@
 					let self = this;
 					axios.get('/api/member/all').then(res => self.members = res.data)
 				},
+				editMember:function(){
+					let self = this;
+					let request = {
+						memberName : self.editinto.memberName,
+						memberGender: self.editinto.memberGender,
+						memberBirthday: self.editinto.memberBirthday,
+						memberPhone:self.editinto.memberPhone,
+						memberEmail:self.editinto.memberEmail,
+						memberAdress:self.editinto.memberAdress
+					}
+				},
+				deleteMember:function(id){
+					let self = this;
+					axios.delete(`/api/member/deletemember/${id}`).then(res=>{
+						alert(res.data);
+						self.getMember();
+					})
+				},
+				deleteCheck: function (item) {
+					let _this = this;
+					Swal.fire({
+						title: `確定要此刪除嗎?`,
+						text: `會員編號:${item.member.memberId}，會員名稱:${item.member.memberName}`,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: '刪除',
+						cancelButtonText: '取消',
+					}).then((result) => {
+						if (result.isConfirmed) {
+							_this.deleteMember(item.member.memberId);
+							Swal.fire(
+								'Deleted!',
+								'Your file has been deleted.',
+								'success'
+							)
+						}
+					})
+				},
+				filter:function(){
+					let self = this;
+					return self.members.filter(x=>x.members.memberName.memberPhone.memberEmail.include(self.keyword))
+				},
 				ChangePage: function (currentpage) {
-					console.log(currentpage)
+					console.log(currentpage);
 				},
 			},
 			computed: {

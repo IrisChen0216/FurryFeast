@@ -137,14 +137,14 @@
                         <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCart" method="post">
                             <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
                         </form>
-                        @*<form >
-                            <button id="app" class="btn btn-dark" @@mouseenter="showDropdown" @@mouseleave="hideDropdown">
-                                <i class="bi bi-person-circle"></i>
+@*                        <form >
+                            <button id="app" class="btn btn-dark dropdown" :hover="showDropdown" :mouseleave="hideDropdown">
+                                <i class="bi bi-person-square"></i>
                                </button>
                             <ul id="app" v-if="showOptions">
-                                   <li> <a asp-controller="Member" asp-action="UpdateMemberData">會員資料</a></li>
-                                   <li> <a asp-controller="Member" asp-action="UpdateMemberData">我的訂單</a></li>
-                                   <li><a asp-controller="Member" asp-action="UpdateMemberData">我的課程</a></li>
+                                   <li> <a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
+                                   <li> <a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
+                                   <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
                                    <li><a asp-controller="Member" asp-action="UpdateMemberData">修改會員資料及密碼</a></li>
                                </ul>
                         </form>*@
@@ -255,10 +255,10 @@
                 showOptions:false
             },
             methods:{
-                showDropdown:{
+                showDropdown:function(){
                     this.showOptions:true;
                 },
-                hideDropdown:{
+                hideDropdown:function(){
                     this.showOptiions:false;
                 }
             }
