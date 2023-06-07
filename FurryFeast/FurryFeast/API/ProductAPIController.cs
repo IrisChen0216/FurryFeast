@@ -200,19 +200,21 @@ namespace FurryFeast.API
 		//}
 
 		[HttpGet("{id}")] //後台商品詳細資訊
-		public async Task<PetMarketViewModel> GetProduct(int id)
+		public async Task<PetMarketBackendViewModel> GetProduct(int id)
 		{
 			var product = await _context.Products.FindAsync(id);
 			var productPic = _context.ProductPics.Where(p => p.ProductId == id).ToList();
 			List<string> Pic = new List<string>();
+			List<int> PicID = new List<int>();
 
 			foreach (var pic in productPic)
 			{
 				string Base64Pic = Convert.ToBase64String(pic.ProductPicImage);
 				Pic.Add(Base64Pic);
+				PicID.Add(pic.ProductPicId);
 			}
 
-			PetMarketViewModel model = new PetMarketViewModel
+			PetMarketBackendViewModel model = new PetMarketBackendViewModel
 			{
 
 				ProductId = product.ProductId,
@@ -225,6 +227,7 @@ namespace FurryFeast.API
 				ProductSoldTime = product.ProductSoldTime,
 				ProductState = product.ProductState,
 				ProductPicImage = Pic,
+				ProductPicId=PicID,
 				ProductTypeName = product.ProductType.ProductTypeName,
 				ArticlesId = product.ArticlesId
 			};
@@ -413,6 +416,48 @@ namespace FurryFeast.API
 			return "新增圖片成功";
 		}
 
+		
+		[HttpPost]
+		public async Task<string> PutProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] List<int> ProductPicId)
+		{
+			//List<ProductPic> productPicImages = new List<ProductPic>();
+
+			for (int i=0;i<ProductPicImage.Count;i++)
+			{
+				var pic = ProductPicImage[i];
+				var picId = ProductPicId[i];
+
+				if (pic != null)
+				{
+
+					byte[] data = null;
+					using (BinaryReader br = new BinaryReader(pic.OpenReadStream()))
+					{
+
+						data = br.ReadBytes((int)pic.Length);
+						var image =await _context.ProductPics.FindAsync(picId);
+						if (image != null)
+						{
+							image.ProductPicImage = data;
+						}
+						
+					}
+
+				};
+
+			};
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				return "修改圖片失敗";
+			}
+
+			return "修改圖片成功";
+		}
 
 		[HttpDelete("{id}")]
 		public async Task<string> DeleteProduct(int id)

@@ -193,6 +193,9 @@
 				originalProductLaunchedTime: "",
 				originalProductSoldTime: "",
 				selected:"",
+				originalSelected:"",
+				ProductPicImage: ["", "", ""],
+				ProductPicId: [0, 0, 0],
 			},
 			mounted: function () {
 				let _this = this;
@@ -216,6 +219,7 @@
 					_this.originalProductName = _this.backendProduct.productName;
 					_this.originalProductAmount = _this.backendProduct.productAmount;
 					_this.originalProductPrice = _this.backendProduct.productPrice;
+					_this.originalSelected = _this.selected;
 				},
 				cancel: function () {
 					let _this = this;
@@ -227,6 +231,7 @@
 				update: function () {
 					alert("update");
 					let _this = this;
+					_this.UpdateImages();
 					var request = {
 						ProductId: _this.backendProduct.productId,
 						ProductName: _this.backendProduct.productName,
@@ -244,21 +249,46 @@
 					axios.put(`/api/products/PutProduct/`, request).then(response => {
 						alert(response.data);
 						_this.cancel();
-						_this.ProductDetail();
-
+						_this.ProductDetail();						
 					});
+					
 				},
 				ImgPreview:function(event,idx){
 					let _this=this;
-					let newImg=event.target.files[0];
-					let reader= new FileReader();
+					let newImg=event.target.files[0];					
+					let reader= new FileReader();				
 					reader.onload=(event)=>{
 						_this.backendProduct.productPicImage[idx]=event.target.result.split(',')[1];
-						//_this.backendProduct.productPicImage[idx]=reader.result;
 						_this.$forceUpdate();
 					};
 					reader.readAsDataURL(newImg);
-				}
+					
+					_this.ProductPicImage[idx] = event.target.files[0];
+					_this.ProductPicId[idx] = _this.backendProduct.productPicId[idx];
+				},
+				UpdateImages: function () {
+					alert('有');
+					let _this = this;
+					let formData = new FormData();
+					
+					for (let i = 0; i < 3; i++) {
+						if (_this.ProductPicId[i] != null) {
+							
+							formData.append('ProductPicId', _this.ProductPicId[i]);
+						}
+						if (_this.ProductPicImage[i] != null) {
+							
+							formData.append('ProductPicImage', _this.ProductPicImage[i]);
+						}
+						
+					};
+
+					axios.post(`/api/products/PutProductImage/`, formData).then(response => {
+						alert(response.data);
+						_this.ProductDetail();
+						_this.ProductPicImage = ["", "", ""];
+					});
+				},
 			},
 			computed: {
 

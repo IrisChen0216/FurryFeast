@@ -142,7 +142,7 @@
 					<div class="row">
 
 
-						<div class="col col-3 " v-for="item in showProducts" :key="item.product.productId">
+						<div class="col col-3 " v-for="item in ShowPageCount" :key="item.product.productId">
 							<article class="product" style="margin-bottom:30px">
 								<div class="product-body">
 									<div class="product-figure">
@@ -167,6 +167,20 @@
 
 					</div>
 				</div>
+				<div class="row justify-content-center">
+					<paginate :page-count="PageCount"
+							  :click-handler="ChangePage"
+							  :prev-text="'Prev'"
+							  :next-text="'Next'"
+							  :page-class="'page-item'"
+							  :page-link-class="'page-link'"
+							  :prev-class="'page-item'"
+							  :prev-link-class="'page-link'"
+							  :next-class="'page-item'"
+							  :next-link-class="'page-link'"
+							  :container-class="'pagination justify-content-center'">
+					</paginate>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -187,19 +201,18 @@
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
 	<script src="~/js/slick.min.js"></script>
+	<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 	
 	<script>
-
+		Vue.component('paginate', VuejsPaginate);
 		let app = new Vue({
 			el: '#app',
 			data: {
 				products: [],
 				showProducts:[],
-				//AllProductsAmount:"",
-				//FoodProductsAmount: "",
-				//DogProductsAmount: "",
-				//CatProductsAmount: "",
+				maxCount:2,
+				Page:1,
 				filterObj:{
 					name:"",
 					keyword: "",
@@ -263,6 +276,10 @@
 						return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
 					}
 				},
+				ChangePage: function (currentPage) {
+					let _this = this;
+					_this.Page = currentPage;
+				},
 				//ProductType:function(val){
 				//	let _this = this;
 				//	if (val == 'food') {
@@ -284,6 +301,16 @@
 				CatProductsAmount: function () {
 					let _this = this;
 					return _this.products.filter((a) => a.type.productypeId == 2).length;
+				},
+				PageCount: function () {
+					let _this = this;
+					return Math.ceil(_this.showProducts.length / _this.maxCount);
+				},
+				ShowPageCount: function () {
+					let _this = this;
+					let start = (_this.Page - 1) * _this.maxCount;
+					let end = _this.Page * _this.maxCount;
+					return _this.showProducts.slice(start, end);
 				},
 			},
 			
