@@ -436,17 +436,11 @@ namespace FurryFeast.API
 
 						data = br.ReadBytes((int)pic.Length);
 						var image =await _context.ProductPics.FindAsync(picId);
-						if (image != null || image.ProductPicId != ProductPicId[i])
+						if (image != null)
 						{
 							image.ProductPicImage = data;
 						}
 						
-						//ProductPic image = new ProductPic();
-						//image.ProductPicImage = data;
-						//image.ProductId = ProductId;
-						//_context.ProductPics.Update(image);
-
-						//ProductPic image = _context.ProductPics.Where(x => x.ProductId == ProductId).Select(x=>x.ProductPicImage);
 					}
 
 				};

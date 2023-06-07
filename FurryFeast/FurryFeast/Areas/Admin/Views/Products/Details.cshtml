@@ -193,6 +193,7 @@
 				originalProductLaunchedTime: "",
 				originalProductSoldTime: "",
 				selected:"",
+				originalSelected:"",
 				ProductPicImage: ["", "", ""],
 				ProductPicId: [0, 0, 0],
 			},
@@ -218,6 +219,7 @@
 					_this.originalProductName = _this.backendProduct.productName;
 					_this.originalProductAmount = _this.backendProduct.productAmount;
 					_this.originalProductPrice = _this.backendProduct.productPrice;
+					_this.originalSelected = _this.selected;
 				},
 				cancel: function () {
 					let _this = this;
@@ -263,7 +265,6 @@
 					
 					_this.ProductPicImage[idx] = event.target.files[0];
 					_this.ProductPicId[idx] = _this.backendProduct.productPicId[idx];
-					alert(_this.backendProduct.productPicId[idx]);
 				},
 				UpdateImages: function () {
 					alert('有');
