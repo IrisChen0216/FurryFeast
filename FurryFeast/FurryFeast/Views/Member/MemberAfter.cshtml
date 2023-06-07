@@ -20,7 +20,7 @@
 	</div>
 </div>
 
-	<div id="app" class="">
+	<div id="app" class="pagination">
 	<table>
 		<tr>
 			<th>會員編號</th>
@@ -52,7 +52,7 @@
 			  :prev-class-link="'page-link'"
 			  :next-class="'page-item'"
 			  :next-class-link="'page-link'"
-			  :container-class="'className'">
+			  :container-class="'pagination'">
 	</paginate>
 </div>
 
@@ -69,16 +69,21 @@
 
 		},
 		mounted:function(){
-			let t = this;
-			axios('/api/member/all').then(res=>t.members = res.data)
+			let self = this;
+			self.getMember();
+			
 		},
 		methods:{
-			EditMember:function(){
-
+			getMember:function(){
+				let self = this;
+				axios.get('/api/member/all').then(res => self.members = res.data)
 			},
 			ChangePage:function(currentpage){
 				console.log(currentpage)
 			},
+			Edit:function(){
+
+			}
 		},
 		computed:{
 			PageCount:function(){

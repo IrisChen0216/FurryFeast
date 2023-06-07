@@ -20,6 +20,7 @@
             <th>訂單編號</th>
             <th>訂單狀態</th>
             <th>訂單價格</th>
+            <th>訂單明細</th>
         </tr>
         <tr v-for="order in orders">
             <td>
@@ -33,6 +34,9 @@
             </td>
             <td>
                 {{order.orderTotalPrice}}
+            </td>
+            <td>
+                {{order.orderDetails}}
             </td>
         </tr>
     </table>

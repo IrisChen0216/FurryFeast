@@ -21,6 +21,7 @@ using System.Text;
 using System.Net;
 using System.Text.Json;
 using FurryFeast.Services;
+using System.Web;
 
 namespace FurryFeast.Controllers
 {
@@ -107,13 +108,14 @@ namespace FurryFeast.Controllers
             var obj = new AesValidationDto(list.MemberPhone, DateTime.Now.AddDays(3));
             var jstring = JsonSerializer.Serialize(obj);
             var code =  encrypt.AesEncryptToBase64(jstring);
+			string encodedStr = HttpUtility.UrlEncode(code);
 
 
-            var Mail = new MailMessage()
+			var Mail = new MailMessage()
             {
                 From = new MailAddress("thm101777@gmail.com"),
                 Subject = "FurryFeast驗證信",
-                Body = @$"歡迎加入FurryFeast，請點擊<a href='https://localhost:7110/Member/Enable?code={code}'>這裡</a>以啟用你的帳號",
+                Body = @$"歡迎加入FurryFeast，請點擊<a href='https://localhost:7110/Member/Enable?code={encodedStr}'>這裡</a>以啟用你的帳號",
                 IsBodyHtml = true,
                 BodyEncoding = Encoding.UTF8
             };
@@ -131,7 +133,9 @@ namespace FurryFeast.Controllers
 
         public async Task<IActionResult> Enable(string code)
         {
+			//string encodedStr = HttpUtility.UrlEncode(code);
 			var str = encrypt.AesDecryptToString(code);
+			
 			var obj = JsonSerializer.Deserialize<AesValidationDto>(str);
 			if (DateTime.Now > obj.ExpiredDate)
 			{
