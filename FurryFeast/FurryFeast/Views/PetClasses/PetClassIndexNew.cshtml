@@ -12,6 +12,33 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 		}
+
+		.date-search{
+			margin-top:initial;
+			padding:3px 15px;
+		}
+
+		.date-pick{
+			border-color:darkgray;
+			border-radius:4px;
+			border-style:solid;
+			border-width: 1px;
+			height:35px;
+			padding-bottom:3px;
+		}
+
+		.clean{
+			background-color:darkgrey;
+			border-color: darkgrey;
+		}
+
+		.product-minimal-figure img {	
+			width:106px;
+		}
+
+		.product-minimal-price{
+			text-align:left;
+		}
 	</style>
 }
 
@@ -66,42 +93,19 @@
 				<div class="aside-item col-sm-6 col-lg-12">
 					<h6 class="aside-title">熱門課程</h6>
 					<div class="row row-10 row-lg-20 gutters-10">
-						<div class="col-4 col-sm-6 col-md-12">
+						<div class="col-4 col-sm-6 col-md-12" v-for="item in HotClass">
 							<!-- Product Minimal-->
 							<article class="product-minimal">
 								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-1-106x104.jpg" alt="" width="106" height="104" /></a></div>
+									<div class="unit-left"><a class="product-minimal-figure" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClassId"><img :src="'data:image/png;base64,'+item.petClassPicImage" alt="" width="106" height="104" /></a></div>
 									<div class="unit-body">
-										<p class="product-minimal-title"><a href="single-product.html">寵物鮮食DIY課程</a></p>
-										<p class="product-minimal-price">$2500</p>
+										<p class="product-minimal-title"><a :href="'/PetClasses/PetClassDetailNew?id=' + item.petClassId">{{item.petClassName}}</a></p>
+										<p class="product-minimal-price">${{item.petClassPrice}}</p>
 									</div>
 								</div>
 							</article>
 						</div>
-						<div class="col-4 col-sm-6 col-md-12">
-							<!-- Product Minimal-->
-							<article class="product-minimal">
-								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-2-106x104.jpg" alt="" width="106" height="104" /></a></div>
-									<div class="unit-body">
-										<p class="product-minimal-title"><a href="single-product.html">寵物餅乾DIY課程 </a></p>
-										<p class="product-minimal-price">$3000</p>
-									</div>
-								</div>
-							</article>
-						</div>
-						<div class="col-4 col-sm-6 col-md-12">
-							<!-- Product Minimal-->
-							<article class="product-minimal">
-								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-3-106x104.jpg" alt="" width="106" height="104" /></a></div>
-									<div class="unit-body">
-										<p class="product-minimal-title"><a href="single-product.html">寵物肉乾DIY課程</a></p>
-										<p class="product-minimal-price">$2000</p>
-									</div>
-								</div>
-							</article>
-						</div>
+					
 					</div>
 				</div>
 			</div>
@@ -109,13 +113,14 @@
 		<div class="col-lg-8 col-xl-9">
 			<div class="product-top-panel group-md">
 				<p class="product-top-panel-title">顯示第 {{StartCount}}–{{EndCount}}項結果  共{{AllClassCount}}筆結果</p>
-		@*		<template>
-					<div>
-						<date-picker v-model="time1" valueType="format"></date-picker>
-						<date-picker v-model="time2" type="datetime"></date-picker>
-						<date-picker v-model="time3" range></date-picker>
-					</div>
-				</template>*@
+		
+				<div>
+					<datepicker class="date-pick" v-model="startDate"></datepicker> ~
+					<datepicker class="date-pick" v-model="endDate"></datepicker>
+					<button class="button button-sm button-primary button-zakaria date-search" v-on:click="ClassDateFilter">搜尋</button>
+					<button class="button button-sm button-primary button-zakaria date-search clean" v-on:click="ClassDateFilterClean">清除</button>
+				</div>
+				
 				<div>
 					<div class="group-sm group-middle">
 						<div class="product-top-panel-sorting" >
@@ -135,17 +140,15 @@
 					<!-- Product-->
 					<article class="product-modern text-center text-sm-left">
 						<div class="unit unit-spacing-0 flex-column flex-sm-row">
-							@*<div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="@item.PetClassId"><img src="~/image/cat/class.jpg" alt="" width="250" height="300" /></a></div>*@
 							<div class="unit-left"><a class="product-modern-figure link-img" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId"><img :src="'data:image/png;base64,'+item.petClassPic" /></a></div>
 
 							<div class="unit-body">
 								<div class="product-modern-body">
 									<h4 class="product-modern-title"><a :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">{{item.petClasses.petClassName}}</a></h4>
 									<div class="product-price-wrap">
-										@*<div class="product-price product-price-old">${{item.petClasses.petClassPrice}}</div>*@
 										<div class="product-price">${{item.petClasses.petClassPrice}}</div>
 									</div>
-									<p class="product-modern-text JQellipsis">{{item.petClasses.petClassInformation}}</p><a class="button button-primary button-zakaria" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">課程詳情</a>
+									<p class="product-modern-text JQellipsis">{{TextTruncate(item.petClasses.petClassInformation,50)}}</p><a class="button button-primary button-zakaria" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">課程詳情</a>
 								</div>
 							</div>
 						</div><span class="product-badge product-badge-sale">Sale</span>
@@ -154,18 +157,6 @@
 
 
 			</div>
-			<@*div class="pagination-wrap">
-				<!-- Bootstrap Pagination-->
-				<nav aria-label="Page navigation">
-					<ul class="pagination">
-						<li class="page-item page-item-control disabled"><a class="page-link" href="#" aria-label="Previous"><span class="icon" aria-hidden="true"></span></a></li>
-						<li class="page-item active"><span class="page-link">1</span></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item page-item-control"><a class="page-link" href="#" aria-label="Next"><span class="icon" aria-hidden="true"></span></a></li>
-					</ul>
-				</nav>
-			</div>*@
 
 				<div class="row justify-content-center">
 					<paginate :page-count="PageCount"
@@ -197,12 +188,21 @@
 	
 		Vue.component('paginate', VuejsPaginate);
 
-
+		Vue.component('datepicker', {
+			template: `<input v-bind:value="value" v-on:input="updateValue($event.target.value)" type="date">`,
+			props: ['value'],
+			methods: {
+				updateValue: function (value) {
+					this.$emit('input', value);
+				}
+			}
+		});
 		let app = new Vue({
 			el: '#app',
 			data: {
 				ShowClasses: [],
 				PetClasses: [],
+				OrinClassType:[],
 				dates: [],
 				maxCount:2,
 				Page:1,
@@ -211,11 +211,14 @@
 					keyword: "",
 				},
 				selectedPrice:"",
+				startDate: null,
+				endDate: null,
+				HotClass:[],
 			},
 			mounted: function () {
 				let _this = this;
 				_this.AllClasses();
-
+				_this.HorClasses();
 			},
 			methods: {
 				//網頁載入就會掛載全部商品資料的方法
@@ -223,7 +226,15 @@
 					let _this = this;
 
 					axios.get(`/api/petclasses/AllClasses`).then(response => {
-						_this.ShowClasses = _this.PetClasses = response.data;
+						_this.ShowClasses = _this.PetClasses=_this.OrinClassType = response.data;
+
+					});
+				},
+				HorClasses:function(){
+					let _this = this;
+
+					axios.get(`/api/petclasses/HotClasses`).then(response => {
+						_this.HotClass  = response.data;
 
 					});
 				},
@@ -237,7 +248,7 @@
 					//var request={};
 					//request.productName=_this.keyword;
 					axios.get(`/api/petclasses/PetClassType?type=${typeNum}`).then(response => {
-						_this.ShowClasses = response.data;
+						_this.ShowClasses= _this.OrinClassType = response.data;
 
 					});
 				},
@@ -249,14 +260,28 @@
 					_this.filterObj.keyword = "";
 					_this.Page=1;
 				},
-				//想改成日期選擇
+				ClassDateFilter: function () {
+					let _this = this;
+					let start = new Date(_this.startDate);
+					let end = new Date(_this.endDate);
+
+					_this.ShowClasses = _this.OrinClassType.filter((x) => {
+						let classDate = new Date(x.petClasses.petClassDate); 
+						return classDate >= start && classDate <= end; });
+				},
+				ClassDateFilterClean:function(){
+					let _this = this;
+					_this.startDate=null;
+					_this.endDate=null;
+					_this.ShowClasses= _this.OrinClassType;
+					_selectedPrice="";
+				},
 				sortBy: function () {
 					let _this = this;
-
 					//依照價格排序
-					console.log('Sorting...');
+					
 					if (_this.selectedPrice == 1) {
-						
+
 						return _this.ShowClasses.sort((a, b) => a.petClasses.petClassPrice - b.petClasses.petClassPrice);
 					}
 					if (_this.selectedPrice == 2) {
@@ -264,23 +289,14 @@
 						return _this.ShowClasses.sort((a, b) => b.petClasses.petClassPrice - a.petClasses.petClassPrice);
 					}
 				},
-				//onSelect(valueString, value) {
-				//	this.dates = value;
-				//},
-				//onPopupVisibleChange(visible) {
-				//	if (!visible) {
-				//		this.dates = []
-				//	}
-				//},
-				//disabledDate(current) {
-				//	const dates = this.dates;
-				//	if (dates && dates.length) {
-				//		const tooLate = dates[0] && Math.abs((new Date(current) - dates[0]) / (24 * 60 * 60 * 1000)) > 7;
-				//		const tooEarly = dates[1] && Math.abs((new Date(current) - dates[1]) / (24 * 60 * 60 * 1000)) > 7;
-				//		return tooEarly || tooLate;
-				//	}
-				//	return false;
-				//}
+				TextTruncate:function(text,num){
+					if(text.length>num){
+						return text.substring(0,num)+'...';
+					}
+					else{
+						return text;
+					}
+				},
 			},
 			computed: {
 				AllClassAmount: function () {
@@ -307,7 +323,7 @@
 					let _this = this;
 					let start = (_this.Page - 1) * _this.maxCount;
 					let end = _this.Page * _this.maxCount;
-					return _this.ShowClasses.slice(start,end);
+					return _this.ShowClasses.slice(start, end);
 				},
 				AllClassCount:function(){
 					return this.ShowClasses.length;
@@ -329,17 +345,7 @@
 
 		});
 
-				//$(function () {
-				//    var len = 50; // 超過50個字以"..."取代
-				//    $(".JQellipsis").each(function (i) {
-				//        if ($(this).text().length > len) {
-				//            $(this).attr("title", $(this).text());
-				//            var text = $(this).text().substring(0, len - 1) + "...";
-				//            $(this).text(text);
-				//        }
-				//    });
-				//});
-
+				
 
 	</script>
 	<script src="~/js/product/core.min.js"></script>

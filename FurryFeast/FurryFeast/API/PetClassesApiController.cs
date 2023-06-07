@@ -87,5 +87,20 @@ namespace FurryFeast.API
 
 			return model;
 		}
+
+		public async Task<object> HotClassesAsync()
+		{
+			var SearchClass =await _context.ClassReservetions.GroupBy(x => x.PetClassId).OrderByDescending(g => g.Count()).Take(3).Select(g=>g.Key).ToListAsync();
+				
+			var HotPetClass=await _context.PetClasses.Include(s=>s.PetClassPics).Where(s=> SearchClass.Contains(s.PetClassId)).Select(c => new
+			{
+				petClassId=c.PetClassId,
+				petClassName=c.PetClassName,
+				petClassPrice=c.PetClassPrice,
+				petClassPicImage=c.PetClassPics.Select(x => x.PetClassPicImage).FirstOrDefault()
+			}).ToListAsync();
+		
+			return HotPetClass;
+		}
 	}
 }
