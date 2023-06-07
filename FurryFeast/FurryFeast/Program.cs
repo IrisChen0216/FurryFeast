@@ -58,6 +58,8 @@ namespace FurryFeast {
 			builder.Services.AddRazorPages();
 
 			builder.Services.AddControllersWithViews();
+
+			
 			builder.Services.AddHttpContextAccessor();
 
 			builder.Services.AddDistributedMemoryCache();

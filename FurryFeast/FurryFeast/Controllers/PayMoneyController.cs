@@ -1,18 +1,31 @@
-﻿using FurryFeast.Utility;
+﻿using FurryFeast.Models;
+using FurryFeast.Utility;
 using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Specialized;
+using System.Security.Claims;
 using System.Text;
+using System.Web;
 
 namespace FurryFeast.Controllers
 {
 	public class PayMoneyController : Controller
 	{
-		PayMoneyInfo PayMoneyInfo = new PayMoneyInfo
+        private readonly db_a989fb_furryfeastContext _context;
+
+        public PayMoneyController(db_a989fb_furryfeastContext context)
+        {
+            _context = context;
+        }
+
+        PayMoneyInfo PayMoneyInfo = new PayMoneyInfo
 		{
 			MerchantID = "MS149054042",
 			HashKey = "YhMBZHNsbMbVVJtjhbV87gzFLApRblCV",
 			HashIV = "C0jt6somi3UVt0eP",
-			ReturnURL = "http://yourWebsitUrl/Bank/SpgatewayReturn",
+			ReturnURL = "https://localhost:7110/PayMoney/FinishPay",
 			NotifyURL = "http://yourWebsitUrl/Bank/SpgatewayNotify",
 			CustomerURL = "http://yourWebsitUrl/Bank/SpgatewayCustomer",
 			AuthUrl = "https://ccore.newebpay.com/MPG/mpg_gateway",
@@ -143,5 +156,76 @@ namespace FurryFeast.Controllers
 			byte[] bytes = Encoding.ASCII.GetBytes(s.ToString());
 			await HttpContext.Response.Body.WriteAsync(bytes);
 		}
-	}
+
+		public async Task<IActionResult> FinishPay()
+		{
+			StringBuilder receive = new StringBuilder();
+			foreach (var item in Request.Form)
+			{
+				receive.AppendLine(item.Key + "=" + item.Value + "<br>");
+			}
+			ViewData["ReceiveObj"] = receive.ToString();
+
+			string HashKey = PayMoneyInfo.HashKey;
+			string HashIV = PayMoneyInfo.HashIV;
+
+			string TradeInfoDecrypt = CryptUtility.DecryptAESHex(Request.Form["TradeInfo"], HashKey, HashIV);
+			NameValueCollection decryptTradeCollection = HttpUtility.ParseQueryString(TradeInfoDecrypt);
+			receive.Length = 0;
+			foreach (String key in decryptTradeCollection.AllKeys)
+			{
+				receive.AppendLine(key + "=" + decryptTradeCollection[key] + "<br>");
+			}
+			ViewData["TradeInfo"] = receive.ToString();
+			//ViewData["Status"]=SUCCESS.ToString();
+			string Status = decryptTradeCollection[decryptTradeCollection.Keys[0]];
+			int OrderID= Convert.ToInt32(decryptTradeCollection[decryptTradeCollection.Keys[5]]);
+			
+			
+			await PutProductOrderState(Status, OrderID);
+            ViewBag.Status = Status;
+			return View();
+		}
+
+        [HttpPut]
+        public async Task<string> PutProductOrderState(string state,int orderId)
+        {
+
+
+            var order = await _context.Orders.FindAsync(orderId);
+
+            if (state == "SUCCESS")
+            {
+                order.OrderStatus=1;
+            }
+			else
+			{
+				return "付款失敗";
+            }
+            
+
+            _context.Orders.Update(order);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (order.OrderId!= orderId)
+                {
+                    
+                        return "付款狀態更新失敗";
+                    
+                }
+
+                else
+                {
+                    throw;
+                }
+            }
+
+            return "付款狀態更新成功";
+        }
+    }
 }
