@@ -15,9 +15,8 @@
 	<h2>會員登入</h2>
 </div>
 
-<form action="/Member/Login" method="post">
-	<div id="app" class="Login">
-
+<form asp-action="Login" asp-controller="Member" method="post" asp-route-typeID="@Context.Request.Query["typeID"]" asp-route-recipeID="@Context.Request.Query["recipeID"]">
+	<div class="Login">
 		<div>
 			<label>帳號</label>
 			<input class="form-input form-control" placeholder="請輸入帳號" id="input" type="email" name="MemberAccount">
@@ -27,8 +26,7 @@
 			<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord">
 		</div>
 		<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
-		<a v-on:click="loginSuccess">button</a>
-		<button class="button button-lg button-primary button-zakaria" v-on:click="loginSuccess" type="submit">登入</button>
+		<button class="button button-lg button-primary button-zakaria" type="submit">登入</button>
 		</div>
 </form>
 		<div>
@@ -57,32 +55,6 @@
 		//data - shape="rectangular"
 		//data - logo_alignment="left" >
 		//</div>
-		let app = new Vue({
-			el: '#app',
-			data: {
-				returnUrl: "", 
-				typeID:"",
-				recipeID:""
-			},
-			mounted() { 
-				const params = new URLSearchParams(window.location.search);
-  
-				// 獲取 returnUrl、typeID 和 recipeID 參數的值
-				typeID = params.get('typeID');
-				recipeID = params.get('recipeID');
-				// 在控制台上輸出 returnUrl 的值
-				console.log(typeID);
-				console.log(recipeID); 
-			},
-			methods : { 
-				loginSuccess: function() {
-					this.returnUrl = '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);;
-					window.location.href = '/Recipes/Recipes?' + this.returnUrl;
-
-				}
-			}
-		})
-
 	</script>
 	}
 

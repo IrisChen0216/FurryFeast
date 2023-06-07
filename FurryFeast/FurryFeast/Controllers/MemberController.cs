@@ -145,14 +145,14 @@ namespace FurryFeast.Controllers
 			return Ok($@"code:{code}  str:{str}");
 		}
 
-        [HttpPost]
+        
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel list, string typeID = null, string recipeID = null)
+        public async Task<IActionResult> Login(LoginViewModel list, [FromQuery]string typeID = null, [FromQuery]string recipeID = null)
 
         {
             var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
@@ -167,38 +167,27 @@ namespace FurryFeast.Controllers
             var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, ClaimPrincipal);
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        //[Route("/Login?&typeID={typeID?}&recipeID={recipeID?}")]
-        public async Task<IActionResult> Login( string recipeID, LoginViewModel list, string typeID = null)
-        {
-            var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
-
-            if (Member == null) return View("Login");
-
-            var ClaimList = new List<Claim>() {
-                new Claim(ClaimTypes.Name, Member.MemberName),
-                new Claim("Id",Member.MemberId.ToString())
-            };
-
-            var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
-            var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, ClaimPrincipal);
-
             int typeIdInt, recipeIdInt;
 
-            if (int.TryParse(typeID, out typeIdInt) && int.TryParse(recipeID, out recipeIdInt))
+            if (typeID != null && recipeID != null)
             {
-                return RedirectToAction("Recipes", "Recipes", new { typeID = typeIdInt, recipeID = recipeIdInt });
-            }
+	            if (int.TryParse(typeID, out typeIdInt) && int.TryParse(recipeID, out recipeIdInt))
+	            {
+		            return RedirectToAction("Recipes", "Recipes", new { typeID = typeIdInt, recipeID = recipeIdInt });
+	            }
+	            else
+	            {
+		            return View();
+
+	            }
+			}
             else
             {
-                return View();
+	            return RedirectToAction("Index", "Home");
 
-            }
-        }
+			}
+
+		}
 
         public IActionResult GoogleLogin()
         {
