@@ -144,7 +144,7 @@
 								<div class="row">
 									<div class="col-md-8">
 										<div class="mt-2">
-											<img id="imgLoad" class="img-fluid" v-bind:src="choseTableData.imagesBitmapFile" />
+											<img id="imgLoad" class="img-fluid" v-bind:src="'data: image/jpeg;base64,' + choseTableData.imagesBitmapFile" />
 											<div class="mt-2">
 												<input class="form-control" type="file" v-on:change="fileSelected">
 											</div>
@@ -317,7 +317,7 @@
 					const file = e.target.files.item(0);
 					const reader = new FileReader();
 					reader.addEventListener('load', function (e) {
-						_this.choseTableData.imagesBitmapFile = e.target.result;
+						_this.choseTableData.imagesBitmapFile = e.target.result.split(",")[1];
 					});
 					reader.readAsDataURL(file);
 				},
