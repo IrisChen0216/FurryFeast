@@ -67,7 +67,7 @@ namespace FurryFeast.Areas.Admin.Controllers
 		}
 		[HttpPost]
 
-		public async Task<string> CreateMember(CreateMemberDto list)
+		public async Task<string> CreateMember([FromBody]CreateMemberDto list)
 		{
 			try
 			{

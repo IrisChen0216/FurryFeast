@@ -60,7 +60,7 @@
 
 		</tr>
 	</table>
-	
+
 </div>*@
 
 
@@ -74,84 +74,135 @@
 						<h6 class="text-white text-capitalize ps-3">會員管理</h6>
 					</div>
 				</div>
-					@*搜尋欄*@
-					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
-						<div class="input-group input-group-outline">
-							<label class="form-label">Search Member...</label>
-							<input type="text" class="form-control" v-model="keyword">
-						</div>
+				@*搜尋欄*@
+				@*				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertPage">
+				新增會員
+				</button>*@
+				<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
+					<div class="input-group input-group-outline">
+						<label class="form-label">Search Member...</label>
+						<input type="text" class="form-control" v-model="keyword" @@keyup="filtermember">
 					</div>
-
 				</div>
 
-				<div class="card-body px-0 pb-2">
-					<div class="table-responsive p-0">
-						<table class="table align-items-center mb-0">
-							<thead>
-								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員編號</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">姓名</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">性別</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">手機號碼</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">地址</th>
-									<th class="text-secondary opacity-7"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="i in members" >
+			</div>
 
-									<td class="align-middle text-center">
+			<div class="card-body px-0 pb-2">
+				<div class="table-responsive p-0">
+					<table class="table align-items-center mb-0">
+						<thead>
+							<tr>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員編號</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">姓名</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">性別</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">手機號碼</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">地址</th>
+								<th class="text-secondary opacity-7"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="i in members">
+
+								<td class="align-middle text-center">
 									<span class="text-secondary text-xs font-weight-bold">{{i.member.memberId}}</span>
-									</td>
-									<td>
-										<div class="d-flex px-2 py-1">
-											<div class="d-flex flex-column justify-content-center">
-													<h6 class="mb-0 text-sm">{{i.member.memberName}}</h6>
-											</div>
+								</td>
+								<td>
+									<div class="d-flex px-2 py-1">
+										<div class="d-flex flex-column justify-content-center">
+											<h6 class="mb-0 text-sm">{{i.member.memberName}}</h6>
 										</div>
-									</td>
-									<td>
-										<p class="text-xs font-weight-bold mb-0">{{i.member.memberGender}}</p>
-				
-									</td>
-									<td class="align-middle text-center text-sm">
+									</div>
+								</td>
+								<td>
+									<p class="text-xs font-weight-bold mb-0">{{i.member.memberGender}}</p>
+
+								</td>
+								<td class="align-middle text-center text-sm">
 									<h6 class="mb-0 text-sm">{{i.member.memberPhone}}</h6>
-									</td>
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{i.member.memberEmail}}</span>
-									</td>
-									<td class="align-middle text-center">
-										<span class="text-secondary text-xs font-weight-bold">{{i.member.memberAdress}}</span>
-									</td>
-									<td class="align-middle">
-								@*	<a :href="'Details?id='+item.backEndProduct.productId">*@
-										<button class="btn bg-gradient-info mb-0 toast-btn">新增</button>
-										<button class="btn bg-gradient-info mb-0 toast-btn">編輯</button>
+								</td>
+								<td class="align-middle text-center">
+									<span class="text-secondary text-xs font-weight-bold">{{i.member.memberEmail}}</span>
+								</td>
+								<td class="align-middle text-center">
+									<span class="text-secondary text-xs font-weight-bold">{{i.member.memberAdress}}</span>
+								</td>
+								<td class="align-middle">
+									@*	<a :href="'Details?id='+item.backEndProduct.productId">*@
+									<button class="btn bg-gradient-info mb-0 toast-btn">編輯</button>
 									<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(i)">刪除</button>
-									</td>
+								</td>
 
-								</tr>
+							</tr>
 
-							</tbody>
-						</table>
-					</div>
+						</tbody>
+					</table>
 				</div>
 			</div>
+@*			<div class="modal fade " id="insertPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label class="form-label">姓名:</label>
+								<input class="form-control" v-model="membertName" name="memberName" required />
+							</div>
+							<div class="form-group">
+								<label class="form-label">性別:</label>
+								<select v-model="memberGender">
+									<option value="">性別</option>
+									<option value="1">男</option>
+									<option value="0">女</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label">生日:</label>
+								<input class="form-control" type="date" v-model="memberBirthday" name="memberBirthday" required />
+							</div>
+							<div class="form-group">
+								<label class="form-label">手機號碼:</label>
+								<input class="form-control" v-model="memberPhone" name="memberPhone" maxlength="10" required />
+							</div>
+							<div class="form-group">
+								<label class="form-label">地址:</label>
+								<input class="form-control" v-model="memberAdress" name="memberAdress" />
+							</div>
+							<div class="form-group">
+								<label class="form-label">帳號:</label>
+								<input class="form-control" type="email" v-model="memberAccount" name="memberAccount" required />
+							</div>
+							<div class="form-group">
+								<label class="form-label">密碼:</label>
+								<input class="form-control" v-model="memberPassord" name="memberPassord" required />
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="CloseInsertPage">關閉</button>
+							<button type="button" class="btn btn-primary" v-on:click="createMember()">新增</button>
+						</div>
+					</div>
+				</div>
+			</div>*@
+			<paginate :page-count="5"
+					  :click-handler="ChangePage"
+					  :prev-text="'前一頁'"
+					  :next-text="'下一頁'"
+					  :page-class="'page-item'"
+					  :page-link-class="'page-link'"
+					  :prev-class="'page-item'"
+					  :prev-class-link="'page-link'"
+					  :next-class="'page-item'"
+					  :next-class-link="'page-link'"
+					  :container-class="'className'">
+			</paginate>
 		</div>
 	</div>
-<paginate :page-count="5"
-		  :click-handler="ChangePage"
-		  :prev-text="'前一頁'"
-		  :next-text="'下一頁'"
-		  :page-class="'page-item'"
-		  :page-link-class="'page-link'"
-		  :prev-class="'page-item'"
-		  :prev-class-link="'page-link'"
-		  :next-class="'page-item'"
-		  :next-class-link="'page-link'"
-		  :container-class="'className'">
-</paginate>
+</div>
+
 
 @section Scripts{
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
@@ -162,19 +213,15 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
+				originMember:[],
 				members: [],
-				keyword:"",
-				editinto:[],
-				//deleteinto:{
-				//	memberId:"",
-				//	MemberName:"",
-				//	MemberGender:"",
-				//	MemberEmail:"",
-				//	MemberAdress:"",
-				//	MemberPhone:""
-				//},
-				createinto:[]
-
+				keyword: "",
+				memberName:"",
+				memberPhone:"",
+				memberEmail:"",
+				memberAdress:"",
+				memberBirthday:"",
+				memberGender:"",
 			},
 			mounted: function () {
 				let self = this;
@@ -184,22 +231,60 @@
 			methods: {
 				getMember: function () {
 					let self = this;
-					axios.get('/api/member/all').then(res => self.members = res.data)
+					axios.get('/api/member/all').then(res => self.originMember = self.members = res.data)
 				},
-				editMember:function(){
+				editMember: function () {
 					let self = this;
 					let request = {
-						memberName : self.editinto.memberName,
+						memberName: self.editinto.memberName,
 						memberGender: self.editinto.memberGender,
 						memberBirthday: self.editinto.memberBirthday,
-						memberPhone:self.editinto.memberPhone,
-						memberEmail:self.editinto.memberEmail,
-						memberAdress:self.editinto.memberAdress
+						memberPhone: self.editinto.memberPhone,
+						memberEmail: self.editinto.memberEmail,
+						memberAdress: self.editinto.memberAdress
 					}
 				},
-				deleteMember:function(id){
+				//createMember:function(){
+				//	alert('有')
+				//	let self = this;
+				//	let request = {
+				//		MemberId:0,
+				//		MemberName: self.memberName,
+				//		MemberGender: self.memberGender,
+				//		MemberPhone: self.memberPhone,
+				//		MemberEmail: self.memberEmail,
+				//		MemberAdress: self.memberAdress,
+				//		MemberAccount: self.memberAccount,
+				//		MemberPassord: self.memberPassord,
+				//		MemberBirthday:self.memberBirthday
+
+				//	}
+				//	axios.post(`/api/Member/CreateMember`, request).then(res => {
+				//		alert(res.data)
+				//		self.getMember();
+
+				//		self.memberName="",
+				//		self.memberGender="",
+				//		self.memberPhone="",
+				//		self.memberEmail="",
+				//		self.memberAdress="",
+				//		self.memberAccount="",
+				//		self.memberPassord="",
+				//		self.memberBirthday=""
+
+				//	})
+				//},
+				showInsertPage: function () {
+					const myModal = new bootstrap.Modal('#insertPage')
+					myModal.show();
+				},
+				CloseInsertPage: function () {
+					const myModal = new bootstrap.Modal('#insertPage')
+					myModal.hide();
+				},
+				deleteMember: function (id) {
 					let self = this;
-					axios.delete(`/api/member/deletemember/${id}`).then(res=>{
+					axios.delete(`/api/member/deletemember/${id}`).then(res => {
 						alert(res.data);
 						self.getMember();
 					})
@@ -226,9 +311,23 @@
 						}
 					})
 				},
-				filter:function(){
+				//filter: function () {
+				//	let self = this;
+				//	return self.members.filter(x => {
+				//		return
+				//		x.member.memberName.includes(self.keyword) ||
+				//			x.member.memberPhone.includes(self.keyword) ||
+				//			x.member.memberEmail.includes(self.keyword)
+				//	})
+				//},
+				filtermember: function () {
 					let self = this;
-					return self.members.filter(x=>x.members.memberName.memberPhone.memberEmail.include(self.keyword))
+					self.members = self.originMember;
+					self.members = self.members.filter(x => 
+						x.member.memberName.includes(self.keyword)||
+						x.member.memberPhone.includes(self.keyword) ||
+								x.member.memberAdress.includes(self.keyword)
+					);
 				},
 				ChangePage: function (currentpage) {
 					console.log(currentpage);
