@@ -1,109 +1,133 @@
-﻿@model IEnumerable<FurryFeast.Models.Recipe>
+﻿@model IEnumerable<Recipe>
 
 @{
 	ViewData["Title"] = "Recipes";
 }
+
 @section Style
 {
-	<link href="~/css/recipestyle.css" rel="stylesheet" />
+	<link href="~/css/recipestyle.css" rel="stylesheet"/>
 }
 
+<div class="row" style="height: 300px; margin-top: 40px;">
+	<div class=" col p-0" style="overflow: hidden;">
+		<img style="object-fit: cover; height: 100%; object-position: bottom; " src="/image/cute-pet-collage-isolated (1).jpg">
+	</div>
+	<div class="col row m-4">
+		<button class="col btn btn-primary p-5 " type="button" v-on:click="chooseType(1)">Dog</button>
+		<button class="col btn btn-primary p-5 ms-3" type="button" v-on:click="chooseType(2)">Cat</button>
+	</div>
+</div>
 <div class="index-header">
 	<h2>寵物鮮食食譜</h2>
 </div>
 <div id="app" class="container">
-	<div class="row m-4">
-		<button class="col btn btn-primary p-5 " type="button" v-on:click="chooseType(1)">Dog</button>
-		<button class="col btn btn-primary p-5 ms-3" type="button" v-on:click="chooseType(2)">Cat</button>
-	</div>
+@*	<div class="" style="position: relative; width: 100%; padding-bottom: 25%; overflow: hidden;">
+		@*		<img src="https://shorturl.at/eiwPR" />
+		@*<img class="px-4" style="position: absolute; top: 0;left: 0; width: 100%; height: 100%; object-position:top; object-fit: cover;" src="https://shorturl.at/sKTY8" />
+	</div>*@
+	
 	<div class="row m-4">
 		<div class="col-md-3  pt-4">
 			<ul id="recipesList" class="nav justify-content-center">
-				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item)">{{item.name}}</li>
+				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item.recipesId)">{{item.name}}</li>
 			</ul>
 		</div>
 
-		<div class="col p-3 ms-3" v-if="showRecipeDetails"> 
-			<div class="index-header row">
-				<h4 class="py-3">{{selectedRecipe.name}}</h4>
-				@*<div class="line"></div>*@
-				<div class="mx-auto px-3 pb-2" style="width: 90%;background: darkseagreen;padding: 20px;border-radius: 6px;color: white;font-weight: 900;">{{selectedRecipe.desc}}</div>
-			</div>
-			<div class="row m-3">
-				<div class="col border border-2  p-4 rounded-4">
-					<h5>準備食材</h5>
-					<ul v-for="item in selectedRecipeData">
-						<li>{{item}}</li>
-					</ul>
+		<div class="col p-3 ms-3" v-if="showRecipeDetails">
+			<div class="m-3 p-3" style="height: auto; border: 1px solid black;">
+				<div class="row m-0" style="background: brown;">
+					<div style="color: white;" class="py-3 recipes-header ">{{selectedRecipe.name}}</div>
+					<div style="color: white; font-weight: 900; padding: 10px;">{{selectedRecipe.desc}}</div>
 				</div>
-				<div class="col border border-2 ms-4 p-4 rounded-4">
-					<h5>作法</h5>
-					<ol v-for="item in selectedRecipeMethod">
-						<li>{{item}}</li>
-					</ol>
+				<div class="row m-0 mt-3 recipes-box">
+					<div class="col p-0 ">
+						<div class="recipes-card" style="border-right: 1px solid black;">
+							<p class="recipes-text">準備食材</p>
+						</div>
+						<ul class="p-4" style="line-height: 30px;">
+							<li v-for="item in selectedRecipeData">{{item}}</li>
+						</ul>
+					</div>
+					<div class="col p-0">
+						<div class="recipes-card">
+							<p class="recipes-text">作法</p>
+						</div>
+						<ul class="ps-5 p-4" style="line-height: 30px; text-align: justify;">
+							<li v-for="item in selectedRecipeMethod">{{item}}</li>
+						</ul>
+					</div>
 				</div>
-			</div>
-			<div class="row m-3">
-				<div class="col border border-2 rounded-4 p-4">
-					<h5>Notes</h5>
-					<span>{{selectedRecipe.notes}}</span>
+				<div class="row m-0 recipes-box">
+					<div class="col p-4 pb-0">
+						<p class="mb-2" style="font-size: 18px; color: black; letter-spacing: 1px; font-weight: 600;">Notes</p>
+						<span>{{selectedRecipe.notes}}</span>
+					</div>
 				</div>
 			</div>
 			<div class="container text-center mb-2">
 				<h4 class="py-3">回應區</h4>
 				<template v-if="selectedRecipe">
-					<form class="input-group">
-						<textarea class="form-control" style="border-radius: 6px; margin-right: 9px;" v-model="commentContent" required></textarea>
-						<input type="hidden" class="form-control" v-model="active"/>
-						<button type="submit" style="border-radius: 6px;" class="btn btn-primary" v-on:click="addComment">送出</button>
-					</form>
+					<template v-if="MemberData!=null">
+						<form class="input-group">
+							<textarea class="form-control" style="border-radius: 6px; margin-right: 9px;" v-model="commentContent" required></textarea>
+							<button type="button" style="border-radius: 6px;" class="btn btn-primary" v-on:click="addComment">送出</button>
+						</form>
+					</template>
+					<template v-else>
+						<div class="border border-1 p-4 my-2">
+							<form>
+								<p class="mb-2">請先登入會員</p>
+								<button type="button" v-on:click="submitForm" class="nBtn">登入</button>
+							</form>
+						</div>
+					</template>
 				</template>
-				<template v-else>
-					<div class="border border-2 m-4 p-4">
-						<p>您尚未登入會員</p>
-					</div>
-				</template>
-				
-				
+
+
 				@*msg*@
+				<div class="response mt-3">
+					<template v-for="item in selectedRecipe.msgBoards">
+						<div class="m-4" v-if="item.active">
+							<div class="my-2 align-content-end" v-if="!item.isEditable">
+								<div class="row pb-2" style="border-bottom: 1px dashed #ccc;">
+									<div class="text-end" v-if="MemberData!=null">
+										<template v-if="MemberData.memberAccount == item.userAccount">
+											<button type="button" class="nBtn edit" v-on:click="editComment(item);">編輯</button>
+											<button type="button" class="nBtn delete" v-on:click="deleteComment(item);">刪除</button>
+										</template>
+									</div>
+									<div class="col px-3 py-2 m-0 text-start">
+										<p class="m-0 px-3 user-icon ">會員</p>
+										<p class="ms-1" style="display: inline-block; font-weight: 600">{{item.userAccount}}</p>
+										<p class="m-0 ps-2 pt-1" style="font-size: small;">{{relativeDate(item)}}</p>
+									</div>
 
-				<div v-for="item in selectedRecipe.msgBoards">
-
-					<div class="m-4" v-if="">
-						<div class="my-2 align-content-end" v-if="!item.isEditable">
-							<template v-if="LoginState == true">
-								<button type="button" class="btn btn-sm" v-on:click="editComment(item);">編輯</button>
-								<button type="button" class="btn btn-sm" v-on:click="deleteComment();">刪除</button>
-							</template>
-							<div class="row pb-2" style="border-bottom: 1px dashed #ccc;">
-								<div class="col-3 px-3 py-2 m-0 text-start">
-									<p class="fw-bold m-0 p-0">{{item.userId}}</p>
-									<p class="m-0 p-0" style="font-size: small;">{{item.dateTime}}</p>
-								</div>
-
-								<div class="px-3 py-2 m-0 col text-start" v-if="item.editedMsgRecords.length==0">
-									<p>{{item.content}}</p>
-								</div>
-								<div v-else class="px-3 py-2 m-0 col" style="max-height: 100%">
-									<div class="text-start" style="height: 70%">{{item.editedMsgRecords[item.editedMsgRecords.length-1].editedText}}</div>
-									<div class="text-end m-0" style="font-size: small; color: gray" v-on:click="editedRecord(item)" data-swal-toast-template='#my-template'>
-										已編輯
+									<div class="px-3 py-2 m-0 col-8 text-start" v-if="item.editedMsgRecords.length==0">
+										<p>{{item.content}}</p>
+									</div>
+									<div v-else class="px-3 py-2 m-0 col-8" style="max-height: 100%;">
+										<div class="text-start" style="height: auto">
+											<p>{{item.editedMsgRecords[item.editedMsgRecords.length-1].editedText}}</p>
+										</div>
+										<div class="text-end m-0" style="color: gray; font-size: small;" v-on:click="editedRecord(item)" data-swal-toast-template="#my-template">
+											已編輯
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 							@*editing*@
 							<div v-else>
 								<p class="fw-bold">編輯留言</p>
 								<form class="input-group pt-2">
-								<textarea class="form-control" style="border-radius: 6px" v-model="editedContent" required></textarea>
-									@*<input type="hidden" class="form-control" v-model="active"/>*@
+									<textarea class="form-control" style="border-radius: 6px" v-model="editedContent" required></textarea>
 									<button type="button" class="btn btn-primary ms-2" style="border-radius: 6px;" v-on:click="updateComment(item)">更新</button>
 									<button type="button" class="btn btn-primary ms-2" style="border-radius: 6px;" v-on:click="cancelEditing(item)">取消</button>
 								</form>
 							</div>
 
-					</div>
+						</div>
+					</template>
 				</div>
 			</div>
 		</div>
@@ -111,12 +135,11 @@
 </div>
 
 
-
 @section Scripts
 {
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/plugin/relativeTime.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 
 	<script>
@@ -124,7 +147,6 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
-				LoginState: false,
 				MemberData: [],
 				editedMsg: [],
 				recipes: [],
@@ -134,36 +156,85 @@
 				selectedRecipeData: "",
 				selectedRecipeMethod: "",
 				commentContent: "",
-				active: "true",
 				editedContent: "",
+				dateTime: "",
 				showRecipeDetails: false
 			},
-			mounted() {
-				let _this = this;
-				_this.allRecipes();
+			mounted: async function () {
+				const _this = this;
+				await _this.allRecipes();
 				_this.getUserData();
+
+
+				let params = new URLSearchParams(window.location.search);
+				let returnUrl = params.get('returnUrl');
+				let typeID = params.get('typeID');
+				let recipeID = params.get('recipeID');
+
+				if (typeID != null && recipeID != null) {
+					_this.chooseType(typeID);
+					_this.getRecipe(recipeID);
+				}
 			},
 			methods: {
-				getUserData: function () {
+				submitForm: function () {
 					let _this = this;
+					let typeID = _this.selectedRecipe.petTypesId;
+					let recipeID = _this.selectedRecipeId;
+
+					let returnUrl = '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);
+
+					// 將 returnUrl 作為參數傳遞到登入頁面
+					window.location.href = '/Member/Login?' + returnUrl;
+
+				},
+
+				getUserData: function() {
+					const _this = this;
 					axios('/api/recipes/GetUserData').then(response => {
 						if (response.status) {
 							_this.MemberData = response.data.data;
 						}
+						if (_this.MemberData) {
+							console.log(_this.MemberData);
+						}
 					});
 				},
 
-				allRecipes:  function() {
-					let _this = this;
-					let request = {};
-					axios.get('/api/recipes/AllData', request).then(response => {
+				relativeDate: function(item) {
+					dayjs.locale('zh-cn',
+						{
+							relativeTime: {
+								future: "in %s",
+								past: "%s前",
+								s: '幾秒',
+								m: "1 分",
+								mm: "%d 分",
+								h: "an 小時",
+								hh: "%d 小時",
+								d: "a 天",
+								dd: "%d 天",
+								M: "a 個月",
+								MM: "%d 個月",
+								y: "a 年",
+								yy: "%d 年"
+							}
+						});
+					// 相對時間
+					dayjs.extend(dayjs_plugin_relativeTime);
+					return dayjs(item.dateTime).fromNow();
+				},
+
+				allRecipes: async function() {
+					const _this = this;
+					const request = {};
+					await axios.get('/api/recipes/AllData', request).then(response => {
 						_this.recipes = response.data;
-						let recipesData = [];
+						const recipesData = [];
 
 						for (let i = 0; i < _this.recipes.length; i++) {
-							let item = _this.recipes[i].allData;
+							const item = _this.recipes[i].allData;
 							item.Edit = false; // 編輯狀態
-							item.isVisible = true; // 隱藏狀態
 
 							item.msgBoards = item.msgBoards.map((msgBoard) => ({
 								...msgBoard,
@@ -174,76 +245,83 @@
 						}
 
 						_this.recipes = recipesData;
+						console.log(_this.recipes);
 					});
 				},
 
-				chooseType: function(typeNum) {
+				chooseType:async  function(typeNum) {
 
-					let _this = this;
+					const _this = this;
 					_this.filteredRecipe = [];
 
 					for (let i = 0; i < _this.recipes.length; i++) {
 						if (_this.recipes[i].petTypesId == typeNum) { //type:1= dog,2=cat
-							let recipeData = _this.recipes[i];
+							const recipeData = _this.recipes[i];
 							_this.filteredRecipe.push(recipeData);
-							_this.showRecipeDetails = false;
 						}
 					}
-
-
+					if (typeNum == 1) {
+						_this.getRecipe(this.filteredRecipe[0].recipesId);
+					} else {
+						_this.getRecipe(this.filteredRecipe[0].recipesId);
+					}
 				},
 
 				splitArr: function(item, symbol) {
 					return item.split(symbol);
 				},
 
-				getRecipe: function(item) {
-					let _this = this;
-					_this.selectedRecipeId = item.recipesId;
-					_this.selectedRecipe = item;
-					_this.selectedRecipeData = _this.splitArr(item.data, "/");
-					_this.selectedRecipeMethod = _this.splitArr(item.method, "/");
+				getRecipe: function (recipesId) {
+					const _this = this;
+					var selectedItem = _this.filteredRecipe.find(x => x.recipesId == recipesId);
+					console.log(selectedItem);
+					_this.selectedRecipeId = selectedItem.recipesId;
+					_this.selectedRecipe = selectedItem;
+					_this.selectedRecipeData = _this.splitArr(selectedItem.data, "/");
+					_this.selectedRecipeMethod = _this.splitArr(selectedItem.method, "/");
 					_this.showRecipeDetails = true;
-					
-					for (let i = 0; i < _this.selectedRecipe.msgBoards.length; i++) {
-						if (_this.MemberData !=null && _this.MemberData.memberName == _this.selectedRecipe.msgBoards[i].userId) {
-							_this.LoginState = true;
-						} else {
-							_this.LoginState = false;
-						}
-					}
-
 				},
 
 				//post 新增
 				addComment: function() {
-					let _this = this;
+					const _this = this;
 
-					let msgboard = {
-						UserId: _this.MemberData.memberName,
+					const msgBoard = {
+
+						UserId: _this.MemberData.memberId,
 						MsgRecipesId: _this.selectedRecipe.recipesId,
 						MsgContent: _this.commentContent, //留言內容
-						MsgDateTime: new Date, //時間
-						MsgActive: _this.active //狀態
-					}
+						MsgDateTime: moment().format(), //時間
+						MsgActive: true //狀態
+					};
 
-					axios.post('/api/recipes/AddComment', msgboard)
+					console.log(msgBoard);
+					axios.post('/api/recipes/AddComment', msgBoard)
 						.then(response => {
-							if (response == "success")
-								this.addCommentSuccess(response); // success feedback
-							this.commentContent = ''; // empty content
+							console.log(response);
+							_this.addCommentSuccess(); // success feedback
+							_this.commentContent = ''; // empty content
 						});
-
+						
 				},
 				//success
 				addCommentSuccess: function() {
 					Swal.fire({
-							position: 'center',
-							icon: 'success',
-							title: '留言成功',
-							showConfirmButton: false,
-							timer: 1500
-						});
+						position: 'center',
+						icon: 'success',
+						title: '留言成功',
+						showConfirmButton: false,
+						timer: 1500
+					});
+				},
+				editCommentSuccess: function() {
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: '編輯成功',
+						showConfirmButton: false,
+						timer: 1500
+					});
 				},
 
 				// Edit
@@ -259,19 +337,18 @@
 
 				//update
 				updateComment: function(item) {
-					let _this = this;
+					const _this = this;
 					item.isEditable = false;
 					item.content = this.editedContent;
 
-					let editedMsgRecord = {
+					const editedMsgRecord = {
 						MsgId: item.msgId,
-						EditedText: _this.editedContent, // edited content
-						EditedTime: new Date(), // current date and time
-						Msg: _this.commentContent
-					}
+						EditedText: _this.editedContent,
+						EditedTime: moment().format()
+				};
 					axios.post('/api/recipes/EditedMsg', editedMsgRecord)
 						.then(response => {
-							this.addCommentSuccess(response); // success feedback
+							this.editCommentSuccess(response); // success feedback
 						});
 
 				},
@@ -282,16 +359,45 @@
 					this.editedContent = '';
 				},
 
-				editedRecord: function(item) {
-					let arrayText = item.editedMsgRecords.map(record => `${record.editedText} <br> ${record.editedTime}`).join('<br><br>');
+				// delete in Client only
+				deleteComment: function (item) {
+					item.active = false;
 
+					const msgActive = {
+
+						MsgId: item.msgId,
+						MsgActive: item.active //狀態
+
+					};
+					console.log(msgActive);
+					axios.post('/api/recipes/SetActive', msgActive)
+						.then(response => {
+							console.log(response);
+						});
+
+				},
+
+				editedRecord: function(item) {
+					let firstTime = dayjs(item.dateTime).fromNow();
+					let firstText = `<div class="edit-Record"><div class="edited-text d-inline">${item.content}</div><div class="edited-time d-inline">${firstTime}</div></div>`;
+
+					let editedRecordsArray = item.editedMsgRecords.map(record => {
+						let editedTime = dayjs(record.editedTime).fromNow();
+						return `<div class="edit-Record"><div class="edited-text d-inline">${record.editedText}</div><div class="edited-time d-inline">${editedTime}</div></div>`;
+					});
+					editedRecordsArray.unshift(firstText);
+					const arrayText = editedRecordsArray.join('<br>');
 					Swal.fire({
+						icon: 'info',
 						title: '編輯紀錄',
 						html: arrayText,
-						showConfirmButton: true
+						showConfirmButton: true,
+						scrollbarPadding: true
 					});
+
+
 				}
 			}
 		});
 	</script>
-} 
+}

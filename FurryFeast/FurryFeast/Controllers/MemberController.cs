@@ -145,14 +145,14 @@ namespace FurryFeast.Controllers
 			return Ok($@"code:{code}  str:{str}");
 		}
 
-
+        
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel list)
+        public async Task<IActionResult> Login(LoginViewModel list, [FromQuery]string typeID = null, [FromQuery]string recipeID = null)
 
         {
             var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
@@ -167,8 +167,28 @@ namespace FurryFeast.Controllers
             var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, ClaimPrincipal);
-            return RedirectToAction("Index", "Home");
-        }
+            int typeIdInt, recipeIdInt;
+
+            if (typeID != null && recipeID != null)
+            {
+	            if (int.TryParse(typeID, out typeIdInt) && int.TryParse(recipeID, out recipeIdInt))
+	            {
+		            return RedirectToAction("Recipes", "Recipes", new { typeID = typeIdInt, recipeID = recipeIdInt });
+	            }
+	            else
+	            {
+		            return View();
+
+	            }
+			}
+            else
+            {
+	            return RedirectToAction("Index", "Home");
+
+			}
+
+		}
+
         public IActionResult GoogleLogin()
         {
             var prop = new AuthenticationProperties
