@@ -3,6 +3,7 @@ using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace FurryFeast.API
 {
@@ -18,9 +19,39 @@ namespace FurryFeast.API
 			_context = context;
 		}
 
+		//寵物商城商品資料
 		public object AllProducts()
 		{
 			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1).Select(x => new
+			{
+				product = new
+				{
+					productId = x.ProductId,
+					productName = x.ProductName,
+					productDescription = x.ProductDescription,
+					productPrice = x.ProductPrice,
+					productAmount = x.ProductAmount,
+					productPicId = x.ProductPicId,
+					productLauchedTime = x.ProductLaunchedTime,
+
+
+				},
+				pics = x.ProductPics.Select(p => p.ProductPicImage).FirstOrDefault(),
+				type = new
+				{
+					productypeName = x.ProductType.ProductTypeName,
+					productypeId = x.ProductType.ProductTypeId
+				}
+
+			});
+
+
+		}
+
+		//捐贈頁面商品資料
+		public object DonateProducts()
+		{
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1 && x.ProductTypeId==4).Select(x => new
 			{
 				product = new
 				{
@@ -354,6 +385,7 @@ namespace FurryFeast.API
 		[HttpPost]
 		public async Task<string> PostProduct([FromBody] AddProductViewModel model)
 		{
+			TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
 			try
 			{
 				_context.Products.Add(new Product

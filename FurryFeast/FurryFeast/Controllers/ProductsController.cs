@@ -75,7 +75,10 @@ namespace FurryFeast.Controllers
             return View();
         }
 
-		
+		public async Task<IActionResult> Donate()
+		{
+			return View();
+		}
 		public async Task<IActionResult> DogProducts()
         {
 			IQueryable<Product> products = _context.Products.Where(p => p.ProductState == 1 && p.ProductTypeId==1);
