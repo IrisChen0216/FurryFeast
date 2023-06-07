@@ -10,13 +10,13 @@
 }
 
 <div class="row" style="height: 300px; margin-top: 40px;">
-	<div class=" col p-0">
-		<img style="object-fit: contain; height: 100%; object-position: bottom;" src="/image/gray-kitty-with-monochrome-wall-her (1).jpg">
+	<div class=" col p-0" style="overflow: hidden;">
+		<img style="object-fit: cover; height: 100%; object-position: bottom; " src="/image/cute-pet-collage-isolated (1).jpg">
 	</div>
-	<div class=" col p-0">
-		<img style="object-fit: contain; height: 100%; object-position: bottom;" src="/image/gray-kitty-with-monochrome-wall-her (1).jpg">	</div>
-	<div class=" col p-0">
-		<img style="object-fit: contain; height: 100%; object-position: bottom;" src="/image/gray-kitty-with-monochrome-wall-her (1).jpg">	</div>
+	<div class="col row m-4">
+		<button class="col btn btn-primary p-5 " type="button" v-on:click="chooseType(1)">Dog</button>
+		<button class="col btn btn-primary p-5 ms-3" type="button" v-on:click="chooseType(2)">Cat</button>
+	</div>
 </div>
 <div class="index-header">
 	<h2>寵物鮮食食譜</h2>
@@ -26,10 +26,7 @@
 		@*		<img src="https://shorturl.at/eiwPR" />
 		@*<img class="px-4" style="position: absolute; top: 0;left: 0; width: 100%; height: 100%; object-position:top; object-fit: cover;" src="https://shorturl.at/sKTY8" />
 	</div>*@
-	<div class="row m-4">
-		<button class="col btn btn-primary p-5 " type="button" v-on:click="chooseType(1)">Dog</button>
-		<button class="col btn btn-primary p-5 ms-3" type="button" v-on:click="chooseType(2)">Cat</button>
-	</div>
+	
 	<div class="row m-4">
 		<div class="col-md-3  pt-4">
 			<ul id="recipesList" class="nav justify-content-center">
