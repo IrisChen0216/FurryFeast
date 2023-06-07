@@ -56,10 +56,11 @@
 							商品專區
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							<li><button class="dropdown-item" type="button" v-on:click="Products">全部商品</button></li>
-							<li><button class="dropdown-item" type="button">鮮食商品</button></li>
+							<li><button class="dropdown-item" type="button" v-on:click="Products">全部商品</button></li>		
 							<li><button class="dropdown-item" type="button" v-on:click="ProductType(1)">狗狗商品</button></li>
 							<li><button class="dropdown-item" type="button" v-on:click="ProductType(2)">貓咪商品</button></li>
+							<li><button class="dropdown-item" type="button" v-on:click="ProductType(3)">鮮食商品</button></li>
+							<li><button class="dropdown-item" type="button" v-on:click="ProductType(4)">捐贈商品</button></li>
 						</ul>
 					</div>
 					@*<div class="dropdown mx-3 mt-2 col-1">
@@ -122,7 +123,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="item in showProducts" :key="item.backEndProduct.productId">
+								<tr v-for="item in ShowPageCount" :key="item.backEndProduct.productId">
 
 									<td class="align-middle text-center">
 										<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productId}}</span>
@@ -169,6 +170,20 @@
 							</tbody>
 						</table>
 					</div>
+					<div class="row justify-content-center">
+						<paginate :page-count="PageCount"
+								  :click-handler="ChangePage"
+								  :prev-text="'Prev'"
+								  :next-text="'Next'"
+								  :page-class="'page-item'"
+								  :page-link-class="'page-link'"
+								  :prev-class="'page-item'"
+								  :prev-link-class="'page-link'"
+								  :next-class="'page-item'"
+								  :next-link-class="'page-link'"
+								  :container-class="'pagination justify-content-center'">
+						</paginate>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -213,6 +228,7 @@
 							<option value="1">狗用</option>
 							<option value="2">貓用</option>
 							<option value="3">鮮食</option>
+							<option value="4">捐贈</option>
 						</select>
 					</div>
 					
@@ -272,8 +288,9 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
 	<script>
-
+		Vue.component('paginate', VuejsPaginate);
 		let app = new Vue({
 			el: '#app',
 			data: {
@@ -292,6 +309,8 @@
 				selectedArticle: "",
 				originState: [],
 				selectedProductId:null,
+				maxCount: 5,
+				Page: 1,
 			},
 			mounted: function () {
 				let _this = this;
@@ -371,7 +390,7 @@
 							axios.put(`/api/products/PutProductState/?id=${ID}&state=0`).then(response => {
 								alert(response.data);
 								item.OnAndOff = true;
-								item.backEndProduct.productSoldTime = new Date().toISOString();
+								item.backEndProduct.productSoldTime = new Date();
 								for (let i = 0; i < _this.showProducts.length; i++) {
 									let product = _this.showProducts[i];
 									ProductList.push(product);
@@ -429,7 +448,9 @@
 				},
 				AddProduct: function () {
 					let _this = this;
-
+					let date=new Date();
+					//let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Taipei' });
+					console.log(date);
 					let request = {
 						ProductId: 0,
 						ProductName: _this.productName,
@@ -443,7 +464,7 @@
 						
 						
 					};
-
+					console.log(date.toISOString());
 					axios.post(`/api/products/PostProduct/`, request).then(response => {
 						alert(response.data);
 						_this.Products();
@@ -507,6 +528,10 @@
 					_this.showProducts = _this.originState = _this.showProducts.filter(item => item.backEndProduct.productState == state);
 
 				},
+				ChangePage: function (currentPage) {
+					let _this = this;
+					_this.Page = currentPage;
+				},
 				//sortBy: function (val) {
 				//	let _this = this;
 				//	//依照時間排序
@@ -526,7 +551,16 @@
 				//}
 			},
 			computed: {
-
+				PageCount: function () {
+					let _this = this;
+					return Math.ceil(_this.showProducts.length / _this.maxCount);
+				},
+				ShowPageCount: function () {
+					let _this = this;
+					let start = (_this.Page - 1) * _this.maxCount;
+					let end = _this.Page * _this.maxCount;
+					return _this.showProducts.slice(start, end);
+				},
 			},
 
 		});

@@ -10,11 +10,14 @@
 			min-width: unset;
 		}
 
+		.table-cart td:nth-child(2), .table-cart td:nth-child(4){
+			width: unset;
+		}
 		th {
 			font-weight: 500;
 		}
 
-		td {
+		.pet-class {
 			text-align: left;
 		}
 
@@ -51,6 +54,13 @@
 				transform: translate(-50%, -50%);
 				z-index: 1;
 			}
+
+		.member{
+			text-align:center;
+		}
+		.white-area{
+			height: 20px;
+		}
 	</style>
 }
 
@@ -68,29 +78,31 @@
 		<!-- shopping-cart-->
 		<div class="table-custom-responsive">
 			<table class="table-custom table-cart">
-				<thead>
+				@*<thead>*@
 					<tr>
 						<th>課程名稱</th>
-						<td colspan="3">@Model.PetClassName</td>
+						<td colspan="3" class="pet-class">@Model.PetClassName</td>
 					</tr>
 					<tr>
 						<th>課程價格</th>
-						<td colspan="3">$@Model.PetClassPrice</td>
+						<td colspan="3" class="pet-class">$@Model.PetClassPrice</td>
 					</tr>
 					<tr>
 						<th>課程時間</th>
-						<td colspan="3">@Model.PetClassDate</td>
+						<td colspan="3" class="pet-class">@Model.PetClassDate</td>
 					</tr>
 					<tr>
 						<th>課程地點</th>
-						<td colspan="3">課程地點: 台北市中山區寵愛路毛寶街1號</td>
+						<td colspan="3" class="pet-class">台北市中山區寵愛路毛寶街1號</td>
 					</tr>
-				</thead>
-
-				<thead>
+				@*</thead>*@
+				</table>
+				<div class="white-area"></div>
+				@*<thead>
 					<tr>
 					</tr>
-				</thead>
+				</thead>*@
+				<table class="table-custom table-cart">
 				<thead>
 					<tr>
 						<th>會員姓名</th>
@@ -101,9 +113,9 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>@Model.MemberName</td>
-						<td>@Model.MemberPhone</td>
-						<td colspan="2">@Model.MemberEmail</td>
+						<td class="member">@Model.MemberName</td>
+						<td class="member">@Model.MemberPhone</td>
+						<td colspan="2" class="member">@Model.MemberEmail</td>
 					</tr>
 
 				</tbody>

@@ -3,6 +3,7 @@ using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace FurryFeast.API
 {
@@ -18,9 +19,39 @@ namespace FurryFeast.API
 			_context = context;
 		}
 
+		//寵物商城商品資料
 		public object AllProducts()
 		{
 			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1).Select(x => new
+			{
+				product = new
+				{
+					productId = x.ProductId,
+					productName = x.ProductName,
+					productDescription = x.ProductDescription,
+					productPrice = x.ProductPrice,
+					productAmount = x.ProductAmount,
+					productPicId = x.ProductPicId,
+					productLauchedTime = x.ProductLaunchedTime,
+
+
+				},
+				pics = x.ProductPics.Select(p => p.ProductPicImage).FirstOrDefault(),
+				type = new
+				{
+					productypeName = x.ProductType.ProductTypeName,
+					productypeId = x.ProductType.ProductTypeId
+				}
+
+			});
+
+
+		}
+
+		//捐贈頁面商品資料
+		public object DonateProducts()
+		{
+			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1 && x.ProductTypeId==4).Select(x => new
 			{
 				product = new
 				{
@@ -200,19 +231,21 @@ namespace FurryFeast.API
 		//}
 
 		[HttpGet("{id}")] //後台商品詳細資訊
-		public async Task<PetMarketViewModel> GetProduct(int id)
+		public async Task<PetMarketBackendViewModel> GetProduct(int id)
 		{
 			var product = await _context.Products.FindAsync(id);
 			var productPic = _context.ProductPics.Where(p => p.ProductId == id).ToList();
 			List<string> Pic = new List<string>();
+			List<int> PicID = new List<int>();
 
 			foreach (var pic in productPic)
 			{
 				string Base64Pic = Convert.ToBase64String(pic.ProductPicImage);
 				Pic.Add(Base64Pic);
+				PicID.Add(pic.ProductPicId);
 			}
 
-			PetMarketViewModel model = new PetMarketViewModel
+			PetMarketBackendViewModel model = new PetMarketBackendViewModel
 			{
 
 				ProductId = product.ProductId,
@@ -225,6 +258,7 @@ namespace FurryFeast.API
 				ProductSoldTime = product.ProductSoldTime,
 				ProductState = product.ProductState,
 				ProductPicImage = Pic,
+				ProductPicId=PicID,
 				ProductTypeName = product.ProductType.ProductTypeName,
 				ArticlesId = product.ArticlesId
 			};
@@ -351,6 +385,7 @@ namespace FurryFeast.API
 		[HttpPost]
 		public async Task<string> PostProduct([FromBody] AddProductViewModel model)
 		{
+			TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
 			try
 			{
 				_context.Products.Add(new Product
@@ -413,6 +448,48 @@ namespace FurryFeast.API
 			return "新增圖片成功";
 		}
 
+		
+		[HttpPost]
+		public async Task<string> PutProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] List<int> ProductPicId)
+		{
+			//List<ProductPic> productPicImages = new List<ProductPic>();
+
+			for (int i=0;i<ProductPicImage.Count;i++)
+			{
+				var pic = ProductPicImage[i];
+				var picId = ProductPicId[i];
+
+				if (pic != null)
+				{
+
+					byte[] data = null;
+					using (BinaryReader br = new BinaryReader(pic.OpenReadStream()))
+					{
+
+						data = br.ReadBytes((int)pic.Length);
+						var image =await _context.ProductPics.FindAsync(picId);
+						if (image != null)
+						{
+							image.ProductPicImage = data;
+						}
+						
+					}
+
+				};
+
+			};
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				return "修改圖片失敗";
+			}
+
+			return "修改圖片成功";
+		}
 
 		[HttpDelete("{id}")]
 		public async Task<string> DeleteProduct(int id)

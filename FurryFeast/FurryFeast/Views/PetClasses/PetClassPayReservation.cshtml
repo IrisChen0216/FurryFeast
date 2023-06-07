@@ -16,12 +16,52 @@
 		}
 
 		.memberInfo {
-			margin-top: 35px;
+			margin-top: 40px;
+		}
+
+		.title {
+			margin:20px;
+			padding:20px;
+		}
+
+		.index-header {
+			position: relative;
+		}
+
+			.index-header img {
+				display: block;
+				width: 100%;
+				height: auto;
+				max-height: 200px;
+				object-fit: cover;
+			}
+
+			.index-header h2 {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1;
+			}
+
+		.table-custom-responsive{
+			border:hidden 2px;
+			border-color:darkgrey;
+			border-radius:4px;
+			margin-top:20px;
+			height:contain;
+			width:500px;
+			box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1);
+		}
+
+		th{
+			padding:20px;
 		}
 	</style>
 }
 
 <div class="index-header">
+	<img src="~/image/product/breadcrumbs-bg.jpg" />
 	<h2>課程預定明細</h2>
 </div>
 
@@ -30,23 +70,24 @@
 		<div class="container col-4 memberInfo">
 			<!-- shopping-cart-->
 			<div class="table-custom-responsive">
-				<table>
+				<h4 class="title">付款人資訊</h4>
+				<table class="Info">
 					
 					<tbody>
 						<tr>
-							<th>付款人姓名:</th>
+							<th><strong>付款人姓名:</strong></th>
 							<td>@Model.MemberName</td>
 						</tr>
 						<tr>
-							<th>付款人電話:</th>
+							<th><strong>付款人電話:</strong></th>
 							<td>@Model.MemberPhone</td>
 						</tr>
 						<tr>
-							<th>付款人信箱:</th>
+							<th><strong>付款人信箱:</strong></th>
 							<td>@Model.MemberEmail</td>
 						</tr>
 						<tr>
-							<th>付款方式:</th>
+							<th><strong>付款方式:</strong></th>
 							<td>
 								@*<select name="payType">
 								<option value="CREDIT">信用卡</option>
@@ -81,19 +122,19 @@
 					<div class="pricing-colored-figure bg-secondary"></div>
 					<div class="pricing-classic-caption">
 						<div>
-							<h3 class="pricing-classic-title">@Model.PetClassName</h3>
+								<h3 class="pricing-classic-title"><strong>@Model.PetClassName</strong></h3>
 							<div class="pricing-classic-price-wrap">
 								
-								<div class="pricing-classic-price heading-4">$@Model.PetClassPrice</div>
+								<div class="pricing-classic-price heading-4">$@Model.PetClassPrice 元</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="pricing-classic-body">
 					<ul class="pricing-classic-list">
-						<li><span>課程時間:</span></li>
+							<li><span class="title"><strong>課程時間:</strong></span></li>
 						<li><span>@Model.PetClassDate</span></li>
-						<li><span>課程地點:</span></li>
+							<li><span class="title"><strong>課程地點:</strong></span></li>
 						<li><span>台北市中山區寵愛路毛寶街1號</span></li>
 						</ul><button class="button button-lg button-primary button-zakaria" type="submit">確定付款</button>
 				</div>

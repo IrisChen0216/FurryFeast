@@ -1,0 +1,46 @@
+﻿@section Style{
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
+	@*<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />*@
+	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	<style>
+		.bg{
+			width: 100%;
+			height: 100vh;
+			
+			background-image: url('/image/product/bg-404.jpg');
+			background-size: cover;
+			background-position: center;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.Info{
+			background-color:white;
+			width:40%;
+			height:200px;
+			border-radius:6px;
+		}
+	</style>
+}
+<div class="bg">
+	<div class="Info">
+		@*<h1>支付回傳訊息</h1>
+		<h3>接收參數:</h3>*@
+		@*@Html.Raw(ViewData["ReceiveObj"])*@
+		@*<h3>交易訊息:</h3>*@
+		@*@Html.Raw(ViewData["TradeInfo"])*@
+
+		@if (@ViewBag.Status == "SUCCESS")
+		{
+			<div style="font-size:25px;">
+			<i class="bi bi-check2-circle"></i>
+			<p>付款成功</p>
+			</div>
+		}
+		else
+		{
+			<h4>付款失敗</h4>
+		}
+		<a class="button button-sm button-primary button-zakaria" asp-controller="Products" asp-action="IndexNewOne">回寵物商城</a>
+	</div>
+</div>
