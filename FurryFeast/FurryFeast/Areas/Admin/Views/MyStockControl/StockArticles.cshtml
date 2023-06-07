@@ -69,7 +69,7 @@
 									</div>
 								</div>
 
-								<table class="table align-items-center mb-0 strap">
+								<table class="table align-items-center mb-0 strap" v-if="showData.length > 0">
 									<thead>
 										<tr>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
@@ -88,6 +88,9 @@
 										</tr>
 									</tbody>
 								</table>
+
+								@*bs spinner 動畫*@
+								<partial name="_Spinner"></partial>
 							</div>
 						</div>
 					</div>

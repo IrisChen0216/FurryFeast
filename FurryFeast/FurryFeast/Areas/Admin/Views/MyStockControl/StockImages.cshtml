@@ -97,7 +97,7 @@
 									</div>
 								</div>
 
-								<table class="table align-items-center mb-0 strap">
+								<table class="table align-items-center mb-0 strap" v-if="spinner">
 									<thead>
 										<tr>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
@@ -116,6 +116,14 @@
 										</tr>
 									</tbody>
 								</table>
+
+								@*bs spinner 動畫*@
+								@*bs spinner 動畫*@
+								<div class="text-center mt-5" v-else>
+									<div class="spinner-border" role="status">
+										<span class="visually-hidden">Loading...</span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -188,7 +196,7 @@
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
-				image: "",
+				spinner: false,
 			},
 			mounted: function () {
 				this.StockImages();
@@ -197,12 +205,13 @@
 
 			},
 			methods: {
-				StockImages: function () {
+				StockImages: async function () {
 					let _this = this;
-					axios.get(`/api/StockImagesApi/GetAll`).then(response => {
+					await axios.get(`/api/StockImagesApi/GetAll`).then(response => {
 						_this.Source.StockImagesData = response.data;
 						_this.showData = _this.Source.StockImagesData;
 					});
+					this.spinner = true;
 				},
 				// 搜尋產品
 				productFilter: function () {
@@ -246,6 +255,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockImages();
 					this.cleanData();
 				},
@@ -286,6 +296,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockImages();
 					this.cleanData();
 				},
@@ -309,6 +320,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockImages();
 				},
 				// 上傳和預覽圖片
