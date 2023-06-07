@@ -200,19 +200,21 @@ namespace FurryFeast.API
 		//}
 
 		[HttpGet("{id}")] //後台商品詳細資訊
-		public async Task<PetMarketViewModel> GetProduct(int id)
+		public async Task<PetMarketBackendViewModel> GetProduct(int id)
 		{
 			var product = await _context.Products.FindAsync(id);
 			var productPic = _context.ProductPics.Where(p => p.ProductId == id).ToList();
 			List<string> Pic = new List<string>();
+			List<int> PicID = new List<int>();
 
 			foreach (var pic in productPic)
 			{
 				string Base64Pic = Convert.ToBase64String(pic.ProductPicImage);
 				Pic.Add(Base64Pic);
+				PicID.Add(pic.ProductPicId);
 			}
 
-			PetMarketViewModel model = new PetMarketViewModel
+			PetMarketBackendViewModel model = new PetMarketBackendViewModel
 			{
 
 				ProductId = product.ProductId,
@@ -225,6 +227,7 @@ namespace FurryFeast.API
 				ProductSoldTime = product.ProductSoldTime,
 				ProductState = product.ProductState,
 				ProductPicImage = Pic,
+				ProductPicId=PicID,
 				ProductTypeName = product.ProductType.ProductTypeName,
 				ArticlesId = product.ArticlesId
 			};
@@ -415,12 +418,15 @@ namespace FurryFeast.API
 
 		
 		[HttpPost]
-		public async Task<string> PutProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] int ProductId)
+		public async Task<string> PutProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] List<int> ProductPicId)
 		{
 			//List<ProductPic> productPicImages = new List<ProductPic>();
 
-			foreach (var pic in ProductPicImage)
+			for (int i=0;i<ProductPicImage.Count;i++)
 			{
+				var pic = ProductPicImage[i];
+				var picId = ProductPicId[i];
+
 				if (pic != null)
 				{
 
@@ -429,10 +435,18 @@ namespace FurryFeast.API
 					{
 
 						data = br.ReadBytes((int)pic.Length);
-						ProductPic image = new ProductPic();
-						image.ProductPicImage = data;
-						image.ProductId = ProductId;
-						_context.ProductPics.Update(image);
+						var image =await _context.ProductPics.FindAsync(picId);
+						if (image != null || image.ProductPicId != ProductPicId[i])
+						{
+							image.ProductPicImage = data;
+						}
+						
+						//ProductPic image = new ProductPic();
+						//image.ProductPicImage = data;
+						//image.ProductId = ProductId;
+						//_context.ProductPics.Update(image);
+
+						//ProductPic image = _context.ProductPics.Where(x => x.ProductId == ProductId).Select(x=>x.ProductPicImage);
 					}
 
 				};
@@ -445,10 +459,10 @@ namespace FurryFeast.API
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				return "新增圖片失敗";
+				return "修改圖片失敗";
 			}
 
-			return "新增圖片成功";
+			return "修改圖片成功";
 		}
 
 		[HttpDelete("{id}")]

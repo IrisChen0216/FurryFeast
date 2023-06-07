@@ -194,6 +194,7 @@
 				originalProductSoldTime: "",
 				selected:"",
 				ProductPicImage: ["", "", ""],
+				ProductPicId: [0, 0, 0],
 			},
 			mounted: function () {
 				let _this = this;
@@ -259,17 +260,26 @@
 						_this.$forceUpdate();
 					};
 					reader.readAsDataURL(newImg);
+					
 					_this.ProductPicImage[idx] = event.target.files[0];
+					_this.ProductPicId[idx] = _this.backendProduct.productPicId[idx];
+					alert(_this.backendProduct.productPicId[idx]);
 				},
 				UpdateImages: function () {
+					alert('有');
 					let _this = this;
 					let formData = new FormData();
-
-					formData.append('ProductId', _this.backendProduct.productId);
+					
 					for (let i = 0; i < 3; i++) {
+						if (_this.ProductPicId[i] != null) {
+							
+							formData.append('ProductPicId', _this.ProductPicId[i]);
+						}
 						if (_this.ProductPicImage[i] != null) {
+							
 							formData.append('ProductPicImage', _this.ProductPicImage[i]);
 						}
+						
 					};
 
 					axios.post(`/api/products/PutProductImage/`, formData).then(response => {
