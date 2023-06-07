@@ -144,9 +144,9 @@
 								<div class="row">
 									<div class="col-md-8">
 										<div class="mt-2">
-											<img class="img-fluid" v-bind:src="'data:image/png;base64,'+ choseTableData.imagesBitmapFile" />
+											<img id="imgLoad" class="img-fluid" v-bind:src="choseTableData.imagesBitmapFile" />
 											<div class="mt-2">
-												<input class="form-control" type="file" v-on:change="imgPreview($event)">
+												<input class="form-control" type="file" v-on:change="fileSelected">
 											</div>
 										</div>
 									</div>
@@ -188,6 +188,7 @@
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
+				image: "",
 			},
 			mounted: function () {
 				this.StockImages();
@@ -311,14 +312,14 @@
 					this.StockImages();
 				},
 				// 上傳和預覽圖片
-				imgPreview: function (event) {
+				fileSelected(e) {
 					let _this = this;
-					let newImg = event.target.files[0];
-					let reader = new FileReader();
-					reader.onload = (event) => {
-						_this.$forceUpdate();
-					};
-					reader.readAsDataURL(newImg);
+					const file = e.target.files.item(0);
+					const reader = new FileReader();
+					reader.addEventListener('load', function (e) {
+						_this.choseTableData.imagesBitmapFile = e.target.result;
+					});
+					reader.readAsDataURL(file);
 				},
 			},
 		});
