@@ -71,6 +71,16 @@
 		<p class="mb-2" style="font-size: 13px; padding: 5px; font-weight: 400">文章內容</p>
 		<textarea class=" mb-4 inputbox" style="color: #344767; width: 100%; height: 250px; font-size: 13px; line-height: 25px; letter-spacing: 1px;" v-model="articleText" required></textarea>
 	</div>
+	<hr />
+	<div>
+		<h1>CKEditor 5 with Vue.js Example</h1>
+		<textarea ref="editorRef" v-model="content"></textarea>
+		<div>
+			<h2>Editor Content:</h2>
+			<div v-html="content"></div>
+		</div>
+		<button @@click="saveContent">Save</button>
+	</div>
 
 </div>
 
@@ -84,7 +94,6 @@
 	<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
 	<script>
 		ClassicEditor.create( document.querySelector( '#editor' ) )
 			.then( editor => {
@@ -95,21 +104,71 @@
 			} );
 	</script>
 	<script>
+		ClassicEditor.builtinPlugins.push(editor => {
+			editor.ui.componentFactory.add('center', locale => {
+				const view = new CKEditor5.EngineView();
+
+				view.set({
+					class: 'ck-center',
+					label: 'Center',
+					withText: true,
+					tooltip: true
+				});
+
+				view.extendTemplate({
+					attributes: {
+						class: 'ck-center'
+					}
+				});
+
+				view.bind('isEnabled').to(editor.editing.view, 'isRenderable');
+
+				// 执行置中命令
+				view.on('execute', () => {
+					editor.execute('alignment', { value: 'center' });
+				});
+
+				return view;
+			});
+		});
 		let app = new Vue({
 			el: '#app',
 			data: {
+				content:'',
 				data: {},
 				articleTitle:"",
 				articleText:"",
 				adminAccount:"",
-				adminId:""
+				adminId:"",
+				ck:{}
 			},
 			mounted: function () {
 				let _this = this;
 				_this.getAdminId();
-
+				ClassicEditor.create(_this.$refs.editorRef, {
+					toolbar: ['center'],
+					ckfinder: {
+						uploadUrl: '/api/upload'
+					}
+				}).then(ck => _this.ck = ck)
+				.catch(error => {console.error(error)});
 			},
 			methods: {
+				saveContent() {
+					const content = ClassicEditor.instances[this.$refs.editorRef].getData();
+
+					$.ajax({
+						url: '/api/save',
+						type: 'POST',
+						data: { content: content },
+						success: function (response) {
+							console.log('Content saved successfully');
+						},
+						error: function (xhr, status, error) {
+							console.error('An error occurred while saving content:', error);
+						}
+					});
+				},
 				getAdminId:function() {
 					let _this = this;
 					axios.get('/api/articles/GetAdmin').then(response => {
