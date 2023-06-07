@@ -68,18 +68,16 @@
 				const params = new URLSearchParams(window.location.search);
   
 				// 獲取 returnUrl、typeID 和 recipeID 參數的值
-				returnUrl = params.get('returnUrl');
 				typeID = params.get('typeID');
 				recipeID = params.get('recipeID');
 				// 在控制台上輸出 returnUrl 的值
-				console.log(returnUrl);
 				console.log(typeID);
 				console.log(recipeID); 
 			},
 			methods : { 
 				loginSuccess: function() {
-					this.returnUrl = encodeURIComponent(returnUrl) + '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);;
-					window.location.href = '/Recipes/Recipes?returnUrl=' + this.returnUrl;
+					this.returnUrl = '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);;
+					window.location.href = '/Recipes/Recipes?' + this.returnUrl;
 
 				}
 			}

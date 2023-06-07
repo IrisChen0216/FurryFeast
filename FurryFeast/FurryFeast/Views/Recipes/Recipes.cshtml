@@ -171,12 +171,11 @@
 					let _this = this;
 					let typeID = _this.selectedRecipe.petTypesId;
 					let recipeID = _this.selectedRecipeId;
-					let URL = window.location.href;
 
-					let returnUrl = encodeURIComponent(URL) + '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);
+					let returnUrl = '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);
 
 					// 將 returnUrl 作為參數傳遞到登入頁面
-					window.location.href = '/Member/login?returnUrl=' + returnUrl;
+					window.location.href = '/Login?' + returnUrl;
 
 				},
 
@@ -186,7 +185,9 @@
 						if (response.status) {
 							_this.MemberData = response.data.data;
 						}
-						console.log(_this.MemberData);
+						if (_this.MemberData) {
+							console.log(_this.MemberData);
+						}
 					});
 				},
 
