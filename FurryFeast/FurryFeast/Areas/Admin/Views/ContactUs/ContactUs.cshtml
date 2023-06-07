@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<FurryFeast.Models.ContactU>
+@{
 	ViewData["Title"] = "Index";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -49,90 +50,99 @@
 					</div>
 				</div>
 				<div class="row">
-					</div>
-
-
-					<div class="dropdown mx-3 mt-2 col-1">
-						<button class="btn btn-secondary dropdown-toggle drop" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-							聯絡我們
-						</button>
-
-
-
-					@*搜尋欄*@
-					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
-						<div class="input-group input-group-outline">
-							<label class="form-label">Search Product...</label>
-							<input type="text" class="form-control" v-model="keyword" @@keyup="productFilter">
-						</div>
-					</div>
-
 				</div>
 
-				<div class="card-body px-0 pb-2">
-					<div class="table-responsive p-0">
-						<table class="table align-items-center mb-0">
-							<thead>
-								<tr>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">留言編號</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">客戶姓名</th>
-									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">主旨</th>
-										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">信箱</th>
-										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">電話</th>
-										<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">內容</th>
-						
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">留言時間</th>
-								</tr>
-							</thead>
-							<tbody>
 
-										<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>
 
-							</tbody>
-						</table>
+
+
+				@*搜尋欄*@
+				<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
+					<div class="input-group input-group-outline">
+						<label class="form-label">Search Message...</label>
+						<input type="text" class="form-control" v-model="keyword" @@keyup="productFilter">
 					</div>
 				</div>
+
 			</div>
-		</div>
-	</div>
-	<div class="modal fade " id="insertPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label class="form-label">客戶姓名:</label>
-							<input class="form-control" v-model="guest_Name" required />
-					</div>
-					<div class="form-group">
-						<label class="form-label">主旨:</label>
-							<input class="form-control" v-model="guest_subject" required />
-					</div>
-					<div class="form-group">
-						<label class="form-label">信箱:</label>
-							<input class="form-control" v-model="guest_Email" required />
-					</div>
-					<div class="form-group">
-						<label class="form-label">電話:</label>
-							<input class="form-control" v-model="guest_phone" />
-					</div>
-						<div class="form-group">
-							<label class="form-label">內容:</label>
-							<input class="form-control" v-model="guest_context" />
-						</div>
+
+			<div class="card-body px-0 pb-2">
+				<div class="table-responsive p-0">
+					<table class="table align-items-center mb-0">
+						<thead>
+							<tr class="text-center" style="width: 16px;">
+								<th class=" text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">留言編號</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">客戶姓名</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">主旨</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">信箱</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">電話</th>
+								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">內容</th>
+
+
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var item in Model)
+							{
+								<tr class="text-center">
+									<td>@Html.DisplayFor(modelItem=>item.GuestId)</td>
+									<td>@Html.DisplayFor(modelItem=>item.GuestName)</td>
+									<td>@Html.DisplayFor(modelItem=>item.GuestSubject)</td>
+									<td>@Html.DisplayFor(modelItem=>item.GuestEmail)</td>
+									<td>@Html.DisplayFor(modelItem=>item.GuestPhone)</td>
+									<td>@Html.DisplayFor(modelItem=>item.GuestContext)</td>
+
+
+									@*	<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>*@
+
+								</tr>
+							}
+
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<div class="modal fade " id="insertPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label class="form-label">客戶姓名:</label>
+					<input class="form-control" v-model="guest_Name" required />
+				</div>
+				<div class="form-group">
+					<label class="form-label">主旨:</label>
+					<input class="form-control" v-model="guest_subject" required />
+				</div>
+				<div class="form-group">
+					<label class="form-label">信箱:</label>
+					<input class="form-control" v-model="guest_Email" required />
+				</div>
+				<div class="form-group">
+					<label class="form-label">電話:</label>
+					<input class="form-control" v-model="guest_phone" />
+				</div>
+				<div class="form-group">
+					<label class="form-label">內容:</label>
+					<input class="form-control" v-model="guest_context" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
 
 @section Scripts{
 	<script>
 
-	
+
 	</script>
     }
 
