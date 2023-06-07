@@ -6,5 +6,6 @@
 		public string OrderRecipientName { get; set; } = null!;
 		public string OrderRecipientAdress { get; set; } = null!;
 		public string OrderRecipientPhone { get; set; } = null!;
+		
 	}
 }

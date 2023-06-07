@@ -48,7 +48,7 @@ namespace FurryFeast.Areas.Admin.Api {
                 SuppliersGroupsDescription = data.SuppliersGroupsDescription
             };
 
-            _context.StockSuppliersGroups?.Add(result);
+            _context.StockSuppliersGroups.Add(result);
             await _context.SaveChangesAsync();
             return Ok($"Post success, SuppliersGroupsCode: {data.SuppliersGroupsCode}.");
         }
@@ -72,16 +72,16 @@ namespace FurryFeast.Areas.Admin.Api {
         }
 
         // 更新一筆資料
-        [HttpPatch("{code}")]
-        public async Task<object> PatchData(string code, [FromBody] StockSuppliersGroupViewModel data) {
+        [HttpPatch]
+        public async Task<object> PatchData([FromBody] StockSuppliersGroupViewModel data) {
             if (_context.StockSuppliersGroups == null) {
                 return NotFound("StockSuppliersGroups is null");
             }
 
             // 檢查資料是否存在
-            var result = await _context.StockSuppliersGroups.Where(d => d.SuppliersGroupsCode == code).FirstOrDefaultAsync();
+            var result = await _context.StockSuppliersGroups.Where(d => d.SuppliersGroupsId == data.SuppliersGroupsId).FirstOrDefaultAsync();
             if (result == null) {
-                return BadRequest($"Patch failed, SuppliersGroupsCode: {code}.");
+                return BadRequest($"Patch failed, SuppliersGroupsCode: {data.SuppliersGroupsCode}.");
             }
 
             var patchOneData = await _context.StockSuppliersGroups.Where(d => d.SuppliersGroupsCode == data.SuppliersGroupsCode).FirstOrDefaultAsync();
@@ -90,14 +90,14 @@ namespace FurryFeast.Areas.Admin.Api {
 			// code 存在但不同筆 = 回傳錯誤, code 重複命名
 			// code 存在且為同一筆 = 更新這一筆資料
 			if (result.SuppliersGroupsCode != data.SuppliersGroupsCode && patchOneData != null) {
-                return BadRequest($"Patch duplicate, SuppliersGroupsCode: {code}.");
+                return BadRequest($"Patch duplicate, SuppliersGroupsCode: {data.SuppliersGroupsCode}.");
             }
 
             result.SuppliersGroupsCode = data.SuppliersGroupsCode;
             result.SuppliersGroupsDescription = data.SuppliersGroupsDescription;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok($"Patch success, SuppliersGroupsCode: {code}.");
+            return Ok($"Patch success, SuppliersGroupsCode: {data.SuppliersGroupsCode}.");
         }
     }
 }

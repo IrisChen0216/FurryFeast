@@ -1,4 +1,5 @@
-﻿using FurryFeast.Models;
+﻿using FurryFeast.Areas.Admin.ViewModels;
+using FurryFeast.Models;
 using FurryFeast.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -95,8 +96,10 @@ namespace FurryFeast.API
 		        editedOrder.OrderRecipientName = model.OrderRecipientName;
 		        editedOrder.OrderRecipientAdress = model.OrderRecipientAdress;
 		        editedOrder.OrderRecipientPhone = model.OrderRecipientPhone;
+		        //editedOrder.OrderStatus = model.OrderStatus;
 
-		        _context.Orders.Update(editedOrder);
+
+				_context.Orders.Update(editedOrder);
 		        _context.SaveChanges();
 		        return new { success = true, message = "Order updated successfully" };
 	        }
@@ -106,5 +109,32 @@ namespace FurryFeast.API
 	        }
         }
 
-    }
+  
+        [HttpPost]
+        public object UpdateActive([FromBody]OrderStatusViewModel model)
+        {
+
+	        try
+	        {
+		        var order =  _context.Orders.FirstOrDefault(x => x.OrderId == model.OrderId);
+
+		        if (order == null)
+		        {
+			        return new { success = false, message = "Order not found" };
+		        }
+
+		        order.OrderStatus = model.OrderStatus;
+
+		        _context.Orders.Update(order);
+		        _context.SaveChanges();
+		        return new { success = true, message = "OrderStatus updated successfully" };
+	        }
+	        catch (Exception e)
+	        {
+		        return new { success = false, message = e.Message };
+	        }
+        }
+
+
+	}
 }

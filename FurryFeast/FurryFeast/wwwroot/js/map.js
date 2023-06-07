@@ -3,6 +3,7 @@ let MapData = [];
 let MapCenter;
 let ClickMarkerDetail;
 let leftOffset = -0.004;
+let infoBox = $('.scroll-hidden');
 
 // //程式進入點
 $(function () {
@@ -83,12 +84,18 @@ $("#ChooseCity").change(function (event) {
 
     deleteMarkers();
     Reset();
-    console.log("visually-hidden");
 
-    if (!$('#infoBox').hasClass("visually-hidden")) {
-        $('#infoBox').addClass("visually-hidden");
-    }
+    checkInfoBox(1);
 });
+
+//infobox set visible
+function checkInfoBox(hiddenNum) {
+    if (hiddenNum == 1) {
+        infoBox.addClass('visually-hidden');
+    } else {
+        infoBox.removeClass('visually-hidden');
+    }
+}
 
 // 取得所選鄉鎮的郵遞區號
 // 對照後取得該鄉鎮的寵物友善地點
@@ -103,25 +110,36 @@ $("#ChooseCounty").change(function (e) {
         }
     }
     console.log("選擇地區的郵遞區號是" + Value);
-    $("#infoBox").removeClass("visually-hidden");
+    checkInfoBox();
     PlaceLatLng();
     drop();
     Reset();
-    $("#infoBox #pp").remove();
+    $(".counts-text").remove();
 
+    // 當地點只有一個時
     if (area.length == 1) {
         placeID = area[0].place_id;
         MarkerDetail();
         initStreetView();
         map.setZoom(12);
-        $("#infoBox").prepend($('<p>', { id: "pp", style: "font-size:12px; letter-spacing: 3px; color: gray;", text: `共${area.length}筆資料` }));
+        let pElement = $('<p>', {
+            class: 'counts-text',
+            text: `共${area.length}筆資料`
+        });
+
+        infoBox.prepend(pElement);
 
     }
     else
     {
-        GetPlaceList();
-        $("#infobox").prepend($('<p>', { id: "pp", style: "font-size:12px; letter-spacing: 3px; color: gray;", text: `共${area.length}筆資料` }));
+        let pElement = $('<p>', {
 
+            class: 'counts-text',
+            text: `共${area.length}筆資料`
+        });
+
+        GetPlaceList();
+        infoBox.prepend(pElement);
     }
 
     if (area.length == 0) {
@@ -191,7 +209,6 @@ window.addEventListener('click', (e) => {
 
 //取得寵物友善地點清單
 function getPlaceData(data) {
-    console.log('AreaPlace_got_it!');
     PlaceData = data;
 }
 
@@ -247,8 +264,8 @@ function CreateMarkers() {
         //marker的監聽事件
         marker.addListener("click", (e) => {
             Reset();
-            if (!$("#infoBox #pp")) {
-                $("#infoBox #pp").remove();
+            if (!$(".counts-text")) {
+                $(".counts-text").remove();
             }
             placeID = AreaLatLng[1].PlaceID;
             MarkerDetail();
@@ -332,6 +349,11 @@ function OutputInfo() {
 
     Reset();
 
+    // 上一頁
+    if ($("#BtnReturn") && area.length > 1) {
+        $("#infoBox").prepend($('<button>').addClass("type_bar").text("Back To List").on('click', GetPlaceList));
+    }
+
     $("#PlaceName.mt-2").append('<h4 class="py-2 px-4" style="color:white";>' + ClickMarkerDetail.Name + '</h4>');
 
     if (ClickMarkerDetail.Description) {
@@ -345,12 +367,20 @@ function OutputInfo() {
         <div class="ratings">
         <div class="empty_star">★★★★★</div>
         <div class="full_star" style="width:${StarWidth}%">★★★★★</div></div>
-        <div class="m-0" style="font-size:12px; color:#adadad;">${ClickMarkerDetail.User_ratings_total}人評分</div></div>`
+        <div class="m-0" style="font-size:12px; color:#adadad;">${ClickMarkerDetail.User_ratings_total}人評分</div></div>`;
 
     $("#RatingBox").append(strHTML);
 
-
-    $("#InfoBoxBody >.col-9").append('<p class="fs-6 "><a href="tel:' + ClickMarkerDetail.PhoneNumber + '">'+ ClickMarkerDetail.PhoneNumber + '</a></p>');
+    //$("#InfoBoxBody >.col-9").append($("<button>", { class: "btn-website mt-2", text: "前往官網" }));
+    if (ClickMarkerDetail.PhoneNumber) {
+        $("#InfoBoxBody >.col-9").append('<p class="fs-6 "><a href="tel:' +
+            ClickMarkerDetail.PhoneNumber +
+            '">' +
+            ClickMarkerDetail.PhoneNumber +
+            '</a></p>');
+    } else {
+        $("#InfoBoxBody >.col-9").append('<p class ="fs-6" style="color:gray">尚未提供電話</p>');
+    }
     $("#InfoBoxBody >.col-9").append('<p class ="fs-6 " >' + ClickMarkerDetail.Address + "</p>");
 
 
@@ -362,7 +392,7 @@ function OutputInfo() {
 
     if (ClickMarkerDetail.Website) {
         $("#InfoBoxBody >.col-9").append($('<a>', { id: "btnWebsite", href: ClickMarkerDetail.Website, target: "_blank" }));
-        $("a#btnWebsite").append($("<button>", { class: "type_bar mt-2", text: "點我前往官網" }));
+        $("a#btnWebsite").append($("<button>", { class: "btn-website mt-2" , text: "前往官網" }));
     } 
 
     if (!$("#InfoBoxBody").hasClass("visually-hidden")) {
@@ -373,9 +403,6 @@ function OutputInfo() {
 
     $('#btn_StreetView').removeClass("visually-hidden");
 
-    if ($("#BtnReturn") && area.length>1) {
-        $("#infoBox").append($('<button>').text("Return").addClass("BtnReturn").on('click', GetPlaceList));
-    }
 } 
 
 

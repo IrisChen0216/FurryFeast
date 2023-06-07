@@ -60,7 +60,7 @@ namespace FurryFeast.Areas.Admin.Api {
                 WarehouseGroupId = data.WarehouseGroupId
             };
 
-            _context.StockWarehouses?.Add(result);
+            _context.StockWarehouses.Add(result);
             await _context.SaveChangesAsync();
             return Ok($"Post success, WarehousesCode: {data.WarehousesCode}.");
         }
@@ -84,16 +84,16 @@ namespace FurryFeast.Areas.Admin.Api {
         }
 
         // 更新一筆資料
-        [HttpPatch("{code}")]
-        public async Task<object> PatchData(string code, [FromBody] StockWarehouseViewModel data) {
+        [HttpPatch]
+        public async Task<object> PatchData([FromBody] StockWarehouseViewModel data) {
             if (_context.StockWarehouses == null) {
                 return NotFound("StockWarehouses is null");
             }
 
             // 檢查資料是否存在
-            var result = await _context.StockWarehouses.Where(d => d.WarehousesCode == code).FirstOrDefaultAsync();
+            var result = await _context.StockWarehouses.Where(d => d.WarehousesId == data.WarehousesId).FirstOrDefaultAsync();
             if (result == null) {
-                return BadRequest($"Patch failed, WarehousesCode: {code}.");
+                return BadRequest($"Patch failed, WarehousesCode: {data.WarehousesCode}.");
             }
 
             var patchOneData = await _context.StockWarehouses.Where(d => d.WarehousesCode == data.WarehousesCode).FirstOrDefaultAsync();
@@ -102,7 +102,7 @@ namespace FurryFeast.Areas.Admin.Api {
 			// code 存在但不同筆 = 回傳錯誤, code 重複命名
 			// code 存在且為同一筆 = 更新這一筆資料
 			if (result.WarehousesCode != data.WarehousesCode && patchOneData != null) {
-                return BadRequest($"Patch duplicate, WarehousesCode: {code}.");
+                return BadRequest($"Patch duplicate, WarehousesCode: {data.WarehousesCode}.");
             }
 
             result.WarehousesCode = data.WarehousesCode;
@@ -115,7 +115,7 @@ namespace FurryFeast.Areas.Admin.Api {
             result.WarehouseGroupId = data.WarehouseGroupId;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok($"Patch success, WarehousesCode: {code}.");
+            return Ok($"Patch success, WarehousesCode: {data.WarehousesCode}.");
         }
     }
 }

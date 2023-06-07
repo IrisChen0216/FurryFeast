@@ -72,16 +72,16 @@ namespace FurryFeast.Areas.Admin.Api {
         }
 
         // 更新一筆資料
-        [HttpPatch("{code}")]
-        public async Task<object> PatchData(string code, [FromBody] StockMeasureUnitsViewModel data) {
+        [HttpPatch]
+        public async Task<object> PatchData([FromBody] StockMeasureUnitsViewModel data) {
             if (_context.StockMeasureUnits == null) {
                 return NotFound("StockMeasureUnits is null");
             }
 
             // 檢查資料是否存在
-            var result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == code).FirstOrDefaultAsync();
+            var result = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsId == data.MeasureUnitsId).FirstOrDefaultAsync();
             if (result == null) {
-                return BadRequest($"Patch failed, MeasureUnitsCode: {code}.");
+                return BadRequest($"Patch failed, MeasureUnitsCode: {data.MeasureUnitsCode}.");
             }
 
             var patchOneData = await _context.StockMeasureUnits.Where(d => d.MeasureUnitsCode == data.MeasureUnitsCode).FirstOrDefaultAsync();
@@ -90,14 +90,14 @@ namespace FurryFeast.Areas.Admin.Api {
 			// code 存在但不同筆 = 回傳錯誤, code 重複命名
 			// code 存在且為同一筆 = 更新這一筆資料
 			if (result.MeasureUnitsCode != data.MeasureUnitsCode && patchOneData != null) {
-                return BadRequest($"Patch duplicate, MeasureUnitsCode: {code}.");
+                return BadRequest($"Patch duplicate, MeasureUnitsCode: {data.MeasureUnitsCode}.");
             }
 
             result.MeasureUnitsCode = data.MeasureUnitsCode;
             result.MeasureUnitsDescription = data.MeasureUnitsDescription;
             _context.Entry(result).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok($"Patch success, MeasureUnitsCode: {code}.");
+            return Ok($"Patch success, MeasureUnitsCode: {data.MeasureUnitsCode}.");
         }
     }
 }
