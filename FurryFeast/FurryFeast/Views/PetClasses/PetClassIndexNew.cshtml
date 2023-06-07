@@ -97,38 +97,15 @@
 							<!-- Product Minimal-->
 							<article class="product-minimal">
 								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img :src="'data:image/png;base64,'+item.petClassPicImage" alt="" width="106" height="104" /></a></div>
+									<div class="unit-left"><a class="product-minimal-figure" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClassId"><img :src="'data:image/png;base64,'+item.petClassPicImage" alt="" width="106" height="104" /></a></div>
 									<div class="unit-body">
-										<p class="product-minimal-title"><a href="single-product.html">{{item.petClassName}}</a></p>
+										<p class="product-minimal-title"><a :href="'/PetClasses/PetClassDetailNew?id=' + item.petClassId">{{item.petClassName}}</a></p>
 										<p class="product-minimal-price">${{item.petClassPrice}}</p>
 									</div>
 								</div>
 							</article>
 						</div>
-						@*<div class="col-4 col-sm-6 col-md-12">
-							<!-- Product Minimal-->
-							<article class="product-minimal">
-								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-2-106x104.jpg" alt="" width="106" height="104" /></a></div>
-									<div class="unit-body">
-										<p class="product-minimal-title"><a href="single-product.html">寵物餅乾DIY課程 </a></p>
-										<p class="product-minimal-price">$3000</p>
-									</div>
-								</div>
-							</article>
-						</div>
-						<div class="col-4 col-sm-6 col-md-12">
-							<!-- Product Minimal-->
-							<article class="product-minimal">
-								<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-									<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-3-106x104.jpg" alt="" width="106" height="104" /></a></div>
-									<div class="unit-body">
-										<p class="product-minimal-title"><a href="single-product.html">寵物肉乾DIY課程</a></p>
-										<p class="product-minimal-price">$2000</p>
-									</div>
-								</div>
-							</article>
-						</div>*@
+					
 					</div>
 				</div>
 			</div>
@@ -136,13 +113,7 @@
 		<div class="col-lg-8 col-xl-9">
 			<div class="product-top-panel group-md">
 				<p class="product-top-panel-title">顯示第 {{StartCount}}–{{EndCount}}項結果  共{{AllClassCount}}筆結果</p>
-		@*		<template>
-					<div>
-						<date-picker v-model="time1" valueType="format"></date-picker>
-						<date-picker v-model="time2" type="datetime"></date-picker>
-						<date-picker v-model="time3" range></date-picker>
-					</div>
-				</template>*@
+		
 				<div>
 					<datepicker class="date-pick" v-model="startDate"></datepicker> ~
 					<datepicker class="date-pick" v-model="endDate"></datepicker>
@@ -169,14 +140,12 @@
 					<!-- Product-->
 					<article class="product-modern text-center text-sm-left">
 						<div class="unit unit-spacing-0 flex-column flex-sm-row">
-							@*<div class="unit-left"><a class="product-modern-figure link-img" asp-controller="PetClasses" asp-action="PetClassDetail" asp-route-id="@item.PetClassId"><img src="~/image/cat/class.jpg" alt="" width="250" height="300" /></a></div>*@
 							<div class="unit-left"><a class="product-modern-figure link-img" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId"><img :src="'data:image/png;base64,'+item.petClassPic" /></a></div>
 
 							<div class="unit-body">
 								<div class="product-modern-body">
 									<h4 class="product-modern-title"><a :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">{{item.petClasses.petClassName}}</a></h4>
 									<div class="product-price-wrap">
-										@*<div class="product-price product-price-old">${{item.petClasses.petClassPrice}}</div>*@
 										<div class="product-price">${{item.petClasses.petClassPrice}}</div>
 									</div>
 									<p class="product-modern-text JQellipsis">{{TextTruncate(item.petClasses.petClassInformation,50)}}</p><a class="button button-primary button-zakaria" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClasses.petClassId">課程詳情</a>
@@ -376,17 +345,7 @@
 
 		});
 
-				//$(function () {
-				//    var len = 50; // 超過50個字以"..."取代
-				//    $(".JQellipsis").each(function (i) {
-				//        if ($(this).text().length > len) {
-				//            $(this).attr("title", $(this).text());
-				//            var text = $(this).text().substring(0, len - 1) + "...";
-				//            $(this).text(text);
-				//        }
-				//    });
-				//});
-
+				
 
 	</script>
 	<script src="~/js/product/core.min.js"></script>

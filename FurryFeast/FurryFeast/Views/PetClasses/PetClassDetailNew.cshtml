@@ -2,64 +2,53 @@
 	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/fonts.min.css" rel="stylesheet" />
 	<link href="~/css/petclass/style.css" rel="stylesheet" />
+	<style>
+		.product-minimal-figure img {
+			width: 106px;
+		}
+
+		.product-minimal-price {
+			text-align: left;
+		}
+
+		.atical{
+			width:90%;
+			margin-left:90px;
+		}
+
+
+	</style>
 }
 
-<section class="section section-xl bg-default text-md-left">
+
 	<div class="container" id="app">
 		<div class="row row-50 row-md-60">
 			<div class="col-lg-4 col-xl-3">
 				<div class="aside row row-30 row-md-50 justify-content-md-between">
 					<!-- RD Search Form-->
-					<div class="aside-item col-sm-6 col-md-5 col-lg-12">
-						@* 待補畫面*@
-
-
-					</div>
+					
 					<div class="aside-item col-sm-6 col-lg-12">
 						<h6 class="aside-title">熱門課程</h6>
 						<div class="row row-10 row-lg-20 gutters-10">
-							<div class="col-4 col-sm-6 col-md-12">
+							<div class="col-4 col-sm-6 col-md-12 content" v-for="item in HotClass">
 								<!-- Product Minimal-->
 								<article class="product-minimal">
 									<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-										<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-2-106x104.jpg" alt="" width="106" height="104" /></a></div>
+										<div class="unit-left"><a class="product-minimal-figure" :href="'/PetClasses/PetClassDetailNew?id=' + item.petClassId"><img :src="'data:image/png;base64,'+item.petClassPicImage" alt="" width="106" height="104" /></a></div>
 										<div class="unit-body">
-											<p class="product-minimal-title"><a href="single-product.html">寵物鮮食DIY課程</a></p>
-											<p class="product-minimal-price">$2500</p>
+											<p class="product-minimal-title"><a :href="'/PetClasses/PetClassDetailNew?id=' + item.petClassId">{{item.petClassName}}</a></p>
+											<p class="product-minimal-price">${{item.petClassPrice}}</p>
 										</div>
 									</div>
 								</article>
 							</div>
-							<div class="col-4 col-sm-6 col-md-12">
-								<!-- Product Minimal-->
-								<article class="product-minimal">
-									<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-										<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-2-106x104.jpg" alt="" width="106" height="104" /></a></div>
-										<div class="unit-body">
-											<p class="product-minimal-title"><a href="single-product.html">寵物餅乾DIY課程 </a></p>
-											<p class="product-minimal-price">$3000</p>
-										</div>
-									</div>
-								</article>
-							</div>
-							<div class="col-4 col-sm-6 col-md-12">
-								<!-- Product Minimal-->
-								<article class="product-minimal">
-									<div class="unit unit-spacing-sm flex-column flex-md-row align-items-center">
-										<div class="unit-left"><a class="product-minimal-figure" href="single-product.html"><img src="images/product-mini-3-106x104.jpg" alt="" width="106" height="104" /></a></div>
-										<div class="unit-body">
-											<p class="product-minimal-title"><a href="single-product.html">寵物肉乾DIY課程</a></p>
-											<p class="product-minimal-price">$2000</p>
-										</div>
-									</div>
-								</article>
-							</div>
+							
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-8 col-xl-9">
-				<div class="inset-xl-right-100">
+				<div class="inset-xl-right-100 atical">
 					<div class="row row-50 row-md-60 row-lg-80">
 						<div class="col-12">
 							<article class="post post-modern box-xxl">
@@ -114,7 +103,6 @@
 		</div>
 	</div>
 
-</section>
 
 @section Scripts{
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -127,12 +115,12 @@
 			data: {
 				Show: [],
 				PetClass: [],
-
+				HotClass:[],
 			},
 			mounted: function () {
 				let _this = this;
 				_this.TheClass();
-
+				_this.HorClasses();
 			},
 			methods: {
 				//網頁載入就會掛載全部商品資料的方法
@@ -144,7 +132,14 @@
 
 					});
 				},
+				HorClasses: function () {
+					let _this = this;
 
+					axios.get(`/api/petclasses/HotClasses`).then(response => {
+						_this.HotClass = response.data;
+
+					});
+				},
 			},
 			computed: {
 				AllClassAmount: function () {
