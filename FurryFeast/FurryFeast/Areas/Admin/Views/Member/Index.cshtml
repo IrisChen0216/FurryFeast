@@ -311,22 +311,14 @@
 						}
 					})
 				},
-				//filter: function () {
-				//	let self = this;
-				//	return self.members.filter(x => {
-				//		return
-				//		x.member.memberName.includes(self.keyword) ||
-				//			x.member.memberPhone.includes(self.keyword) ||
-				//			x.member.memberEmail.includes(self.keyword)
-				//	})
-				//},
+
 				filtermember: function () {
 					let self = this;
 					self.members = self.originMember;
 					self.members = self.members.filter(x => 
-						x.member.memberName.includes(self.keyword)||
-						x.member.memberPhone.includes(self.keyword) ||
-								x.member.memberAdress.includes(self.keyword)
+						(x.member.memberName && x.member.memberName.includes(self.keyword)) ||
+						(x.member.memberPhone && x.member.memberPhone.includes(self.keyword)) ||
+						(x.member.memberEmail && x.member.memberEmail.includes(self.keyword))
 					);
 				},
 				ChangePage: function (currentpage) {

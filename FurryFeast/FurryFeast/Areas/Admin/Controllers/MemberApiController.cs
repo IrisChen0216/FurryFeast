@@ -1,10 +1,11 @@
-﻿using FurryFeast.Models;
+﻿using FurryFeast.Areas.Admin.ViewModels;
+using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FurryFeast.Areas.Admin.Controllers
 {
-	[Route("/api/Member/[action]")]
+    [Route("/api/Member/[action]")]
 	[ApiController]
 	public class MemberApiController : ControllerBase
 	{

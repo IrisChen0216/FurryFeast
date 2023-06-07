@@ -1,4 +1,4 @@
-﻿namespace FurryFeast.Areas.Admin.Controllers
+﻿namespace FurryFeast.Areas.Admin.ViewModels
 {
     public class EditMemberDto
     {

@@ -25,7 +25,8 @@ public class MyOrderApiController : ControllerBase
             x.OrderId,
             x.OrderShipDate,
             x.OrderStatus,
-            x.OrderTotalPrice
+            x.OrderTotalPrice,
+            x.OrderDetails
         }).ToList();
     }
 }
