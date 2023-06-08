@@ -238,6 +238,7 @@
 				insertData: async function () {
 					let _this = this;
 					this.choseTableData.imagesId = 0;
+					Swal.showLoading();
 					await axios.post(`/api/StockImagesApi/PostData`, _this.choseTableData).then(response => {
 						Swal.fire({
 							title: `新增成功!`,
