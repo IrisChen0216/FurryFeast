@@ -64,6 +64,7 @@
 
 		.label {
 			color: #ffd33b;
+			text-align: left;
 		}
 
 	</style>
@@ -84,11 +85,11 @@
 			<form asp-action="Login" asp-controller="Member" method="post" asp-route-typeID="@Context.Request.Query["typeID"]" asp-route-recipeID="@Context.Request.Query["recipeID"]">
 				<div class="Login">
 					<div class="form-container">
-						<label class="label"><strong>帳號</strong></label>
+						<h6 class="label">帳號</h6>
 						<input class="form-input form-control" placeholder="請輸入帳號" id="input" type="email" name="MemberAccount" required>
 					</div>
 					<div class="form-container">
-						<label class="label"><strong>密碼</strong></label>
+						<h6 class="label">密碼</h6>
 						<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord" required>
 					</div>
 					<div>

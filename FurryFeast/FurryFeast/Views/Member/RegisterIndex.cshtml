@@ -1,45 +1,95 @@
-﻿
-@{
-    ViewData["Title"] = "Register";
+﻿@{
+	ViewData["Title"] = "Register";
 }
 
-<div class="index-header">
-    <h2>註冊會員</h2>
-</div>
+@section Style{
+	<style>
+		.imgText {
+			position: relative;
+			text-align: center;
+		}
 
-<div >
-    <form action="/Member/RegisterIndex" method="post" name="register">
-    <div>
-        <label for="">帳號: </label>
-            <input class="form-input form-control-has-validation" id="contact-first-name-2" type="email" placeholder="請輸入Email帳號" name="MemberAccount" data-constraints="Required">
-    </div>
-    <div>
-        <label for="">密碼:</label>
-            <input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" name="MemberPassord" data-constraints="Required">
-    </div>
-    <div>
-        <label for="">姓名: </label>
-        <input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" name="MemberName" data-constraints="Required">
-    </div>
-    <div>
-        <label for="">性別:</label>
-        <input type="radio" name="gender" id="">
-        <label for="">男</label>
-        <input type="radio" name="gender" id="">
-        <label for="">女</label>
-    </div>
-    <div>
-        <label for="">生日:</label>
-            <input class="form-input form-control-has-validation" id="contact-first-name-2" type="date" name="MemberBirthday" data-constraints="Required">
-    </div>
-    <div>
-        <label for="">手機號碼: </label>
-            <input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" name="MemberPhone" data-constraints="Required" maxlength="10">
-    </div>
-    <div class="btn">  
-            <button class="button button-lg button-primary button-zakaria" type="submit">註冊</button> 
-    </div>
-    </form>
+			.imgText h2 {
+				content: "FurryFeast";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: -260px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 48px;
+				font-weight: bold;
+				color: white;
+				border-radius: 50%;
+			}
+
+		.container {
+			width: 90%;
+		}
+
+		.label {
+			text-align: left;
+			color: #ffd33b;
+		}
+
+		.gender{
+			display: flex;
+			align-items: center;
+			min-height:60px;
+		}
+	</style>
+}
+<div class="index-header">
+	<h2>註冊會員</h2>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-5">
+			<div class="imgText">
+				<img src="~/image/product/footer-gallery-1-original.jpg" />
+				<h2>FurryFeast</h2>
+			</div>
+		</div>
+		<div style="width:20px;"></div>
+		<div class="col-6">
+			<form action="/Member/RegisterIndex" method="post" name="register">
+				<div>
+					<h6 class="label">帳號: </h6>
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="email" placeholder="請輸入Email帳號" name="MemberAccount" data-constraints="Required">
+				</div>
+				<div>
+					<h6 class="label">密碼:</h6>
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" placeholder="請輸入密碼帳號" name="MemberPassord" data-constraints="Required">
+				</div>
+				<div>
+					<h6 class="label">姓名: </h6>
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" name="MemberName" placeholder="請輸入姓名" data-constraints="Required">
+				</div>
+				<div>
+					<h6 class="label">性別:</h6>
+					<div class="gender">
+						<input type="radio" name="MemberGender" value="0">
+					<span for="">男</span>
+						<input type="radio" name="MemberGender" value="1">
+					<span for="">女</span>
+					</div>
+				</div>
+				<div>
+					<h6 class="label">生日:</h6>
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="date" name="MemberBirthday" data-constraints="Required">
+				</div>
+				<div>
+					<h6 class="label">手機號碼: </h6>
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" placeholder="請輸入手機號碼" name="MemberPhone" data-constraints="Required" maxlength="10">
+				</div>
+				<div class="btn">
+					<button class="button button-primary button-primary button-zakaria" type="submit">註冊</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 
