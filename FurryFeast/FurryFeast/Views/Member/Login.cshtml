@@ -15,9 +15,8 @@
 	<h2>會員登入</h2>
 </div>
 
-<form action="/Member/Login" method="post">
+<form asp-action="Login" asp-controller="Member" method="post" asp-route-typeID="@Context.Request.Query["typeID"]" asp-route-recipeID="@Context.Request.Query["recipeID"]">
 	<div class="Login">
-
 		<div>
 			<label>帳號</label>
 			<input class="form-input form-control" placeholder="請輸入帳號" id="input" type="email" name="MemberAccount">
@@ -26,8 +25,8 @@
 			<label>密碼</label>
 			<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord">
 		</div>
-			<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
-			<button class="button button-lg button-primary button-zakaria"  type="submit">登入</button>
+		<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
+		<button class="button button-lg button-primary button-zakaria" type="submit">登入</button>
 		</div>
 </form>
 		<div>
