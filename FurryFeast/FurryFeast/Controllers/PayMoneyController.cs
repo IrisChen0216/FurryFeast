@@ -39,7 +39,7 @@ namespace FurryFeast.Controllers
 		};
 
 		[HttpPost]
-		public async Task SpgatewayPayBillAsync(string ordernumber, int amount, string payType ,string area,string email)
+		public async Task SpgatewayPayBillAsync(PayBill payBill)
 		{
 			string version = "1.5";
 			string PayReturnURL;
@@ -48,7 +48,7 @@ namespace FurryFeast.Controllers
 			DateTimeOffset taipeiStandardTimeOffset = DateTimeOffset.Now.ToOffset(new TimeSpan(8, 0, 0));
 			
 
-			if (area == "petClass")
+			if (payBill.area == "petClass")
 			{
 				PayReturnURL = PetClassPayMoneyInfo.ReturnURL;
 			}
@@ -68,9 +68,9 @@ namespace FurryFeast.Controllers
 				
 				Version = version,
 				
-				MerchantOrderNo = ordernumber,
+				MerchantOrderNo = payBill.ordernumber,
 				
-				Amt = amount,
+				Amt = payBill.amount,
 				
 				ItemDesc = "商品資訊(自行修改)",
 				
@@ -84,7 +84,7 @@ namespace FurryFeast.Controllers
 
 				ClientBackURL = null,
 
-				Email = email,
+				Email = payBill.email,
 
 				EmailModify = 1,
 
@@ -102,27 +102,27 @@ namespace FurryFeast.Controllers
 
 			};
 
-			if (string.Equals(payType, "CREDIT"))
+			if (string.Equals(payBill.payType, "CREDIT"))
 			{
 				tradeInfo.CREDIT = 1;
 			}
-			else if (string.Equals(payType, "WEBATM"))
+			else if (string.Equals(payBill.payType, "WEBATM"))
 			{
 				tradeInfo.WEBATM = 1;
 			}
-			else if (string.Equals(payType, "VACC"))
+			else if (string.Equals(payBill.payType, "VACC"))
 			{
 
 				tradeInfo.ExpireDate = taipeiStandardTimeOffset.AddDays(1).ToString("yyyyMMdd");
 				tradeInfo.VACC = 1;
 			}
-			else if (string.Equals(payType, "CVS"))
+			else if (string.Equals(payBill.payType, "CVS"))
 			{
 	
 				tradeInfo.ExpireDate = taipeiStandardTimeOffset.AddDays(1).ToString("yyyyMMdd");
 				tradeInfo.CVS = 1;
 			}
-			else if (string.Equals(payType, "BARCODE"))
+			else if (string.Equals(payBill.payType, "BARCODE"))
 			{
 			
 				tradeInfo.ExpireDate = taipeiStandardTimeOffset.AddDays(1).ToString("yyyyMMdd");
