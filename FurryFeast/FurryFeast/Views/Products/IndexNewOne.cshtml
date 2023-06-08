@@ -32,10 +32,6 @@
 			min-height: 100px;
 		}
 
-		/*.product::before {
-					background-color:white;
-				}*/
-
 		.desktop .product-button-wrap {
 			background-color: white;
 		}
@@ -44,19 +40,33 @@
 			margin-top: -20px;
 		}
 
-		/*.region {
-			width: 100%;
-			padding: 10px;
+		.clean {
+			background-color: darkgrey;
+			border-color: darkgrey;
+			margin-top: 0px;
 		}
 
-			.region input[type="range"] {
-				width: 100%; 
-				background-color:chocolate;
-			}*/
+		.sort {
+			padding-top: 4px;
+			font-size: 15px;
+		}
+
+			.sort:hover {
+				color: #ffd33b;
+			}
+
+		.sortTitle {
+			color: #ffd33b;
+		}
+
+		.rd-range-wrap{
+			padding:5px;
+		}
 		input[type=range]::-webkit-slider-runnable-track {
 			background: #ffd33b;
 			border-radius: 10px;
-			width:100%;
+			width: 100%;
+			
 		}
 
 		input[type=range]::-webkit-slider-thumb {
@@ -64,24 +74,10 @@
 		}
 
 		input[type=range] {
-			width: 250px;
+			width: 260px;
+			margin-top: 40px;
 		}
-		/*input[type=range]::-webkit-slider-thumb {
-			-webkit-appearance: none;
-			height: 15px;
-			width: 15px;
-			border-radius: 50%;
-			background: yellow;
-			cursor: pointer;
-		}*/
-		/*input[type=range]::-webkit-slider-thumb {
-			-webkit-appearance: none;
-			height: 15px;
-			width: 15px;
-			border-radius: 50%;
-			background: #ffd33b;
-			cursor: pointer;
-		}*/
+
 	</style>
 
 }
@@ -110,38 +106,27 @@
 				<div class="aside-item col-12">
 					<h6 class="aside-title">商 品 價 格</h6>
 					<!-- RD Range-->
-					<input type="range" min="0" max="500" v-model="value">
-					<p>Value: {{ value }}</p>
-					@*<div class="region">
-						<input type="range"
-							   :min="min"
-							   :max="max"
-							   v-model.number="currentValue"/>
-					</div>*@
-					@*<div class="rd-range" :min="min" :max="max" :min-diff="minDiff" :start="start" :step="step" :tooltip="tooltip">
-					<input type="hidden" v-model="value1" class="rd-range-input-value-1">
-					<input type="hidden" v-model="value2" class="rd-range-input-value-2">
-					</div>
-*@
-@*					<vue-region-slider :minValue="300" :maxValue="700" :step="40" @@up="up" @@down="down" @@move="move" />
-*@					<div class="group-xs group-justify">
-						<div>
-							<button class="button button-sm button-primary button-zakaria" type="button" v-on:click="ValueSearch">搜尋</button>
-						</div>
-						<div>
-							<div class="rd-range-wrap">
-								<div class="rd-range-title">Price:</div>
-								<div class="rd-range-form-wrap">
-									<span>$</span>
-									<input class="rd-range-input rd-range-input-value-1" type="text" name="value-1" :value="value1">
-								</div>
-								<div class="rd-range-divider"></div>
-								<div class="rd-range-form-wrap">
-									<span>$</span>
-									<input class="rd-range-input rd-range-input-value-2" type="text" name="value-2" :value="value2">
-								</div>
+					<input type="range" min="1" max="500" v-model="value">
+					@*<p>Value: {{ value }}</p>*@
+					<div>
+						<div class="rd-range-wrap">
+							<div class="rd-range-title">Price:</div>
+							<div class="rd-range-form-wrap">
+								<span>$1</span>
+							</div>
+							<div class="rd-range-divider"></div>
+							<div class="rd-range-form-wrap">
+								<span>${{ value }}</span>
 							</div>
 						</div>
+					</div>
+					<div class="group-xs group-justify">
+						<div>
+							<button class="button button-sm button-primary button-zakaria" type="button" v-on:click="ValueSearch">搜尋</button>
+							<button class="button button-sm button-primary button-zakaria date-search clean" v-on:click="SearchClean">清除</button>
+
+						</div>
+						
 					</div>
 				</div>
 
@@ -182,24 +167,30 @@
 					<div class="row search-product">
 						<!-- 搜尋列-->
 						<div class="col col-6">
-							<form>
-								@*<h6 class="aside-title">搜尋商品</h6>*@
-								<div class="form-wrap">
-									@*<label class="form-label" for="searchForm">搜尋商品 ...</label>*@
-
-									<input class="form-input" type="text" autocomplete="on" style="width:contain" v-model="filterObj.keyword" placeholder="搜尋商品..." @@keyup="productFilter">
-									@*<button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>*@
-								</div>
-							</form>
+							@*<form>*@
+							@*<h6 class="aside-title">搜尋商品</h6>*@
+							<div class="form-wrap">
+								<input class="form-input" id="search-form" type="text" name="s" autocomplete="off" v-model="filterObj.keyword" placeholder="Search ...">
+								<button class="button-search fl-bigmug-line-search74" type="submit" v-on:click="ProductFilter"></button>
+							</div>
+							@*</form>*@
 						</div>
 						<!--排序功能-->
 						<div class="col col-6 box-info-modern-title">
-							<button class="btn btn-dark" v-on:click="sortBy('time')">上架時間</button> |
-							<button class="btn btn-dark" v-on:click="sortBy('price')">價格高低</button> |
-							@*<button class="btn btn-dark" v-on:click="ProductType('food')">主食零食</button> |
-							<button class="btn btn-dark" v-on:click="ProductType('life')">生活用品</button> |*@
-							<a>熱門排名</a>
-							@*待補連結*@
+							<div>
+								<p class="sortTitle">
+									上架時間:
+									<a class="btn sort" v-on:click="sortBy('time')">由遠至近</a> |
+									<a class="btn sort" v-on:click="sortBy('timeLately')">由近至遠</a>
+								</p>
+							</div>
+							<div>
+								<p class="sortTitle">
+									價格高低:
+									<a class="btn sort" v-on:click="sortBy('price')">由低至高</a> |
+									<a class="btn sort" v-on:click="sortBy('priceDown')">由高至低</a>
+								</p>
+							</div>
 						</div>
 
 					</div>
@@ -268,6 +259,8 @@
 
 	<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+	<script src="~/js/product/core.min.js"></script>
+	<script src="~/js/product/script.js"></script>
 	<script src="~/js/slick.min.js"></script>
 	<script>
 		Vue.component('paginate', VuejsPaginate);
@@ -290,6 +283,7 @@
 			data: {
 				products: [],
 				showProducts: [],
+				originProductType: [],
 				maxCount: 4,
 				Page: 1,
 				filterObj: {
@@ -298,38 +292,33 @@
 				},
 				value1: null,
 				value2: null,
-				value:50,
+				value: 50,
 			},
 			mounted: function () {
 				let _this = this;
 				_this.AllProducts();
 				_this.value1 = _this.start[0];
 				_this.value2 = _this.start[1];
-				//_this.PriceSlider();
-				//window.addEventListener('sliderChange', function (e) {
-				//	_this.value1 = e.detail[0];
-				//	_this.value2 = e.detail[1];
-				//});
 			},
 			methods: {
 				//網頁載入就會掛載全部商品資料的方法
 				AllProducts: function () {
 					let _this = this;
-					//var request={};
-					//request.productName=_this.keyword;
-					axios.get(`/api/products/AllProducts`).then(response => {
-						_this.products = _this.showProducts = response.data;
 
+					axios.get(`/api/products/AllProducts`).then(response => {
+						_this.products = _this.showProducts = _this.originProductType = response.data;
 					});
 				},
 				ProductType: function (typeNum) {
 					let _this = this;
-					//var request={};
-					//request.productName=_this.keyword;
+
 					axios.get(`/api/products/ProductsType?type=${typeNum}`).then(response => {
-						_this.showProducts = response.data;
-						_this.Page = 1;
+						_this.showProducts = _this.originProductType = response.data;
+						_this.$nextTick(function () {
+							_this.Page = 1;
+						});
 					});
+
 				},
 				AddCart: function (ID) {
 
@@ -338,18 +327,11 @@
 							alert('成功加入購物車!')
 						);
 				},
-				productFilter: function () {
+				ProductFilter: function () {
 					//依照搜尋欄位篩選商品
-					var _this = this;
-
-					_this.showProducts = [];
-					for (var i = 0; i < _this.products.length; i++) {
-						var item = _this.products[i];
-						if (item.product.productName.includes(_this.filterObj.keyword)) {
-							_this.showProducts.push(item);
-						}
-					}
-					_this.Page = 1;
+					let _this = this;
+					_this.showProducts = _this.showProducts.filter(item => item.product.productName.includes(_this.filterObj.keyword));
+					//_this.Page = 1;
 				},
 				sortBy: function (val) {
 					let _this = this;
@@ -357,9 +339,15 @@
 					if (val == 'time') {
 						return _this.showProducts.sort((a, b) => new Date(a.product.productLauchedTime) - new Date(b.product.productLauchedTime));
 					}
+					if (val == 'timeLately') {
+						return _this.showProducts.sort((a, b) => new Date(b.product.productLauchedTime) - new Date(a.product.productLauchedTime));
+					}
 					//依照價格排序
 					if (val == 'price') {
 						return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
+					}
+					if (val == 'priceDown') {
+						return _this.showProducts.sort((a, b) => b.product.productPrice - a.product.productPrice);
 					}
 				},
 				ChangePage: function (currentPage) {
@@ -368,17 +356,14 @@
 				},
 				ValueSearch: function () {
 					let _this = this;
-					alert('有');
 					_this.showProducts = _this.showProducts.filter(x => x.product.productPrice <= _this.value);
+					_this.Page = 1;
 				},
-				//ProductType:function(val){
-				//	let _this = this;
-				//	if (val == 'food') {
-				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
-				//	}
-				//}
-
-
+				SearchClean: function () {
+					let _this = this;
+					_this.showProducts = _this.originProductType;
+					_this.Page = 1;
+				},
 			},
 			computed: {
 				AllProductsAmount: function () {
@@ -426,7 +411,6 @@
 
 	</script>
 
-	<script src="~/js/product/core.min.js"></script>
-	<script src="~/js/product/script.js"></script>
+
 
 }
