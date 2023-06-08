@@ -14,7 +14,7 @@
 
 .user-icon {
     background: darkgoldenrod;
-    border: 1px solid darkgoldenrod;
+    border: 1px solid #ffd33b;
     border-radius: 1rem;
     color: white;
     font-size: small;
@@ -165,6 +165,8 @@
     background: white;
     border: 2px solid #ffd33b;
 }
-/*.btn-type.active >h3 {
-    color: white;
-}*/
+
+.centered {
+    width: 40%;
+    text-align: left;
+}

@@ -6,16 +6,13 @@
 
 @section Style
 {
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 	<link href="~/css/recipestyle.css" rel="stylesheet"/>
-}
-<style>
-	.centered {
-		width: 40%;
-		text-align: left;
-	}
-</style>
+	<link href="~/css/animation.css" rel="stylesheet" />
 
-<div id="app" class="p-0 mt-4">
+}
+
+<div id="app" class="p-0 ">
 	<div class="pb-4" style="background: white; border-radius: 6px;">
 		<div class="index-header">
 			<h2>寵物鮮食食譜</h2>
@@ -25,8 +22,8 @@
 			<p class="centered">為你的毛孩營造更健康的飲食體驗，親手自製鮮食，讓每一口都充滿愛與關懷。我們用新鮮食材，製作出營養豐富，口感美味的鮮食。毛孩的健康，由你我共同守護。嘗試自製鮮食，讓愛，從口而入。</p>
 		</div>
 	</div>
-	<div class="p-3 my-2" style="background: #ffd33b; border-radius: 6px;">
-		<p class="" style="font-size: 19px; letter-spacing: 3px; font-weight: 600;">請選擇動物類別</p>
+	<div class="p-5 my-2" style="background: #ffd33b; border-radius: 6px;">
+		<h4 style="color: white; letter-spacing: 3px; font-weight: 600;">請選擇動物類別</h4>
 	</div>
 	<div class="mt-2" style="border-radius: 6px; padding-top: 10%;padding-top: 10%; height: 50vh; background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url(&quot;/image/recipes-bg-1.jpg&quot;)">
 		<div class=" p-0">
@@ -40,10 +37,13 @@
 		@*<button class="scroll-down" style="border: none;">
 			<span class="arrow">&#8595;</span>
 		</button>*@
-
+		<div v-if="showDropdown">
+			<button v-on:click="scrollTop(scropTarget)" class="slide-bottom"><img style="padding: 10px" src="~/image/down-arrow.png" /></button>
+		</div>
 	</div>
 
-	<div class="row m-0">
+		
+	<div id="recipe" class=" row m-0">
 		<div class="col-md-3 mt-5">
 			<ul id="recipesList" class="nav justify-content-center" style="border-radius: 6px; background: white">
 				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item.recipesId)">{{item.name}}</li>
@@ -154,13 +154,15 @@
 	<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/plugin/relativeTime.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
 
 	<script>
 
 		let app = new Vue({
 			el: '#app',
 			data: {
+				scropTarget: "recipe",
+				showDropdown: false,
 				isActiveDog: false,
 				isActiveCat: false,
 				MemberData: [],
@@ -176,11 +178,11 @@
 				dateTime: "",
 				showRecipeDetails: false
 			},
-			mounted: async function () {
+			mounted: async function() {
 				const _this = this;
 				await _this.allRecipes();
 				_this.getUserData();
-
+				//window.addEventListener('scroll', _this.checkIfTop(_this.scropTarget));
 
 				let params = new URLSearchParams(window.location.search);
 				//let returnUrl = params.get('returnUrl');
@@ -188,12 +190,18 @@
 				let recipeID = params.get('recipeID');
 
 				if (typeID != null && recipeID != null) {
+					_this.showDropdown = true;
 					_this.chooseType(typeID);
 					_this.getRecipe(recipeID);
+
 				}
 			},
+			beforeDestroy() {
+				const _this = this;
+				//window.removeEventListener('scroll', _this.checkIfTop(_this.scropTarget));
+			},
 			methods: {
-				submitForm: function () {
+				submitForm: function() {
 					let _this = this;
 					let typeID = _this.selectedRecipe.petTypesId;
 					let recipeID = _this.selectedRecipeId;
@@ -265,9 +273,10 @@
 					});
 				},
 
-				chooseType:async  function(typeNum) {
+				chooseType: async function(typeNum) {
 
 					const _this = this;
+					_this.showDropdown = true;
 					_this.filteredRecipe = [];
 					for (let i = 0; i < _this.recipes.length; i++) {
 						if (_this.recipes[i].petTypesId == typeNum) { //type:1= dog,2=cat
@@ -284,13 +293,21 @@
 						_this.isActiveCat = true;
 						_this.getRecipe(this.filteredRecipe[0].recipesId);
 					}
+
+				},
+
+				scrollTop: function(id) {
+					this.showDropdown = false;
+					let scroll = new SmoothScroll();
+					let anchor = document.getElementById(`${id}`);
+					scroll.animateScroll(anchor);
 				},
 
 				splitArr: function(item, symbol) {
 					return item.split(symbol);
 				},
 
-				getRecipe: function (recipesId) {
+				getRecipe: function(recipesId) {
 					const _this = this;
 					var selectedItem = _this.filteredRecipe.find(x => x.recipesId == recipesId);
 					console.log(selectedItem);
@@ -306,7 +323,6 @@
 					const _this = this;
 
 					const msgBoard = {
-
 						UserId: _this.MemberData.memberId,
 						MsgRecipesId: _this.selectedRecipe.recipesId,
 						MsgContent: _this.commentContent, //留言內容
@@ -321,7 +337,7 @@
 							_this.addCommentSuccess(); // success feedback
 							_this.commentContent = ''; // empty content
 						});
-						
+
 				},
 				//success
 				addCommentSuccess: function() {
@@ -364,7 +380,7 @@
 						MsgId: item.msgId,
 						EditedText: _this.editedContent,
 						EditedTime: moment().format()
-				};
+					};
 					axios.post('/api/recipes/EditedMsg', editedMsgRecord)
 						.then(response => {
 							this.editCommentSuccess(response); // success feedback
@@ -379,11 +395,10 @@
 				},
 
 				// delete in Client only
-				deleteComment: function (item) {
+				deleteComment: function(item) {
 					item.active = false;
 
 					const msgActive = {
-
 						MsgId: item.msgId,
 						MsgActive: item.active //狀態
 
