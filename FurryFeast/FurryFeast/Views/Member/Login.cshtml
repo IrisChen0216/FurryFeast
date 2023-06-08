@@ -12,39 +12,110 @@
 	<link href="~/css/login.css" rel="stylesheet" />
 	<style>
 		.form-input {
-			width:30%;
+			/*width: 80%;*/
 		}
+
+		.container {
+			width: 90%;
+		}
+
+		.button-size {
+			margin-top: 20px;
+		}
+
+		.fb-style {
+			margin-top: 0px;
+		}
+
+
+		.Login {
+			padding: 20px 50px 20px 50px;
+		}
+
+		.forget {
+			background-color: darkgrey;
+			border-color: darkgrey;
+		}
+
+		.LoginImage {
+			border-radius: 6px;
+		}
+
+		.imgText {
+			position: relative;
+			text-align: center;
+		}
+
+			.imgText h2 {
+				content: "FurryFeast";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: -240px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 48px;
+				font-weight: bold;
+				color: white;
+				border-radius: 50%;
+			}
+
+		.label {
+			color: #ffd33b;
+		}
+
 	</style>
 }
 <div class="index-header">
 	<h2>會員登入</h2>
 </div>
+<div class="container">
+	<div class="row">
+		<div class="col-5">
+			<div class="imgText">
+				<img class="LoginImage" src="~/image/product/footer-gallery.jpg" />
+				<h2>FurryFeast</h2>
+			</div>
+		</div>
+		<div style="width:20px;"></div>
+		<div class="col-6">
+			<form asp-action="Login" asp-controller="Member" method="post" asp-route-typeID="@Context.Request.Query["typeID"]" asp-route-recipeID="@Context.Request.Query["recipeID"]">
+				<div class="Login">
+					<div class="form-container">
+						<label class="label"><strong>帳號</strong></label>
+						<input class="form-input form-control" placeholder="請輸入帳號" id="input" type="email" name="MemberAccount" required>
+					</div>
+					<div class="form-container">
+						<label class="label"><strong>密碼</strong></label>
+						<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord" required>
+					</div>
+					<div>
+						<button class="button button-primary button-primary button-zakaria button-size" type="submit">登入</button>
+						<a asp-action="RegisterIndex" type="button" class="button button-primary button-primary button-zakaria button-size register">註冊</a>
+						@*<form asp-action="ForgetPassword">*@
+						@*<button class="button button-lg button-primary button-zakaria text-center button-size" type="submit">忘記密碼</button>*@
+						<a asp-action="ForgetPassword" class="button button-primary button-primary button-zakaria button-size forget" type="submit">忘記密碼</a>
+						@*</form>*@
+					</div>
 
-<form asp-action="Login" asp-controller="Member" method="post" asp-route-typeID="@Context.Request.Query["typeID"]" asp-route-recipeID="@Context.Request.Query["recipeID"]">
-	<div class="Login">
-		<div>
-			<label>帳號</label>
-			<input class="form-input form-control" placeholder="請輸入帳號" id="input" type="email" name="MemberAccount">
+				</div>
+			</form>
+			<div>
+				<a href="/Member/GoogleLogin" class="button button-google button-icon button-icon-left button-round" type="submit">GOOGLE登入</a>
+				<a href="/Member/Facebook" class="button button-facebook button-icon button-icon-left button-round fb-style" type="submit">Facebook登入</a>
+			</div>
+			<div>
+			</div>
 		</div>
-		<div>
-			<label>密碼</label>
-			<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord">
-		</div>
-		<a asp-action="RegisterIndex" type="button" class="button button-lg button-primary button-zakaria">註冊</a>
-		<button class="button button-lg button-primary button-zakaria" type="submit">登入</button>
-		</div>
-</form>
-		<div>
-	<a href="/Member/GoogleLogin" class="button button-lg button-primary button-zakaria" type="submit">使用GOOGLE帳號登入</a>
-	<a href="/Member/Facebook" class="button button-lg button-primary button-zakaria" type="submit">使用Facebook帳號登入</a>
-		</div>
-		<div>
-	<form asp-action="ForgetPassword">
-		<button class="button button-lg button-primary button-zakaria text-center" type="submit">忘記密碼</button>
-	</form>
-		</div>
-	@section Scripts{
-			
+
+	</div>
+</div>
+
+
+@section Scripts{
+
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
 	<script>
 		//<div id="g_id_onload"
