@@ -133,9 +133,8 @@ namespace FurryFeast.Controllers
 
         public async Task<IActionResult> Enable(string code)
         {
-			//string encodedStr = HttpUtility.UrlEncode(code);
-			var str = encrypt.AesDecryptToString(code);
 			
+			var str = encrypt.AesDecryptToString(code);
 			var obj = JsonSerializer.Deserialize<AesValidationDto>(str);
 			if (DateTime.Now > obj.ExpiredDate)
 			{
