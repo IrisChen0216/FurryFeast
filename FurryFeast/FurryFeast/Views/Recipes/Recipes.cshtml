@@ -15,35 +15,42 @@
 	}
 </style>
 
-<div id="app" class="p-0" style="background: #f1f1f1">
-		<div class="p-0 m-0" style="background: #f1f1f1">
-	@*	<div class="p-0 m-0" style="background: #f1f1f1; background-image: url(' /image/cute-pet-collage-isolated.jpg'),url('/image/english-cream-golden-retriever-isolated.jpg');; background-size:contain; background-repeat: no-repeat,no-repeat; background-position: left, right;">*@
-	<div class="index-header">
-		<h2>寵物鮮食食譜</h2>
+<div id="app" class="p-0 mt-4">
+	<div class="pb-4" style="background: white; border-radius: 6px;">
+		<div class="index-header">
+			<h2>寵物鮮食食譜</h2>
 		</div>
-	<div style="display: flex; justify-content: center; align-items: center;">
-		<p class="centered">為你的毛孩營造更健康的飲食體驗，親手自製鮮食，讓每一口都充滿愛與關懷。我們用新鮮食材，製作出營養豐富，口感美味的鮮食。毛孩的健康，由你我共同守護。嘗試自製鮮食，讓愛，從口而入。</p>
+@*		<img class="pb-4 m-0" src="~/image/pet_recipies.png" style="width: 100px;"/>
+		*@		<div style="display: flex; justify-content: center; align-items: center;">
+			<p class="centered">為你的毛孩營造更健康的飲食體驗，親手自製鮮食，讓每一口都充滿愛與關懷。我們用新鮮食材，製作出營養豐富，口感美味的鮮食。毛孩的健康，由你我共同守護。嘗試自製鮮食，讓愛，從口而入。</p>
+		</div>
 	</div>
-	<div class=" p-0 mt-5 pb-4">
-		<img src="~/image/pet_recipies.png" style="width: 130px;"/>
-		<p class="mb-3" style="font-size: 20px; letter-spacing: 6px; font-weight: 600;">請選擇動物的類別</p>
-		<button class="me-2" style="background: white; font-size: 30px ; width: 20%;padding: 50px;border-radius: 6px;opacity: 0.8;" type="button" v-on:click="chooseType(1)"><img src="~/image/bone.png" style="width: 60%; margin-bottom: 22px;" /><h3>狗勾</h3></button>
-		<button class="ms-2" style="background: white; font-size: 30px ; width: 20%;padding: 50px;border-radius: 6px;opacity: 0.8;" type="button" v-on:click="chooseType(2)"><img src="~/image/sardines.png" style="width: 60%; margin-bottom: 22px;" /><h3>貓貓</h3></button>
+	<div class="p-3 my-2" style="background: #ffd33b; border-radius: 6px;">
+		<p class="" style="font-size: 19px; letter-spacing: 3px; font-weight: 600;">請選擇動物類別</p>
 	</div>
-	<button class="scroll-down" style="border: none;">
-		<span class="arrow">&#8595;</span>
-	</button>
+	<div class="mt-2" style="border-radius: 6px; padding-top: 10%;padding-top: 10%; height: 50vh; background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url(&quot;/image/recipes-bg-1.jpg&quot;)">
+		<div class=" p-0">
+			<button class="me-2 btn-type" :class="{ 'active': isActiveDog }" type="button" v-on:click="chooseType(1)">
+				<img src="~/image/bone.png" style="width: 60%; margin-bottom: 22px;"/>
+				<h3>狗勾</h3></button>
+			<button class="ms-2 btn-type" :class="{ 'active': isActiveCat }" type="button" v-on:click="chooseType(2)">
+				<img src="~/image/sardines.png" style="width: 60%; margin-bottom: 22px;"/>
+				<h3>貓貓</h3></button>
+		</div>
+		@*<button class="scroll-down" style="border: none;">
+			<span class="arrow">&#8595;</span>
+		</button>*@
 
-</div>
+	</div>
 
-	<div class="row m-4 mt-5">
-		<div class="col-md-3  p-3">
+	<div class="row m-0">
+		<div class="col-md-3 mt-5">
 			<ul id="recipesList" class="nav justify-content-center" style="border-radius: 6px; background: white">
 				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item.recipesId)">{{item.name}}</li>
 			</ul>
 		</div>
 
-		<div class="col p-3 ms-3" v-if="showRecipeDetails" >
+		<div class="col ms-3 mt-5" v-if="showRecipeDetails">
 			<div class="p-4" style="height: auto; background: white; border-radius: 6px;">
 				<div class="row m-0" style="border-radius: 6px; background: brown;">
 					<div style="color: white; border-radius: 6px;" class="py-3 recipes-header ">{{selectedRecipe.name}}</div>
@@ -154,6 +161,8 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
+				isActiveDog: false,
+				isActiveCat: false,
 				MemberData: [],
 				editedMsg: [],
 				recipes: [],
@@ -174,7 +183,7 @@
 
 
 				let params = new URLSearchParams(window.location.search);
-				let returnUrl = params.get('returnUrl');
+				//let returnUrl = params.get('returnUrl');
 				let typeID = params.get('typeID');
 				let recipeID = params.get('recipeID');
 
@@ -260,7 +269,6 @@
 
 					const _this = this;
 					_this.filteredRecipe = [];
-
 					for (let i = 0; i < _this.recipes.length; i++) {
 						if (_this.recipes[i].petTypesId == typeNum) { //type:1= dog,2=cat
 							const recipeData = _this.recipes[i];
@@ -268,8 +276,12 @@
 						}
 					}
 					if (typeNum == 1) {
+						_this.isActiveDog = true;
+						_this.isActiveCat = false;
 						_this.getRecipe(this.filteredRecipe[0].recipesId);
 					} else {
+						_this.isActiveDog = false;
+						_this.isActiveCat = true;
 						_this.getRecipe(this.filteredRecipe[0].recipesId);
 					}
 				},
