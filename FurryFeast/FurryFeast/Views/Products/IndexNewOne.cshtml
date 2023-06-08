@@ -48,6 +48,7 @@
 			margin-top:-20px;
 		}
 	</style>
+
 }
 
 
@@ -81,8 +82,8 @@
 							   v-model.number="currentValue" />
 					</div>*@
 					<div class="rd-range" :data-min="min" :data-max="max" :data-min-diff="minDiff" :data-start="start" :data-step="step" :data-tooltip="tooltip">
-						<input v-model="value1" class="rd-range-input-value-1">
-						<input v-model="value2" class="rd-range-input-value-2">
+						<input type="hidden" v-model="value1" class="rd-range-input-value-1">
+						<input type="hidden" v-model="value2" class="rd-range-input-value-2">
 					</div>
 					
 					@*<div style="margin-top:200px;padding:100px;">
@@ -90,19 +91,19 @@
 					</div>*@
 					<div class="group-xs group-justify">
 						<div>
-							<button class="button button-sm button-primary button-zakaria" type="button">搜尋</button>
+							<button class="button button-sm button-primary button-zakaria" type="button" v-on:click="ValueSearch">搜尋</button>
 						</div>
 						<div>
 							<div class="rd-range-wrap">
 								<div class="rd-range-title">Price:</div>
 								<div class="rd-range-form-wrap">
 									<span>$</span>
-									<input class="rd-range-input rd-range-input-value-1" id="test" type="text" name="value-1">
+									<input class="rd-range-input rd-range-input-value-1"  type="text" name="value-1" :value="value1">
 								</div>
 								<div class="rd-range-divider"></div>
 								<div class="rd-range-form-wrap">
 									<span>$</span>
-									<input class="rd-range-input rd-range-input-value-2" type="text" name="value-2">
+									<input class="rd-range-input rd-range-input-value-2" type="text" name="value-2" :value="value2">
 								</div>
 							</div>
 						</div>
@@ -244,7 +245,7 @@
 				start: {
 					type:Array,
 					default:function(){
-					return	[0,0]}
+					return	[1,1]}
 				},
 				step: 1,
 				tooltip: Boolean
@@ -267,8 +268,11 @@
 				_this.AllProducts();				
 				_this.value1=_this.start[0];
 				_this.value2 = _this.start[1];
-				_this.PriceSlider();
-				//_this.imageData=res.pics
+				//_this.PriceSlider();
+				//window.addEventListener('sliderChange', function (e) {
+				//	_this.value1 = e.detail[0];
+				//	_this.value2 = e.detail[1];
+				//});
 			},
 			methods: {
 				//網頁載入就會掛載全部商品資料的方法
@@ -287,7 +291,7 @@
 					//request.productName=_this.keyword;
 					axios.get(`/api/products/ProductsType?type=${typeNum}`).then(response => {
 						_this.showProducts = response.data;
-
+						_this.Page=1;
 					});
 				},
 				AddCart: function (ID) {
@@ -325,8 +329,9 @@
 					let _this = this;
 					_this.Page = currentPage;
 				},
-				PriceSlider:function(){
-
+				ValueSearch: function () {
+					let _this = this;
+					_this.showProducts = _this.showProducts.filter(x => x.product.productPrice<=_this.value2);
 				},
 				//ProductType:function(val){
 				//	let _this = this;
@@ -385,5 +390,5 @@
 	
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
-	
+
 }
