@@ -33,20 +33,55 @@
 		}
 
 		/*.product::before {
-			background-color:white;
-		}*/
+					background-color:white;
+				}*/
 
 		.desktop .product-button-wrap {
 			background-color: white;
 		}
 
-		/*.aside-title {
-			padding-bottom:32px;
-		}*/
-
-		.search-product{
-			margin-top:-20px;
+		.search-product {
+			margin-top: -20px;
 		}
+
+		/*.region {
+			width: 100%;
+			padding: 10px;
+		}
+
+			.region input[type="range"] {
+				width: 100%; 
+				background-color:chocolate;
+			}*/
+		input[type=range]::-webkit-slider-runnable-track {
+			background: #ffd33b;
+			border-radius: 10px;
+			width:100%;
+		}
+
+		input[type=range]::-webkit-slider-thumb {
+			background: #ffd33b;
+		}
+
+		input[type=range] {
+			width: 250px;
+		}
+		/*input[type=range]::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			height: 15px;
+			width: 15px;
+			border-radius: 50%;
+			background: yellow;
+			cursor: pointer;
+		}*/
+		/*input[type=range]::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			height: 15px;
+			width: 15px;
+			border-radius: 50%;
+			background: #ffd33b;
+			cursor: pointer;
+		}*/
 	</style>
 
 }
@@ -75,21 +110,21 @@
 				<div class="aside-item col-12">
 					<h6 class="aside-title">商 品 價 格</h6>
 					<!-- RD Range-->
-					@*<div class="region-slider">
-						<input  type="range"
+					<input type="range" min="0" max="500" v-model="value">
+					<p>Value: {{ value }}</p>
+					@*<div class="region">
+						<input type="range"
 							   :min="min"
 							   :max="max"
-							   v-model.number="currentValue" />
+							   v-model.number="currentValue"/>
 					</div>*@
-					<div class="rd-range" :data-min="min" :data-max="max" :data-min-diff="minDiff" :data-start="start" :data-step="step" :data-tooltip="tooltip">
-						<input type="hidden" v-model="value1" class="rd-range-input-value-1">
-						<input type="hidden" v-model="value2" class="rd-range-input-value-2">
+					@*<div class="rd-range" :min="min" :max="max" :min-diff="minDiff" :start="start" :step="step" :tooltip="tooltip">
+					<input type="hidden" v-model="value1" class="rd-range-input-value-1">
+					<input type="hidden" v-model="value2" class="rd-range-input-value-2">
 					</div>
-					
-					@*<div style="margin-top:200px;padding:100px;">
-						<s-region-slider :minValue="300" :maxValue="700" :step="40" @@up="up" @@down="down" @@move="move" />
-					</div>*@
-					<div class="group-xs group-justify">
+*@
+@*					<vue-region-slider :minValue="300" :maxValue="700" :step="40" @@up="up" @@down="down" @@move="move" />
+*@					<div class="group-xs group-justify">
 						<div>
 							<button class="button button-sm button-primary button-zakaria" type="button" v-on:click="ValueSearch">搜尋</button>
 						</div>
@@ -98,7 +133,7 @@
 								<div class="rd-range-title">Price:</div>
 								<div class="rd-range-form-wrap">
 									<span>$</span>
-									<input class="rd-range-input rd-range-input-value-1"  type="text" name="value-1" :value="value1">
+									<input class="rd-range-input rd-range-input-value-1" type="text" name="value-1" :value="value1">
 								</div>
 								<div class="rd-range-divider"></div>
 								<div class="rd-range-form-wrap">
@@ -121,7 +156,7 @@
 						<li>
 							<label class="checkbox-inline">
 								<a v-on:click="ProductType(3)">鮮食專區</a>
-							</label><span class="list-shop-filter-number">({{FreshFoodsAmount}})</span> 
+							</label><span class="list-shop-filter-number">({{FreshFoodsAmount}})</span>
 						</li>
 						<li>
 							<label class="checkbox-inline">
@@ -228,24 +263,26 @@
 @section Scripts{
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-	
-	
-	
+
+
+
 	<script src="https://unpkg.com/vuejs-paginate@0.9.0"></script>
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 	<script src="~/js/slick.min.js"></script>
 	<script>
 		Vue.component('paginate', VuejsPaginate);
+
 		let app = new Vue({
 			el: '#app',
 			props: {
-				min: Number,
-				max: Number,
+				min: 1,
+				max: 1000,
 				minDiff: Number,
 				start: {
-					type:Array,
-					default:function(){
-					return	[1,1]}
+					type: Array,
+					default: function () {
+						return [1, 1]
+					}
 				},
 				step: 1,
 				tooltip: Boolean
@@ -261,12 +298,12 @@
 				},
 				value1: null,
 				value2: null,
-
+				value:50,
 			},
 			mounted: function () {
 				let _this = this;
-				_this.AllProducts();				
-				_this.value1=_this.start[0];
+				_this.AllProducts();
+				_this.value1 = _this.start[0];
 				_this.value2 = _this.start[1];
 				//_this.PriceSlider();
 				//window.addEventListener('sliderChange', function (e) {
@@ -291,7 +328,7 @@
 					//request.productName=_this.keyword;
 					axios.get(`/api/products/ProductsType?type=${typeNum}`).then(response => {
 						_this.showProducts = response.data;
-						_this.Page=1;
+						_this.Page = 1;
 					});
 				},
 				AddCart: function (ID) {
@@ -312,7 +349,7 @@
 							_this.showProducts.push(item);
 						}
 					}
-					_this.Page=1;
+					_this.Page = 1;
 				},
 				sortBy: function (val) {
 					let _this = this;
@@ -331,7 +368,8 @@
 				},
 				ValueSearch: function () {
 					let _this = this;
-					_this.showProducts = _this.showProducts.filter(x => x.product.productPrice<=_this.value2);
+					alert('有');
+					_this.showProducts = _this.showProducts.filter(x => x.product.productPrice <= _this.value);
 				},
 				//ProductType:function(val){
 				//	let _this = this;
@@ -355,7 +393,7 @@
 					let _this = this;
 					return _this.products.filter((a) => a.type.productypeId == 2).length;
 				},
-				FreshFoodsAmount:function(){
+				FreshFoodsAmount: function () {
 					let _this = this;
 					return _this.products.filter((a) => a.type.productypeId == 3).length;
 				},
@@ -387,7 +425,7 @@
 		$(".slick-next.slick-arrow").text("");
 
 	</script>
-	
+
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
 
