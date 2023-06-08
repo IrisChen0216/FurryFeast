@@ -72,7 +72,7 @@ namespace FurryFeast.Utility
 
 				if (sourceBytes != null)
 				{
-					// 使用金鑰解密後，轉回 加密前 value
+					// 使用金鑰解密後，轉回加密前 value
 					result = Encoding.UTF8.GetString(DecryptAES(sourceBytes, cryptoKey, cryptoIV)).Trim();
 				}
 			}
