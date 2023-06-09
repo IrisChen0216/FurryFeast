@@ -26,11 +26,12 @@
 			</select>
 		</div>
 		<div class="col" style="position: relative; text-align: end;">
+			<button type="button" id="btn_StreetView" class="mt-3 button button-icon button-icon-left button-primary-outline visually-hidden">觀看街景地圖</button>
 		</div>
 	</div>
 </div>
 <div class="container my-3">
-	<div class="row" style="height: 600px;">
+	<div class="row" style="height: 600px; position: relative">
 		@*Map*@
 		<div id="map" class="col-lg-7 col-sm-12 m-0 p-3 border-2 w-100">
 		</div>
@@ -56,15 +57,37 @@
 				<a href="https://www.youtube.com" target="_blank">
 					<button style="background: aliceblue;border:1px solid black; color: black; border-radius: 2rem; padding:5px 30px;">導航</button>
 				</a>*@
-					@*				<p class="type_bar">Bar</p>
-				<p class="type_bar">Restaurant</p>
-				<p class="type_bar">Business</p>
-				<p class="type_bar">Inn</p>
-				<p class="type_bar">Shopping</p>
-				<p class="type_bar">Cafe</p>
-				<p class="type_bar">Park</p>
-				<p class="type_bar">Pet Groomer</p>*@
-					<div id="InfoBoxBody" class="row visually-hidden m-0">
+					<table id="InfoBoxBody" class="col m-0">
+						<tr style="line-height: 30px;">
+							<td class="text-end col-3">
+								<p style="font-weight: 700;">電話</p>
+							</td>
+							<td id="phone" class="ps-2 text-start">
+							</td>
+						</tr>
+						<tr style="line-height: 30px;">
+							<td class="text-end col-3">
+								<p style="font-weight: 700;">地址</p>
+							</td>
+							<td id="Add" class="ps-2 text-start">
+							</td>
+						</tr>
+						<tr style="">
+							<td class="text-end col-3" style="vertical-align: initial;">
+								<p style="font-weight: 700;">營業時間</p>
+							</td>
+							<td id="time" class="ps-2 text-start">
+							</td>
+						</tr>
+						<tr style="line-height: 30px;">
+							<td class="text-end col-3" style="vertical-align: initial;">
+							</td>
+							<td id="web" class="text-start">
+							</td>
+						</tr>
+					</table>
+
+					@*<div id="InfoBoxBody" class="row visually-hidden m-0">
 						<div class="col-3 infoBoxText px-2">
 
 							<p>電話</p>
@@ -73,8 +96,7 @@
 						</div>
 						<div class="col-9" style="text-align: left; line-height: 30px;">
 						</div>
-					</div><button type="button" id="btn_StreetView" class="mt-3 button button-icon button-icon-left button-primary-outline visually-hidden">觀看街景地圖</button>
-
+					</div>*@
 				</div>
 			</div>
 		</div>
