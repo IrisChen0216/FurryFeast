@@ -1,20 +1,22 @@
 ﻿.btn-type {
-    border-radius: 6px;
-    border: 2px solid #ffd900;
     background: none;
-    width: 80px;
-    line-height: 50px;
+    border: 2px solid #ffd900;
+    border-radius: 6px;
     font-size: 18px;
     font-weight: bolder;
-}
-.btn-type.active {
-    border-radius: 6px;
-    border: none;
-    background: #ffd900;
-    width: 80px;
     line-height: 50px;
-    font-size: 20px;
+    width: 80px;
+}
+
+.btn-type.active {
+    background: #ffd900;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 18px;
     font-weight: bolder;
+    line-height: 50px;
+    width: 80px;
 }
 
 
@@ -53,45 +55,44 @@ input {
 
 .state-drawer {
     background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(0, 0, 0);
     box-shadow: 0 20px 40px 0 rgba(204, 204, 204, 0.1);
-    height: auto;
-    line-height: 50px;
+    line-height: 55px;
     margin: 10px 0;
+    max-width: 100%;
     padding: 0px 20px;
     position: absolute;
-    max-width: 100%;
+    width: 30%;
 }
 
-    .state-drawer .drawer-list,
-    .state-drawer .drawer-list-item {
-        margin: 0;
-        padding: 0;
-    }
-
-    .state-drawer .drawer-list-item {
-        border-bottom: 1px dashed #ffecbc;
-        color: #606f87;
-        list-style-type: none;
-    }
-
-        .state-drawer .drawer-list-item:first-child,
-        .state-drawer .drawer-list-item:last-child {
-            margin: 0;
-        }
-
-.drawer-list-item:last-child {
-    border: none;
+.state-drawer .drawer-list,
+.state-drawer .drawer-list-item {
+    margin: 0;
+    padding: 0;
 }
+
+.state-drawer .drawer-list-item {
+    border-bottom: 1px dashed #ccc;
+    list-style-type: none;
+    text-align: center;
+}
+
+.drawer-list-item:hover {
+    background: #ffd600;
+    text-align: center;
+}
+
+.state-drawer .drawer-list-item:first-child,
+.state-drawer .drawer-list-item:last-child { margin: 0; }
+
+.drawer-list-item:last-child { border: none; }
 
 .state-drawer .drawer-list-item .drawer-list-name {
     align-items: center;
     display: flex;
 }
 
-    .state-drawer .drawer-list-item .drawer-list-name input {
-        margin-right: 8px;
-    }
+.state-drawer .drawer-list-item .drawer-list-name input { margin-right: 8px; }
 
 .state-drawer .drawer-list-item .drawer-list-value {
     align-items: center;
@@ -106,14 +107,10 @@ input {
     width: 30px;
 }
 
-.highlight {
-    border-bottom: 1px solid #889ded;
-}
+.highlight { border-bottom: 1px solid #ffd600; }
 
-    .highlight .state-copy,
-    .highlight .icon {
-        color: #889ded;
-    }
+.highlight .state-copy,
+.highlight .icon { color: black; }
 
 .slide-enter {
     opacity: 0;

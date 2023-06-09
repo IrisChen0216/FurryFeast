@@ -6,10 +6,15 @@
 {
 	<link href="~/css/calsheet.css" rel="stylesheet"/>
 }
+<style>
+	.index-header h2:after {
+		background: white;
+	}
+</style>
 
-<div class="index-header">
-	<h2>每日熱量計算</h2>
-	<p>家中貓貓跟狗狗每天應該吃多少呢?</p>
+<div class="index-header" style="background-image: url('/image/beagle-tricolor-puppy-is-posing-cute-white-braun-black-doggy-pet-is-playing-yellow-background-looks-calm-confident-studio-photoshot-concept-motion-movement-action-negative-space.jpg'); background-repeat: no-repeat; background-size: contain; height: 300px;background-color: rgb(245 209 0);">
+	<h2 style="color: white;">每日熱量計算</h2>
+	<p style="color: white;">家中貓貓跟狗狗每天應該吃多少呢?</p>
 </div>
 <div class="container mt-3 p-4" style="background: white; border-radius: 6px; ">
 	<div class="my-4">
@@ -29,12 +34,12 @@
 		</div>
 	</div>
 </div>
-<div id="app" class="container row mx-auto m-4 mt-2 p-3" style="border: 1px solid black; border-radius: 6px; background: white">
+<div id="app" class="container row mx-auto m-4 mt-3 p-3" style="border: 1px solid black; border-radius: 6px; background: white">
 	<h3 class="mb-3" style="line-height: 80px;letter-spacing: 3px;background: rgb(255, 217, 0);border-radius: 6px;">熱量計算</h3>	
 	<h5 class="text-center mb-3">選擇動物種類</h5>
 	<div class="text-center mb-3">
-		<button class="btn-type" :class="isActive" type="button" v-on:click="chooseType(1)">狗勾</button>
-		<button class="btn-type" :class="isActive" type="button" v-on:click="chooseType(2)">貓貓</button>
+		<button class="btn-type" v-bind:class="{ active: isDogActive }" type="button" v-on:click="chooseType(1)">狗勾</button>
+		<button class="btn-type" v-bind:class="{ active: isCatActive }" type="button" v-on:click="chooseType(2)">貓貓</button>
 	</div>
 	<div class="p-3 col-5 mx-auto pt-0">
 		<form style="text-align: start">
@@ -96,7 +101,9 @@
 				showDrawer: false,
 				DailyRER: "",
 				DailyCal: "",
-				VarNam: ""
+				VarNam: "",
+				isDogActive: false,
+				isCatActive:false
 			},
 			mounted() {
 				const _this = this;
@@ -115,8 +122,13 @@
 					const _this = this;
 					if (typeId == 1) {
 						_this.SelectedType = _this.WeightVarData.dog;
+						_this.isDogActive = true;
+						_this.isCatActive = false;
+
 					} else {
 						_this.SelectedType = _this.WeightVarData.cat;
+						_this.isDogActive = false;
+						_this.isCatActive = true;
 
 					}
 					if (_this.selected != "選擇動物狀態") {
