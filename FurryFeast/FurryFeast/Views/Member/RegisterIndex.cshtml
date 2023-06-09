@@ -57,32 +57,32 @@
 			<form action="/Member/RegisterIndex" method="post" name="register">
 				<div>
 					<h6 class="label">帳號: </h6>
-					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="email" placeholder="請輸入Email帳號" name="MemberAccount" data-constraints="Required">
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="email" placeholder="請輸入Email帳號" name="MemberAccount" data-constraints="Required" Required>
 				</div>
 				<div>
 					<h6 class="label">密碼:</h6>
-					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" placeholder="請輸入密碼帳號" name="MemberPassord" data-constraints="Required">
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" placeholder="請輸入密碼帳號" name="MemberPassord" data-constraints="Required" Required>
 				</div>
 				<div>
 					<h6 class="label">姓名: </h6>
-					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" name="MemberName" placeholder="請輸入姓名" data-constraints="Required">
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" name="MemberName" placeholder="請輸入姓名" data-constraints="Required" Required>
 				</div>
 				<div>
 					<h6 class="label">性別:</h6>
 					<div class="gender">
-						<input type="radio" name="MemberGender" value="0">
+						<input type="radio" name="MemberGender" value="0" Required>
 					<span for="">男</span>
-						<input type="radio" name="MemberGender" value="1">
+						<input type="radio" name="MemberGender" value="1" Required>
 					<span for="">女</span>
 					</div>
 				</div>
 				<div>
 					<h6 class="label">生日:</h6>
-					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="date" name="MemberBirthday" data-constraints="Required">
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="date" name="MemberBirthday" data-constraints="Required" Required>
 				</div>
 				<div>
 					<h6 class="label">手機號碼: </h6>
-					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="text" placeholder="請輸入手機號碼" name="MemberPhone" data-constraints="Required" maxlength="10">
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="tel" placeholder="請輸入手機號碼" name="MemberPhone" data-constraints="Required" maxlength="10" Required pattern="[0]{1}[9]{1}[0-9]{8}">
 				</div>
 				<div class="btn">
 					<button class="button button-primary button-primary button-zakaria" type="submit">註冊</button>

@@ -82,12 +82,11 @@ namespace FurryFeast.Controllers {
 				MemberPassord = list.MemberPassord,
 				MemberAdress = list.MemberAdress,
 				MemberName = list.MemberName,
-				MemberEmail = list.MemberEmail,
+				MemberEmail = list.MemberAccount,
 				MemberPhone = list.MemberPhone,
 				MemberBirthday = list.MemberBirthday,
 				MemberGender = list.MemberGender,
 				MemberId = list.MemberId,
-
 			});
 			_context.SaveChanges();
 			var obj = new AesValidationDto(list.MemberPhone, DateTime.Now.AddDays(3));
