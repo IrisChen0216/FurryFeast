@@ -82,7 +82,6 @@ namespace FurryFeast.Controllers
 				await _context.SaveChangesAsync();
 
 				List<CartItem> cartItems = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
-
 				foreach (CartItem item in cartItems)
 				{
 					OrderDetail orderDetail = new OrderDetail
@@ -95,7 +94,7 @@ namespace FurryFeast.Controllers
 					_context.OrderDetails.Add(orderDetail);
 				};
 				await _context.SaveChangesAsync();
-
+				
 				SessionHelper.RemoveProductCartSession(HttpContext.Session,"cart");
 				return RedirectToAction("ShowOrder", new { id = order.OrderId });
 			}
