@@ -4,6 +4,7 @@
 }
 
 @section Style{
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 	<style>
 		.unState {
 			background-color: gray;
@@ -14,13 +15,13 @@
 		}
 
 		.drop {
-			background-color: #ffedad;
-			color: #3b3b3b;
+			background: #EC407A;
+			color: white;
 			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 		}
 
 			.drop:hover {
-				background-color: #ffce78;
+				background-color: #FFD306;
 			}
 
 		.btn-secondary:hover {
@@ -34,6 +35,60 @@
 			padding-left: 5px;
 			width: 100%;
 			height: 30px;
+		}
+		.edit-btn{
+			background: darkcyan;
+			border-radius: 6px;
+			border: 1px solid white;
+			color:white;
+		}
+
+		.edit-btn  a{
+				color: white;
+		}
+
+		.delete-btn{
+			background: crimson;
+			border-radius: 6px;
+			border: 1px solid white;
+			color: white;
+		}
+
+		.down-btn {
+			background: crimson;
+			border-radius: 6px;
+			border: 1px solid white;
+			color: white;
+		}
+
+		.up-btn {
+			background: darkcyan;
+			border-radius: 6px;
+			border: 1px solid white;
+			color: white;
+		}
+		.up-down{
+			font-size: larger;
+			color: white;
+		}
+		.up-state{
+			background: darkcyan;
+			border-radius: 6px;
+			border: 1px solid white;
+		}
+
+		.down-state {
+			background: crimson;
+			border-radius: 6px;
+			border: 1px solid white;
+		}
+
+		.add-btn {
+			background: darkcyan;
+			border-radius: 6px;
+			border: 1px solid white;
+			color: white;
+			height:40px;
 		}
 	</style>
 }
@@ -63,41 +118,24 @@
 							<li><button class="dropdown-item" type="button" v-on:click="ProductType(4)">捐贈商品</button></li>
 						</ul>
 					</div>
-					@*<div class="dropdown mx-3 mt-2 col-1">
-						<button class="btn btn-secondary dropdown-toggle drop" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-							商品類別
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							<li><button class="dropdown-item" type="button">全類別</button></li>
-							<li><button class="dropdown-item" type="button">生活用品</button></li>
-							<li><button class="dropdown-item" type="button">主食/零食</button></li>
-						</ul>
-					</div>*@
 
-					@*<select>
-					<option>全部商品</option>
-					<option>鮮食專區</option>
-					<option>狗狗專區</option>
-					<option>貓咪專區</option>
-					</select>
-
-					<button class="btn bg-gradient-info mb-0 toast-btn">全部商品</button>*@
 					<div class="btnState mx-3 mt-2 pr-10 col-3">
-						<button class="btn bg-gradient-warning  mb-0 toast-btn" v-on:click="ProductState(1)">上架中</button>
-						<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="ProductState(0)">未上架</button>
+						<button class="btn  mb-0 edit-btn" v-on:click="ProductState(1)">上架中</button>
+						<button class="btn  mb-0 delete-btn unState" v-on:click="ProductState(0)">未上架</button>
 					</div>
-					<div class="form-group  mt-2 col-2">
-						@*新增按鍵*@
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertPage">
-							新增商品
+					<div class="btnState mx-3 mt-2 col-4">
+					
+						<button type="button" class="btn mb-0 add-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertPage">
+							<i class="bi bi-plus-circle up-down"></i> 商品
+						</button>
+						<button type="button" class="btn mb-0 add-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertImgPage">
+							<i class="bi bi-plus-circle up-down"></i> 商品圖片
 						</button>
 					</div>
-					<div class="form-group  mt-2 col-2">
-						@*新增按鍵*@
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertImgPage">
-							新增商品圖片
-						</button>
-					</div>
+					@*<div class="form-group  mt-2 col-2">
+						
+						
+					</div>*@
 					@*搜尋欄*@
 					<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
 						<div class="input-group input-group-outline">
@@ -116,7 +154,7 @@
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品編號</th>
 									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">商品名稱</th>
 									<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">商品售價</th>
-									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">調整上架狀態</th>
+									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">調整上下架</th>
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">上架時間</th>
 									<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">下架時間</th>
 									<th class="text-secondary opacity-7"></th>
@@ -137,19 +175,22 @@
 
 												<a :href="'Details?id='+item.backEndProduct.productId">
 													<h6 class="mb-0 text-sm">{{item.backEndProduct.productName}}</h6>
-													<p class="text-xs text-secondary mb-0">{{item.backEndProduct.productAmount}}</p>
+													<p class="text-xs text-secondary mb-0">庫存:{{item.backEndProduct.productAmount}}</p>
 												</a>
 											</div>
 										</div>
 									</td>
 									<td>
 										<p class="text-xs font-weight-bold mb-0">${{item.backEndProduct.productPrice}}</p>
-										<p class="text-xs text-secondary mb-0">Organization</p>
+										
 									</td>
 									<td class="align-middle text-center text-sm">
 										@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
-										<button v-if="item.OnAndOff==true" class="btn bg-gradient-success mb-0 toast-btn" v-on:click="changeState(item)">上架</button>
-										<button v-else class="btn bg-gradient-danger  mb-0 toast-btn" v-on:click="changeState(item)">下架</button>
+										
+										<button v-if="item.OnAndOff==true" class="ms-2 up-state" v-on:click="changeState(item)"><i class="bi bi-caret-up-fill up-down"></i></button>
+										<button v-else class="ms-2 down-state" v-on:click="changeState(item)"><i class="bi bi-caret-down-fill up-down"></i></button>
+										@*<button v-if="item.OnAndOff==true" class="btn up-btn mb-0" v-on:click="changeState(item)">上架</button>
+										<button v-else class="btn mb-0 down-btn" v-on:click="changeState(item)">下架</button>*@
 									</td>
 									<td class="align-middle text-center">
 										<span class="text-secondary text-xs font-weight-bold">{{item.backEndProduct.productLauchedTime}}</span>
@@ -161,8 +202,10 @@
 										@*<a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
 										Edit
 										</a>*@
-										<button class="btn bg-gradient-info mb-0 toast-btn"><a :href="'Details?id='+item.backEndProduct.productId">編輯</a></button>
-										<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>
+										@*<button class="btn bg-gradient-info mb-0 toast-btn"><a :href="'Details?id='+item.backEndProduct.productId">編輯</a></button>
+										<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>*@
+										<button class="btn  mb-0 edit-btn"><a :href="'Details?id='+item.backEndProduct.productId">編輯</a></button>
+										<button class="btn  mb-0 delete-btn unState" v-on:click="deleteCheck(item)">刪除</button>
 									</td>
 
 								</tr>
