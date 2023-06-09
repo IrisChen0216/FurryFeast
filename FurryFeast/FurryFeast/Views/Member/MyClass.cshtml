@@ -6,49 +6,41 @@
 
 <h2 class="index-header">我的課程</h2>
 <hr />
-<div class="container-fluid">
-    <div class="row">
-         <div class="col-4" >
-             <div>
-                <a asp-action="Index">個人資料</a>
-            </div>
-            <div>
-                <a asp-action="MyOrder">我的訂單</a>
-            </div>
-            <div>
-                <a asp-action="MyClass">我的課程</a>
-            </div>
-            <div>
-                <a asp-action="Myconpon">我的優惠券</a>
-            </div>
-            </div>
-          <div class="content col-8">
-            <table>
-            <tr>
-                <th>課程代碼</th>
-                <th>課程名稱</th>
-                <th>課程價格</th>
-                <th>課程日期</th>
-                <th>課程資訊</th>
-            </tr>
-            </table>
-           @*<span>
-                    課程代碼
-           </span>
-                <span>
-                    課程名稱
-                </span>
-                <span>
-                    課程價格
-                </span>
-                <span>
-                    課程日期
-                </span>
-                <span>
-                    課程資訊
-                </span>*@
-          </div>
-    </div>
 
+<div id="app">
+    <table>
+        <tr>
+            <th>課程代碼</th>
+            <th>課程名稱</th>
+            <th>課程價格</th>
+            <th>課程日期</th>
+            <th>課程資訊</th>
+        </tr>
+        <tr v-for="item in myClass">
+            <td>{{item.PetClassId}}</td>
+            <td>{{item.PetClassName}}</td>
+            <td>{{item.PetClassPrice}}</td>
+            <td>{{item.PetClassDate}}</td>
+            <td>{{item.PetClassInformation}}</td>
+        </tr>
+   </table>
+        
 </div>
+
+@section Scripts{
+    <script>
+        let app = new Vue({
+            el:"#app",
+            data:{
+                myClass:[],
+            },
+            mounted:function(){
+                let self = this;
+                axios('/api/myclass/one').then(res=> self.myClass = res.data)
+            }
+
+        })
+    </script>
+
+}
            

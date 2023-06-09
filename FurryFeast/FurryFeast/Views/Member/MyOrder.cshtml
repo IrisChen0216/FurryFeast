@@ -8,13 +8,9 @@
     <h2>我的訂單</h2>
 </div>
 <hr />
-<div>
-    <input type="search" name="OrderSearch" />
-    <input type="submit" name="OrderSearch" value="查詢" />
-</div>
 
-<div>
-    <table id="app">
+<div id="app">
+    <table >
         <tr>
             <th>訂單日期</th>
             <th>訂單編號</th>
@@ -36,15 +32,32 @@
                 {{order.orderTotalPrice}}
             </td>
             <td>
-                {{order.orderDetails}}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderdetailModal" @@click="orderdetail(order)">
+                   訂單明細
+                </button>
             </td>
         </tr>
     </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="orderdetailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">訂單明細</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" v-for="item in ordertails">
+                    {{item.orderDetailId}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div>
-    <a asp-controller="OrderDetails" asp-action="Index">訂單明細</a>
-</div>
 
 
 @section Scripts{
@@ -53,14 +66,20 @@
         let MyOrder = new Vue({
             el: "#app",
             data: {
-                orders: []
+                orders: [],
+                orderdetails:[],
             },
             methods: {
+                orderdetail:function(item){
+                    this.orderdetails.orderDetailId = item.oederdetails.orderDetailId 
+
+                }
 
             },
             mounted: function () {
                 let self = this;
-                axios('/api/myorder/getmyorder').then(res => self.orders = res.data)
+                axios('/api/myorder/getmyorder').then(res => self.orders = res.data);
+                axios('/api/orderdetails/getorderdetail').then(res => self.orderdetails = res.data)
             }
 
         })
