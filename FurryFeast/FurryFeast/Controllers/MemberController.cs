@@ -77,40 +77,48 @@ namespace FurryFeast.Controllers {
 				ViewBag.Error = "已有帳號存在!";
 				return View("Login");
 			}
-			_context.Members.Add(new Member() {
-				MemberAccount = list.MemberAccount,
-				MemberPassord = list.MemberPassord,
-				MemberAdress = list.MemberAdress,
-				MemberName = list.MemberName,
-				MemberEmail = list.MemberAccount,
-				MemberPhone = list.MemberPhone,
-				MemberBirthday = list.MemberBirthday,
-				MemberGender = list.MemberGender,
-				MemberId = list.MemberId,
-			});
-			_context.SaveChanges();
-			var obj = new AesValidationDto(list.MemberPhone, DateTime.Now.AddDays(3));
-			var jstring = JsonSerializer.Serialize(obj);
-			var code = encrypt.AesEncryptToBase64(jstring);
-			string encodedStr = HttpUtility.UrlEncode(code);
+
+			var verifyDate = DateTime.Now;
+
+			// DB 的 MemberPhone 是 string, viewModel 送到後端 ModelState 會是 True
+			// viewModel 驗證, 出生日期不能大於註冊日
+			if (ModelState.IsValid && list.MemberBirthday <= verifyDate) {
+				_context.Members.Add(new Member() {
+					MemberAccount = list.MemberAccount,
+					MemberPassord = list.MemberPassord,
+					MemberName = list.MemberName,
+					MemberEmail = list.MemberAccount,
+					MemberPhone = list.MemberPhone,
+					MemberBirthday = list.MemberBirthday,
+					MemberGender = list.MemberGender,
+					MemberId = list.MemberId,
+				});
+				_context.SaveChanges();
+				var obj = new AesValidationDto(list.MemberPhone, DateTime.Now.AddDays(3));
+				var jstring = JsonSerializer.Serialize(obj);
+				var code = encrypt.AesEncryptToBase64(jstring);
+				string encodedStr = HttpUtility.UrlEncode(code);
 
 
-			var Mail = new MailMessage() {
-				From = new MailAddress("thm101777@gmail.com"),
-				Subject = "FurryFeast驗證信",
-				Body = @$"歡迎加入FurryFeast，請點擊<a href='https://localhost:7110/Member/Enable?code={encodedStr}'>這裡</a>以啟用你的帳號",
-				IsBodyHtml = true,
-				BodyEncoding = Encoding.UTF8
-			};
+				var Mail = new MailMessage() {
+					From = new MailAddress("thm101777@gmail.com"),
+					Subject = "FurryFeast驗證信",
+					Body = @$"歡迎加入FurryFeast，請點擊<a href='https://localhost:7110/Member/Enable?code={encodedStr}'>這裡</a>以啟用你的帳號",
+					IsBodyHtml = true,
+					BodyEncoding = Encoding.UTF8
+				};
 
-			Mail.To.Add(new MailAddress(list.MemberAccount));
+				Mail.To.Add(new MailAddress(list.MemberAccount));
 
-			using (var sm = new SmtpClient("smtp.gmail.com", 587)) {
-				sm.EnableSsl = true;
-				sm.Credentials = new NetworkCredential("thm101777@gmail.com", "krzjbxvibrueypdy");
-				sm.Send(Mail);
+				using (var sm = new SmtpClient("smtp.gmail.com", 587)) {
+					sm.EnableSsl = true;
+					sm.Credentials = new NetworkCredential("thm101777@gmail.com", "krzjbxvibrueypdy");
+					sm.Send(Mail);
+				}
+				return RedirectToAction("Index", "Home");
 			}
-			return RedirectToAction("Index", "Home");
+			ViewBag.regFail = "註冊資料錯誤!";
+			return View();
 		}
 
 		public async Task<IActionResult> Enable(string code) {

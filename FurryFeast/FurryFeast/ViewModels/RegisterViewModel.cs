@@ -8,9 +8,6 @@ namespace FurryFeast.ViewModels {
 		public string MemberName { get; set; } = null!;
 
 		public DateTime MemberBirthday { get; set; }
-		public string MemberAdress { get; set; } = null!;
-
-		public string MemberEmail { get; set; } = null!;
 
 		public string MemberPhone { get; set; } = null!;
 
