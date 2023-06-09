@@ -79,17 +79,18 @@
 		}
 
 	</style>
+	
 
 }
-
 
 <div class="container">
 	<div class="slider productsTitleSlick">
 		<div>
-			<img src="~/image/product/home-bg-1.jpg" width="100%" />
+			<img src="~/image/product/home-1.jpg" width="100%" />
 		</div>
 		<div>
-			<img src="~/image/product/home-bg-1.jpg" width="100%" />
+			<img src="~/image/product/bg-cta-1.jpg" />
+		@*	<img src="~/image/product/home-bg-1.jpg" width="100%" />*@
 		</div>
 		<div>
 			<img src="~/image/product/home-bg-1.jpg" width="100%" />
@@ -284,7 +285,7 @@
 				products: [],
 				showProducts: [],
 				originProductType: [],
-				maxCount: 4,
+				maxCount: 12,
 				Page: 1,
 				filterObj: {
 					name: "",
@@ -403,7 +404,7 @@
 			infinite: true,
 			speed: 300,
 			slidesToShow: 1,
-			adaptiveHeight: true,
+			adaptiveHeight: false,
 			autoplay: true
 		});
 		$(".slick-prev.slick-arrow").text("");
