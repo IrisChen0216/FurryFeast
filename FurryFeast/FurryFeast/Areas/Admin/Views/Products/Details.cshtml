@@ -298,10 +298,9 @@
 						ArticlesId: _this.backendProduct.articlesId,
 						ProductTypeName: _this.backendProduct.productTypeName
 					};
-					axios.put(`/api/products/PutProduct/`, request).then(response => {
-						alert(response.data);
-						_this.cancel();
+					axios.put(`/api/products/PutProduct/`, request).then(response => {										
 						_this.ProductDetail();
+						_this.cancel();
 					});
 
 				},

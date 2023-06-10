@@ -205,30 +205,7 @@ namespace FurryFeast.API
 			});
 		}
 
-		//[HttpGet("{id}")] //後台商品詳細資訊
-		//public async Task<PetMarketViewModel> GetProduct(int id)
-		//{
-		//	var product =await _context.Products.FindAsync(id);
-		//	var pic =  _context.ProductPics.Where(x => x.ProductId == id);
-		//	PetMarketViewModel model = new PetMarketViewModel
-		//	{
-
-		//		ProductId = product.ProductId,
-		//		ProductName=product.ProductName,
-		//		ProductDescription=product.ProductDescription,
-		//		ProductPrice=product.ProductPrice,
-		//		ProductAmount=product.ProductAmount,
-		//		ProductTypeId=product.ProductTypeId,
-		//		ProductLaunchedTime=product.ProductLaunchedTime,
-		//		ProductSoldTime=product.ProductSoldTime,
-		//		ProductState=product.ProductState,
-		//		ProductPicImage=pic.ToList(),
-		//		ProductTypeName=product.ProductType.ProductTypeName,
-		//		ArticlesId=product.ArticlesId
-		//	};
-
-		//	return model;
-		//}
+	
 
 		[HttpGet("{id}")] //後台商品詳細資訊
 		public async Task<PetMarketBackendViewModel> GetProduct(int id)
@@ -296,7 +273,7 @@ namespace FurryFeast.API
 
 
 		[HttpPut]
-		public async Task<string> PutProduct([FromBody] PetMarketViewModel model)
+		public async Task<object> PutProduct([FromBody] PetMarketViewModel model)
 		{
 
 			try
@@ -316,36 +293,20 @@ namespace FurryFeast.API
 				product.ProductLaunchedTime = model.ProductLaunchedTime;
 				product.ProductSoldTime = model.ProductSoldTime;
 
-				//foreach (var pic in model.ProductPicImage)
-				//{
-				//	if (pic != null)
-				//	{
-
-				//		byte[] data = null;
-
-				//		ProductPic image = new ProductPic();
-				//		image.ProductPicImage = data;
-				//		image.ProductId = model.ProductId;
-				//		image.ProductPicId=
-				//		_context.ProductPics.Update(image);
-
-				//	};
-
-				//};
 
 				_context.Entry(product).State = EntityState.Modified;
 
 				await _context.SaveChangesAsync();
-				return "修改商品成功";
+				return Ok("修改商品成功");
 			}
 			catch (Exception)
 			{
-				return "修改商品失敗";
+				return NotFound("修改商品失敗");
 			}
 		}
 
 		[HttpPut]
-		public async Task<string> PutProductState(int id, int state)
+		public async Task<object> PutProductState(int id, int state)
 		{
 
 
@@ -369,7 +330,7 @@ namespace FurryFeast.API
 				{
 					if (product.ProductState != 0 || product.ProductState != 1)
 					{
-						return "修改上架狀態失敗";
+						return NotFound("修改上架狀態失敗");
 					}
 				}
 
@@ -379,11 +340,11 @@ namespace FurryFeast.API
 				}
 			}
 
-			return "修改上架狀態成功";
+			return Ok("修改上架狀態成功");
 		}
 
 		[HttpPost]
-		public async Task<string> PostProduct([FromBody] AddProductViewModel model)
+		public async Task<object> PostProduct([FromBody] AddProductViewModel model)
 		{
 			TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
 			try
@@ -401,18 +362,18 @@ namespace FurryFeast.API
 					ProductLaunchedTime = model.ProductLaunchedTime
 				});
 				await _context.SaveChangesAsync();
-				return "新增商品成功";
+				return Ok("success");
 			}
 			catch (Exception)
 			{
-				return "新增商品失敗";
+				return NotFound("新增商品失敗");
 			}
 		}
 
 
 
 		[HttpPost]
-		public async Task<string> PostProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] int ProductId)
+		public async Task<object> PostProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] int ProductId)
 		{
 			//List<ProductPic> productPicImages = new List<ProductPic>();
 
@@ -442,15 +403,15 @@ namespace FurryFeast.API
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				return "新增圖片失敗";
+				return NotFound("新增圖片失敗");
 			}
 
-			return "新增圖片成功";
+			return Ok("OK");
 		}
 
 		
 		[HttpPost]
-		public async Task<string> PutProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] List<int> ProductPicId)
+		public async Task<object> PutProductImage([FromForm] List<IFormFile> ProductPicImage, [FromForm] List<int> ProductPicId)
 		{
 			//List<ProductPic> productPicImages = new List<ProductPic>();
 
@@ -485,26 +446,28 @@ namespace FurryFeast.API
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				return "修改圖片失敗";
+				return Ok("修改圖片失敗");
 			}
 
-			return "修改圖片成功";
+			return NotFound("修改圖片成功");
 		}
 
 		[HttpDelete("{id}")]
-		public async Task<string> DeleteProduct(int id)
+		public async Task<object> DeleteProduct(int id)
 		{
 			try
 			{
 				var product = await _context.Products.FindAsync(id);
-				if (product == null) return "刪除商品失敗";
-				_context.Products.Remove(product);
+				if (product != null)
+				{
+					_context.Products.Remove(product);
+				}				
 				await _context.SaveChangesAsync();
-				return "刪除商品成功!";
+				return Ok("success");
 			}
 			catch (Exception)
 			{
-				return "刪除商品失敗";
+				return NotFound("刪除商品失敗");
 			}
 		}
 

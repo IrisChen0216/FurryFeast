@@ -258,7 +258,7 @@
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<h5 class="modal-title" id="staticBackdropLabel">新增商品</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -319,7 +319,7 @@
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<h5 class="modal-title" id="staticBackdropLabel">新增商品圖片</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -414,18 +414,7 @@
 					//依照搜尋欄位篩選商品(Id、Name)
 					let _this = this;
 					let request = {};
-					//_this.showProducts = [];
 
-					//for (let i = 0; i < _this.backendProducts.length; i++) {
-					//	let item = _this.backendProducts[i];
-					//	let itemId = item.backEndProduct.productId.toString();
-					//	if (itemId.includes(parseInt(_this.keyword))) {
-					//		_this.showProducts.push(item);
-					//	}
-					//	else if (item.backEndProduct.productName.includes(_this.keyword)) {
-					//		_this.showProducts.push(item);
-					//	}
-					//}
 					_this.showProducts = _this.backendProducts;
 					_this.showProducts = _this.showProducts.filter(item => item.backEndProduct.productName.includes(_this.keyword));
 
@@ -496,18 +485,14 @@
 					}).then((result) => {
 						if (result.isConfirmed) {
 							_this.deleteProduct(item.backEndProduct.productId);
-							Swal.fire(
-								'Deleted!',
-								'Your file has been deleted.',
-								'success'
-							)
+							Swal.fire('刪除商品成功');
 						}
 					})
 				},
 				deleteProduct: function (ID) {
 					let _this = this;
 					axios.delete(`/api/products/DeleteProduct/${ID}`).then(response => {
-						alert(response.data);
+						alert(response);
 						_this.Products();
 
 					});
@@ -515,7 +500,7 @@
 				AddProduct: function () {
 					let _this = this;
 					let date = new Date();
-					//let formattedDate = date.toLocaleString('en-US', { timeZone: 'Asia/Taipei' });
+
 					console.log(date);
 					let request = {
 						ProductId: 0,
@@ -528,11 +513,12 @@
 						ProductLaunchedTime: moment().format(),
 						ArticlesId: _this.selectedArticle,
 
-
 					};
 					console.log(date.toISOString());
 					axios.post(`/api/products/PostProduct/`, request).then(response => {
-						alert(response.data);
+						if (response.data == "success") {
+							Swal.fire('新增商品成功');
+						}
 						_this.Products();
 
 						_this.productName = "";
@@ -544,7 +530,7 @@
 						_this.selectedArticle = "";
 
 					});
-
+					
 				},
 				FileChange: function (event, idx) {
 					let _this = this;
@@ -562,9 +548,11 @@
 					};
 
 					axios.post(`/api/products/PostProductImage/`, formData).then(response => {
-						alert(response.data);
+						if (response.data == "OK") {
+							Swal.fire('新增圖片成功');
+						}
 						_this.Products();
-						_this.productPicImage = ["", "", ""];
+						_this.productPicImage = ["", "", ""];						
 					});
 				},
 				ProductType: function (typeNum) {
@@ -598,23 +586,7 @@
 					let _this = this;
 					_this.Page = currentPage;
 				},
-				//sortBy: function (val) {
-				//	let _this = this;
-				//	//依照時間排序
-				//	if (val == 'time') {
-				//		return _this.showProducts.sort((a, b) => new Date(a.product.productLauchedTime) - new Date(b.product.productLauchedTime));
-				//	}
-				//	//依照價格排序
-				//	if (val == 'price') {
-				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
-				//	}
-				//},
-				//ProductType:function(val){
-				//	let _this = this;
-				//	if (val == 'food') {
-				//		return _this.showProducts.sort((a, b) => a.product.productPrice - b.product.productPrice);
-				//	}
-				//}
+
 			},
 			computed: {
 				PageCount: function () {
