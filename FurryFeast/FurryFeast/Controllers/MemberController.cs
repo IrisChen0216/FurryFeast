@@ -81,8 +81,12 @@ namespace FurryFeast.Controllers {
 
 			var verifyDate = DateTime.Now;
 
+			// 加點鹽, 亂數
+			var salt = GetSalt();
+			string strSalt = Convert.ToBase64String(salt);
+
 			// 會員密碼加密
-			string messageString = list.MemberPassord;
+			string messageString = strSalt + list.MemberPassord;
 
 			// 轉成 byte
 			byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);
@@ -98,7 +102,7 @@ namespace FurryFeast.Controllers {
 			if (ModelState.IsValid && list.MemberBirthday <= verifyDate) {
 				_context.Members.Add(new Member() {
 					MemberAccount = list.MemberAccount,
-					MemberPassord = passWord,
+					MemberPassord = strSalt + passWord,
 					MemberName = list.MemberName,
 					MemberEmail = list.MemberAccount,
 					MemberPhone = list.MemberPhone,
@@ -132,6 +136,14 @@ namespace FurryFeast.Controllers {
 			}
 			ViewBag.regFail = "註冊資料錯誤!";
 			return View();
+		}
+
+		// 加點鹽, 亂數
+		public byte[] GetSalt() {
+			var byte16 = new byte[16];
+			var rng = new RNGCryptoServiceProvider();
+			rng.GetBytes(byte16);
+			return byte16;
 		}
 
 		public async Task<IActionResult> Enable(string code) {
