@@ -37,24 +37,7 @@
         </tr>
     </table>
 </div>
-    <!-- Modal -->
-    @*<div class="modal fade" id="orderdetailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">訂單明細</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" v-for="item in ordertails">
-                    {{item.orderDetailId}}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>*@
+
 
 
 
@@ -65,19 +48,12 @@
             el: "#app",
             data: {
                 orders: [],
-                //orderdetails:[],
+               
             },
-            //methods: {
-            //    orderdetail:function(item){
-            //        this.orderdetails.orderDetailId = item.oederdetails.orderDetailId 
 
-            //    }
-
-            //},
             mounted: function () {
                 let self = this;
                 axios('/api/myorder/getmyorder').then(res => self.orders = res.data);
-                //axios('/api/orderdetails/getorderdetail').then(res => self.orderdetails = res.data)
             }
 
         })

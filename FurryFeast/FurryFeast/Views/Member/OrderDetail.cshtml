@@ -58,7 +58,7 @@
                 
                 let self = this;
 
-                axios('/api/orderdetails/GetOrderDetails/${id}').then(res => self.orderdetails = res.data)
+                axios('/api/orderdetails/GetOrderDetails').then(res => self.orderdetails = res.data)
             }
 
         })

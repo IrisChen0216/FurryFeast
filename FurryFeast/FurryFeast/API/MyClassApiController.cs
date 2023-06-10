@@ -1,4 +1,5 @@
 ﻿using FurryFeast.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,16 +17,20 @@ namespace FurryFeast.API
             _context = context;
         }
 
-        public object petclasses()
+        [Authorize]
+        public object GetPetClass()
         {
             var id = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
-            return _context.ClassReservetions.Where(x => x.MemberId == id).Select(x => new
+            return _context.ClassReservetions.Include(x=>x.PetClass).Where(x => x.MemberId == id).Select(x => new
             {
                 x.PetClassId,
-                x.PetClass,
                 x.ClassReservetionDate,
                 x.ClassReservetionId,
                 x.ClassReservetionState,
+                x.PetClass.PetClassInformation,
+                x.PetClass.PetClassDate,
+                x.PetClass.PetClassName,
+                x.PetClass.PetClassPrice,
  
             });
         }
