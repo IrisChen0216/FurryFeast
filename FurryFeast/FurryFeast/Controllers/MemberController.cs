@@ -60,6 +60,7 @@ namespace FurryFeast.Controllers {
 		[Authorize]
 		public IActionResult OrderDetail()
 		{
+			
 			return View();
 		}
 

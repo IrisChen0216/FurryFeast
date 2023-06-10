@@ -32,7 +32,7 @@ namespace FurryFeast {
 
 			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).
 				AddCookie(opt => {
-					opt.LoginPath = "/Members/Index";
+					opt.LoginPath = "/Member/MemberIndex";
 					opt.AccessDeniedPath = "/Home/AcessDenied";
 					opt.ExpireTimeSpan = TimeSpan.FromMinutes(10);
 				})

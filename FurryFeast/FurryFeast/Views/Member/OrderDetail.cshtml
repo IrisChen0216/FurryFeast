@@ -1,1 +1,71 @@
-﻿
+﻿@model IEnumerable<FurryFeast.Models.Order>
+
+@{
+    ViewData["Title"] = "MyOrder";
+}
+
+<div class="index-header">
+    <h2>訂單明細</h2>
+</div>
+<hr />
+
+<div id="app">
+    <table>
+        <tr>
+            <th>商品名稱</th>
+            <th>商品價格</th>
+            <th>商品數量</th>
+            <th>訂單總額</th>
+        </tr>
+        <tr v-for="(order,index) in orderdetails" :key="index">
+            <td>
+                {{order.ProductName}}
+            </td>
+            <td>
+                {{order.OrderPrice}}
+            </td>
+            <td>
+                {{order.OrderQuantity}}
+            </td>
+            <td>
+                {{order.orderTotalPrice}}
+            </td>
+            <td>
+ @*               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderdetailModal" @@click="orderdetail(order)">
+                    
+                </button>*@
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script>
+        let MyOrder = new Vue({
+            el: "#app",
+            data: {
+                orderdetails: [],
+            },
+            methods: {
+ 
+
+            },
+            mounted: function () {
+                
+                let self = this;
+
+                axios('/api/orderdetails/GetOrderDetails/${id}').then(res => self.orderdetails = res.data)
+            }
+
+        })
+    </script>
+}
+
+
+
+
+
