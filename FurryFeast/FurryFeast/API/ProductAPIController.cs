@@ -297,7 +297,7 @@ namespace FurryFeast.API
 				_context.Entry(product).State = EntityState.Modified;
 
 				await _context.SaveChangesAsync();
-				return Ok("修改商品成功");
+				return Ok("success");
 			}
 			catch (Exception)
 			{
@@ -340,7 +340,7 @@ namespace FurryFeast.API
 				}
 			}
 
-			return Ok("修改上架狀態成功");
+			return Ok("success");
 		}
 
 		[HttpPost]
@@ -446,10 +446,10 @@ namespace FurryFeast.API
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				return Ok("修改圖片失敗");
+				return NotFound("修改圖片失敗");
 			}
 
-			return NotFound("修改圖片成功");
+			return Ok("修改圖片成功");
 		}
 
 		[HttpDelete("{id}")]

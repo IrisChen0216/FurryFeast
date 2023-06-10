@@ -265,7 +265,7 @@
 					});
 				},
 				editProduct: function () {
-					alert("edit");
+					//alert("edit");
 					let _this = this;
 					_this.NoEdit.Edit = false;
 					_this.originalProductName = _this.backendProduct.productName;
@@ -281,7 +281,7 @@
 					_this.backendProduct.productPrice = _this.originalProductPrice;
 				},
 				update: function () {
-					alert("update");
+					//alert("update");
 					let _this = this;
 					_this.UpdateImages();
 					var request = {
@@ -298,7 +298,10 @@
 						ArticlesId: _this.backendProduct.articlesId,
 						ProductTypeName: _this.backendProduct.productTypeName
 					};
-					axios.put(`/api/products/PutProduct/`, request).then(response => {										
+					axios.put(`/api/products/PutProduct/`, request).then(response => {
+						if (response.data == "success") {
+							Swal.fire('更新商品成功');
+						}
 						_this.ProductDetail();
 						_this.cancel();
 					});
@@ -318,7 +321,7 @@
 					_this.ProductPicId[idx] = _this.backendProduct.productPicId[idx];
 				},
 				UpdateImages: function () {
-					alert('有');
+					//alert('有');
 					let _this = this;
 					let formData = new FormData();
 
@@ -335,7 +338,10 @@
 					};
 
 					axios.post(`/api/products/PutProductImage/`, formData).then(response => {
-						alert(response.data);
+						//alert(response.data);
+						//if (response.data == "success") {
+						//	Swal.fire('更新圖片成功');
+						//}
 						_this.ProductDetail();
 						_this.ProductPicImage = ["", "", ""];
 					});
