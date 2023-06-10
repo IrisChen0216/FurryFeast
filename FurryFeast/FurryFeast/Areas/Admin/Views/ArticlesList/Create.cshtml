@@ -6,212 +6,180 @@
 
 @section Style
 	{
-	<style>
-		.inputbox {
-			font-size: 15px;
-			border: none;
-			background: none;
-			height: 40px;
-			border-bottom: 1px solid #ccc;
-			padding: 0px 0px 0px 5px;
-		}
+<style>
+    .inputbox {
+        font-size: 15px;
+        border: none;
+        background: none;
+        height: 40px;
+        border-bottom: 1px solid #ccc;
+        padding: 0px 0px 0px 5px;
+    }
 
-			.inputbox:focus {
-				outline: none;
-				border-color: gray
-			}
+        .inputbox:focus {
+            outline: none;
+            border-color: gray
+        }
 
-		.btn-secondary:hover {
-			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-		}
+    .btn-secondary:hover {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    }
 
-		.h1Header >h4{
-			position: relative;
-			padding-bottom: 15px;
-		}
+    .h1Header > h4 {
+        position: relative;
+        padding-bottom: 15px;
+    }
 
-		.h1Header >h4:before {
-			content: "";
-			position: absolute;
-			left: 0;
-			bottom: 0;
-			width: 6%;
-			height: 6px;
-			background: #ccc;
-		}
+        .h1Header > h4:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 6%;
+            height: 6px;
+            background: #ccc;
+        }
+  .editor-container {
+    height: 500px;
+  }
+  .ck-editor__editable {
+    min-height: 500px;
+}
 
-	</style>
+</style>
 }
 
 
 <div class="container m-3 row" style="position: relative;width: 95%;" id="app">
-	<div class="h1Header col-7">
-		<h4 class="ms-1 m-0">Article</h4>
-		<h1 class="mt-3">Create</h1>
-	</div>
-	<div class="col" style="text-align: end;position: absolute;right: 0;top: 80px;">
-		<button class="btn" style="background: yellowgreen; color: white" v-on:click="addAticle">新增</button>
-		<button class="btn ms-2" style="background: darkgray"><a style="color: white" :href="'index'">取消</a></button>
-	</div>
-	<div class="mt-2 p-4 border border-1 rounded-3" style="background: white">
-		<div class="mb-4 row" style="font-size: 13px;">
-			<div class="col-4">
-				<span style="padding: 0 10px 0 5px; vertical-align: initial;">文章標題</span>
-				<input class="inputbox" style="font-size: 13px;" type="text" v-model="articleTitle" required/>
-			</div>
-			<div class="col-5" style="font-size: 13px; text-align: start">
-				<span style="padding-right: 10px; vertical-align: initial;">作者</span>
-				<input class="inputbox" style="font-size: 13px;" type="text" :value="adminAccount"/>
-			</div>
-			@*			<div class="col" style="font-size: 13px;">
-				<span style="padding-right: 10px; vertical-align: initial;">發表時間</span>
-				<input class="inputbox" style="font-size: 13px;" type="text" v-model="editingArticleDate" disabled />
-			</div>*@
-		</div>
-		<p class="mb-2" style="font-size: 13px; padding: 5px; font-weight: 400">文章內容</p>
-		<textarea class=" mb-4 inputbox" style="color: #344767; width: 100%; height: 250px; font-size: 13px; line-height: 25px; letter-spacing: 1px;" v-model="articleText" required></textarea>
-	</div>
-	<hr />
-	<div>
-		<h1>CKEditor 5 with Vue.js Example</h1>
-		<textarea ref="editorRef" v-model="content"></textarea>
-		<div>
-			<h2>Editor Content:</h2>
-			<div v-html="content"></div>
-		</div>
-		<button @@click="saveContent">Save</button>
-	</div>
-
+    <div class="h1Header col-7">
+        <h4 class="ms-1 m-0">Article</h4>
+        <h1 class="mt-3">Create</h1>
+    </div>
+    <div class="col" style="text-align: end;position: absolute;right: 0;top: 80px;">
+        <button class="btn" style="background: yellowgreen; color: white" v-on:click="addAticle">新增</button>
+        <button class="btn ms-2" style="background: darkgray"><a style="color: white" :href="'index'">取消</a></button>
+    </div>
+    <div class="mt-2 p-4 border border-1 rounded-3" style="background: white">
+        <div class="mb-4 row" style="font-size: 13px;">
+            <div class="col-4">
+                <span style="padding: 0 10px 0 5px; vertical-align: initial;">文章標題</span>
+                <input class="inputbox" style="font-size: 13px;" type="text" v-model="articleTitle" required />
+            </div>
+            <div class="col-5" style="font-size: 13px; text-align: start">
+                <span style="padding-right: 10px; vertical-align: initial;">作者</span>
+                <input class="inputbox" style="font-size: 13px;" type="text" :value="adminAccount" />
+            </div>
+            @*			<div class="col" style="font-size: 13px;">
+                <span style="padding-right: 10px; vertical-align: initial;">發表時間</span>
+                <input class="inputbox" style="font-size: 13px;" type="text" v-model="editingArticleDate" disabled />
+                </div>*@
+        </div>
+        <p class="mb-2" style="font-size: 13px; padding: 5px; font-weight: 400">文章內容</p>
+        @*<textarea class=" mb-4 inputbox" style="color: #344767; width: 100%; height: 250px; font-size: 13px; line-height: 25px; letter-spacing: 1px;" v-model="articleText" required></textarea>*@
+        <div>
+            <textarea ref="editorRef" v-model="content"></textarea>
+            <div>
+                <h2>Editor Content:</h2>
+                <div v-html="content"></div>
+            </div>
+            <button @@click="saveContent">新增</button>
+        </div>
+    </div>
 </div>
 
 
-<div id="editor">This is some sample content.</div>
+
 
 
 @section Scripts
 {
+    <script src="~/js/Ckeditor/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
 
-	<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            content:'',
+            data: {},
+            articleTitle:"",
+            articleText:"",
+            adminAccount:"",
+            adminId:"",
+            ck:{}
+        },
+        mounted: function () {
+            let _this = this;
+            _this.getAdminId();
+            ClassicEditor.create(_this.$refs.editorRef, {
+                ckfinder: {
+                    uploadUrl: '/api/upload'
+                }
+            }).then(ck =>{
+                _this.ck = ck;
+                ck.ui.view.editable.element.style.height = '400px';
+            })
+            .catch(error => {console.error(error)});
+        },
+        methods: {
+            saveContent() {
+                const content = ClassicEditor.instances[this.$refs.editorRef].getData();
 
-	<script>
-		ClassicEditor.create( document.querySelector( '#editor' ) )
-			.then( editor => {
-				window.editor = editor;
-			} )
-			.catch( error => {
-				console.error('There was a problem initializing the editor.', error);
-			} );
-	</script>
-	<script>
-		ClassicEditor.builtinPlugins.push(editor => {
-			editor.ui.componentFactory.add('center', locale => {
-				const view = new CKEditor5.EngineView();
+                $.ajax({
+                    url: '/api/save',
+                    type: 'POST',
+                    data: { content: content },
+                    success: function (response) {
+                        console.log('Content saved successfully');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('An error occurred while saving content:', error);
+                    }
+                });
+            },
+            getAdminId:function() {
+                let _this = this;
+                axios.get('/api/articles/GetAdmin').then(response => {
+                    _this.data = response.data;
+                    _this.adminAccount = _this.data[0].adminAccount;
+                    console.log(_this.data);
+                    console.log(_this.adminAccount);
+                });
+            },
+            addAticle: function () {
+                let _this = this;
+                var request = {
+                    AdminId: _this.data[0].adminId,
+                    ArticleTitle: _this.articleTitle,
+                    ArticleText: _this.articleText,
+                    ArticleDate: new Date()
 
-				view.set({
-					class: 'ck-center',
-					label: 'Center',
-					withText: true,
-					tooltip: true
-				});
+                };
+                axios.post(`/api/articles/AddArticle/`, request).then(response => {
+                    if (response.data == "新增文章成功") {
+                        _this.Success();
+                        _this.articleTitle = "";
+                        _this.articleText = "";
 
-				view.extendTemplate({
-					attributes: {
-						class: 'ck-center'
-					}
-				});
+                        setTimeout(() => {
+                            window.location.href = '/Admin/ArticlesList/index';  // 轉向 index 頁面
+                        }, 1500);
+                    }
+                });
+            },
+            Success: function() {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: '新增文章成功',
+                    text: '回到文章列表',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }
+    });
 
-				view.bind('isEnabled').to(editor.editing.view, 'isRenderable');
-
-				// 执行置中命令
-				view.on('execute', () => {
-					editor.execute('alignment', { value: 'center' });
-				});
-
-				return view;
-			});
-		});
-		let app = new Vue({
-			el: '#app',
-			data: {
-				content:'',
-				data: {},
-				articleTitle:"",
-				articleText:"",
-				adminAccount:"",
-				adminId:"",
-				ck:{}
-			},
-			mounted: function () {
-				let _this = this;
-				_this.getAdminId();
-				ClassicEditor.create(_this.$refs.editorRef, {
-					toolbar: ['center'],
-					ckfinder: {
-						uploadUrl: '/api/upload'
-					}
-				}).then(ck => _this.ck = ck)
-				.catch(error => {console.error(error)});
-			},
-			methods: {
-				saveContent() {
-					const content = ClassicEditor.instances[this.$refs.editorRef].getData();
-
-					$.ajax({
-						url: '/api/save',
-						type: 'POST',
-						data: { content: content },
-						success: function (response) {
-							console.log('Content saved successfully');
-						},
-						error: function (xhr, status, error) {
-							console.error('An error occurred while saving content:', error);
-						}
-					});
-				},
-				getAdminId:function() {
-					let _this = this;
-					axios.get('/api/articles/GetAdmin').then(response => {
-						_this.data = response.data;
-						_this.adminAccount = _this.data[0].adminAccount;
-						console.log(_this.data);
-						console.log(_this.adminAccount);
-					});
-				},
-				addAticle: function () {
-					let _this = this;
-					var request = {
-						AdminId: _this.data[0].adminId,
-						ArticleTitle: _this.articleTitle,
-						ArticleText: _this.articleText,
-						ArticleDate: new Date()
-
-					};
-					axios.post(`/api/articles/AddArticle/`, request).then(response => {
-						if (response.data == "新增文章成功") {
-							_this.Success();
-							_this.articleTitle = "";
-							_this.articleText = "";
-
-							setTimeout(() => {
-								window.location.href = '/Admin/ArticlesList/index';  // 轉向 index 頁面
-							}, 1500);
-						}
-					});
-				},
-				Success: function() {
-					Swal.fire({
-						position: 'center',
-						icon: 'success',
-						title: '新增文章成功',
-						text: '回到文章列表',
-						showConfirmButton: false,
-						timer: 1500
-					});
-				}
-			}
-		});
-
-	</script>
+</script>
 }
 
