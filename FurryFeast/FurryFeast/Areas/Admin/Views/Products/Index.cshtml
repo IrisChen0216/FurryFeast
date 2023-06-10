@@ -485,14 +485,18 @@
 					}).then((result) => {
 						if (result.isConfirmed) {
 							_this.deleteProduct(item.backEndProduct.productId);
-							Swal.fire('刪除商品成功');
+							//Swal.fire('刪除商品成功');
 						}
 					})
 				},
 				deleteProduct: function (ID) {
 					let _this = this;
 					axios.delete(`/api/products/DeleteProduct/${ID}`).then(response => {
-						alert(response);
+						//alert(response);
+						if (response.data=="success"){
+							Swal.fire('刪除商品成功');
+						}
+						
 						_this.Products();
 
 					});
@@ -519,6 +523,7 @@
 						if (response.data == "success") {
 							Swal.fire('新增商品成功');
 						}
+
 						_this.Products();
 
 						_this.productName = "";
