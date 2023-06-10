@@ -4,54 +4,73 @@
 @section Style{
 	<link href="~/css/button.css" rel="stylesheet" />
 }
+
+<style>
+	.memberTitle {
+		padding: 10px;
+		font-size: medium;
+		font-weight: bold;
+	}
+
+	.memberText {
+		padding: 10px; font-size: medium;
+		border-bottom: 1px dashed #ccc;
+		width: 70%;
+	}
+	.input {
+		padding: 10px;
+		border: none;
+		border-bottom: 1px solid #ccc;
+		background: none;
+		margin-top: 12px;
+	}
+</style>
+
 <div class="index-header">
 	<h2>修改會員資料</h2>
 </div>
 <div id="app">
-	<div v-for="item in getMemberData">
-		<div>
-			<label>姓名</label>
-			<input type="text" v-model="EditMember.memberName" />
-
+	<div class="row col-6 mx-auto py-4 mb-3" v-for="item in getMemberData" style="border: 1px solid #ccc; border-radius: 6px;">
+		<div class="col-4 text-end">
+			<p class="memberTitle">姓名</p>
+			<p class="memberTitle">性別</p>
+			<p class="memberTitle">生日</p>
+			<p class="memberTitle">手機號碼</p>
+			<p class="memberTitle">Email</p>
+			<p class="memberTitle">住址</p>
 		</div>
-		<div>
-			<label>性別</label>
-			<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender" />
-			<label>男</label>
-			<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender" />
-			<label>女</label>
-		</div>
-		<div>
-			<label>生日</label>
-			@*<input type="datetime" name=" UpdateBirth" v-model="item.updatemember.memberBirthday" />*@
-			<datepicker v-model="EditMember.memberBirthday"></datepicker>
-		</div>
-		<div>
-			<label>手機號碼</label>
-			<input type="text" name="MemberPhone" maxlength="10" v-model="EditMember.memberPhone" />
-		</div>
-		<div>
-			<label>Email</label>
-			<input type="email" name="UpdateEmail" v-model="EditMember.memberEmail" />
-		</div>
-		<div>
-			<label>住址</label>
-			<input type="text" name="MemberAdress" v-model="EditMember.memberAdress" />
-		</div>
-		<div>
-			<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="Update()">修改資料</button>
-		</div>
-		<hr />
-		<br />
-		<div>
-			<label>輸入原密碼</label>
-			<input type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
-		</div>
-		<div>
-			<label>輸入新密碼</label>
-			<input type="password" name="newPassord" v-model="EditPassord.newPassord" />
+		<div class="col text-start">
+			<input class="input" style="margin-top: 0;" type="text" v-model="EditMember.memberName" />
+			<div style="padding: 10px; margin-top:12px">
+				<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender"/>
+				<label class="me-3">男</label>
+				<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender"/>
+				<label>女</label>
+			</div>
+			<div>
+				<input class="input" type="text" />
+				<datepicker v-model=" EditMember.memberBirthday"></datepicker>
+			</div>
+			<input class="input" type="text" name="MemberPhone" maxlength="10" v-model="EditMember.memberPhone" />
+			<input class="input" type="email" name="UpdateEmail" v-model="EditMember.memberEmail" />
+			<input class="input" type="text" name="MemberAdress" v-model="EditMember.memberAdress" />
 		</div>
 	</div>
+	<div>
+		<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="Update">修改資料</button>
+	</div>
+
+	<div class="col-6 mx-auto py-4 my-3" style="border: 1px solid #ccc; border-radius: 6px;">
+		<div>
+			<label class=" col-4 text-end memberTitle">輸入原密碼</label>
+			<input class="input" type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
+		</div>
+		<div>
+			<label class="memberTitle">輸入新密碼</label>
+			<input class="input" type="password" name="newPassord" v-model="EditPassord.newPassord" />
+		</div>
+	</div>
+	
 	<div>
 		<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="Edit()">更新密碼</button>
 	</div>

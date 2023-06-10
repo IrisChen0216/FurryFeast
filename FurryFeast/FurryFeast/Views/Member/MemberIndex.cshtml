@@ -5,36 +5,41 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    .memberTitle {
+	    padding: 10px;
+	    font-size: medium;
+	    font-weight: bold;
+    }
+
+    .memberText {
+	    padding: 10px; font-size: medium;
+	    border-bottom: 1px dashed #ccc;
+	    width: 70%;
+    }
+</style>
+
 <div class="index-header">
-<h2>會員資訊</h2>
+	<h2>會員資訊</h2>
 </div>
-<hr />
 <!-- RD Mailform-->
-<form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
-    <div class="form-wrap">
-        <span>姓名</span>
-        <span>@Model.MemberName</span>
-    </div>
-    <div>
-        <label>生日</label>
-        <span>@Model.MemberBirthday</span>
-    </div>
-    <div>
-        <label>性別</label>
-        <span id="gender"></span>
-    </div>
-    <div>
-        <label>手機號碼</label>
-        <span>@Model.MemberPhone</span>
-    </div>
-    <div>
-        <label>Email</label>
-        <span>@Model.MemberEmail</span>
-    </div>
-    <div>
-        <label>地址</label>
-        <span>@Model.MemberAdress</span>
-    </div>
+<form class="col-5 row mx-auto py-5 mb-4" style="border: 1px solid #ccc; border-radius: 6px;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+	<div class="col-4 text-end">
+        <p class="memberTitle">姓名</p>
+        <p class="memberTitle">生日</p>
+        <p class="memberTitle">性別</p>
+        <p class="memberTitle">手機號碼</p>
+        <p class="memberTitle" style="font-weight: 400;">Email</p>
+        <p class="memberTitle">地址</p>
+	</div>
+    <div class="col text-start">
+        <p class="memberText">@Model.MemberName</p>
+        <p class="memberText">@Model.MemberBirthday</p>
+        <p id="gender" class="memberText"></p>
+	    <p class="memberText">@Model.MemberPhone</p>
+        <p class="memberText" id="mail"></p>
+        <p class="memberText">@Model.MemberAdress</p>
+	</div>
 </form>
 <div>
     <form asp-controller="Member" asp-action="UpdateMemberData">
@@ -46,7 +51,34 @@
 
 @section Scripts{
     <script>
-        document.getElementById("gender").textContent = (@Model.MemberGender == 0)? "女":"男"
+	    document.getElementById("gender").textContent = (@Model.MemberGender == 0) ? "女" : "男";
+
+        let MemberEmail = "";
+	    let MemberAdd = "";
+
+        function checkEmail(item) {
+	        if (MemberEmail !== "") {
+		        MemberEmail = item;
+		        console.log(MemberEmail);
+	        } else {
+		        MemberEmail = 尚未填寫;
+		        console.log(MemberEmail);
+	        }
+        };
+        
+	    function checkAdd(item) {
+            if (MemberAdd !== "") {
+	            MemberAdd = item;
+                console.log(MemberAdd);
+		    } else {
+	            MemberAdd = 尚未填寫;
+                console.log(MemberAdd);
+		    }
+	    };
+
+	    checkAdd();
+        checkEmail(@Model.MemberEmail);
+        $('#mail').append(MemberEmail);
     </script>
 }
 @*@section Scripts{
