@@ -36,18 +36,26 @@ namespace FurryFeast.Areas.Admin.Controllers
 				}
 			});
 		}
-		public object EditMember([FromBody]EditMemberDto list)
+		[HttpPut]
+		public async Task<string>EditMember([FromBody]EditMemberDto list)
 		{
-			var result = _context.Members.FirstOrDefault();
-			result.MemberName = list.MemberName;
-			result.MemberBirthday = list.MemberBirthday;
-			result.MemberGender = list.MemberGender;
-			result.MemberEmail = list.MemberEmail;
-			result.MemberPhone = list.MemberPhone;
-			result.MemberAdress = list.MemberAdress;
+			try
+			{
+				var result = _context.Members.FirstOrDefault();
+				result.MemberName = list.MemberName;
+				result.MemberBirthday = list.MemberBirthday;
+				result.MemberGender = list.MemberGender;
+				result.MemberEmail = list.MemberEmail;
+				result.MemberPhone = list.MemberPhone;
+				result.MemberAdress = list.MemberAdress;
 
-			_context.SaveChanges();
-			return NoContent();
+				await _context.SaveChangesAsync();
+				return "成功";
+			}
+			catch (Exception )
+			{
+				return "失敗";
+			}
 
 		}
 		[HttpDelete("{id}")]

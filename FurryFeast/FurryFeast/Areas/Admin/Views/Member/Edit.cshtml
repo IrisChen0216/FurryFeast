@@ -33,8 +33,6 @@
 	</style>
 }
 
-
-
 <div class="container-fluid" id="app">
 	<div class="row">
 		<div class="col-12">
@@ -99,9 +97,9 @@
 									<span class="text-secondary text-xs font-weight-bold">{{item.member.memberAdress}}</span>
 								</td>
 								<td class="align-middle">
-									@*	<a :href="'Details?id='+item.backEndProduct.productId">*@
-									<button class="btn bg-gradient-info mb-0 toast-btn" data-bs-toggle="modal" data-bs-target="#edirModal" v-on:click="editConfirm(item)">編輯</button>
-									<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>
+										
+									<button class="btn bg-gradient-info mb-0 toast-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertPage(item.member)">編輯</button>
+
 								</td>
 
 							</tr>
@@ -111,50 +109,6 @@
 				</div>
 			</div>
 		
-			<div class="modal fade " id="edirModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="edirModal">修改會員資料</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<div class="form-group">
-								<label for="memberName" class="form-label">姓名:</label>
-								<input class="form-control" v-model="editmember.memberName" id="memberName" type="text" required />
-							</div>
-							<div class="form-group">
-								<label class="form-label" for="memberGender">性別:</label>
-								<select v-model="editmember.memberGender" id="memberGender">
-									<option value="">性別</option>
-									<option value="1">男</option>
-									<option value="0">女</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="form-label" for="memberBirthday">生日:</label>
-								<input class="form-control" type="date" v-model="editmember.memberBirthday" id="memberBirthday" required />
-							</div>
-							<div class="form-group">
-								<label class="form-label" for="memberPhone">手機號碼:</label>
-								<input class="form-control" v-model="editmember.memberPhone" id="memberPhone" maxlength="10" type="text" required />
-							</div>
-							<div class="form-group">
-								<label class="form-label" for="memberAdress">地址:</label>
-								<input class="form-control" v-model="editmember.memberAdress" id="memberAdress" type="text" />
-							</div>
-							<div class="form-group">
-								<label class="form-label" for="memberEmail">Email:</label>
-								<input class="form-control" v-model="editmember.memberEmail" id="memberEmail" type="email" />
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="CloseInsertPage">關閉</button>
-							<button type="button" class="btn btn-primary" v-on:click="editMember">修改</button>
-						</div>
-					</div>
-				</div>
-			</div>
 			<paginate :page-count="5"
 					  :click-handler="ChangePage"
 					  :prev-text="'前一頁'"
@@ -182,7 +136,7 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
-				originMember:[],
+				originMember: [],
 				members: [],
 				keyword: "",
 				//memberName:"",
@@ -191,13 +145,13 @@
 				//memberAdress:"",
 				//memberBirthday:"",
 				//memberGender:"",
-				editmember:{
-					memberName:"",
+				editmember: {
+					memberName: "",
 					memberPhone: "",
 					memberEmail: "",
 					memberAdress: "",
 					memberBirthday: "",
-					memberGender: "",
+					memberGender: 0,
 				},
 			},
 			mounted: function () {
@@ -212,13 +166,18 @@
 				},
 				editMember: function () {
 					let self = this;
-					if(res.data){
-
+					let request = {
+						MemberName: self.editmember.memberName,
+						MemberGender: self.editmember.memberGender,
+						MemberBirthday: self.editmember.memberBirthday,
+						MemberPhone: self.editmember.memberPhone,
+						MemberEmail: self.editmember.memberEmail,
+						MemberAdress: self.editmember.memberAdress
 					}
-					axios.put(`/api/member/editmember`, this.editmember).then(res => {
-						
-						
-						alert(res.data)
+					axios.put(`/api/member/editmember`, request).then(res => {
+						if (memberId == self.memberId)
+
+							alert(res.data)
 						//self.getMember();
 
 						//self.memberName=self.memberName,
@@ -229,28 +188,19 @@
 						//self.memberAdress= self.memberAdress
 					})
 				},
-				editComfirm:function(item){
-					alert('yes');
-					this.editmember.memberName = item.members[0].member.memberName;
-					this.editmember.memberGender = item.members[0].member.memberGender;
-					this.editmember.memberEmail = item.members[0].member.memberEmail;
-					this.editmember.memberPhone = item.members[0].member.memberPhone;
-					this.editmember.memberAdress = item.members[0].member.memberAdress;
-					this.editmember.memberBirthday = item.members[0].member.memberBirthday;
 
-				},
 				showInsertPage: function (item) {
-					let self=this;
+					let self = this;
 					let member = {
 
-									memberName :item.memberName,
-									memberPhone : item.memberPhone,
-									memberEmail : item.memberEmail,
-									memberAdress : item.memberAdress,
-									memberBirthday : item.memberBirthday,
-									memberGender : item.memberGender,
+						memberName: item.memberName,
+						memberPhone: item.memberPhone,
+						memberEmail: item.memberEmail,
+						memberAdress: item.memberAdress,
+						memberBirthday: item.memberBirthday,
+						memberGender: item.memberGender,
 
-								};
+					};
 					const myModal = new bootstrap.Modal('#insertPage')
 					myModal.show(member);
 				},
@@ -291,7 +241,7 @@
 				filtermember: function () {
 					let self = this;
 					self.members = self.originMember;
-					self.members = self.members.filter(x => 
+					self.members = self.members.filter(x =>
 						(x.member.memberName && x.member.memberName.includes(self.keyword)) ||
 						(x.member.memberPhone && x.member.memberPhone.includes(self.keyword)) ||
 						(x.member.memberEmail && x.member.memberEmail.includes(self.keyword))
@@ -300,7 +250,7 @@
 				ChangePage: function (currentpage) {
 					console.log(currentpage);
 				},
-				
+
 			},
 			computed: {
 				PageCount: function () {

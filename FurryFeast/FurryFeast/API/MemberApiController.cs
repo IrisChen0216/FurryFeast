@@ -71,10 +71,10 @@ public class MemberApiController : ControllerBase
 
 			}
 			_context.SaveChanges();
-			return Ok();
+			return "good";
 		}
         catch (Exception) {
-            return "失敗";
+            return "bad";
         }
 
 	}
