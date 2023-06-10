@@ -22,6 +22,7 @@ using System.Net;
 using System.Text.Json;
 using FurryFeast.Services;
 using System.Web;
+using System.Security.Cryptography;
 
 namespace FurryFeast.Controllers {
 	public class MemberController : Controller {
@@ -80,12 +81,24 @@ namespace FurryFeast.Controllers {
 
 			var verifyDate = DateTime.Now;
 
+			// 會員密碼加密
+			string messageString = list.MemberPassord;
+
+			// 轉成 byte
+			byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);
+
+			// 雜湊 SHA 256
+			byte[] hashValue = SHA256.HashData(messageBytes);
+
+			// 轉回字串
+			string passWord = Convert.ToHexString(hashValue);
+
 			// DB 的 MemberPhone 是 string, viewModel 送到後端 ModelState 會是 True
 			// viewModel 驗證, 出生日期不能大於註冊日
 			if (ModelState.IsValid && list.MemberBirthday <= verifyDate) {
 				_context.Members.Add(new Member() {
 					MemberAccount = list.MemberAccount,
-					MemberPassord = list.MemberPassord,
+					MemberPassord = passWord,
 					MemberName = list.MemberName,
 					MemberEmail = list.MemberAccount,
 					MemberPhone = list.MemberPhone,
@@ -142,14 +155,30 @@ namespace FurryFeast.Controllers {
 
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null) {
-			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
+
+			// 因為密碼是空的先 return
+			if (list.MemberPassord == null) return View("Login");
+
+			// 會員密碼加密
+			string messageString = list.MemberPassord;
+
+			// 轉成 byte
+			byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);
+
+			// 雜湊 SHA 256
+			byte[] hashValue = SHA256.HashData(messageBytes);
+
+			// 轉回字串
+			string passWord = Convert.ToHexString(hashValue);
+
+			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == passWord);
 
 			if (Member == null) return View("Login");
 
 			var ClaimList = new List<Claim>() {
-			new Claim(ClaimTypes.Name, Member.MemberName),
-			new Claim("Id",Member.MemberId.ToString())
-		};
+				new Claim(ClaimTypes.Name, Member.MemberName),
+				new Claim("Id",Member.MemberId.ToString())
+			};
 
 			var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
 			var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
