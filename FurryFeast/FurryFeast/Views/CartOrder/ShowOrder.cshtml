@@ -74,7 +74,8 @@
 					@*<h4 name="OrderTotalPrice">總計:@ViewBag.Total</h4>*@
 					<input type="hidden" name="amount" value="@ViewBag.Total" />
 					<input type="hidden" name="ordernumber" value="@Model.OrderId" />
-
+					<input type="hidden" name="area" value="petMarket" />
+					<input type="hidden" name="email" value="@Model.Member.MemberEmail" />
 				</div>
 			</div>
 

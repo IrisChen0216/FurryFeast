@@ -53,15 +53,6 @@ namespace FurryFeast.Controllers
 				}
 
 			}).FirstOrDefault();
-			//         var memberOrder = new Order
-			//{
-			//	MemberId = person.MemberId,
-			//	//MemberName = _context.Members.Where(x=>x.MemberId==userID)
-			//	OrderDetails = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart").ToArray(),
-
-
-			//};
-
 
 			memberOrder.Order.OrderTotalPrice = memberOrder.Order.OrderDetails.Sum(x => x.OrderPrice*x.OrderQuantity);
 			ViewBag.CartItem = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
@@ -91,7 +82,6 @@ namespace FurryFeast.Controllers
 				await _context.SaveChangesAsync();
 
 				List<CartItem> cartItems = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
-
 				foreach (CartItem item in cartItems)
 				{
 					OrderDetail orderDetail = new OrderDetail
@@ -104,7 +94,8 @@ namespace FurryFeast.Controllers
 					_context.OrderDetails.Add(orderDetail);
 				};
 				await _context.SaveChangesAsync();
-
+				
+				SessionHelper.RemoveProductCartSession(HttpContext.Session,"cart");
 				return RedirectToAction("ShowOrder", new { id = order.OrderId });
 			}
 
@@ -112,7 +103,7 @@ namespace FurryFeast.Controllers
 
 		}
 
-		public IActionResult ShowOrder(int id)
+		public async Task<IActionResult> ShowOrderAsync(int id)
 		{
 			var order = _context.Orders.Include(x => x.OrderDetails).FirstOrDefault(x => x.OrderId == id);
 			order.OrderDetails = _context.OrderDetails.Where(x => x.OrderId == id).ToList();
@@ -129,11 +120,18 @@ namespace FurryFeast.Controllers
 					ProductName=item.Product.ProductName,
 					OrderId=item.OrderId,
 					Subtotal=item.OrderPrice*item.OrderQuantity,
-				};
+				};				
 				cartItemsList.Add(cartItem);
+				var product = await _context.Products.FindAsync(cartItem.ProductId);
+				product.ProductAmount = product.ProductAmount - cartItem.OrderQuantity;
+
+				await _context.SaveChangesAsync();
 			}
+
+
 			ViewBag.Total = cartItemsList.Sum(x=>x.OrderPrice*x.OrderQuantity);
 			ViewBag.CartItems = cartItemsList;
+
 			return View(order);
 		}
 	}

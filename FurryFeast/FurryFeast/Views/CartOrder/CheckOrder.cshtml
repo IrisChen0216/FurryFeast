@@ -109,7 +109,7 @@
 									<td><span class="fw-medium">@item.ProductName</span></td>
 									<td><span class="fw-medium">@item.OrderPrice</span></td>
 									<td><span class="fw-medium">@item.OrderQuantity</span></td>
-									<td><span class="fw-medium">@item.Subtotal</span></td>
+									<td><span class="fw-medium">@(item.OrderPrice * item.OrderQuantity)</span></td>
 								</tr>
 							}
 

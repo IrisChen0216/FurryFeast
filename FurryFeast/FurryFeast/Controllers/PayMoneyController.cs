@@ -26,94 +26,105 @@ namespace FurryFeast.Controllers
 			HashKey = "YhMBZHNsbMbVVJtjhbV87gzFLApRblCV",
 			HashIV = "C0jt6somi3UVt0eP",
 			ReturnURL = "https://localhost:7110/PayMoney/FinishPay",
+
 			NotifyURL = "http://yourWebsitUrl/Bank/SpgatewayNotify",
 			CustomerURL = "http://yourWebsitUrl/Bank/SpgatewayCustomer",
 			AuthUrl = "https://ccore.newebpay.com/MPG/mpg_gateway",
 			CloseUrl = "https://core.newebpay.com/API/CreditCard/Close"
 		};
 
-		//public IActionResult Index()
-		//{
-		//	return View();
-		//}
+		PayMoneyInfo PetClassPayMoneyInfo = new PayMoneyInfo
+		 {
+			ReturnURL = "https://localhost:7110/PayMoney/PetClassFinishPay",
+		};
 
 		[HttpPost]
-		public async Task SpgatewayPayBillAsync(string ordernumber, int amount, string payType)
+		public async Task SpgatewayPayBillAsync(PayBill payBill)
 		{
 			string version = "1.5";
+			string PayReturnURL;
 
-			// 目前時間轉換 +08:00, 防止傳入時間或Server時間時區不同造成錯誤
+			
 			DateTimeOffset taipeiStandardTimeOffset = DateTimeOffset.Now.ToOffset(new TimeSpan(8, 0, 0));
+			
+
+			if (payBill.area == "petClass")
+			{
+				PayReturnURL = PetClassPayMoneyInfo.ReturnURL;
+			}
+			else 
+			{
+				PayReturnURL = PayMoneyInfo.ReturnURL;
+			}
 
 			PayMoneyTradeInfo tradeInfo = new PayMoneyTradeInfo()
 			{
-				// * 商店代號
+				
 				MerchantID = PayMoneyInfo.MerchantID,
-				// * 回傳格式
+				
 				RespondType = "String",
-				// * TimeStamp
+				
 				TimeStamp = taipeiStandardTimeOffset.ToUnixTimeSeconds().ToString(),
-				// * 串接程式版本
+				
 				Version = version,
-				// * 商店訂單編號
-				//MerchantOrderNo = $"T{DateTime.Now.ToString("yyyyMMddHHmm")}",
-				MerchantOrderNo = ordernumber,
-				// * 訂單金額
-				Amt = amount,
-				// * 商品資訊
+				
+				MerchantOrderNo = payBill.ordernumber,
+				
+				Amt = payBill.amount,
+				
 				ItemDesc = "商品資訊(自行修改)",
-				// 繳費有效期限(適用於非即時交易)
+				
 				ExpireDate = null,
-				// 支付完成 返回商店網址
-				ReturnURL = PayMoneyInfo.ReturnURL,
-				// 支付通知網址
+				
+				ReturnURL = PayReturnURL,
+
 				NotifyURL = PayMoneyInfo.NotifyURL,
-				// 商店取號網址
+
 				CustomerURL = PayMoneyInfo.CustomerURL,
-				// 支付取消 返回商店網址
+
 				ClientBackURL = null,
-				// * 付款人電子信箱
-				Email = "thm101777@gmail.com",
-				// 付款人電子信箱 是否開放修改(1=可修改 0=不可修改)
-				EmailModify = 0,
-				// 商店備註
-				OrderComment = "????",
-				// 信用卡 一次付清啟用(1=啟用、0或者未有此參數=不啟用)
+
+				Email = payBill.email,
+
+				EmailModify = 1,
+
+				OrderComment = "若有任何問題，請聯繫FurryFeast客服:0800-000-000",
+
 				CREDIT = 1,
-				// WEBATM啟用(1=啟用、0或者未有此參數，即代表不開啟)
+
 				WEBATM = 1,
-				// ATM 轉帳啟用(1=啟用、0或者未有此參數，即代表不開啟)
+
 				VACC = 0,
-				// 超商代碼繳費啟用(1=啟用、0或者未有此參數，即代表不開啟)(當該筆訂單金額小於 30 元或超過 2 萬元時，即使此參數設定為啟用，MPG 付款頁面仍不會顯示此支付方式選項。)
+
 				CVS = null,
-				// 超商條碼繳費啟用(1=啟用、0或者未有此參數，即代表不開啟)(當該筆訂單金額小於 20 元或超過 4 萬元時，即使此參數設定為啟用，MPG 付款頁面仍不會顯示此支付方式選項。)
+		
 				BARCODE = null,
 
 			};
 
-			if (string.Equals(payType, "CREDIT"))
+			if (string.Equals(payBill.payType, "CREDIT"))
 			{
 				tradeInfo.CREDIT = 1;
 			}
-			else if (string.Equals(payType, "WEBATM"))
+			else if (string.Equals(payBill.payType, "WEBATM"))
 			{
 				tradeInfo.WEBATM = 1;
 			}
-			else if (string.Equals(payType, "VACC"))
+			else if (string.Equals(payBill.payType, "VACC"))
 			{
-				// 設定繳費截止日期
+
 				tradeInfo.ExpireDate = taipeiStandardTimeOffset.AddDays(1).ToString("yyyyMMdd");
 				tradeInfo.VACC = 1;
 			}
-			else if (string.Equals(payType, "CVS"))
+			else if (string.Equals(payBill.payType, "CVS"))
 			{
-				// 設定繳費截止日期
+	
 				tradeInfo.ExpireDate = taipeiStandardTimeOffset.AddDays(1).ToString("yyyyMMdd");
 				tradeInfo.CVS = 1;
 			}
-			else if (string.Equals(payType, "BARCODE"))
+			else if (string.Equals(payBill.payType, "BARCODE"))
 			{
-				// 設定繳費截止日期
+			
 				tradeInfo.ExpireDate = taipeiStandardTimeOffset.AddDays(1).ToString("yyyyMMdd");
 				tradeInfo.BARCODE = 1;
 			}
@@ -187,7 +198,37 @@ namespace FurryFeast.Controllers
 			return View();
 		}
 
-        [HttpPut]
+		public async Task<IActionResult> PetClassFinishPay()
+		{
+			StringBuilder receive = new StringBuilder();
+			foreach (var item in Request.Form)
+			{
+				receive.AppendLine(item.Key + "=" + item.Value + "<br>");
+			}
+			ViewData["ReceiveObj"] = receive.ToString();
+
+			string HashKey = PayMoneyInfo.HashKey;
+			string HashIV = PayMoneyInfo.HashIV;
+
+			string TradeInfoDecrypt = CryptUtility.DecryptAESHex(Request.Form["TradeInfo"], HashKey, HashIV);
+			NameValueCollection decryptTradeCollection = HttpUtility.ParseQueryString(TradeInfoDecrypt);
+			receive.Length = 0;
+			foreach (String key in decryptTradeCollection.AllKeys)
+			{
+				receive.AppendLine(key + "=" + decryptTradeCollection[key] + "<br>");
+			}
+			ViewData["TradeInfo"] = receive.ToString();
+			//ViewData["Status"]=SUCCESS.ToString();
+			string status = decryptTradeCollection[decryptTradeCollection.Keys[0]];
+			int classReserveId = Convert.ToInt32(decryptTradeCollection[decryptTradeCollection.Keys[5]]);
+
+
+			await PutClassReserveState(status, classReserveId);
+			ViewBag.Status = status;
+			return View();
+		}
+
+		[HttpPut]
         public async Task<string> PutProductOrderState(string state,int orderId)
         {
 
@@ -227,5 +268,46 @@ namespace FurryFeast.Controllers
 
             return "付款狀態更新成功";
         }
-    }
+
+		[HttpPut]
+		public async Task<string> PutClassReserveState(string state, int classReserveId)
+		{
+
+
+			var petClass = await _context.ClassReservetions.FindAsync(classReserveId);
+
+			if (state == "SUCCESS")
+			{
+				petClass.ClassReservetionState = 1;
+			}
+			else
+			{
+				return "付款失敗";
+			}
+
+
+			_context.ClassReservetions.Update(petClass);
+
+			try
+			{
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (petClass.ClassReservetionId != classReserveId)
+				{
+
+					return "付款狀態更新失敗";
+
+				}
+
+				else
+				{
+					throw;
+				}
+			}
+
+			return "付款狀態更新成功";
+		}
+	}
 }
