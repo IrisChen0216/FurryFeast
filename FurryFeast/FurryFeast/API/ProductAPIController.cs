@@ -22,7 +22,7 @@ namespace FurryFeast.API
 		//寵物商城商品資料
 		public object AllProducts()
 		{
-			return _context.Products.Include(x => x.ProductPics).Include(x => x.ProductType).Where(x => x.ProductState == 1).Select(x => new
+			return _context.Products.Where(x => x.ProductState == 1).Include(x => x.ProductPics).Include(x => x.ProductType).Select(x => new
 			{
 				product = new
 				{

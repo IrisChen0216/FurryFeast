@@ -325,8 +325,24 @@
 
 					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
 						.then(
-							alert('成功加入購物車!')
+							function(response){
+								
+								alert(response);
+								console.log(response);
+								window.assign(response.data);
+							}
+							//console.log(res);
 						);
+					//axios({
+					//	method:'post',
+					//	url: '/Cart/CartAdd',
+					//	data: { Id: ID, amount: 1 }
+					//}).then(function(res){
+					//	console.log(res)
+						
+					//}).catch(function(error){
+					//	console.log(error)
+					//});
 				},
 				ProductFilter: function () {
 					//依照搜尋欄位篩選商品

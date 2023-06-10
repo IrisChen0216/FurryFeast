@@ -154,7 +154,8 @@ namespace FurryFeast.Controllers {
 
 			var ClaimList = new List<Claim>() {
 			new Claim(ClaimTypes.Name, Member.MemberName),
-			new Claim("Id",Member.MemberId.ToString())
+			new Claim("Id",Member.MemberId.ToString()),
+			//new Claim(ClaimTypes.Role,"user")
 		};
 
 			var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
