@@ -35,35 +35,6 @@
 
 
 
-@*<div id="app" class="">
-	<div>
-		<input type ="text" v-model="keyword"/>
-	</div>
-	<table>
-		<tr>
-			<th>會員編號</th>
-			<th>姓名</th>
-			<th>性別</th>
-			<th>生日</th>
-			<th>手機號碼</th>
-			<th>Email</th>
-			<th>地址</th>
-		</tr>
-		<tr v-for="i in members">
-			<td>{{i.member.memberId}}</td>
-			<td>{{i.member.memberName}}</td>
-			<td>{{i.member.memberGender}}</td>
-			<td>{{i.member.memberBirthday}}</td>
-			<td>{{i.member.memberPhone}}</td>
-			<td>{{i.member.memberEmail}}</td>
-			<td>{{i.member.memberAdress}}</td>
-
-		</tr>
-	</table>
-
-</div>*@
-
-
 <div class="container-fluid" id="app">
 	<div class="row">
 		<div class="col-12">
@@ -129,7 +100,7 @@
 								</td>
 								<td class="align-middle">
 									@*	<a :href="'Details?id='+item.backEndProduct.productId">*@
-									<button class="btn bg-gradient-info mb-0 toast-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-on:click="showInsertPage(item.member)">編輯</button>
+									<button class="btn bg-gradient-info mb-0 toast-btn" data-bs-toggle="modal" data-bs-target="#edirModal" v-on:click="editConfirm(item)">編輯</button>
 									<button class="btn bg-gradient-danger  mb-0 toast-btn unState" v-on:click="deleteCheck(item)">刪除</button>
 								</td>
 
@@ -139,41 +110,42 @@
 					</table>
 				</div>
 			</div>
-			<div class="modal fade " id="insertPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		
+			<div class="modal fade " id="edirModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+							<h5 class="modal-title" id="edirModal">修改會員資料</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
 							<div class="form-group">
-								<label class="form-label">姓名:</label>
-								<input class="form-control" v-model="members.memberName" name="memberName" required />
+								<label for="memberName" class="form-label">姓名:</label>
+								<input class="form-control" v-model="editmember.memberName" id="memberName" type="text" required />
 							</div>
 							<div class="form-group">
-								<label class="form-label">性別:</label>
-								<select v-model="members.memberGender">
+								<label class="form-label" for="memberGender">性別:</label>
+								<select v-model="editmember.memberGender" id="memberGender">
 									<option value="">性別</option>
 									<option value="1">男</option>
 									<option value="0">女</option>
 								</select>
 							</div>
 							<div class="form-group">
-								<label class="form-label">生日:</label>
-								<input class="form-control" type="date" v-model="members.memberBirthday" name="memberBirthday" required />
+								<label class="form-label" for="memberBirthday">生日:</label>
+								<input class="form-control" type="date" v-model="editmember.memberBirthday" id="memberBirthday" required />
 							</div>
 							<div class="form-group">
-								<label class="form-label">手機號碼:</label>
-								<input class="form-control" v-model="members.memberPhone" name="memberPhone" maxlength="10" required />
+								<label class="form-label" for="memberPhone">手機號碼:</label>
+								<input class="form-control" v-model="editmember.memberPhone" id="memberPhone" maxlength="10" type="text" required />
 							</div>
 							<div class="form-group">
-								<label class="form-label">地址:</label>
-								<input class="form-control" v-model="members.memberAdress" name="memberAdress" />
+								<label class="form-label" for="memberAdress">地址:</label>
+								<input class="form-control" v-model="editmember.memberAdress" id="memberAdress" type="text" />
 							</div>
 							<div class="form-group">
-								<label class="form-label">Email:</label>
-								<input class="form-control" v-model="members.memberEmail" name="memberEmail" />
+								<label class="form-label" for="memberEmail">Email:</label>
+								<input class="form-control" v-model="editmember.memberEmail" id="memberEmail" type="email" />
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -225,7 +197,7 @@
 					memberEmail: "",
 					memberAdress: "",
 					memberBirthday: "",
-					memberGender: 0,
+					memberGender: "",
 				},
 			},
 			mounted: function () {
@@ -240,16 +212,11 @@
 				},
 				editMember: function () {
 					let self = this;
-					let request = {
-						MemberName: self.editmember.memberName,
-						MemberGender: self.editmember.memberGender,
-						MemberBirthday: self.editmember.memberBirthday,
-						MemberPhone: self.editmember.memberPhone,
-						MemberEmail: self.editmember.memberEmail,
-						MemberAdress: self.editmember.memberAdress
+					if(res.data){
+
 					}
-					axios.put(`/api/member/editmember`, request).then(res => {
-						if(memberId == self.memberId)
+					axios.put(`/api/member/editmember`, this.editmember).then(res => {
+						
 						
 						alert(res.data)
 						//self.getMember();
@@ -262,7 +229,16 @@
 						//self.memberAdress= self.memberAdress
 					})
 				},
+				editComfirm:function(item){
+					alert('yes');
+					this.editmember.memberName = item.members[0].member.memberName;
+					this.editmember.memberGender = item.members[0].member.memberGender;
+					this.editmember.memberEmail = item.members[0].member.memberEmail;
+					this.editmember.memberPhone = item.members[0].member.memberPhone;
+					this.editmember.memberAdress = item.members[0].member.memberAdress;
+					this.editmember.memberBirthday = item.members[0].member.memberBirthday;
 
+				},
 				showInsertPage: function (item) {
 					let self=this;
 					let member = {

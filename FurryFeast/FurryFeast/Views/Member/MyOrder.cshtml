@@ -18,7 +18,7 @@
             <th>訂單價格</th>
             <th>訂單明細</th>
         </tr>
-        <tr v-for="order in orders">
+        <tr v-for="order in orders" :key="order.orderId">
             <td>
                 {{order.orderShipDate}}
             </td>

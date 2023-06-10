@@ -19,14 +19,14 @@ namespace FurryFeast.API
         public object One()
         {
             var id = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
-            return _context.PetClasses.Select(x => new
+            return _context.ClassReservetions.Where(x => x.MemberId == id).Select(x => new
             {
-                x.PetClassDate,
-                x.PetClassPrice,
-                x.PetClassInformation,
-                x.PetClassName,
-                x.PetClassType,
                 x.PetClassId,
+                x.PetClass,
+                x.ClassReservetionDate,
+                x.ClassReservetionId,
+                x.ClassReservetionState,
+ 
             });
         }
     }
