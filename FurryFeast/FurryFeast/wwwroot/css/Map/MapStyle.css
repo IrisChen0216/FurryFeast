@@ -1,113 +1,114 @@
+
 .counts-text {
-    font-size: 10px;
     color: gray;
-}
-.btn-back {
-    position: absolute;
-    right: 0;
-    bottom: 0;
     font-size: 10px;
 }
 
-.scroll-hidden {
-    overflow: hidden;
-    height: 575px;
-    width: 412px;
+.btn-back {
+    bottom: 0;
+    font-size: 10px;
+    position: absolute;
+    right: 0;
+}
+
+/*.scroll-hidden {
+    background: white;
     border: 1px solid black;
     border-radius: 6px;
-    background: white;
+    height: 575px;
+    overflow: hidden;
     position: absolute;
-    z-index: 99;
-    top: 10px;
     right: -30px;
-}
+    top: 10px;
+    width: 412px;
+    z-index: 99;
+}*/
 
 #infoBox {
     height: 100%;
-    width: 100%;
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
 }
 
 #PlaceList ul li {
-    padding: 20px;
     border-top: 1px solid #ccc;
+    padding: 20px;
 }
 
 #PlaceList ul li:first-child { border: 0; }
 
 
 *::-webkit-scrollbar,
-*::-webkit-scrollbar-thumb {
-    width: 0px;
-}
+*::-webkit-scrollbar-thumb { width: 0px; }
 
 *::-webkit-scrollbar-thumb { box-shadow: inset 0 0 0 10px; }
 
 .infobox:hover { color: rgba(0, 0, 0, 0.3); }
 
 .infobox {
-    overflow: auto;
-    color: rgba(0, 0, 0, 0);
     -webkit-text-fill-color: black;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0);
+    overflow: auto;
     transition: color .3s ease;
 }
 
 .infoBoxText {
-    line-height: 30px;
-    text-align: right;
     font-size: 15px;
     font-weight: bold;
+    line-height: 30px;
+    text-align: right;
 }
 
 .type_bar {
     border: 1px solid black;
-    color: black;
     border-radius: 1rem;
-    padding: 2px 15px;
-    font-size: 10px;
-    display: inline-block;
-}
-.btn-website {
-    border: none;
     color: black;
-    border-radius: 6px;
-    padding: 2px 15px;
-    font-size: 15px;
-    letter-spacing: 0.5px;
-    font-weight: bold;
     display: inline-block;
-    background: #ffd900
+    font-size: 10px;
+    padding: 2px 15px;
+}
+
+.btn-website {
+    background: #ffd900;
+    border: none;
+    border-radius: 6px;
+    color: black;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    padding: 2px 15px;
 }
 
 .btnWebsite {
     border: 1px solid black;
-    color: black;
     border-radius: 2rem;
+    color: black;
     padding: 5px 30px;
 }
 
 .ratings {
-    position: relative;
-    vertical-align: middle;
-    display: inline-block;
     color: #ddd;
+    display: inline-block;
+    font-size: 25px;
     /*背景星星顏色*/
     overflow: hidden;
-    font-size: 25px;
+    position: relative;
+    vertical-align: middle;
     /*調整字體大小可放大縮小星星*/
 }
 
 .full_star {
+    color: #ffd900;
+    left: 0;
+    overflow: hidden;
     /* width: 90%; */
     /*調整寬度可變更星等*/
     position: absolute;
-    left: 0;
     top: 0;
     white-space: nowrap;
-    overflow: hidden;
-    color: #ffd900;
     /*前景星星顏色*/
 }
 
@@ -153,47 +154,47 @@ p a:hover { background-color: #ab3326; }
 
 .select-hidden {
     display: none;
-    visibility: hidden;
     padding-right: 10px;
+    visibility: hidden;
 }
 
 .select {
-    text-align: center;
+    color: #000000;
     cursor: pointer;
     display: inline-block;
-    position: relative;
     font-size: 15px;
-    color: #000000;
-    width: 220px;
     height: 50px;
+    position: relative;
+    text-align: center;
+    width: 220px;
 }
 
 .select-styled {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin-top: 5px;
-    border-bottom: 1px solid hwb(43 18% 0%);
-    /* background-color: #ffffff; */
-    /* background-color: #c0392b; */
-    padding: 8px 15px;
     -moz-transition: all 0.2s ease-in;
     -o-transition: all 0.2s ease-in;
     -webkit-transition: all 0.2s ease-in;
+    border-bottom: 1px solid hwb(43 18% 0%);
+    bottom: 0;
+    left: 0;
+    margin-top: 5px;
+    /* background-color: #ffffff; */
+    /* background-color: #c0392b; */
+    padding: 8px 15px;
+    position: absolute;
+    right: 0;
+    top: 0;
     transition: all 0.2s ease-in;
 }
 
 .select-styled:after {
-    content: "";
-    width: 0;
-    height: 0;
     border: 5px solid transparent;
     border-color: hwb(43 18% 0%) transparent transparent transparent;
+    content: "";
+    height: 0;
     position: absolute;
-    top: 16px;
     right: 10px;
+    top: 16px;
+    width: 0;
 }
 
 /* .select-styled:hover {
@@ -203,42 +204,79 @@ p a:hover { background-color: #ab3326; }
 .select-styled:active,
 .select-styled.active {
     /* margin-top: 5px; */
-    background-color: hwb(43, 18%, 0%);        
+    background-color: hwb(43, 18%, 0%);
 }
 
 .select-styled:active:after,
 .select-styled.active:after {
-    top: 12px;
     border-color: transparent transparent #ffffff transparent;
+    top: 12px;
 }
 
 .select-options {
+    background-color: #ffffff;
     display: none;
-    position: absolute;
-    top: 120%;
-    right: 0;
     left: 0;
-    z-index: 999;
+    list-style: none;
     margin: 0;
     padding: 0;
-    list-style: none;
-    background-color: #ffffff;
+    position: absolute;
+    right: 0;
+    top: 120%;
+    z-index: 999;
 }
 
 .select-options li {
-    /* margin: 0px 10px; */
-    padding: 12px;
-    /* text-indent: 15px; */
-    border-bottom: 1px dashed #ffecbc;
     -moz-transition: all 0.15s ease-in;
     -o-transition: all 0.15s ease-in;
     -webkit-transition: all 0.15s ease-in;
+    /* text-indent: 15px; */
+    border-bottom: 1px dashed #ffecbc;
+    /* margin: 0px 10px; */
+    padding: 12px;
     transition: all 0.25s ease-in;
 }
 
 .select-options li:hover {
-    color: #ffffff;
     background: hwb(43, 18%, 0%);
+    color: #ffffff;
 }
 
 .select-options li[rel="hide"] { display: none; }
+
+@media (max-width: 991px) {
+    .scroll-hidden {
+        /* 為手機版設定的樣式 */
+        background: white;
+        border: 1px solid black;
+        border-radius: 6px;
+        overflow: hidden;
+        height: fit-content;
+        margin-top: 10px;
+    }
+    .map {
+        height: 1200px;
+    }
+}
+
+@media (min-width: 991px) {
+    .scroll-hidden {
+        background: white;
+        border: 1px solid black;
+        border-radius: 6px;
+        height: 575px;
+        overflow: hidden;
+        position: absolute;
+        right: -30px;
+        top: 10px;
+        width: 412px;
+        z-index: 99;
+    }
+
+    .map {
+        height: 600px;
+        position: relative
+    }
+}
+
+
