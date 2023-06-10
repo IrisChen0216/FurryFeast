@@ -53,8 +53,48 @@ h6 {
 
 /*  */
 
-.square {
-    aspect-ratio: 1.5 / 1;
+.state-drawer {
+    background: white;
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: 0 20px 40px 0 rgba(204, 204, 204, 0.1);
+    line-height: 55px;
+    margin: 10px 0;
+    max-width: max-content;
+    padding: 0px 20px;
+    width: 300px;
+    position: absolute;
+    display: flex;
+    z-index: 1;
+}
+
+.drawer-list {
+    margin: 0;
+    padding: 0;
+}
+
+.state-drawer .drawer-list-item {
+    border-bottom: 1px dashed #ccc;
+    list-style-type: none;
+    text-align: center;
+}
+
+.drawer-list-item:hover a {
+    color: #ffd600;
+    text-align: center;
+}
+
+.state-drawer .drawer-list-item:first-child,
+.state-drawer .drawer-list-item:last-child {
+    margin: 0;
+}
+
+.drawer-list-item:last-child {
+    border: none;
+}
+
+.state-drawer .drawer-list-item .drawer-list-name {
+    align-items: center;
+    display: flex;
 }
 
 

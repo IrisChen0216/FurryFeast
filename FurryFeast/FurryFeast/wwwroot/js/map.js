@@ -518,7 +518,7 @@ function initMap() {
     // The map
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 7,
-        center: TaiwanCenter,
+        center: TaiwanCenter
     });
 }
 
