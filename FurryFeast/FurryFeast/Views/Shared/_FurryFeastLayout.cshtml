@@ -111,6 +111,14 @@
                     </li>*@
 
                     <li><a class="nav-link scrollto @Html.Raw(temp == "PetClasses"? "active" :"")" asp-area="" asp-controller="PetClasses" asp-action="PetClassIndexNew">寵物課程</a></li>
+@*                    <li class="dropdown">
+                        <a class=""><span>會員中心</span><i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
+                            <li><a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
+                            <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
+                        </ul>
+                    </li>*@
 
                     <li><a class="nav-link scrollto" asp-area="Admin" asp-controller="Home" asp-action="SignIn">後臺管理</a></li>
                 </ul>
@@ -121,20 +129,31 @@
             <ul class="navbar-nav">
                 @if (User.Identity.IsAuthenticated)
                 { <nav class="p-1">
+@*                    <li class="dropdown">
+                        <a class=""><span>會員中心</span><i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
+                            <li><a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
+                            <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
+                        </ul>
+                    </li*@@*>*@
                         <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCartNew" method="post">
                             <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
                         </form>
-@*                        <form >
-                            <button id="app" class="btn btn-dark dropdown" :hover="showDropdown" :mouseleave="hideDropdown">
+                        <form >
+                            <button  class="btn btn-dark dropdown" :hover="showDropdown" :mouseleave="hideDropdown">
                                 <i class="bi bi-person-square"></i>
+                    <li> <a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
+                    <li> <a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
+                    <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
                                </button>
-                            <ul id="app" v-if="showOptions">
+ @*                           <ul id="app" v-if="showOptions">
+                                <i class="bi bi-person-square"></i>
                                    <li> <a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
                                    <li> <a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
                                    <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
-                                   <li><a asp-controller="Member" asp-action="UpdateMemberData">修改會員資料及密碼</a></li>
-                               </ul>
-                        </form>*@
+                               </ul>*@
+                        </form>
                         <form id="Logout" asp-controller="Member" asp-action="Logout">
                             <button id="list1" class="btn btn-dark" controller="Member" action="Logout"> <i class="bi bi-door-open"></i></button>
                         </form>

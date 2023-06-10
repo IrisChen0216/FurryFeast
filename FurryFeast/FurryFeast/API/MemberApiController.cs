@@ -41,7 +41,7 @@ public class MemberApiController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> EditMember([FromBody] MemberEditDto list)
+    public async Task<IActionResult> Edit([FromBody] MemberEditDto list)
     {
         var id = User.FindFirstValue("Id");
         var result = _context.Members.Include(m => m.Conpon).Where(m => m.MemberId == int.Parse(id)).FirstOrDefault();

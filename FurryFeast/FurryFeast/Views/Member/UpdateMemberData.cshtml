@@ -121,12 +121,12 @@
 						MemberBirthday: self.EditMember.memberBirthday
 					};
 					axios.put('/api/member/edit', request).then(res => {
-						if(res.data == "good"){
+						//if(res.data == "good"){
 							Swal.fire('修改成功')
-						}
-						else{
-							Swal.fire('修改失敗')
-						}
+						//}
+						//else{
+						//	Swal.fire('修改失敗')
+						//}
 							//self.EditMember.memberName = "",
 							//	self.EditMember.memberPhone = "",
 							//	self.EditMember.memberAdress = "",

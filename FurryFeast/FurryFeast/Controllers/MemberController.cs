@@ -58,6 +58,12 @@ namespace FurryFeast.Controllers {
 		}
 
 		[Authorize]
+		public IActionResult OrderDetail()
+		{
+			return View();
+		}
+
+		[Authorize]
 		public async Task<IActionResult> MyClass() {
 			return View();
 		}
