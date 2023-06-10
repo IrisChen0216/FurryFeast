@@ -70,14 +70,7 @@
 	<div class="card mt-4">
 		<div class="card-header pb-0 p-3">
 			<div class="row">
-				@*<div class="col-6 d-flex align-items-center">
-				<h6 class="mb-0">商品編號：{{backendProduct.productId}}</h6>
-				</div>*@
 
-				@*<div class="text-end">
-					
-					<button class="nBtn btn_gray mb-3" :href="'index'">回到商品管理列表</button>
-				</div>*@
 			</div>
 		</div>
 		<div>
@@ -231,88 +224,6 @@
 				</div>
 			</template>
 
-			@*<template v-else>
-				<div class="card-body p-3">
-					<div class="card card-body border card-plain border-radius-lg d-flex align-items-self-start">
-
-						<button v-on:click="update">
-							<i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="修改">修改</i>
-						</button>
-						<button v-on:click="cancel">取消</button>
-
-						<div class="row">
-							<div class="col-6">
-								<div class="row">
-									<div class="col-md-8 mb-md-0 mb-4">
-										<h6 class="mb-0">商品名稱：</h6>
-										<h6 class="mb-0"><input v-model="backendProduct.productName" /></h6>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-8 mb-md-0 mb-4">
-										<h6 class="mb-0">商品種類：</h6>
-
-										<h6>
-											<select v-model="selected">
-												<option :value="backendProduct.productTypeId">--請選擇--</option>
-												<option value="1">狗用</option>
-												<option value="2">貓用</option>
-												<option value="3">鮮食</option>
-											</select>
-										</h6>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-8 mb-md-0 mb-4">
-										<h6 class="mb-0">上架數量：</h6>
-										<h6 class="mb-0"><input v-model="backendProduct.productAmount" /></h6>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-8 mb-md-0 mb-4">
-										<h6 class="mb-0">商品單價：</h6>
-										<h6 class="mb-0"><input v-model="backendProduct.productPrice" /></h6>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-8 mb-md-0 mb-4">
-										<h6 class="mb-0">商品描述：</h6>
-										<h6 class="mb-0"><input v-model="backendProduct.productDescription" /></h6>
-									</div>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="row">
-									<div class="col-md-8 mb-md-0 mb-4">
-										<h6 class="mb-0">上架時間：</h6>
-										<h6 class="mb-0">{{backendProduct.productLaunchedTime}}</h6>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-8 mb-md-0 mb-4">
-										<h6 class="mb-0">下架時間：</h6>
-										<h6 class="mb-0">{{backendProduct.productSoldTime}}</h6>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-8 mb-md-0 mb-4">
-										<h6 class="mb-0">庫存ID</h6>
-										<h6 class="mb-0">{{backendProduct.articlesId}}</h6>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-12" v-for="(pic,idx) in backendProduct.productPicImage">
-										<h6 class="mb-0">商品圖片：</h6>
-										<img :src="'data:image/png;base64,'+ pic" width="200" />
-										<input type="file" v-on:change="ImgPreview($event,idx)" />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</template>*@
 		</div>
 	</div>
 </div>
@@ -360,7 +271,7 @@
 					_this.originalProductName = _this.backendProduct.productName;
 					_this.originalProductAmount = _this.backendProduct.productAmount;
 					_this.originalProductPrice = _this.backendProduct.productPrice;
-					_this.originalSelected = _this.selected;
+					_this.originalSelected = _this.backendProduct.productTypeId;
 				},
 				cancel: function () {
 					let _this = this;
