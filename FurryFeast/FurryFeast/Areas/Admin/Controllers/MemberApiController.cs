@@ -36,18 +36,26 @@ namespace FurryFeast.Areas.Admin.Controllers
 				}
 			});
 		}
-		[HttpPut]
-		public async Task<string>EditMember([FromBody]EditMemberDto list)
+		
+		public async Task<string>EditMember(EditMemberDto list)
 		{
 			try
 			{
-				var result = _context.Members.FirstOrDefault();
+				//var member =await _context.Members.FindAsync(list.MemberId) ;
+				var result = _context.Members.FirstOrDefault(x => x.MemberId == list.MemberId);
 				result.MemberName = list.MemberName;
 				result.MemberBirthday = list.MemberBirthday;
 				result.MemberGender = list.MemberGender;
 				result.MemberEmail = list.MemberEmail;
 				result.MemberPhone = list.MemberPhone;
 				result.MemberAdress = list.MemberAdress;
+
+				//member.MemberName = list.MemberName;
+				//member.MemberBirthday = list.MemberBirthday;
+				//member.MemberGender = list.MemberGender;
+				//member.MemberEmail = list.MemberEmail;
+				//member.MemberPhone = list.MemberPhone;
+				//member.MemberAdress = list.MemberAdress;
 
 				await _context.SaveChangesAsync();
 				return "成功";

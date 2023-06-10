@@ -66,6 +66,7 @@
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">會員編號</th>
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">姓名</th>
 								<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">性別</th>
+								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">生日</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">手機號碼</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
 								<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">地址</th>
@@ -88,6 +89,9 @@
 								<td>
 									<p class="text-xs font-weight-bold mb-0">{{item.member.memberGender}}</p>
 
+								</td>
+								<td class="align-middle text-center text-sm">
+									<h6 class="mb-0 text-sm">{{item.member.memberBirthday}}</h6>
 								</td>
 								<td class="align-middle text-center text-sm">
 									<h6 class="mb-0 text-sm">{{item.member.memberPhone}}</h6>
@@ -192,6 +196,7 @@
 				//memberBirthday:"",
 				//memberGender:"",
 				editmember:{
+					memberId:0,
 					memberName:"",
 					memberPhone: "",
 					memberEmail: "",
@@ -212,31 +217,41 @@
 				},
 				editMember: function () {
 					let self = this;
-					if(res.data){
-
+					alert("f");
+					let request={
+						MemberId :self.editmember.memberId,
+						MemberName: self.editmember.memberName,
+						MemberPhone: self.editmember.memberPhone,
+						MemberEmail : self.editmember.memberEmail,
+						MemberAdress: self.editmember.memberAdress,
+						MemberBirthday: new Date(self.editmember.memberBirthday),
+						MemberBirthday: new Date(2022/02/01),
+						MemberGender: self.editmember.memberGender
 					}
-					axios.put(`/api/member/editmember`, this.editmember).then(res => {
-						
-						
-						alert(res.data)
-						//self.getMember();
+					axios.post(`/api/member/EditMember`, this.editmember).then(res => {
 
-						//self.memberName=self.memberName,
-						//self.memberGender= self.member,
-						//self.memberBirthday=self.memberBirthday ,
-						//self.memberPhone= self.memberPhone,
-						//self.memberEmail= self.memberEmail,
-						//self.memberAdress= self.memberAdress
+						this.editmember.memberId=""
+						this.editmember.memberName=""
+						this.editmember.memberPhone=""
+						this.editmember.memberEmail=""
+						this.editmember.memberAdress=""
+						this.editmember.memberBirthday=""
+						 this.editmember.memberGender=""
+						alert(res.data)
+						self.getMember();
+
+
 					})
 				},
-				editComfirm:function(item){
-					alert('yes');
-					this.editmember.memberName = item.members[0].member.memberName;
-					this.editmember.memberGender = item.members[0].member.memberGender;
-					this.editmember.memberEmail = item.members[0].member.memberEmail;
-					this.editmember.memberPhone = item.members[0].member.memberPhone;
-					this.editmember.memberAdress = item.members[0].member.memberAdress;
-					this.editmember.memberBirthday = item.members[0].member.memberBirthday;
+				editConfirm: function (item) {
+					//alert('yes');
+					this.editmember.memberId = item.member.memberId;
+					this.editmember.memberName = item.member.memberName;
+					this.editmember.memberGender = item.member.memberGender;
+					this.editmember.memberEmail = item.member.memberEmail;
+					this.editmember.memberPhone = item.member.memberPhone;
+					this.editmember.memberAdress = item.member.memberAdress;
+					this.editmember.memberBirthday = new Date( item.member.memberBirthday);
 
 				},
 				showInsertPage: function (item) {

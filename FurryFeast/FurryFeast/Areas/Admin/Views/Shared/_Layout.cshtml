@@ -129,6 +129,14 @@
 					</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link text-white @Html.Raw(temp == "AdminMemberIndex" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="Member" asp-action="Index">
+						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+							<i class="material-icons opacity-10">notifications</i>
+						</div>
+						<span class="nav-link-text ms-1">會員管理</span>
+					</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link text-white @Html.Raw(temp == "AdminContactUsContactUs" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="ContactUs" asp-action="ContactUs">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">receipt_long</i>
