@@ -2,7 +2,8 @@
 {
     public class EditMemberDto
     {
-        public string MemberName { get; set; } = null!;
+		public int MemberId { get; set; }
+		public string MemberName { get; set; } = null!;
         public DateTime MemberBirthday { get; set; }
         public string? MemberAdress { get; set; }
         public string? MemberEmail { get; set; }
