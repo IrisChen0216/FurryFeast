@@ -454,7 +454,7 @@
 							axios.put(`/api/products/PutProductState/?id=${ID}&state=0`).then(response => {
 								alert(response.data);
 								item.OnAndOff = true;
-								item.backEndProduct.productSoldTime = new Date();
+								item.backEndProduct.productSoldTime = moment().format('YYYY-MM-DDTHH:mm:ss');
 								for (let i = 0; i < _this.showProducts.length; i++) {
 									let product = _this.showProducts[i];
 									ProductList.push(product);
@@ -523,7 +523,7 @@
 						ProductState: _this.productState,
 						ProductDescription: _this.productDescription,
 						ProductTypeId: _this.productType,
-						ProductLaunchedTime: new Date(),
+						ProductLaunchedTime: moment().format(),
 						ArticlesId: _this.selectedArticle,
 
 
