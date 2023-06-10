@@ -15,13 +15,13 @@
 		}
 
 		.drop {
-			background: #EC407A;
+			background: gray;
 			color: white;
 			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 		}
 
 			.drop:hover {
-				background-color: #FFD306;
+				background-color: dodgerblue;
 			}
 
 		.btn-secondary:hover {
@@ -38,7 +38,7 @@
 		}
 
 		.edit-btn {
-			background: darkcyan;
+			background: dodgerblue;
 			border-radius: 6px;
 			border: 1px solid white;
 			color: white;
@@ -75,19 +75,21 @@
 		}
 
 		.up-state {
-			background: crimson;
+			background: gray;
+			font-weight:400;
+			color: white;
 			border-radius: 6px;
 			border: 1px solid white;
 		}
 
 		.down-state {
-			background: darkcyan;
+			background: #FFD306;
 			border-radius: 6px;
 			border: 1px solid white;
 		}
 
 		.add-btn {
-			background: darkcyan;
+			background: dodgerblue;
 			border-radius: 6px;
 			border: 1px solid white;
 			color: white;
@@ -189,9 +191,9 @@
 									</td>
 									<td>
 										<div class="d-flex px-2 py-1">
-											<div>
+											@*<div>
 												<img :src="'data:image/png;base64,'+item.backEndPics[0]" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-											</div>
+											</div>*@
 											<div class="d-flex flex-column justify-content-center">
 
 												<a :href="'Details?id='+item.backEndProduct.productId">
@@ -208,8 +210,8 @@
 									<td class="align-middle text-center text-sm">
 										@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
 
-										<button v-if="item.OnAndOff==true" class="ms-2 up-state" v-on:click="changeState(item)"><i class="bi bi-caret-up-fill up-down"></i></button>
-										<button v-else class="ms-2 down-state" v-on:click="changeState(item)"><i class="bi bi-caret-down-fill up-down"></i></button>
+										<button v-if="item.OnAndOff==true" class="ms-2 up-state" v-on:click="changeState(item)">下架中</button>
+										<button v-else class="ms-2 down-state" v-on:click="changeState(item)">上架中</button>
 										@*<button v-if="item.OnAndOff==true" class="btn up-btn mb-0" v-on:click="changeState(item)">上架</button>
 										<button v-else class="btn mb-0 down-btn" v-on:click="changeState(item)">下架</button>*@
 									</td>

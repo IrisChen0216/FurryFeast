@@ -127,7 +127,7 @@ namespace FurryFeast.API
 						productState = x.ProductState,
 						productArticleId = x.ArticlesId
 					},
-					backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
+					//backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
 					backEndType = x.ProductType.ProductTypeName,
 					backEndArticle = new
 					{
@@ -155,7 +155,7 @@ namespace FurryFeast.API
 						productState = x.ProductState,
 						productArticleId = x.ArticlesId
 					},
-					backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
+					//backEndPics = x.ProductPics.Select(p => p.ProductPicImage),
 					backEndType = x.ProductType.ProductTypeName,
 					backEndArticle = new
 					{
