@@ -16,7 +16,7 @@ namespace FurryFeast.API
             _context = context;
         }
 
-        public object Two()
+        public object petclasses()
         {
             var id = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
             return _context.ClassReservetions.Where(x => x.MemberId == id).Select(x => new

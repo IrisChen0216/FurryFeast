@@ -11,30 +11,33 @@
 <hr />
 <!-- RD Mailform-->
 <form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
-    <div class="form-wrap">
-        <span>姓名</span>
-        <span>@Model.MemberName</span>
-    </div>
-    <div>
-        <label>生日</label>
-        <span>@Model.MemberBirthday</span>
-    </div>
-    <div>
-        <label>性別</label>
-        <span id="gender"></span>
-    </div>
-    <div>
-        <label>手機號碼</label>
-        <span>@Model.MemberPhone</span>
-    </div>
-    <div>
-        <label>Email</label>
-        <span>@Model.MemberEmail</span>
-    </div>
-    <div>
-        <label>地址</label>
-        <span>@Model.MemberAdress</span>
-    </div>
+    <table class="table-secondary">
+        <tr>
+            <th>姓名</th>
+            <th>@Model.MemberName</th>
+        </tr>
+        <tr>
+            <td>生日</td>
+            <td>@Model.MemberBirthday</td>
+        </tr>
+        <tr>
+            <td>性別</td>
+            <td id="gender"></td>
+        </tr>
+        <tr>
+            <td>手機號碼</td>
+            <td>@Model.MemberPhone</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>@Model.MemberEmail</td>
+        </tr>
+        <tr>
+            <td>地址</td>
+            <td>@Model.MemberAdress</td>
+        </tr>
+    </table>
+    
 </form>
 <div>
     <form asp-controller="Member" asp-action="UpdateMemberData">

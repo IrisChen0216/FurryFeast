@@ -140,20 +140,20 @@
                         <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCartNew" method="post">
                             <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
                         </form>
-                        <form >
+                        @*<form >
                             <button  class="btn btn-dark dropdown" :hover="showDropdown" :mouseleave="hideDropdown">
                                 <i class="bi bi-person-square"></i>
-                    <li> <a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
-                    <li> <a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
-                    <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
+
                                </button>
- @*                           <ul id="app" v-if="showOptions">
-                                <i class="bi bi-person-square"></i>
+                             <ul id="app" :hover="showDropdown" :mouseleave="hideDropdown" v-if="showOptions">
+                                    <li></li>
+                                <li></li>
+
                                    <li> <a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
                                    <li> <a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
                                    <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
-                               </ul>*@
-                        </form>
+                               </ul>
+                        </form>*@
                         <form id="Logout" asp-controller="Member" asp-action="Logout">
                             <button id="list1" class="btn btn-dark" controller="Member" action="Logout"> <i class="bi bi-door-open"></i></button>
                         </form>
@@ -177,7 +177,7 @@
 	<div class="container">
         <main role="main" class="pb-3">
 
-            @*TODO*@
+            @*TODO
             @*麵包屑屑*@
 @*            <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="">首頁</a></li>
