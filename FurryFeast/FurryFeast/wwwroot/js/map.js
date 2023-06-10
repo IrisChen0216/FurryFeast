@@ -320,12 +320,17 @@ function MarkerDetail() {
 // 重置
 function Reset() {
     $('#PlaceName.mt-2').empty();
-    $("#infoHeader >.type_bar").remove();
+/*    $("#infoHeader >.type_bar").remove();*/
     $("#RatingBox").empty();
-    $("#InfoBoxBody >.col-9").empty();
+/*    $("#InfoBoxBody >.col-9").empty();*/
     $("#PlaceList >ul").empty();
     /*$(".card-new #pp").remove();*/
-    $("#infoBox .BtnReturn").remove();
+    $("#infoBox .type_bar").remove();
+
+    $("#time").empty();
+    $("#Add").empty();
+    $("#phone").empty();
+    $("#web").empty();
 
 
     if (!$('#btn_StreetView').hasClass("visually-hidden")) {
@@ -351,7 +356,7 @@ function OutputInfo() {
 
     // 上一頁
     if ($("#BtnReturn") && area.length > 1) {
-        $("#infoBox").prepend($('<button>').addClass("type_bar").text("Back To List").on('click', GetPlaceList));
+        $("#infoBox").append($('<p>').addClass("type_bar mt-2").text("Back To List").on('click', GetPlaceList));
     }
 
     $("#PlaceName.mt-2").append('<h4 class="py-2 px-4" style="color:white";>' + ClickMarkerDetail.Name + '</h4>');
@@ -372,27 +377,62 @@ function OutputInfo() {
     $("#RatingBox").append(strHTML);
 
     //$("#InfoBoxBody >.col-9").append($("<button>", { class: "btn-website mt-2", text: "前往官網" }));
+    //if (ClickMarkerDetail.PhoneNumber) {
+    //    $("#InfoBoxBody >.col-9").append('<p class="fs-6 "><a href="tel:' +
+    //        ClickMarkerDetail.PhoneNumber +
+    //        '">' +
+    //        ClickMarkerDetail.PhoneNumber +
+    //        '</a></p>');
+    //} else {
+    //    $("#InfoBoxBody >.col-9").append('<p class ="fs-6" style="color:gray">尚未提供電話</p>');
+    //}
+
+    //if (ClickMarkerDetail.PhoneNumber) {
+    //    $("#phone").append('<p class="fs-6 "><a href="tel:' +
+    //        ClickMarkerDetail.PhoneNumber +
+    //        '">' +
+    //        ClickMarkerDetail.PhoneNumber +
+    //        '</a></p>');
+    //} else {
+    //    $("#phone").append('<p class ="fs-6" style="color:gray">尚未提供電話</p>');
+    //}
+    //
+
     if (ClickMarkerDetail.PhoneNumber) {
-        $("#InfoBoxBody >.col-9").append('<p class="fs-6 "><a href="tel:' +
+        $("#phone").append('<p class="" style="border: 1px solid black; color: black; border-radius: 1rem; padding: 0px 18px; font-size: 10px; display: inline-block;><a href="tel:' +
             ClickMarkerDetail.PhoneNumber +
             '">' +
             ClickMarkerDetail.PhoneNumber +
             '</a></p>');
     } else {
-        $("#InfoBoxBody >.col-9").append('<p class ="fs-6" style="color:gray">尚未提供電話</p>');
+        $("#phone").append('<p class ="">尚未提供電話</p>');
     }
-    $("#InfoBoxBody >.col-9").append('<p class ="fs-6 " >' + ClickMarkerDetail.Address + "</p>");
+    let newStr = ClickMarkerDetail.Address.slice(3);
+    $("#Add").append('<p class ="" >' + newStr + "</p>");
+    //
+    //if (ClickMarkerDetail.OpenHours) {
+    //    $("#InfoBoxBody >.col-9").append('<p class ="fs-6 " >' + ClickMarkerDetail.OpenHours + "</p>");
+    //} else {
+    //    $("#InfoBoxBody >.col-9").append('<p class ="fs-6" style="color:gray">尚未提供</p>');
+    //}
 
 
     if (ClickMarkerDetail.OpenHours) {
-        $("#InfoBoxBody >.col-9").append('<p class ="fs-6 " >' + ClickMarkerDetail.OpenHours + "</p>");
+        let str = ClickMarkerDetail.OpenHours.replaceAll("'", "");
+        str = str.replaceAll("[", "");
+        str = str.replaceAll("]", "");
+        let OpenHoursArr = str.split(`,`);
+        
+        OpenHoursArr.forEach(item => {
+            $("#time").append('<p class ="m-0" >' + item + "</p>");
+        });
     } else {
-        $("#InfoBoxBody >.col-9").append('<p class ="fs-6" style="color:gray">尚未提供</p>');
+        $("#time").append('<p class ="" style="color:gray">尚未提供</p>');
     }
-
+    //
     if (ClickMarkerDetail.Website) {
-        $("#InfoBoxBody >.col-9").append($('<a>', { id: "btnWebsite", href: ClickMarkerDetail.Website, target: "_blank" }));
-        $("a#btnWebsite").append($("<button>", { class: "btn-website mt-2" , text: "前往官網" }));
+        $("#web").append($('<a>', { id: "btnWebsite", href: ClickMarkerDetail.Website, target: "_blank" }));
+        $("a#btnWebsite").append($("<button>", { class: "type_bar mt-2" , text: "前往官網" }));
     } 
 
     if (!$("#InfoBoxBody").hasClass("visually-hidden")) {

@@ -1,79 +1,181 @@
 ﻿@{
-    ViewData["Title"] = "CalIndex";
+	ViewData["Title"] = "CalIndex";
 }
 
-@section Scripts{
-    <script src="~/js/calcalculator.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
+@section Style
+{
+	<link href="~/css/calsheet.css" rel="stylesheet"/>
 }
+<style>
+	.index-header h2:after {
+		background: white;
+	}
+</style>
 
-<div class="index-header">
-    <h2>每日熱量計算</h2>
-    <p>家中貓貓跟狗狗每天應該吃多少呢?</p>
+<div class="index-header" style="background-image: url('/image/beagle-tricolor-puppy-is-posing-cute-white-braun-black-doggy-pet-is-playing-yellow-background-looks-calm-confident-studio-photoshot-concept-motion-movement-action-negative-space.jpg'); background-repeat: no-repeat; background-size: contain; height: 300px;background-color: rgb(245 209 0);">
+	<h2 style="color: white;">每日熱量計算</h2>
+	<p style="color: white;">家中貓貓跟狗狗每天應該吃多少呢?</p>
 </div>
-<div class="container">
-    <div class="border-bottom mb-4">
-        <h3>首先.</h3>
-        <p>我們要先了解什麼是RER!</p>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <h4> RER（Resting Energy Requirement）</h4>
-            <span>指的是動物在休息狀態下維持基本生命活動所需的能量。換句話說，RER 是動物在沒有運動和消化活動時所消耗的熱量。RER 的計算有助於確定寵物的維持能量需求，從而制定合適的飲食計劃。</span>
-        </div>
-        <div class="col-6">
-            <h5> RER計算公式</h5>
-            <p class="border border-1 rounded-4 p-4 ">$$RER = 70 \times 體重(kg)^{0.75} $$</p>
-            這個公式適用於成年的犬和貓。
-            <p>*幼犬、幼貓、懷孕或哺乳期的母犬和母貓則需要不同的修正係數，以確保獲得足夠的營養。</p>
-        </div>
-    </div>
+<div class="container mt-3 p-4" style="background: white; border-radius: 6px; ">
+	<div class="my-4">
+		<h3>首先.</h3>
+		<p>我們要先了解什麼是RER!</p>
+	</div>
+	<div class="row mx-auto">
+		<div class="col-7">
+			<h4 class="mb-4"> RER（Resting Energy Requirement）</h4>
+			<div class="col-10 mx-auto" style="text-align: justify;">指的是動物在休息狀態下維持基本生命活動所需的能量。換句話說，RER 是動物在沒有運動和消化活動時所消耗的熱量。RER 的計算有助於確定寵物的維持能量需求，從而制定合適的飲食計劃。</div>
+		</div>
+		<div class="col-5">
+			<h5 style="line-height: 50px ;letter-spacing: 3px;background: #ffd900;border-radius: 6px;" class="mb-2"> RER計算公式</h5>
+			<div class="p-3 mb-2" style="background: white; text-align: center; border: 1px solid black; border-radius: 6px;">$$RER = 70 \times 體重(kg)^{0.75} $$</div>
+			
+			<div class="col-10 mx-auto " style="text-align: justify;">此公式僅適用於成年的犬和貓。<br/>*幼犬、幼貓、懷孕或哺乳期的母犬和母貓則需要不同的修正係數，以確保獲得足夠的營養。</div>
+		</div>
+	</div>
 </div>
-<div class="container">
-
-
-
-    <div>
-        <h2>熱量計算</h2>
-    </div>
-    <div class="rounded-4 border border-2  p-3">
-        <form>
-            <div class="col-6 mb-3 mt-3">
-                <label for="WeightKg" class="form-label">體重(kg)</label>
-                <input type="text" class="form-control" id="WeightKg" value="" oninput="RERcalculator()">
-                <div id="" class="form-text">請輸入目前體重或者輸入目標體重.</div>
-            </div>
-            <div class="col-6 mb-3">
-                <label for="DailyRER" class="form-label">每日基礎熱量需求(大卡) / 水分基礎需求量(cc)</label>
-                <input type="text" class="form-control" id="DailyRER" value="" disabled>
-            </div>
-        </form>
-    </div>
-    <div class="rounded-4 border border-2  p-3 mt-3">
-        <form>
-            <label class="form-label">選擇動物種類</label>
-            <button class="btn btn-outline-primary m-3" type="button" id="Btn_DogCal">Dog</button>
-            <button class="btn btn-outline-primary" type="button" id="Btn_CatCal">Cat</button>
-            <div class="col-6 mb-3">
-                <label for="DailyRER" class="form-label">寵物狀態</label>
-
-                <select id="PetState" class="form-select">
-                    <option id="choseTypeText" selected>選擇動物狀態</option>
-
-                </select>
-            </div>
-            <div class="col-6 mb-3">
-                <label for="DailyCal" class="form-label">日常基礎熱量需求(大卡) / 水分基礎需求量(cc)</label>
-                <input type="text" class="form-control" id="DailyCal" value="" disabled>
-            </div>
-        </form>
-    </div>
+<div id="app" class="container row mx-auto m-4 mt-3 p-3" style="border: 1px solid black; border-radius: 6px; background: white">
+	<h3 class="mb-3" style="line-height: 80px;letter-spacing: 3px;background: rgb(255, 217, 0);border-radius: 6px;">熱量計算</h3>	
+	<h5 class="text-center mb-3">選擇動物種類</h5>
+	<div class="text-center mb-3">
+		<button class="btn-type" v-bind:class="{ active: isDogActive }" type="button" v-on:click="chooseType(1)">狗勾</button>
+		<button class="btn-type" v-bind:class="{ active: isCatActive }" type="button" v-on:click="chooseType(2)">貓貓</button>
+	</div>
+	<div class="p-3 col-5 mx-auto pt-0">
+		<form style="text-align: start">
+			<div class="mb-3">
+				<p class="mb-3">體重(kg)</p>
+				<input type="text" v-model="CurrentWeight" placeholder="請輸入目前體重或者目標體重" v-on:keyup="RERcalculator">
+			</div>
+			<div class="mb-3 mt-5">
+				<p class="my-3">每日基礎熱量需求(大卡) / 水分基礎需求量(cc)</p>
+				<input type="text" v-model="DailyRER" disabled>
+			</div>
+		</form>
+	</div>
+	<div class="p-3 col-5  mx-auto">
+		<form style="text-align: start">
+			<div class="mb-3">
+				<div class="state" :class="showDrawer ? 'highlight': '' " v-on:click="checkChoose">
+					<p class="state-copy">{{selected}}</p>
+					<i class="icon fas fa-chevron-down" :style="{transform: showDrawer ? 'rotate(180deg)' : ''}"></i>
+				</div>
+				<transition name="slide">
+					<div class="state-drawer" v-if="showDrawer">
+						<ul class="drawer-list">
+							<li class="drawer-list-item" v-for="item in SelectedType">
+								<label :for="item.ID" v-on:click="clickOption(item)">{{ item.State }}</label>
+							</li>
+						</ul>
+					</div>
+				</transition>
+			</div>
+			<div class="mb-3 mt-5">
+				<p class="my-3">日常基礎熱量需求(大卡) / 水分基礎需求量(cc)</p>
+				<input type="text" class="" v-model="DailyCal" disabled>
+			</div>
+		</form>
+	</div>
 </div>
 
 <div class="container mt-3 mb-3">
-    <p>
-        RER 只是基本能量需求的估算，還需要考慮寵物的年齡、活動水平、生長狀況等因素來確定他們的實際能量需求。<br />
-        在制定寵物的飲食計劃時，建議諮詢獸醫專業意見，以確保寵物獲得均衡的營養。
-    </p>
+	<p>
+		RER 只是基本能量需求的估算，還需要考慮寵物的年齡、活動水平、生長狀況等因素來確定他們的實際能量需求。<br/>
+		在制定寵物的飲食計劃時，建議諮詢獸醫專業意見，以確保寵物獲得均衡的營養。
+	</p>
 </div>
+
+
+@section Scripts
+{
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+	<script>
+		new Vue({
+			el: "#app",
+			data: {
+				CurrentWeight: "",
+				WeightVarData: {},
+				SelectedType: [],
+				selected: "選擇動物狀態",
+				showDrawer: false,
+				DailyRER: "",
+				DailyCal: "",
+				VarNam: "",
+				isDogActive: false,
+				isCatActive:false
+			},
+			mounted() {
+				const _this = this;
+				_this.getData();
+			},
+			methods: {
+				getData: function() {
+					const _this = this;
+					axios.get('/PetWeightVar.json').then(response => {
+						_this.WeightVarData = response.data;
+					}).catch(error => {
+						console.error('Error:', error);
+					});
+				},
+				chooseType: function(typeId) {
+					const _this = this;
+					if (typeId == 1) {
+						_this.SelectedType = _this.WeightVarData.dog;
+						_this.isDogActive = true;
+						_this.isCatActive = false;
+
+					} else {
+						_this.SelectedType = _this.WeightVarData.cat;
+						_this.isDogActive = false;
+						_this.isCatActive = true;
+
+					}
+					if (_this.selected != "選擇動物狀態") {
+						_this.selected = "選擇動物狀態";
+					}
+
+					if (_this.DailyCal != "") {
+						_this.clearAll();
+					}
+				},
+				clearAll: function() {
+					const _this = this;
+					_this.CurrentWeight = "";
+					_this.DailyRER = "";
+					_this.DailyCal = "";
+					_this.VarNam = "";
+				},
+				checkChoose: function() {
+					const _this = this;
+					if (_this.SelectedType.length == 0) {
+						alert("請先選擇動物類別");
+					} else {
+						_this.show();
+					}
+				},
+				//計算RER
+				RERcalculator: function() {
+					const _this = this;
+					_this.DailyRER = Math.round(70 * Math.pow(_this.CurrentWeight, 0.75));
+
+					if (_this.VarNam == "" || _this.selected == "選擇動物狀態") {
+						_this.DailyCal = "";
+					} else {
+						_this.DailyCal = Math.round(_this.DailyRER * _this.VarNam);
+					}
+				},
+				clickOption(item) {
+					const _this = this;
+					_this.show();
+					_this.selected = item.State;
+					_this.VarNam = item.VariableNum;
+					_this.RERcalculator();
+				},
+				show() {
+					this.showDrawer = !this.showDrawer;
+				}
+			}
+		});
+	</script>
+}

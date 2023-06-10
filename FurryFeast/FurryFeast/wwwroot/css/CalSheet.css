@@ -1,0 +1,131 @@
+﻿.btn-type {
+    background: none;
+    border: 2px solid #ffd900;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bolder;
+    line-height: 50px;
+    width: 80px;
+}
+
+.btn-type.active {
+    background: #ffd900;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+    line-height: 50px;
+    width: 80px;
+}
+
+
+input {
+    background: none;
+    border: none;
+    border-bottom: 1px solid;
+    width: 100%
+}
+
+.state {
+    align-items: center;
+    border-bottom: 1px solid #ffd900;
+    cursor: pointer;
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    transition: 0.4s border ease;
+    width: 100%;
+}
+
+.state-copy {
+    color: black;
+    font-size: 16px;
+    width: 100%;
+}
+
+.state .icon {
+    color: #8f9cb2;
+    transform-origin: 50%;
+    transition: 0.5s transform ease;
+}
+
+.state-drawer {
+    background: white;
+    border: 1px solid rgb(0, 0, 0);
+    box-shadow: 0 20px 40px 0 rgba(204, 204, 204, 0.1);
+    line-height: 55px;
+    margin: 10px 0;
+    max-width: 100%;
+    padding: 0px 20px;
+    position: absolute;
+    width: 30%;
+}
+
+.state-drawer .drawer-list,
+.state-drawer .drawer-list-item {
+    margin: 0;
+    padding: 0;
+}
+
+.state-drawer .drawer-list-item {
+    border-bottom: 1px dashed #ccc;
+    list-style-type: none;
+    text-align: center;
+}
+
+.drawer-list-item:hover {
+    background: #ffd600;
+    text-align: center;
+}
+
+.state-drawer .drawer-list-item:first-child,
+.state-drawer .drawer-list-item:last-child { margin: 0; }
+
+.drawer-list-item:last-child { border: none; }
+
+.state-drawer .drawer-list-item .drawer-list-name {
+    align-items: center;
+    display: flex;
+}
+
+.state-drawer .drawer-list-item .drawer-list-name input { margin-right: 8px; }
+
+.state-drawer .drawer-list-item .drawer-list-value {
+    align-items: center;
+    background: #f4f5f7;
+    border-radius: 20px;
+    color: #858688;
+    display: flex;
+    font-size: 12px;
+    height: 30px;
+    justify-content: center;
+    padding: 8px;
+    width: 30px;
+}
+
+.highlight { border-bottom: 1px solid #ffd600; }
+
+.highlight .state-copy,
+.highlight .icon { color: black; }
+
+.slide-enter {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: 0.5s all ease;
+}
+
+.slide-enter-to {
+    opacity: 1;
+    transform: translateY(0px);
+    transition: 0.5s all ease;
+}
+
+.slide-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: 0.5s all ease;
+}

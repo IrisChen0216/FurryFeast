@@ -6,38 +6,54 @@
 
 @section Style
 {
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 	<link href="~/css/recipestyle.css" rel="stylesheet"/>
+	<link href="~/css/animation.css" rel="stylesheet" />
+
 }
 
-<div class="row" style="height: 300px; margin-top: 40px;">
-	<div class=" col p-0" style="overflow: hidden;">
-		<img style="object-fit: cover; height: 100%; object-position: bottom; " src="/image/cute-pet-collage-isolated (1).jpg">
+<div id="app" class="p-0 ">
+	<div class="pb-4" style="background: white; border-radius: 6px;">
+		<div class="index-header">
+			<h2>寵物鮮食食譜</h2>
+		</div>
+@*		<img class="pb-4 m-0" src="~/image/pet_recipies.png" style="width: 100px;"/>
+		*@		<div style="display: flex; justify-content: center; align-items: center;">
+			<p class="centered">為你的毛孩營造更健康的飲食體驗，親手自製鮮食，讓每一口都充滿愛與關懷。我們用新鮮食材，製作出營養豐富，口感美味的鮮食。毛孩的健康，由你我共同守護。嘗試自製鮮食，讓愛，從口而入。</p>
+		</div>
 	</div>
-	<div class="col row m-4">
-		<button class="col btn btn-primary p-5 " type="button" v-on:click="chooseType(1)">Dog</button>
-		<button class="col btn btn-primary p-5 ms-3" type="button" v-on:click="chooseType(2)">Cat</button>
+	<div class="p-5 my-2" style="background: #ffd33b; border-radius: 6px;">
+		<h4 style="color: white; letter-spacing: 3px; font-weight: 600;">請選擇動物類別</h4>
 	</div>
-</div>
-<div class="index-header">
-	<h2>寵物鮮食食譜</h2>
-</div>
-<div id="app" class="container">
-@*	<div class="" style="position: relative; width: 100%; padding-bottom: 25%; overflow: hidden;">
-		@*		<img src="https://shorturl.at/eiwPR" />
-		@*<img class="px-4" style="position: absolute; top: 0;left: 0; width: 100%; height: 100%; object-position:top; object-fit: cover;" src="https://shorturl.at/sKTY8" />
-	</div>*@
-	
-	<div class="row m-4">
-		<div class="col-md-3  pt-4">
-			<ul id="recipesList" class="nav justify-content-center">
+	<div class="mt-2" style="border-radius: 6px; padding-top: 10%;padding-top: 10%; height: 50vh; background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url(&quot;/image/recipes-bg-1.jpg&quot;)">
+		<div class=" p-0">
+			<button class="me-2 btn-type" :class="{ 'active': isActiveDog }" type="button" v-on:click="chooseType(1)">
+				<img src="~/image/bone.png" style="width: 60%; margin-bottom: 22px;"/>
+				<h3>狗勾</h3></button>
+			<button class="ms-2 btn-type" :class="{ 'active': isActiveCat }" type="button" v-on:click="chooseType(2)">
+				<img src="~/image/sardines.png" style="width: 60%; margin-bottom: 22px;"/>
+				<h3>貓貓</h3></button>
+		</div>
+		@*<button class="scroll-down" style="border: none;">
+			<span class="arrow">&#8595;</span>
+		</button>*@
+		<div v-if="showDropdown">
+			<button v-on:click="scrollTop(scropTarget)" class="slide-bottom"><img style="padding: 10px" src="~/image/down-arrow.png" /></button>
+		</div>
+	</div>
+
+		
+	<div id="recipe" class=" row m-0">
+		<div class="col-md-3 mt-5">
+			<ul id="recipesList" class="nav justify-content-center" style="border-radius: 6px; background: white">
 				<li class="nav-item" v-for="item in filteredRecipe" :key="item.recipesId" v-on:click="getRecipe(item.recipesId)">{{item.name}}</li>
 			</ul>
 		</div>
 
-		<div class="col p-3 ms-3" v-if="showRecipeDetails">
-			<div class="m-3 p-3" style="height: auto; border: 1px solid black;">
-				<div class="row m-0" style="background: brown;">
-					<div style="color: white;" class="py-3 recipes-header ">{{selectedRecipe.name}}</div>
+		<div class="col ms-3 mt-5" v-if="showRecipeDetails">
+			<div class="p-4" style="height: auto; background: white; border-radius: 6px;">
+				<div class="row m-0" style="border-radius: 6px; background: brown;">
+					<div style="color: white; border-radius: 6px;" class="py-3 recipes-header ">{{selectedRecipe.name}}</div>
 					<div style="color: white; font-weight: 900; padding: 10px;">{{selectedRecipe.desc}}</div>
 				</div>
 				<div class="row m-0 mt-3 recipes-box">
@@ -65,7 +81,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="container text-center mb-2">
+			<div class=" text-center mb-2">
 				<h4 class="py-3">回應區</h4>
 				<template v-if="selectedRecipe">
 					<template v-if="MemberData!=null">
@@ -75,29 +91,27 @@
 						</form>
 					</template>
 					<template v-else>
-						<div class="border border-1 p-4 my-2">
-							<form>
-								<p class="mb-2">請先登入會員</p>
-								<button type="button" v-on:click="submitForm" class="nBtn">登入</button>
-							</form>
+						<div class="border border-1 p-4 my-2" style="border-radius: 6px; background: white;">
+							<p class="mb-2">請先登入會員</p>
+							<button type="button" v-on:click="submitForm" class="nBtn login">登入</button>
 						</div>
 					</template>
 				</template>
 
 
 				@*msg*@
-				<div class="response mt-3">
+				<div class="response mt-3 ">
 					<template v-for="item in selectedRecipe.msgBoards">
-						<div class="m-4" v-if="item.active">
+						<div class="my-4 p-3" v-if="item.active" style="background: white; border-radius: 6px;">
 							<div class="my-2 align-content-end" v-if="!item.isEditable">
-								<div class="row pb-2" style="border-bottom: 1px dashed #ccc;">
+								<div class="row pb-2">
 									<div class="text-end" v-if="MemberData!=null">
 										<template v-if="MemberData.memberAccount == item.userAccount">
 											<button type="button" class="nBtn edit" v-on:click="editComment(item);">編輯</button>
 											<button type="button" class="nBtn delete" v-on:click="deleteComment(item);">刪除</button>
 										</template>
 									</div>
-									<div class="col px-3 py-2 m-0 text-start">
+									<div class="col px-3 m-0 text-start">
 										<p class="m-0 px-3 user-icon ">會員</p>
 										<p class="ms-1" style="display: inline-block; font-weight: 600">{{item.userAccount}}</p>
 										<p class="m-0 ps-2 pt-1" style="font-size: small;">{{relativeDate(item)}}</p>
@@ -140,13 +154,17 @@
 	<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/plugin/relativeTime.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
 
 	<script>
 
 		let app = new Vue({
 			el: '#app',
 			data: {
+				scropTarget: "recipe",
+				showDropdown: false,
+				isActiveDog: false,
+				isActiveCat: false,
 				MemberData: [],
 				editedMsg: [],
 				recipes: [],
@@ -160,24 +178,30 @@
 				dateTime: "",
 				showRecipeDetails: false
 			},
-			mounted: async function () {
+			mounted: async function() {
 				const _this = this;
 				await _this.allRecipes();
 				_this.getUserData();
-
+				//window.addEventListener('scroll', _this.checkIfTop(_this.scropTarget));
 
 				let params = new URLSearchParams(window.location.search);
-				let returnUrl = params.get('returnUrl');
+				//let returnUrl = params.get('returnUrl');
 				let typeID = params.get('typeID');
 				let recipeID = params.get('recipeID');
 
 				if (typeID != null && recipeID != null) {
+					_this.showDropdown = true;
 					_this.chooseType(typeID);
 					_this.getRecipe(recipeID);
+
 				}
 			},
+			beforeDestroy() {
+				const _this = this;
+				//window.removeEventListener('scroll', _this.checkIfTop(_this.scropTarget));
+			},
 			methods: {
-				submitForm: function () {
+				submitForm: function() {
 					let _this = this;
 					let typeID = _this.selectedRecipe.petTypesId;
 					let recipeID = _this.selectedRecipeId;
@@ -249,11 +273,11 @@
 					});
 				},
 
-				chooseType:async  function(typeNum) {
+				chooseType: async function(typeNum) {
 
 					const _this = this;
+					_this.showDropdown = true;
 					_this.filteredRecipe = [];
-
 					for (let i = 0; i < _this.recipes.length; i++) {
 						if (_this.recipes[i].petTypesId == typeNum) { //type:1= dog,2=cat
 							const recipeData = _this.recipes[i];
@@ -261,17 +285,29 @@
 						}
 					}
 					if (typeNum == 1) {
+						_this.isActiveDog = true;
+						_this.isActiveCat = false;
 						_this.getRecipe(this.filteredRecipe[0].recipesId);
 					} else {
+						_this.isActiveDog = false;
+						_this.isActiveCat = true;
 						_this.getRecipe(this.filteredRecipe[0].recipesId);
 					}
+
+				},
+
+				scrollTop: function(id) {
+					this.showDropdown = false;
+					let scroll = new SmoothScroll();
+					let anchor = document.getElementById(`${id}`);
+					scroll.animateScroll(anchor);
 				},
 
 				splitArr: function(item, symbol) {
 					return item.split(symbol);
 				},
 
-				getRecipe: function (recipesId) {
+				getRecipe: function(recipesId) {
 					const _this = this;
 					var selectedItem = _this.filteredRecipe.find(x => x.recipesId == recipesId);
 					console.log(selectedItem);
@@ -287,7 +323,6 @@
 					const _this = this;
 
 					const msgBoard = {
-
 						UserId: _this.MemberData.memberId,
 						MsgRecipesId: _this.selectedRecipe.recipesId,
 						MsgContent: _this.commentContent, //留言內容
@@ -302,7 +337,7 @@
 							_this.addCommentSuccess(); // success feedback
 							_this.commentContent = ''; // empty content
 						});
-						
+
 				},
 				//success
 				addCommentSuccess: function() {
@@ -345,7 +380,7 @@
 						MsgId: item.msgId,
 						EditedText: _this.editedContent,
 						EditedTime: moment().format()
-				};
+					};
 					axios.post('/api/recipes/EditedMsg', editedMsgRecord)
 						.then(response => {
 							this.editCommentSuccess(response); // success feedback
@@ -360,11 +395,10 @@
 				},
 
 				// delete in Client only
-				deleteComment: function (item) {
+				deleteComment: function(item) {
 					item.active = false;
 
 					const msgActive = {
-
 						MsgId: item.msgId,
 						MsgActive: item.active //狀態
 
