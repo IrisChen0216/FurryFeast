@@ -263,6 +263,7 @@
 	<script src="~/js/product/core.min.js"></script>
 	<script src="~/js/product/script.js"></script>
 	<script src="~/js/slick.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
 		Vue.component('paginate', VuejsPaginate);
 
@@ -322,7 +323,7 @@
 
 				},
 				AddCart: function (ID) {
-
+					$.notify("成功加入購物車", "success");
 					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
 						.then(
 							function(response){								
@@ -332,14 +333,15 @@
 									Swal.fire('請先登入');
 									window.location.assign(data);
 								}
-								Swal.fire({
-								  position: 'top-end',
-								  icon: 'success',
-								  title: '成功加入購物車',
-								  showConfirmButton: false,
-								  timer: 1000,
-								  width:'20em'
-								});
+								
+								//Swal.fire({
+								//  position: 'top-end',
+								//  icon: 'success',
+								//  title: '成功加入購物車',
+								//  showConfirmButton: false,
+								//  timer: 1000,
+								//  width:'20em'
+								//});
 							}
 						);
 					//axios({
