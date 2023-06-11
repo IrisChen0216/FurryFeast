@@ -26,7 +26,7 @@ namespace FurryFeast.Controllers
 		public async Task<IActionResult> CartAdd([FromBody]CardAddViewModel model)
 		{
 			if( User.Claims.FirstOrDefault(x => x.Type == "Id") == null){
-				//var url = @"\Products\ProductCartNew";
+				
 				return Content(@"/Member/Login");
 			}
 

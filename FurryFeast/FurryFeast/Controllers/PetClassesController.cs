@@ -62,23 +62,16 @@ namespace FurryFeast.Controllers
             return File(content, "image/jpeg");
         }
 
-        // GET: PetClasses/Details/5
-        //public async Task<IActionResult> PetClassDetail(int? id)
-        //{
-        //    var petClass = await _context.PetClasses
-        //        .Include(p => p.PetClassType)
-        //        .Include(p => p.PetTypes)
-        //        .Include(p => p.Teacher)
-        //        .FirstOrDefaultAsync(m => m.PetClassId == id);
-
-        //    return View(petClass);
-        //}
 
 
-        [Authorize]
+       
         public async Task<IActionResult> PetClassReservation(int? id)
         {
-            var petClass = await _context.PetClasses
+			if (User.Claims.FirstOrDefault(x => x.Type == "Id") == null)
+			{
+				return RedirectToAction("Login","Member");
+			}
+			var petClass = await _context.PetClasses
 
                 .Include(p => p.PetClassType)
                 .Include(p => p.PetTypes)
