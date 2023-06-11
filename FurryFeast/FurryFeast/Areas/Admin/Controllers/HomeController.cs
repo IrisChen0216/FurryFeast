@@ -37,7 +37,7 @@ namespace FurryFeast.Areas.Admin.Controllers {
         public IActionResult Notifications() {
             return View();
         }
-        [Authorize(Roles = ("Admin"))]
+        [Authorize]
         public IActionResult Profile() {
             return View();
         }
@@ -92,7 +92,8 @@ namespace FurryFeast.Areas.Admin.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel request)
+        [Route("Admin/Home/Login")]
+        public async Task<IActionResult> Login(AdminLoginDto request)
         {
             var admin = _context.Admins.FirstOrDefault(x => x.AdminAccount == request.AdminAccount && x.AdminPassword == request.AdminPassword);
             if (admin == null) return View("Signup");
@@ -106,7 +107,7 @@ namespace FurryFeast.Areas.Admin.Controllers {
             var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
             var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, ClaimPrincipal);
-            return Ok("登入成功");
+            return RedirectToAction("Index","Products");
         }
     }
     
