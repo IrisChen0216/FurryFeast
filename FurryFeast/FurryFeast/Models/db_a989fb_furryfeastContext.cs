@@ -403,6 +403,8 @@ namespace FurryFeast.Models
                     .IsUnicode(false)
                     .HasColumnName("Member_Phone");
 
+                entity.Property(e => e.Salt).HasMaxLength(50);
+
                 entity.HasOne(d => d.Conpon)
                     .WithMany(p => p.Members)
                     .HasForeignKey(d => d.ConponId)
