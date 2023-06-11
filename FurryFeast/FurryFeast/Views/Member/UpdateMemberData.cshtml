@@ -28,7 +28,7 @@
 		</div>
 		<div>
 			<label>手機號碼</label>
-			<input type="text" name="MemberPhone" maxlength="10" v-model="EditMember.memberPhone" />
+			<input type="text" name="MemberPhone" maxlength="10" v-model="EditMember.memberPhone" pattern="^09\d{8}$" title="手機號碼須符合台灣的手機號碼格式" />
 		</div>
 		<div>
 			<label>Email</label>
@@ -49,7 +49,7 @@
 		</div>
 		<div>
 			<label>輸入新密碼</label>
-			<input type="password" name="newPassord" v-model="EditPassord.newPassord" />
+			<input type="password" name="newPassord" v-model="EditPassord.newPassord" placeholder="請輸入密碼" pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$" title="密碼必須包含英文字母和數字，並且最少為8個字符" />
 		</div>
 	</div>
 	<div>

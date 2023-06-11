@@ -46,17 +46,16 @@
                 {{order.orderQuantity}}
             </td>
             <td>
-                {{order.orderPrice}}
+                {{order.productPrice*order.orderQuantity}}
             </td>
-            <td :colspan="getcolspan"></td>
+            <tr>
+            <td :colspan="4"></td>
             <td class="total-amount">總金額:</td>
-            <td class="total-amount">{{ order.orderTotalPrice }}</td>
+            <td class="total-amount">{{ getTotalPrice }}</td>
+            </tr>
+ 
 
         </tr>
-
-
-       
-       
 
     </table>
 
@@ -90,8 +89,12 @@
                     this.orderdetails = res.data
                 });
             },
-            computed:function(){
-
+            computed:{
+                getTotalPrice:function(){
+                    return this.orderdetails.orderDetail.reduce((total, order) => {
+                        return total + order.productPrice * order.orderQuantity;
+                    }, 0);
+                },
             }
 
         })
