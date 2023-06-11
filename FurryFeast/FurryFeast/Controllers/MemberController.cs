@@ -147,7 +147,7 @@ namespace FurryFeast.Controllers {
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null) {
+		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null, [FromQuery] string marketID = null) {
 			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
 			if (Member == null) return View("Login");
@@ -170,10 +170,16 @@ namespace FurryFeast.Controllers {
 					return View();
 
 				}
-			} else {
+			}
+			if(marketID=="1")
+			{
+				return RedirectToAction("Products", "IndexNewOne");
+			}
+			else {
 				return RedirectToAction("Index", "Home");
 
 			}
+			
 
 		}
 

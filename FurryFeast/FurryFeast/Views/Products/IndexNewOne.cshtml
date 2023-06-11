@@ -325,13 +325,11 @@
 
 					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
 						.then(
-							function(response){
-								
-								alert(response);
-								console.log(response);
-								window.assign(response.data);
+							function(response){								
+								let data=response.data;
+								console.log(data);
+								window.location.assign(data);
 							}
-							//console.log(res);
 						);
 					//axios({
 					//	method:'post',
