@@ -48,7 +48,7 @@
             <td>
                 {{order.orderPrice}}
             </td>
-            <td colspan="3"></td>
+            <td :colspan="getcolspan"></td>
             <td class="total-amount">總金額:</td>
             <td class="total-amount">{{ order.orderTotalPrice }}</td>
 
@@ -89,6 +89,9 @@
                     console.log(res.data);
                     this.orderdetails = res.data
                 });
+            },
+            computed:function(){
+
             }
 
         })
