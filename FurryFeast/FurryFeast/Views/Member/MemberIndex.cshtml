@@ -9,13 +9,23 @@
 	.memberTitle {
 		font-size: medium;
 		font-weight: bold;
-		padding: 15px;
+		padding: 15px 20px 15px 30px;
 	}
 
 	.memberText {
-		border-bottom: 1px dashed #ccc;
+		position: relative;
 		font-size: medium;
 		padding: 10px;
+	}
+
+	.memberText:before {
+		content: "";
+		border-bottom: 1px dashed #ccc;
+		position: absolute;
+		width: 80%;
+		z-index: 1;
+		left: 0;
+		padding: 20px;
 	}
 </style>
 
@@ -44,74 +54,63 @@
 			gender = "女";
 		}
 	}
+
+	//DateTime datetime = @Model.MemberBirthday;
+	//string dateOnly = datetime.ToShortDateString();
+	////string dateOnly = datetime.ToString().replace(/ .+$/, "");
 }
-<form class="py-5 mb-4 mx-auto" style="width: 50%;border: 1px solid #ccc;border-radius: 6px;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
-	<table>
+
+<form class="py-5 mb-4 row mx-auto" style="width: 50%;border: 1px solid #ccc;border-radius: 6px;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+	<table class="" style="position: relative;">
 		<tr>
-			<td class="col-4 text-end">
+			<td class="text-end">
 				<p class="memberTitle">姓名</p>
 			</td>
-			<td class="col text-start">
+			<td class="text-start">
 				<p class="memberText">@Model.MemberName</p>
 			</td>
 		</tr>
 		<tr>
-			<td class="col-4 text-end">
+			<td class=" text-end">
 				<p class="memberTitle">生日</p>
 			</td>
-			<td class="col-8 text-start">
+			<td class="text-start">
 				<p id="birthday" class="memberText">@Model.MemberBirthday</p>
 			</td>
 		</tr>
 		<tr>
-			<td class="col-4 text-end">
+			<td class="text-end">
 				<p class="memberTitle">性別</p>
 			</td>
-			<td class="col-8 text-start">
+			<td class="text-start">
 				<p id="gender" class="memberText">@gender</p>
 			</td>
 		</tr>
 		<tr>
-			<td class="col-4 text-end">
+			<td class="text-end">
 				<p class="memberTitle">手機號碼</p>
 			</td>
-			<td class="col-8 text-start">
+			<td class="text-start">
 				<p class="memberText">@Model.MemberPhone</p>
 			</td>
 		</tr>
 		<tr>
-			<td class="col-4 text-end">
+			<td class=" text-end">
 				<p class="memberTitle" style="font-weight: 400;">Email</p>
 			</td>
-			<td class="col-8 text-start">
+			<td class=" text-start">
 				<p class="memberText" id="mail">@mail</p>
 			</td>
 		</tr>
 		<tr>
-			<td class="col-4 text-end">
+			<td class="text-end">
 				<p class="memberTitle">地址</p>
 			</td>
-			<td class="col-8 text-start">
+			<td class="text-start">
 				<p class="memberText">@Add</p>
 			</td>
 		</tr>
 	</table>
-	@*	<div class="col-4 text-end">
-        <p class="memberTitle">姓名</p>
-        <p class="memberTitle">生日</p>
-        <p class="memberTitle">性別</p>
-        <p class="memberTitle">手機號碼</p>
-        <p class="memberTitle" style="font-weight: 400;">Email</p>
-        <p class="memberTitle">地址</p>
-	</div>
-    <div class="col-8 text-start">
-        <p class="memberText">@Model.MemberName</p>
-        <p id="birthday" class="memberText">@Model.MemberBirthday</p>
-        <p id="gender" class="memberText">@gender</p>
-	    <p class="memberText">@Model.MemberPhone</p>
-	    <p class="memberText" id="mail">@mail</p>
-        <p class="memberText">@Add</p>
-	</div>*@
 </form>
 <div>
 	<form asp-controller="Member" asp-action="UpdateMemberData">
@@ -124,22 +123,6 @@
 
 	<script>
 		document.getElementById("gender").textContent = (@Model.MemberGender == 0) ? "女" : "男";
+
 	</script>
 }
-
-@*@section Scripts{
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
-    <script>
-        var MemberData = new Vue({
-            el:"#Member",
-            data:{
-                memberdata:[],
-            },
-            mounted:function(){
-                let self = this;
-                axious('/api/Member/member').then(res=> self.memberdata =res.data)
-            }
-
-        })
-    </script>
-}*@
