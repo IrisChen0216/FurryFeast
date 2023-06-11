@@ -81,28 +81,20 @@ namespace FurryFeast.Controllers {
 
 			var verifyDate = DateTime.Now;
 
+			var oriPassword = list.MemberPassord;
+
 			// 加點鹽, 亂數
-			var salt = GetSalt();
-			string strSalt = Convert.ToBase64String(salt);
-
-			// 會員密碼加密
-			string messageString = strSalt + list.MemberPassord;
-
-			// 轉成 byte
-			byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);
-
-			// 雜湊 SHA 256
-			byte[] hashValue = SHA256.HashData(messageBytes);
-
-			// 轉回字串
-			string passWord = Convert.ToHexString(hashValue);
+			var strSalt = GetSalt();
+			// SHA-256
+			var passWord = GetNewHash(oriPassword, strSalt);
 
 			// DB 的 MemberPhone 是 string, viewModel 送到後端 ModelState 會是 True
 			// viewModel 驗證, 出生日期不能大於註冊日
 			if (ModelState.IsValid && list.MemberBirthday <= verifyDate) {
 				_context.Members.Add(new Member() {
 					MemberAccount = list.MemberAccount,
-					MemberPassord = strSalt + passWord,
+					MemberPassord = passWord,
+					Salt = strSalt,
 					MemberName = list.MemberName,
 					MemberEmail = list.MemberAccount,
 					MemberPhone = list.MemberPhone,
@@ -138,12 +130,31 @@ namespace FurryFeast.Controllers {
 			return View();
 		}
 
+		// 會員密碼跟鹽尬再一起雜湊
+		private string GetNewHash(string oriPassword, string strSalt) {
+			// 會員密碼加密
+			string messageString = strSalt + oriPassword;
+
+			// 轉成 byte
+			byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);
+
+			// 雜湊 SHA 256
+			byte[] hashValue = SHA256.HashData(messageBytes);
+
+			// 轉回字串
+			string passWord = Convert.ToHexString(hashValue);
+
+			return passWord;
+		}
+
 		// 加點鹽, 亂數
-		public byte[] GetSalt() {
+		public string GetSalt() {
 			var byte16 = new byte[16];
+			// 亂數產生器
 			var rng = new RNGCryptoServiceProvider();
 			rng.GetBytes(byte16);
-			return byte16;
+			string strSalt = Convert.ToBase64String(byte16);
+			return strSalt;
 		}
 
 		public async Task<IActionResult> Enable(string code) {
@@ -171,19 +182,26 @@ namespace FurryFeast.Controllers {
 			// 因為密碼是空的先 return
 			if (list.MemberPassord == null) return View("Login");
 
-			// 會員密碼加密
-			string messageString = list.MemberPassord;
+			// 找到登入者的鹽
+			var memberLogin = _context.Members.FirstOrDefault(s => s.MemberAccount == list.MemberAccount);
+			var salt = memberLogin.Salt;
 
-			// 轉成 byte
-			byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);
+			var oriPassword = list.MemberPassord;
+			var password = GetNewHash(oriPassword, salt);
 
-			// 雜湊 SHA 256
-			byte[] hashValue = SHA256.HashData(messageBytes);
+			//// 會員密碼加密
+			//string messageString = list.MemberPassord;
 
-			// 轉回字串
-			string passWord = Convert.ToHexString(hashValue);
+			//// 轉成 byte
+			//byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);
 
-			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == passWord);
+			//// 雜湊 SHA 256
+			//byte[] hashValue = SHA256.HashData(messageBytes);
+
+			//// 轉回字串
+			//string passWord = Convert.ToHexString(hashValue);
+
+			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == password);
 
 			if (Member == null) return View("Login");
 
