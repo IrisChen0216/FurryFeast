@@ -13,10 +13,12 @@
 	}
 
 	.memberText {
-		padding: 10px; font-size: medium;
+		padding: 10px;
+		font-size: medium;
 		border-bottom: 1px dashed #ccc;
 		width: 70%;
 	}
+
 	.input {
 		padding: 10px;
 		border: none;
@@ -29,7 +31,7 @@
 <div class="index-header">
 	<h2>修改會員資料</h2>
 </div>
-<div id="app">
+<div id="appQ">
 
 	<div class="row col-6 mx-auto py-4 mb-3" v-for="item in getMemberData" style="border: 1px solid #ccc; border-radius: 6px;">
 
@@ -42,20 +44,20 @@
 			<p class="memberTitle">住址</p>
 		</div>
 		<div class="col text-start">
-			<input class="input" style="margin-top: 0;" type="text" v-model="EditMember.memberName"/>
+			<input class="input" style="margin-top: 0;" type="text" v-model="EditMember.memberName" />
 			<div style="padding: 10px; margin-top: 12px">
-				<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender"/>
+				<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender" />
 				<label class="me-3">男</label>
-				<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender"/>
+				<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender" />
 				<label>女</label>
 			</div>
 			<div>
-				<input class="input" type="text"/>
-				<datepicker v-model="this.EditMember.memberBirthday"></datepicker>
+				<input class="input" type="text" />
+				<datepicker v-model="EditMember.memberBirthday"></datepicker>
 			</div>
-			<input class="input" type="text" name="MemberPhone" maxlength="10" v-model="EditMember.memberPhone"/>
-			<input class="input" type="email" name="UpdateEmail" v-model="EditMember.memberEmail"/>
-			<input class="input" type="text" name="MemberAdress" v-model="EditMember.memberAdress"/>
+			<input class="input" type="text" name="MemberPhone" maxlength="10" v-model="EditMember.memberPhone" />
+			<input class="input" type="email" name="UpdateEmail" v-model="EditMember.memberEmail" />
+			<input class="input" type="text" name="MemberAdress" v-model="EditMember.memberAdress" />
 		</div>
 	</div>
 	<div>
@@ -67,17 +69,17 @@
 	<div class="col-6 mx-auto py-4 my-3" style="border: 1px solid #ccc; border-radius: 6px;">
 		<div>
 			<label class="text-end memberTitle">輸入原密碼</label>
-			<input class="input" type="password" v-model="EditPassord.checkPassord" name="checkPassord"/>
+			<input class="input" type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
 		</div>
 		<div>
 			<label class="memberTitle">輸入新密碼</label>
-			<input class="input" type="password" name="newPassord" v-model="EditPassord.newPassord"/>
+			<input class="input" type="password" name="newPassord" v-model="EditPassord.newPassord" />
 		</div>
 	</div>
 
 	<div class="col">
 		<button class="me-3 button button-lg button-primary button-zakaria" type="submit" v-on:click="Edit">更新密碼</button>
-@*		<button asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</button>*@
+		@*		<button asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</button>*@
 	</div>
 </div>
 
@@ -96,8 +98,8 @@
 				}
 			}
 		});
-		var app = new Vue({
-			el: "#app",
+		var appQ = new Vue({
+			el: "#appQ",
 			data: {
 				getMemberData: "",
 				EditMember: {
@@ -109,9 +111,9 @@
 					memberBirthday: null
 
 				},
-				EditPassord:{
-					checkPassord:"",
-					newPassord:""
+				EditPassord: {
+					checkPassord: "",
+					newPassord: ""
 				}
 
 			},
@@ -127,7 +129,7 @@
 					self.EditMember.memberEmail = self.getMemberData[0].updatemember.memberEmail;
 					self.EditMember.memberBirthday = self.getMemberData[0].updatemember.memberBirthday;
 				});
-				
+
 			},
 			methods: {
 				Update: function () {
@@ -142,53 +144,53 @@
 					};
 					axios.put('/api/member/edit', request).then(res => {
 						//if(res.data == "good"){
-							Swal.fire('修改成功')
+						Swal.fire('修改成功')
 						//}
 						//else{
 						//	Swal.fire('修改失敗')
 						//}
-							//self.EditMember.memberName = "",
-							//	self.EditMember.memberPhone = "",
-							//	self.EditMember.memberAdress = "",
-							//	self.EditMember.memberGender = 0,
-							//	self.EditMember.memberEmail = "",
-							//	self.EditMember.memberBirthday = new Date().toISOString();
-						})
-			},
-			//Edit: function () {
-			//	let self = this;
-			//	axios.post('/api/member/edit', self.EditMember).then(res => {
-			//		self.EditMember.memberName = "",
-			//			self.EditMember.memberPhone = "",
-			//			self.EditMember.memberAdress = "",
-			//			self.EditMember.memberGender = 0,
-			//			self.EditMember.memberEmail = "",
-			//			self.EditMember.memberBirthday = new Date().toISOString();
-			//	})
-			//},
-			//EditComfirm: function (item) {
-			//	this.EditMember.memberName = item.updatemember.memberName
-			//	this.EditMember.memberPhone = item.updatemember.memberPhone
-			//	this.EditMember.memberAdress = item.updatemember.memberAdress
-			//	this.EditMember.memberGender = item.updatemember.memberGender
-			//	this.EditMember.memberEmail = item.updatemember.memberEmail
-			//	this.EditMember.memberBirthday = item.updatemember.memberBirthday
+						//self.EditMember.memberName = "",
+						//	self.EditMember.memberPhone = "",
+						//	self.EditMember.memberAdress = "",
+						//	self.EditMember.memberGender = 0,
+						//	self.EditMember.memberEmail = "",
+						//	self.EditMember.memberBirthday = new Date().toISOString();
+					})
+				},
+				//Edit: function () {
+				//	let self = this;
+				//	axios.post('/api/member/edit', self.EditMember).then(res => {
+				//		self.EditMember.memberName = "",
+				//			self.EditMember.memberPhone = "",
+				//			self.EditMember.memberAdress = "",
+				//			self.EditMember.memberGender = 0,
+				//			self.EditMember.memberEmail = "",
+				//			self.EditMember.memberBirthday = new Date().toISOString();
+				//	})
+				//},
+				//EditComfirm: function (item) {
+				//	this.EditMember.memberName = item.updatemember.memberName
+				//	this.EditMember.memberPhone = item.updatemember.memberPhone
+				//	this.EditMember.memberAdress = item.updatemember.memberAdress
+				//	this.EditMember.memberGender = item.updatemember.memberGender
+				//	this.EditMember.memberEmail = item.updatemember.memberEmail
+				//	this.EditMember.memberBirthday = item.updatemember.memberBirthday
 
-			//}
-			Edit:function(){
-				let self = this;
-				let request = {
+				//}
+				Edit: function () {
+					let self = this;
+					let request = {
 						checkPassord: self.EditPassord.checkPassord,
 						newPassord: self.EditPassord.newPassord
+					}
+					axios.put('/api/member/editpassord', request).then(res => {
+						Swal.fire('修改成功');
+
+					})
 				}
-				axios.put('/api/member/editpassord',request).then(res=>{
-							Swal.fire('修改成功');
 
-				})
 			}
-
-		}
-				})
+		})
 	</script>
 
 
