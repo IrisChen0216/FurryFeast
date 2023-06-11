@@ -1,63 +1,100 @@
 ﻿@model IEnumerable<FurryFeast.Models.Order>
 
 @{
-    ViewData["Title"] = "MyOrder";
+	ViewData["Title"] = "MyOrder";
 }
 
 <div class="index-header">
-    <h2>我的訂單</h2>
+	<h2>我的訂單</h2>
 </div>
 <hr />
 
 <div id="app">
-    <table >
-        <tr>
-            <th>訂單日期</th>
-            <th>訂單編號</th>
-            <th>訂單狀態</th>
-            <th>訂單價格</th>
-            <th>訂單明細</th>
-        </tr>
-        <tr v-for="order in orders" >
-            <td>
-                {{order.orderShipDate}}
-            </td>
-            <td>
-                {{order.orderId}}
-            </td>
-            <td>
-                {{order.orderStatus}}
-            </td>
-            <td>
-                {{order.orderTotalPrice}}
-            </td>
-            <td>
-                <a asp-controller="Member" asp-action="OrderDetail">訂單明細</a>
-            </td>
-        </tr>
-    </table>
+	<table class="table table-striped" color="#ffd700">
+		<tr>
+			<th>訂單成立日期</th>
+			<th>訂單出貨日期</th>
+			<th>訂單編號</th>
+			@*<th>付款狀態</th>*@
+			<th>訂單價格</th>
+			<th>訂單明細</th>
+		</tr>
+		<tr v-for="order in orders">
+			<td>
+				{{order.orderCreateDate}}
+			</td>
+			<td>
+				{{order.orderShipDate}}
+			</td>
+			<td>
+				{{order.orderId}}
+			</td>
+			@*            <td id="status">
+			{{order.orderStatus}}
+			</td>*@
+			<td>
+				{{order.orderTotalPrice}}
+			</td>
+			<td>
+				@*{{State}}*@
+				<a :href="url+order.orderId" v-on:click="getOrder(order.orderId)">訂單明細</a>
+			</td>
+		</tr>
+	</table>
 </div>
 
 
 
 
 @section Scripts{
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
-    <script>
-        let MyOrder = new Vue({
-            el: "#app",
-            data: {
-                orders: [],
-               
-            },
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
 
-            mounted: function () {
-                let self = this;
-                axios('/api/myorder/getmyorder').then(res => self.orders = res.data);
-            }
 
-        })
-    </script>
+
+	<script>
+
+		let app = new Vue({
+			el: "#app",
+			data: {
+				orders: [],
+				state: "",
+				orderdetails: [],
+				url: "/Member/OrderDetail/"
+			},
+			method: {
+				getOrder: function (orderId) {
+					let self = this;
+					axios.get(`/api/orders/GetData/${orderId}`).then(response => {
+
+						console.log(response.data);
+
+					});
+
+
+
+				}
+
+			},
+
+			mounted: function () {
+				let self = this;
+				axios('/api/myorder/getmyorder').then(res => {
+					console.log(res);
+					self.orders = res.data
+				
+				});
+
+			},
+			computed: {
+				//State:function(){
+				//    if (self.orders.orderStatus == 0) {
+				//        self.state = "未付款";
+				//    }
+				//}
+			}
+			//document.getElementById("status").textContent = ({{ order.orderStatus }} == 0) ?"未付款" : "已付款"
+		});
+	</script>
 }
 
 

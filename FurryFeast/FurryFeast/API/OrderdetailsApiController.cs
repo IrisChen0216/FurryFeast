@@ -16,12 +16,11 @@ namespace FurryFeast.API
             _context = context;
         }
 
-        [HttpGet("{id}")]
-        public object GetOrderDetails(int id)
+        [HttpGet]
+        public IActionResult GetOrderDetails([FromQuery]int id)
         {
-
-            return _context.Orders.Where(x => x.OrderId == id).Include(x => x.OrderDetails).
-                ThenInclude(x => x.Product).Select(x => new
+            var data = _context.Orders.Where(x => x.OrderId == id).Include(x => x.OrderDetails).
+                ThenInclude(x => x.Product).ToList().Select(x => new
                 {
 
                     x.OrderId,
@@ -37,11 +36,11 @@ namespace FurryFeast.API
                         x.ProductId,
                         x.Product.ProductName,
                         x.Product.ProductPrice,
-                        x.Product.ProductType,
                         x.Order.OrderTotalPrice,
-                        x.OrderPrice,
-                    })
-                });
+                        x.OrderPrice
+                    }).ToList()
+                }).FirstOrDefault();
+            return Ok(data);
         }
     }
 }

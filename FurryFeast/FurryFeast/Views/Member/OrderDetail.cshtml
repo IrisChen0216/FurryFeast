@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FurryFeast.Models.Order>
+﻿@model int
 
 @{
     ViewData["Title"] = "MyOrder";
@@ -10,34 +10,34 @@
 <hr />
 
 <div id="app">
-    <table>
+    <table class="table table-striped">
         <tr>
             <th>商品名稱</th>
             <th>商品價格</th>
             <th>商品數量</th>
             <th>訂單總額</th>
         </tr>
-        <tr v-for="(order,index) in orderdetails" :key="index">
+        <tr v-for="(order,index) in orderdetails.orderDetail" :key="index">
             <td>
-                {{order.ProductName}}
+                {{order.productName}}
             </td>
             <td>
-                {{order.OrderPrice}}
+                {{order.orderPrice}}
             </td>
             <td>
-                {{order.OrderQuantity}}
+                {{order.orderQuantity}}
             </td>
             <td>
                 {{order.orderTotalPrice}}
             </td>
-            <td>
- @*               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderdetailModal" @@click="orderdetail(order)">
-                    
-                </button>*@
-            </td>
+
         </tr>
     </table>
-
+    <td>
+        <form asp-controller="Member" asp-action="MyOrder">
+            <button class="button button-lg button-primary button-zakaria">回到上一頁</button>
+        </form>
+    </td>
 </div>
 
 
@@ -57,8 +57,10 @@
             mounted: function () {
                 
                 let self = this;
-
-                axios('/api/orderdetails/GetOrderDetails').then(res => self.orderdetails = res.data)
+                axios('/api/orderdetails/GetOrderDetails?id='+@Model).then(res => {
+                    console.log(res.data);
+                    this.orderdetails = res.data
+                });
             }
 
         })
