@@ -118,11 +118,7 @@
 								</table>
 
 								@*bs spinner 動畫*@
-								<div class="text-center mt-5" v-else>
-									<div class="spinner-border" role="status">
-										<span class="visually-hidden">Loading...</span>
-									</div>
-								</div>
+								<partial name="_Spinner"></partial>
 							</div>
 						</div>
 					</div>
@@ -244,7 +240,7 @@
 						html: `<b>編號: ${this.choseTableData.imagesCode}, 描述: ${this.choseTableData.imagesDescription}.</b>`,
 						didOpen: async () => {
 							Swal.showLoading()
-							await axios.post(`/api/StockImagesApi/PostData`, this.choseTableData).then(response => {
+							await axios.post(`/api/StockImagesApi/PostData`, _this.choseTableData).then(response => {
 								Swal.fire({
 									title: `新增成功!`,
 									text: response.data,
@@ -327,7 +323,7 @@
 						html: `<b>編號: ${this.choseTableData.imagesCode}, 描述: ${this.choseTableData.imagesDescription}.</b>`,
 						didOpen: async () => {
 							Swal.showLoading()
-							await axios.patch(`/api/StockImagesApi/PatchData`, this.choseTableData).then(response => {
+							await axios.patch(`/api/StockImagesApi/PatchData`, _this.choseTableData).then(response => {
 								Swal.fire({
 									title: `更新成功!`,
 									text: response.data,

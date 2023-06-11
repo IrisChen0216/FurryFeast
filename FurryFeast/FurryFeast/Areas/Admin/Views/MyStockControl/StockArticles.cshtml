@@ -69,7 +69,7 @@
 									</div>
 								</div>
 
-								<table class="table align-items-center mb-0 strap" v-if="showData.length > 0">
+								<table class="table align-items-center mb-0 strap" v-if="spinner">
 									<thead>
 										<tr>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
@@ -234,6 +234,7 @@
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
+				spinner: false,
 			},
 			mounted: function () {
 				this.StockArticles();
@@ -250,12 +251,13 @@
 
 			},
 			methods: {
-				StockArticles: function () {
+				StockArticles: async function () {
 					let _this = this;
-					axios.get(`/api/StockArticlesApi/GetAll`).then(response => {
+					await axios.get(`/api/StockArticlesApi/GetAll`).then(response => {
 						_this.Source.StockArticleData = response.data;
 						_this.showData = _this.Source.StockArticleData;
 					});
+					this.spinner = true;
 				},
 				StockGroups: function () {
 					let _this = this;
@@ -332,25 +334,35 @@
 				insertData: async function () {
 					let _this = this;
 					this.choseTableData.articlesId = 0;
-					await axios.post(`/api/StockArticlesApi/PostData`, _this.choseTableData).then(response => {
-						Swal.fire({
-							title: `新增成功!`,
-							text: response.data,
-							icon: 'success',
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: `確認`,
-						});
-					}).catch(error => {
-						Swal.fire({
-							title: `錯誤!`,
-							text: error.response.data,
-							icon: 'error',
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: `確認`,
-						});
+
+					// didOpen() = 異步鉤子, showLoading() = 轉圈圈
+					Swal.fire({
+						title: `新增中...`,
+						html: `<b>編號: ${this.choseTableData.articlesCode}, 描述: ${this.choseTableData.articlesDescription}.</b>`,
+						didOpen: async () => {
+							Swal.showLoading()
+							await axios.post(`/api/StockArticlesApi/PostData`, _this.choseTableData).then(response => {
+								Swal.fire({
+									title: `新增成功!`,
+									text: response.data,
+									icon: 'success',
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: `確認`,
+								});
+							}).catch(error => {
+								Swal.fire({
+									title: `錯誤!`,
+									text: error.response.data,
+									icon: 'error',
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: `確認`,
+								});
+							});
+							this.spinner = false;
+							this.StockArticles();
+							this.cleanData();
+						},
 					});
-					this.StockArticles();
-					this.cleanData();
 				},
 				// 刪除確認
 				deleteCheck: function () {
@@ -389,6 +401,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockArticles();
 					this.cleanData();
 				},
@@ -412,6 +425,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockArticles();
 				},
 				// 更新上下架

@@ -69,7 +69,7 @@
 									</div>
 								</div>
 
-								<table class="table align-items-center mb-0 strap" v-if="showData.length > 0">
+								<table class="table align-items-center mb-0 strap" v-if="spinner">
 									<thead>
 										<tr>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
@@ -207,6 +207,7 @@
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
+				spinner: false,
 			},
 			mounted: function () {
 				this.StockSuppliers();
@@ -216,13 +217,13 @@
 
 			},
 			methods: {
-
-				StockSuppliers: function () {
+				StockSuppliers: async function () {
 					let _this = this;
-					axios.get(`/api/StockSuppliersApi/GetAll`).then(response => {
+					await axios.get(`/api/StockSuppliersApi/GetAll`).then(response => {
 						_this.Source.StockSuppliersData = response.data;
 						_this.showData = _this.Source.StockSuppliersData;
 					});
+					this.spinner = true;
 				},
 				StockSuppliersGroups: function () {
 					let _this = this;
@@ -280,6 +281,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockSuppliers();
 					this.cleanData();
 				},
@@ -320,6 +322,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockSuppliers();
 					this.cleanData();
 				},
@@ -343,6 +346,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockSuppliers();
 				},
 			},

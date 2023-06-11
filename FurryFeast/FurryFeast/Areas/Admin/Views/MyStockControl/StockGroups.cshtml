@@ -69,7 +69,7 @@
 									</div>
 								</div>
 
-								<table class="table align-items-center mb-0 strap" v-if="showData.length > 0">
+								<table class="table align-items-center mb-0 strap" v-if="spinner">
 									<thead>
 										<tr>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
@@ -155,6 +155,7 @@
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
+				spinner: false,
 			},
 			mounted: function () {
 				this.StockGroups();
@@ -163,12 +164,13 @@
 
 			},
 			methods: {
-				StockGroups: function () {
+				StockGroups: async function () {
 					let _this = this;
-					axios.get(`/api/StockGroupsApi/GetAll`).then(response => {
+					await axios.get(`/api/StockGroupsApi/GetAll`).then(response => {
 						_this.Source.StockGroupsData = response.data;
 						_this.showData = _this.Source.StockGroupsData;
 					});
+					this.spinner = true;
 				},
 				// 搜尋產品
 				productFilter: function () {
@@ -211,6 +213,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockGroups();
 					this.cleanData();
 				},
@@ -251,6 +254,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockGroups();
 					this.cleanData();
 				},
@@ -274,6 +278,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockGroups();
 				},
 			},

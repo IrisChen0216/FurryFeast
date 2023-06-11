@@ -69,7 +69,7 @@
 									</div>
 								</div>
 
-								<table class="table align-items-center mb-0 strap" v-if="showData.length > 0">
+								<table class="table align-items-center mb-0 strap" v-if="spinner">
 									<thead>
 										<tr>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
@@ -149,6 +149,7 @@
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
+				spinner: false,
 			},
 			mounted: function () {
 				this.StockWarehouseGroups();
@@ -157,12 +158,13 @@
 
 			},
 			methods: {
-				StockWarehouseGroups: function () {
+				StockWarehouseGroups: async function () {
 					let _this = this;
-					axios.get(`/api/StockWarehouseGroupsApi/GetAll`).then(response => {
+					await axios.get(`/api/StockWarehouseGroupsApi/GetAll`).then(response => {
 						_this.Source.StockWarehouseGroupsData = response.data;
 						_this.showData = _this.Source.StockWarehouseGroupsData;
 					});
+					this.spinner = true;
 				},
 				// 搜尋產品
 				productFilter: function () {
@@ -204,6 +206,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockWarehouseGroups();
 					this.cleanData();
 				},
@@ -244,6 +247,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockWarehouseGroups();
 					this.cleanData();
 				},
@@ -267,6 +271,7 @@
 							confirmButtonText: `確認`,
 						});
 					});
+					this.spinner = false;
 					this.StockWarehouseGroups();
 				},
 			},
