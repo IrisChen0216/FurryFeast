@@ -52,8 +52,7 @@
 				<label>女</label>
 			</div>
 			<div>
-				<input class="input" type="text" />
-				<datepicker v-model="EditMember.memberBirthday"></datepicker>
+				<datepicker class="col-8" style="padding: 10px; margin-top: 12px;" v-model="EditMember.memberBirthday"></datepicker>
 			</div>
 			<input class="input" type="text" name="MemberPhone" maxlength="10" v-model="EditMember.memberPhone" />
 			<input class="input" type="email" name="UpdateEmail" v-model="EditMember.memberEmail" />
@@ -62,7 +61,7 @@
 	</div>
 	<div>
 		<button class="me-3 button button-lg button-primary button-zakaria" type="submit" v-on:click="Update">修改資料</button>
-		<button asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</button>
+		<button type="button" asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</button>
 
 	</div>
 

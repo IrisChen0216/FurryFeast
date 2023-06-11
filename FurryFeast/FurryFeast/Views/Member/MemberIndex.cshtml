@@ -1,30 +1,102 @@
 ﻿@*@model IEnumerable<FurryFeast.Models.Member>*@
-@model FurryFeast.Models.Member
+@model Member
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <style>
-    .memberTitle {
-	    padding: 10px;
-	    font-size: medium;
-	    font-weight: bold;
-    }
+	.memberTitle {
+		font-size: medium;
+		font-weight: bold;
+		padding: 15px;
+	}
 
-    .memberText {
-	    padding: 10px; font-size: medium;
-	    border-bottom: 1px dashed #ccc;
-	    width: 70%;
-    }
+	.memberText {
+		border-bottom: 1px dashed #ccc;
+		font-size: medium;
+		padding: 10px;
+	}
 </style>
 
 <div class="index-header">
 	<h2>會員資訊</h2>
 </div>
 <!-- RD Mailform-->
-<form class="col-5 row mx-auto py-5 mb-4" style="border: 1px solid #ccc; border-radius: 6px;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
-	<div class="col-4 text-end">
+@{
+	var gender = "";
+	var mail = "";
+	var Add = "";
+	if (Model.MemberAdress == null || Model.MemberEmail == null || Model.MemberGender == null)
+	{
+		mail = Add = "尚未填寫";
+	}
+	else
+	{
+		mail = Model.MemberEmail;
+		Add = Model.MemberAdress;
+		if (Model.MemberGender == 0)
+		{
+			gender = "男";
+		}
+		else
+		{
+			gender = "女";
+		}
+	}
+}
+<form class="py-5 mb-4 mx-auto" style="width: 50%;border: 1px solid #ccc;border-radius: 6px;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+	<table>
+		<tr>
+			<td class="col-4 text-end">
+				<p class="memberTitle">姓名</p>
+			</td>
+			<td class="col text-start">
+				<p class="memberText">@Model.MemberName</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-4 text-end">
+				<p class="memberTitle">生日</p>
+			</td>
+			<td class="col-8 text-start">
+				<p id="birthday" class="memberText">@Model.MemberBirthday</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-4 text-end">
+				<p class="memberTitle">性別</p>
+			</td>
+			<td class="col-8 text-start">
+				<p id="gender" class="memberText">@gender</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-4 text-end">
+				<p class="memberTitle">手機號碼</p>
+			</td>
+			<td class="col-8 text-start">
+				<p class="memberText">@Model.MemberPhone</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-4 text-end">
+				<p class="memberTitle" style="font-weight: 400;">Email</p>
+			</td>
+			<td class="col-8 text-start">
+				<p class="memberText" id="mail">@mail</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-4 text-end">
+				<p class="memberTitle">地址</p>
+			</td>
+			<td class="col-8 text-start">
+				<p class="memberText">@Add</p>
+			</td>
+		</tr>
+	</table>
+	@*	<div class="col-4 text-end">
         <p class="memberTitle">姓名</p>
         <p class="memberTitle">生日</p>
         <p class="memberTitle">性別</p>
@@ -32,55 +104,29 @@
         <p class="memberTitle" style="font-weight: 400;">Email</p>
         <p class="memberTitle">地址</p>
 	</div>
-    <div class="col text-start">
+    <div class="col-8 text-start">
         <p class="memberText">@Model.MemberName</p>
-        <p class="memberText">@Model.MemberBirthday</p>
-        <p id="gender" class="memberText"></p>
+        <p id="birthday" class="memberText">@Model.MemberBirthday</p>
+        <p id="gender" class="memberText">@gender</p>
 	    <p class="memberText">@Model.MemberPhone</p>
-        <p class="memberText" id="mail"></p>
-        <p class="memberText">@Model.MemberAdress</p>
-	</div>
+	    <p class="memberText" id="mail">@mail</p>
+        <p class="memberText">@Add</p>
+	</div>*@
 </form>
 <div>
-    <form asp-controller="Member" asp-action="UpdateMemberData">
-        <button class="button button-lg button-primary button-zakaria">修改資料及密碼</button>
-    </form>
+	<form asp-controller="Member" asp-action="UpdateMemberData">
+		<button class="button button-lg button-primary button-zakaria">修改資料及密碼</button>
+	</form>
 </div>
 
- 
 
 @section Scripts{
-    <script>
-	    document.getElementById("gender").textContent = (@Model.MemberGender == 0) ? "女" : "男";
 
-        let MemberEmail = "";
-	    let MemberAdd = "";
-
-        function checkEmail(item) {
-	        if (MemberEmail !== "") {
-		        MemberEmail = item;
-		        console.log(MemberEmail);
-	        } else {
-		        MemberEmail = 尚未填寫;
-		        console.log(MemberEmail);
-	        }
-        };
-        
-	    function checkAdd(item) {
-            if (MemberAdd !== "") {
-	            MemberAdd = item;
-                console.log(MemberAdd);
-		    } else {
-	            MemberAdd = 尚未填寫;
-                console.log(MemberAdd);
-		    }
-	    };
-
-	    checkAdd();
-        checkEmail(@Model.MemberEmail);
-        $('#mail').append(MemberEmail);
-    </script>
+	<script>
+		document.getElementById("gender").textContent = (@Model.MemberGender == 0) ? "女" : "男";
+	</script>
 }
+
 @*@section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
@@ -97,5 +143,3 @@
         })
     </script>
 }*@
-
-    
