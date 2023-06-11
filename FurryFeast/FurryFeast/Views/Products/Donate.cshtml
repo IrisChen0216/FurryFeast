@@ -251,10 +251,10 @@
 					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
 						.then(
 							function(response){	
-								
+								$.notify("成功加入購物車", "success");
 								let data=response.data;
 								console.log(data);
-								$.notify("成功加入購物車", "success");
+								
 								if(data != ""){
 									
 									Swal.fire({
