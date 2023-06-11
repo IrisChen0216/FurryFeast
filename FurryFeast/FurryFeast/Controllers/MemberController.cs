@@ -175,6 +175,10 @@ namespace FurryFeast.Controllers {
 			{
 				return RedirectToAction("IndexNewOne", "Products");
 			}
+			if (marketID == 2)
+			{
+				return RedirectToAction("PetClassIndexNew", "PetClasses");
+			}
 			else {
 				return RedirectToAction("Index", "Home");
 
