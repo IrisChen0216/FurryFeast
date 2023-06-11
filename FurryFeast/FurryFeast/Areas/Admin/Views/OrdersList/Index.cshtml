@@ -120,7 +120,7 @@
 					@*訂單管理*@
 					<div class="col m-4 align-items-start">
 						<button class="nBtn btn_red mb-0 me-2 dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-							商品專區
+							訂單專區
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							<li><button class="dropdown-item" type="button" v-on:click="getData">全部訂單</button></li>
@@ -176,10 +176,10 @@
 										<span>{{item.memberAccount}}</span>
 									</td>
 									<td class="align-middle text-center  text-xs font-weight-bold">
-										<span>{{item.orderCreateDate}}</span>
+											<span>{{formatDate(item.orderCreateDate)}}</span>
 									</td>
 									<td class="align-middle text-center text-xs font-weight-bold">
-										<span>{{item.orderShipDate}}</span>
+											<span>{{formatDate(item.orderShipDate)}}</span>
 									</td>
 									<td class="align-middle text-center text-xs font-weight-bold">
 										<span>{{item.orderTotalPrice}}</span>
@@ -326,6 +326,9 @@
 					let _this = this;
 					_this.ordersData = [..._this.originalOrdersData];
 					_this.ordersData = _this.originalOrdersData.filter(item => item.orderStatus == num);
+				},
+				formatDate: function (dateString) {
+					return moment(dateString).format('YYYY/MM/DD h:mm:ss a');
 				}
 			}
 		})
