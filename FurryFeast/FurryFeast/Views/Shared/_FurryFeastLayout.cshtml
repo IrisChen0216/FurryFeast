@@ -140,7 +140,7 @@
 			</nav>
 
 			<!-- navbar-login -->
-			<div id="app" class="row" style="margin: 0">
+			<div id="appMember" class="row" style="margin: 0">
 				<ul class="navbar-nav">
 					@if (User.Identity.IsAuthenticated) {
 						<div class="p-1 " style="position: relative;">
@@ -246,7 +246,7 @@
 
 	<script>
 		new Vue({
-			el: '#app',
+			el: '#appMember',
 			data: {
 				showOptions: false // 初始值
 			},

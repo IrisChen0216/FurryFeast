@@ -32,7 +32,7 @@
                 {{order.orderTotalPrice}}
             </td>
             <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderdetailModal" @@click="orderdetail(order)">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderdetailModal" v-on:click="orderdetail(order)">
                    訂單明細
                 </button>
             </td>
@@ -47,7 +47,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">訂單明細</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" v-for="item in ordertails">
+                <div class="modal-body" v-for="item in orderDetails">
                     {{item.orderDetailId}}
                 </div>
                 <div class="modal-footer">
@@ -59,33 +59,31 @@
 </div>
 
 
-
 @section Scripts{
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
         let MyOrder = new Vue({
             el: "#app",
             data: {
                 orders: [],
-                orderdetails:[],
+                orderDetails:[]
             },
             methods: {
-                orderdetail:function(item){
-                    this.orderdetails.orderDetailId = item.oederdetails.orderDetailId 
+                orderDetail:function(item) {
+                    this.orderDetails.orderDetailId = item.orderDetails.orderDetailId;
 
                 }
 
             },
             mounted: function () {
                 let self = this;
-                axios('/api/myorder/getmyorder').then(res => self.orders = res.data);
-                axios('/api/orderdetails/getorderdetail').then(res => self.orderdetails = res.data)
+                axios.get('/api/Myorder/getmyorder').then(res =>
+                    self.orders = res.data);
+
+                axios.get('/api/orderdetails/GetOrderDetail').then(res => self.orderDetails = res.data);
             }
 
         })
     </script>
 }
-
-
 
 

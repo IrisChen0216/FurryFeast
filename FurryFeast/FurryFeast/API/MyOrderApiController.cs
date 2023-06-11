@@ -17,6 +17,7 @@ public class MyOrderApiController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet]
     public object GetMyOrder()
     {
         var myId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id")!.Value);

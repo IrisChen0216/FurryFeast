@@ -15,6 +15,8 @@ namespace FurryFeast.API
         {
             _context = context;
         }
+
+        [HttpGet()]
         public object GetOrderDetail()
         {
             var myId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id")!.Value);

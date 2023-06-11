@@ -88,7 +88,7 @@ public class RecipesApiController : ControllerBase
 	{
 		return _context.Recipes
 			.Where(x => x.RecipesId == id)
-			.Select(x => new
+            .Select(x => new
 			{
                 x.PetTypesId,
                 x.RecipesId,
