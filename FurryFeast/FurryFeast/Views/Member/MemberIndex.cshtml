@@ -13,19 +13,19 @@
 	}
 
 	.memberText {
-		position: relative;
 		font-size: medium;
 		padding: 10px;
+		position: relative;
 	}
 
 	.memberText:before {
-		content: "";
 		border-bottom: 1px dashed #ccc;
+		content: "";
+		left: 0;
+		padding: 20px;
 		position: absolute;
 		width: 80%;
 		z-index: 1;
-		left: 0;
-		padding: 20px;
 	}
 </style>
 
@@ -57,7 +57,7 @@
 
 }
 
-<form class="py-5 mb-4 row mx-auto" style="width: 50%;border: 1px solid #ccc;border-radius: 6px;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+<form class="py-5 mb-4 row mx-auto" style="border: 1px solid #ccc; border-radius: 6px; width: 50%;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
 	<table class="" style="position: relative;">
 		<tr>
 			<td class="text-end">
@@ -108,6 +108,10 @@
 			</td>
 		</tr>
 	</table>
+</form>
+<a asp-controller="Member" asp-action="UpdateMemberData" class="m-0 button button-lg button-primary button-zakaria">編輯與變更密碼</a>
+
+
 @section Scripts{
 
 	<script>
