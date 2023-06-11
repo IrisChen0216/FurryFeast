@@ -15,9 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Member\Mail.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="bundleconfig.json" />
     <Content Remove="Views\Article\LostForm.cshtml" />
     <Content Remove="Views\Article\_LostPetsPartial.cshtml" />
+    <Content Remove="Views\Member\Mail.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

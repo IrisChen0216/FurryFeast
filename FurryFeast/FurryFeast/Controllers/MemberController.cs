@@ -122,7 +122,7 @@ namespace FurryFeast.Controllers {
 					sm.Credentials = new NetworkCredential("thm101777@gmail.com", "krzjbxvibrueypdy");
 					sm.Send(Mail);
 				}
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("GetMail", "Member");
 			}
 			ViewBag.regFail = "註冊資料錯誤!";
 			return View();
@@ -142,7 +142,7 @@ namespace FurryFeast.Controllers {
 			return Ok($@"code:{code}  str:{str}");
 		}
 
-
+		public IActionResult GetMail() { return View(); }
 		public IActionResult Login() {
 			return View();
 		}
