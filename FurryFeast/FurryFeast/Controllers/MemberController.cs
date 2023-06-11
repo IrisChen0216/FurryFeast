@@ -147,7 +147,7 @@ namespace FurryFeast.Controllers {
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null, [FromQuery] string marketID = null) {
+		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null, [FromQuery] int marketID = -1) {
 			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
 			if (Member == null) return View("Login");
@@ -171,15 +171,47 @@ namespace FurryFeast.Controllers {
 
 				}
 			}
-			if(marketID=="1")
+			if(marketID==1)
 			{
-				return RedirectToAction("Products", "IndexNewOne");
+				return RedirectToAction("IndexNewOne", "Products");
 			}
 			else {
 				return RedirectToAction("Index", "Home");
 
 			}
 			
+
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Login(LoginViewModel list,  [FromQuery] int marketID = -1)
+		{
+			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
+
+			if (Member == null) return View("Login");
+
+			var ClaimList = new List<Claim>() {
+			new Claim(ClaimTypes.Name, Member.MemberName),
+			new Claim("Id",Member.MemberId.ToString()),
+			//new Claim(ClaimTypes.Role,"user")
+		};
+
+			var ClaimIndentity = new ClaimsIdentity(ClaimList, CookieAuthenticationDefaults.AuthenticationScheme);
+			var ClaimPrincipal = new ClaimsPrincipal(ClaimIndentity);
+			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, ClaimPrincipal);
+			int typeIdInt, recipeIdInt;
+
+			
+			if (marketID != null)
+			{
+				return RedirectToAction("IndexNewOne", "Products");
+			}
+			else
+			{
+				return RedirectToAction("Index", "Home");
+
+			}
+
 
 		}
 

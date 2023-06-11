@@ -27,7 +27,7 @@ namespace FurryFeast.Controllers
 		{
 			if( User.Claims.FirstOrDefault(x => x.Type == "Id") == null){
 				//var url = @"\Products\ProductCartNew";
-				return Content(@"\Member\Login");
+				return Content(@"/Member/Login");
 			}
 
 			//int userID= int.Parse(GetUserId());

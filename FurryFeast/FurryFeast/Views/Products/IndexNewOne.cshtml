@@ -265,6 +265,21 @@
 	<script src="~/js/slick.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js" integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
+		
+
+
+		$('.productsTitleSlick').slick({
+			dots: true,
+			infinite: true,
+			speed: 300,
+			slidesToShow: 1,
+			adaptiveHeight: false,
+			autoplay: true
+		});
+		$(".slick-prev.slick-arrow").text("");
+		$(".slick-next.slick-arrow").text("");
+
+
 		Vue.component('paginate', VuejsPaginate);
 
 		let app = new Vue({
@@ -323,16 +338,34 @@
 
 				},
 				AddCart: function (ID) {
-					$.notify("成功加入購物車", "success");
+					
 					axios.post(`/Cart/CartAdd`, { Id: ID, amount: 1 })
 						.then(
-							function(response){								
+							function(response){	
+								$.notify("成功加入購物車", "success");
 								let data=response.data;
 								console.log(data);
 								if(data != ""){
-									Swal.fire('請先登入');
-									window.location.assign(data);
+									
+									Swal.fire({
+									  title: '請先登入',
+									  text: "請先登入再加入購物車!",
+									  icon: 'warning',
+									  showCancelButton: true,
+									  confirmButtonColor: '#3085d6',
+									  cancelButtonColor: '#d33',
+									  confirmButtonText: '登入',
+									  cancelButtonText:'取消'
+									}).then((result) => {
+									  if (result.isConfirmed) {
+										//window.location.assign(data);
+										console.log(data);
+										window.location.href = data+'?marketID=1';
+									  }
+									});
+									//Swal.fire('請先登入');									
 								}
+								
 								
 								//Swal.fire({
 								//  position: 'top-end',
@@ -423,19 +456,6 @@
 			},
 
 		});
-
-
-
-		$('.productsTitleSlick').slick({
-			dots: true,
-			infinite: true,
-			speed: 300,
-			slidesToShow: 1,
-			adaptiveHeight: false,
-			autoplay: true
-		});
-		$(".slick-prev.slick-arrow").text("");
-		$(".slick-next.slick-arrow").text("");
 
 	</script>
 
