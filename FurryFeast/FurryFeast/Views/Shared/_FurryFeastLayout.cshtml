@@ -81,6 +81,7 @@
 							</li>
 						</ul>
 
+<<<<<<< HEAD
 					</li>
 					<li class="dropdown">
 						<a class="">
@@ -117,6 +118,26 @@
 							<i class="bi bi-1-circle-fill"></i>
 						</ul>
 					</li>
+=======
+                    </li>
+                    <li class="dropdown">
+                        <a class=""><span>尋找浪浪</span><i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a asp-controller="Article" asp-action="Shelter">全台動物收容所資訊</a></li>
+                            <li><a asp-controller="Article" asp-action="Donates">糧食捐贈</a></li>
+                            <li><a asp-controller="Article" asp-action="Lostpets">寵物遺失啟事</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class=""><span>寵物鮮食</span><i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li class="dropdown"><a class="" asp-controller="Recipes" asp-action="Recipes"><span>鮮食食譜</span></a></li>
+	                        <li><a calss="" asp-controller="Cal" asp-action="CalIndex">每日熱量計算機</a></li>
+	                       @* <li><a href="#">鮮食課程報名</a></li>*@
+                            <i class="bi bi-1-circle-fill"></i>
+                        </ul>
+                    </li>
+>>>>>>> EditMember4
 
 					<li>
 						<a class="nav-link scrollto @Html.Raw(temp == "PetFriendlyMapPetFriendlyMap" ? "active" : "")" asp-controller="PetFriendlyMap" asp-action="PetFriendlyMap">寵物友善地圖</a>
@@ -132,12 +153,17 @@
 						<a class="nav-link scrollto @Html.Raw(temp == "PetClasses" ? "active" : "")" asp-area="" asp-controller="PetClasses" asp-action="PetClassIndexNew">寵物課程</a>
 					</li>
 
+<<<<<<< HEAD
 					<li>
 						<a class="nav-link scrollto" asp-area="Admin" asp-controller="Home" asp-action="SignIn">後臺管理</a>
 					</li>
 				</ul>
 				<i class="bi bi-list mobile-nav-toggle"></i>
 			</nav>
+=======
+                    <li><a class="nav-link scrollto @Html.Raw(temp == "PetClasses"? "active" :"")" asp-area="" asp-controller="PetClasses" asp-action="PetClassIndexNew">寵物課程</a></li>
+
+>>>>>>> EditMember4
 
 			<!-- navbar-login -->
 			<div id="appMember" class="row" style="margin: 0">
@@ -200,9 +226,49 @@
 		</div>
 	</div>
 
+<<<<<<< HEAD
+=======
+            <!-- navbar-login -->
+            <ul class="navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                { <nav class="p-1">
+@*                    <li class="dropdown">
+                        <a class=""><span>會員中心</span><i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
+                            <li><a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
+                            <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
+                        </ul>
+                    </li*@@*>*@
+                        <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCartNew" method="post">
+                            <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
+                        </form>
+ 
+                        <form id="Logout" asp-controller="Member" asp-action="Logout">
+                            <button id="list1" class="btn btn-dark" controller="Member" action="Logout"> <i class="bi bi-door-open"></i></button>
+                        </form>
+                    </nav>
+                }
+                else
+                {
+                    <nav class="p-1">
+                        <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCartNew" method="post">
+                            <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
+                        </form>
+                        <form id="Login" asp-controller="Member" asp-action="Login">
+                            <button id="btn" class="btn btn-dark" controller="Member" action="Login"><i class="bi bi-person-circle"></i></button>
+                        </form>
+                    </nav>
+                }
+            </ul>
+        </div>
+    </div>
+    
+>>>>>>> EditMember4
 	<div class="container">
 		<main role="main" class="pb-3">
 
+<<<<<<< HEAD
 			@*TODO*@
 			@*麵包屑屑*@
 			@*            <ol class="breadcrumb">
@@ -210,6 +276,15 @@
 			<li class="breadcrumb-item"><a href="">部門</a></li>
 			<li class="breadcrumb-item active">研發</li>
 			</ol>*@
+=======
+            @*TODO
+            @*麵包屑屑*@
+@*            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">首頁</a></li>
+                <li class="breadcrumb-item"><a href="">部門</a></li>
+                <li class="breadcrumb-item active">研發</li>
+            </ol>*@
+>>>>>>> EditMember4
 
 			@RenderBody()
 		</main>

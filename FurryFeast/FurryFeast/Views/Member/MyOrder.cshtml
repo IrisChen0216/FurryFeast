@@ -1,89 +1,114 @@
 ﻿@model IEnumerable<FurryFeast.Models.Order>
 
 @{
-    ViewData["Title"] = "MyOrder";
+	ViewData["Title"] = "MyOrder";
 }
 
+@section Style{
+	<style>
+		.title {
+			background-color: #ffe607;
+			color:aliceblue;
+		}
+
+		th{
+			color:white;
+		}
+
+		.table-striped > tbody > tr:nth-of-type(odd) {
+			--bs-table-accent-bg: #ffd33b6b;
+			color: var(--bs-table-striped-color);
+		}
+
+	</style>
+
+}
 <div class="index-header">
-    <h2>我的訂單</h2>
+	<h2>我的訂單</h2>
 </div>
 <hr />
 
 <div id="app">
-    <table >
-        <tr>
-            <th>訂單日期</th>
-            <th>訂單編號</th>
-            <th>訂單狀態</th>
-            <th>訂單價格</th>
-            <th>訂單明細</th>
-        </tr>
-        <tr v-for="order in orders" :key="order.orderId">
-            <td>
-                {{order.orderShipDate}}
-            </td>
-            <td>
-                {{order.orderId}}
-            </td>
-            <td>
-                {{order.orderStatus}}
-            </td>
-            <td>
-                {{order.orderTotalPrice}}
-            </td>
-            <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderdetailModal" v-on:click="orderdetail(order)">
-                   訂單明細
-                </button>
-            </td>
-        </tr>
-    </table>
-
-    <!-- Modal -->
-    <div class="modal fade" id="orderdetailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">訂單明細</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" v-for="item in orderDetails">
-                    {{item.orderDetailId}}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<table class="table table-striped myorder">
+		<tr class="title">
+			<th>訂單編號</th>
+			<th>訂單成立日期</th>
+			<th>訂單出貨日期</th>
+			<th>訂單金額</th>
+			<th>訂單明細</th>
+		</tr>
+		<tr v-for="order in orders">
+			<td>
+				{{order.orderId}}
+			</td>
+			<td>
+				{{order.orderCreateDate}}
+			</td>
+			<td>
+				{{order.orderShipDate}}
+			</td>
+@*			<td>
+				{{order.orderPrice}}
+			</td>*@
+			<td>
+				{{order.orderTotalPrice}}
+			</td>
+			<td>
+				@*{{State}}*@
+				<a :href="url+order.orderId" class="button button-lg button-primary button-zakaria" v-on:click="getOrder(order.orderId)">訂單明細</a>
+			</td>
+		</tr>
+	</table>
 </div>
+
+
 
 
 @section Scripts{
     <script>
-        let MyOrder = new Vue({
-            el: "#app",
-            data: {
-                orders: [],
-                orderDetails:[]
-            },
-            methods: {
-                orderDetail:function(item) {
-                    this.orderDetails.orderDetailId = item.orderDetails.orderDetailId;
 
-                }
+		let app = new Vue({
+			el: "#app",
+			data: {
+				orders: [],
+				state: "",
+				orderdetails: [],
+				url: "/Member/OrderDetail/"
+			},
+			methods: {
+				getOrder: function (orderId) {
+					let self = this;
+					axios.get(`/api/orders/GetData/${orderId}`).then(response => {
 
-            },
-            mounted: function () {
-                let self = this;
-                axios.get('/api/Myorder/getmyorder').then(res =>
-                    self.orders = res.data);
+						console.log(response.data);
 
-                axios.get('/api/orderdetails/GetOrderDetail').then(res => self.orderDetails = res.data);
-            }
+					});
 
-        })
-    </script>
+
+
+				}
+
+			},
+
+			mounted: function () {
+				let self = this;
+				axios('/api/myorder/getmyorder').then(res => {
+					console.log(res);
+					self.orders = res.data
+				
+				});
+
+			},
+			computed: {
+				//State:function(){
+				//    if (self.orders.orderStatus == 0) {
+				//        self.state = "未付款";
+				//    }
+				//}
+			}
+			//document.getElementById("status").textContent = ({{ order.orderStatus }} == 0) ?"未付款" : "已付款"
+		});
+	</script>
 }
 
 

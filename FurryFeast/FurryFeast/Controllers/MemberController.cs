@@ -58,9 +58,10 @@ namespace FurryFeast.Controllers {
 		}
 
 		[Authorize]
-		public IActionResult OrderDetail()
+		public IActionResult OrderDetail([FromRoute]int id)
 		{
-			return View();
+			
+			return View(id);
 		}
 
 		[Authorize]

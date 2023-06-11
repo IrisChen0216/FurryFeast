@@ -12,16 +12,16 @@
         <tr>
             <th>課程代碼</th>
             <th>課程名稱</th>
-            <th>課程價格</th>
+            <th>課程預定編號</th>
             <th>課程日期</th>
-            <th>課程資訊</th>
+            <th>課程狀態</th>
         </tr>
         <tr v-for="item in myClass">
-            <td>{{item.PetClassId}}</td>
-            <td>{{item.PetClassName}}</td>
-            <td>{{item.PetClassPrice}}</td>
-            <td>{{item.PetClassDate}}</td>
-            <td>{{item.PetClassInformation}}</td>
+            <td>{{item.petClassId}}</td>
+            <td>{{item.petClass}}</td>
+            <td>{{item.classReservetionId}}</td>
+            <td>{{item.classReservetionDate}}</td>
+            <td>{{item.classReservetionState}}</td>
         </tr>
    </table>
         
@@ -32,11 +32,12 @@
         let app = new Vue({
             el:"#app",
             data:{
-                myClass:[],
+                myClass:"",
             },
             mounted:function(){
+                alert('d')
                 let self = this;
-                axios('/api/myclass/two').then(res=> self.myClass = res.data)
+                axios('/api/myclass/getpetclass').then(res => self.myClass = res.data)
             }
 
         })

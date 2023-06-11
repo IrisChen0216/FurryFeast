@@ -16,20 +16,33 @@ namespace FurryFeast.API
             _context = context;
         }
 
-        [HttpGet()]
-        public object GetOrderDetail()
+        [HttpGet]
+        public IActionResult GetOrderDetails([FromQuery]int id)
         {
-            var myId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id")!.Value);
-            return _context.OrderDetails.Include(x => x.Product).Select(x => new
-            {
-                x.OrderId,
-                x.OrderDetailId,
-                x.ProductId,
-                x.Product,
-                x.OrderPrice,
-                x.OrderQuantity,
+            var data = _context.Orders.Where(x => x.OrderId == id).Include(x => x.OrderDetails).
+                ThenInclude(x => x.Product).ToList().Select(x => new
+                {
 
-            });
+                    x.OrderId,
+                    x.OrderRecipientName,
+                    x.OrderRecipientPhone,
+                    x.OrderCreateDate,
+                    x.OrderShipDate,
+                    x.OrderStatus,
+                    x.OrderRecipientAdress,
+                    OrderDetail = x.OrderDetails.Select(x => new
+                    {
+                        x.OrderId,
+                        x.ProductId,
+                        x.Product.ProductName,
+                        x.Product.ProductPrice,
+                        x.Order.OrderTotalPrice,
+                        x.OrderPrice,
+                        x.OrderQuantity,
+                        x.Product.ProductAmount
+                    }).ToList()
+                }).FirstOrDefault();
+            return Ok(data);
         }
     }
 }
