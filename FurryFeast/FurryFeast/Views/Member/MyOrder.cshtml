@@ -4,40 +4,58 @@
 	ViewData["Title"] = "MyOrder";
 }
 
+@section Style{
+	<style>
+		.title {
+			background-color: #ffe607;
+			color:aliceblue;
+		}
+
+		th{
+			color:white;
+		}
+
+		.table-striped > tbody > tr:nth-of-type(odd) {
+			--bs-table-accent-bg: #ffd33b6b;
+			color: var(--bs-table-striped-color);
+		}
+
+	</style>
+
+}
 <div class="index-header">
 	<h2>我的訂單</h2>
 </div>
 <hr />
 
 <div id="app">
-	<table class="table table-striped" color="#ffd700">
-		<tr>
+	<table class="table table-striped myorder">
+		<tr class="title">
+			<th>訂單編號</th>
 			<th>訂單成立日期</th>
 			<th>訂單出貨日期</th>
-			<th>訂單編號</th>
-			@*<th>付款狀態</th>*@
-			<th>訂單價格</th>
+			<th>訂單金額</th>
 			<th>訂單明細</th>
 		</tr>
 		<tr v-for="order in orders">
+			<td>
+				{{order.orderId}}
+			</td>
 			<td>
 				{{order.orderCreateDate}}
 			</td>
 			<td>
 				{{order.orderShipDate}}
 			</td>
-			<td>
-				{{order.orderId}}
-			</td>
-			@*            <td id="status">
-			{{order.orderStatus}}
+@*			<td>
+				{{order.orderPrice}}
 			</td>*@
 			<td>
 				{{order.orderTotalPrice}}
 			</td>
 			<td>
 				@*{{State}}*@
-				<a :href="url+order.orderId" v-on:click="getOrder(order.orderId)">訂單明細</a>
+				<a :href="url+order.orderId" class="button button-lg button-primary button-zakaria" v-on:click="getOrder(order.orderId)">訂單明細</a>
 			</td>
 		</tr>
 	</table>
@@ -61,7 +79,7 @@
 				orderdetails: [],
 				url: "/Member/OrderDetail/"
 			},
-			method: {
+			methods: {
 				getOrder: function (orderId) {
 					let self = this;
 					axios.get(`/api/orders/GetData/${orderId}`).then(response => {

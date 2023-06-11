@@ -3,6 +3,23 @@
 @{
     ViewData["Title"] = "MyOrder";
 }
+@section Style{
+    <style>
+        .title {
+            background-color: #ffe607;
+            color: aliceblue;
+        }
+
+        th {
+            color: white;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            --bs-table-accent-bg: #ffd33b6b;
+            color: var(--bs-table-striped-color);
+        }
+    </style>
+}
 
 <div class="index-header">
     <h2>訂單明細</h2>
@@ -10,29 +27,40 @@
 <hr />
 
 <div id="app">
-    <table class="table table-striped">
-        <tr>
+    <table class="table table-striped" >
+        <tr class="title">
             <th>商品名稱</th>
             <th>商品價格</th>
             <th>商品數量</th>
             <th>訂單總額</th>
         </tr>
-        <tr v-for="(order,index) in orderdetails.orderDetail" :key="index">
+       
+            <tr v-for="(order,index) in orderdetails.orderDetail" :key="index">
             <td>
                 {{order.productName}}
             </td>
             <td>
-                {{order.orderPrice}}
+                {{order.productPrice}}
             </td>
             <td>
                 {{order.orderQuantity}}
             </td>
             <td>
-                {{order.orderTotalPrice}}
+                {{order.orderPrice}}
             </td>
+            <td colspan="3"></td>
+            <td class="total-amount">總金額:</td>
+            <td class="total-amount">{{ order.orderTotalPrice }}</td>
 
         </tr>
+
+
+       
+       
+
     </table>
+
+   
     <td>
         <form asp-controller="Member" asp-action="MyOrder">
             <button class="button button-lg button-primary button-zakaria">回到上一頁</button>
@@ -45,7 +73,7 @@
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
     <script>
-        let MyOrder = new Vue({
+        let app = new Vue({
             el: "#app",
             data: {
                 orderdetails: [],

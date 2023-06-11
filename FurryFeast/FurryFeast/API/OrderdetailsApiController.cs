@@ -37,7 +37,9 @@ namespace FurryFeast.API
                         x.Product.ProductName,
                         x.Product.ProductPrice,
                         x.Order.OrderTotalPrice,
-                        x.OrderPrice
+                        x.OrderPrice,
+                        x.OrderQuantity,
+                        x.Product.ProductAmount
                     }).ToList()
                 }).FirstOrDefault();
             return Ok(data);
