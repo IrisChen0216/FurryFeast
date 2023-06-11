@@ -15,13 +15,13 @@
 		}
 
 		.drop {
-			background: gray;
+			background: dodgerblue;
 			color: white;
 			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 		}
 
 			.drop:hover {
-				background-color: dodgerblue;
+				background-color: gray;
 			}
 
 		.btn-secondary:hover {
@@ -47,9 +47,14 @@
 			.edit-btn a {
 				color: white;
 			}
-
+		.upstate-btn{
+			background: #FFD306;
+			border-radius: 6px;
+			border: 1px solid white;
+			color: white;
+		}
 		.delete-btn {
-			background: crimson;
+			background: gray;
 			border-radius: 6px;
 			border: 1px solid white;
 			color: white;
@@ -143,7 +148,7 @@
 						</div>
 
 						<div class="btnState mx-3 mt-2 pr-10 col-3">
-							<button class="btn  mb-0 edit-btn" v-on:click="ProductState(1)">上架中</button>
+							<button class="btn  mb-0 upstate-btn" v-on:click="ProductState(1)">上架中</button>
 							<button class="btn  mb-0 delete-btn unState" v-on:click="ProductState(0)">未上架</button>
 						</div>
 						<div class="btnState mx-3 mt-2 col-3">
@@ -210,7 +215,7 @@
 									<td class="align-middle text-center text-sm">
 										@*<span class="badge badge-sm bg-gradient-success">{{item.backEndProduct.productState}}</span>*@
 
-										<button v-if="item.OnAndOff==true" class="ms-2 up-state" v-on:click="changeState(item)">下架中</button>
+										<button v-if="item.OnAndOff==true" class="ms-2 up-state" v-on:click="changeState(item)">未上架</button>
 										<button v-else class="ms-2 down-state" v-on:click="changeState(item)">上架中</button>
 										@*<button v-if="item.OnAndOff==true" class="btn up-btn mb-0" v-on:click="changeState(item)">上架</button>
 										<button v-else class="btn mb-0 down-btn" v-on:click="changeState(item)">下架</button>*@
@@ -333,11 +338,11 @@
 					</div>
 					<div class="form-group">
 						<label class="form-label">商品圖片1:</label>
-						<input class="form-control" v-on:change="FileChange($event,0)" type="file" />
+						<input id="fileInput1" class="form-control" v-on:change="FileChange($event,0)" type="file" />
 						<label class="form-label">商品圖片2:</label>
-						<input class="form-control" v-on:change="FileChange($event,1)" type="file" />
+						<input id="fileInput2" class="form-control" v-on:change="FileChange($event,1)" type="file" />
 						<label class="form-label">商品圖片3:</label>
-						<input class="form-control" v-on:change="FileChange($event,2)" type="file" />
+						<input id="fileInput3" class="form-control" v-on:change="FileChange($event,2)" type="file" />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -425,25 +430,43 @@
 					let ProductList = [];
 					let currentState = item.backEndProduct.productState;
 					if (item.OnAndOff == true) {
-						if (confirm('確定要上架?')) {
+
+						Swal.fire({
+						title: `確定要上架嗎?`,
+						text: `商品編號:${item.backEndProduct.productId}，商品名稱:${item.backEndProduct.productName}`,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: '確定',
+						cancelButtonText: '取消',
+					}).then((result) => {
+						if (result.isConfirmed) {
 							axios.put(`/api/products/PutProductState/?id=${ID}&state=1`).then(response => {
-								alert(response.data);
+								//alert(response.data);
 								item.OnAndOff = false;
 								for (let i = 0; i < _this.showProducts.length; i++) {
 									let product = _this.showProducts[i];
 									ProductList.push(product);
 								};
 								_this.showProducts = ProductList;
-
-							});
-						}
-
-
+							})}});		
 					}
 					else {
-						if (confirm('確定要下架?')) {
+
+						Swal.fire({
+						title: `確定要下架嗎?`,
+						text: `商品編號:${item.backEndProduct.productId}，商品名稱:${item.backEndProduct.productName}`,
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: '確定',
+						cancelButtonText: '取消',
+					}).then((result) => {
+						if (result.isConfirmed) {
 							axios.put(`/api/products/PutProductState/?id=${ID}&state=0`).then(response => {
-								alert(response.data);
+								//alert(response.data);
 								item.OnAndOff = true;
 								item.backEndProduct.productSoldTime = moment().format('YYYY-MM-DDTHH:mm:ss');
 								for (let i = 0; i < _this.showProducts.length; i++) {
@@ -454,9 +477,8 @@
 
 							});
 						}
-
+					})
 					}
-
 				},
 				showInsertPage: function () {
 					const myModal = new bootstrap.Modal('#insertPage')
@@ -557,12 +579,15 @@
 							Swal.fire('新增圖片成功');
 						}
 						_this.Products();
+						for (let i = 1; i <= 3; i++) {
+			document.getElementById(`fileInput${i}`).value = '';
+		}
 						_this.productPicImage = ["", "", ""];						
 					});
 				},
 				ProductType: function (typeNum) {
 					let _this = this;
-					alert(typeNum);
+					//alert(typeNum);
 					axios.get(`/api/products/backEndProductsType?type=${typeNum}`).then(response => {
 						_this.showProducts = _this.backendProducts = response.data;
 						var productList = [];
