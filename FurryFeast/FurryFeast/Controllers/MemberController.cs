@@ -133,17 +133,21 @@ namespace FurryFeast.Controllers {
 			var str = encrypt.AesDecryptToString(code);
 			var obj = JsonSerializer.Deserialize<AesValidationDto>(str);
 			if (DateTime.Now > obj.ExpiredDate) {
-				return BadRequest("過期");
+				return View();
 			}
 			var user = _context.Members.FirstOrDefault(x => x.MemberAccount == obj.MemberAccount);
 			if (user != null) {
-				_context.SaveChanges();
+				 _context.SaveChanges();
 			}
-			return Ok($@"code:{code}  str:{str}");
+			//return Ok($@"code:{code}  str:{str}");
+			 return RedirectToAction("Index","Home");
 		}
 
 		public IActionResult GetMail() { return View(); }
+
+		[HttpGet]
 		public IActionResult Login() {
+
 			return View();
 		}
 
@@ -151,13 +155,12 @@ namespace FurryFeast.Controllers {
 		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null, [FromQuery] int marketID = -1) {
 			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
-			if (Member == null) {
+			if (Member == null)
+			{
 
-                ViewBag.Error = "帳號密碼錯誤";
-                return View("Login");
-            }
-
-			
+				ViewBag.Error = "帳號密碼錯誤!請再輸入一次";
+				return View("Login");
+			}
 
 			var ClaimList = new List<Claim>() {
 			new Claim(ClaimTypes.Name, Member.MemberName),
