@@ -46,13 +46,13 @@ namespace FurryFeast.Controllers
 
 			
 			DateTimeOffset taipeiStandardTimeOffset = DateTimeOffset.Now.ToOffset(new TimeSpan(8, 0, 0));
-			
+
 
 			if (payBill.area == "petClass")
 			{
 				PayReturnURL = PetClassPayMoneyInfo.ReturnURL;
 			}
-			else 
+			else
 			{
 				PayReturnURL = PayMoneyInfo.ReturnURL;
 			}

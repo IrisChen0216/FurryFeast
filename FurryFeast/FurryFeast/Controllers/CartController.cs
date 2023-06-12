@@ -1,7 +1,10 @@
 ﻿using FurryFeast.Helper;
 using FurryFeast.Models;
 using FurryFeast.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Transactions;
 
 namespace FurryFeast.Controllers
 {
@@ -14,9 +17,25 @@ namespace FurryFeast.Controllers
 			_context = context;
 		}
 
+		public string GetUserId()
+		{
+			return User.FindFirstValue("Id");
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CartAdd([FromBody]CardAddViewModel model)
 		{
+			if( User.Claims.FirstOrDefault(x => x.Type == "Id") == null){
+				
+				return Content(@"/Member/Login");
+			}
+
+			//int userID= int.Parse(GetUserId());
+
+			//if (myId == 0)
+			//{
+			//	return RedirectToAction("Login", "Member");
+			//}
 			int finalAnount = model.amount == 0 ? 1 : model.amount;
 			var productPic = _context.ProductPics.FirstOrDefault(p => p.ProductId == model.Id).ProductPicImage;
 			string productImageBase64 = Convert.ToBase64String(productPic);

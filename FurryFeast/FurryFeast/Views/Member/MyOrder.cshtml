@@ -47,11 +47,6 @@
 			border: 2px solid black;
 			color: white;
 		}
-
-	/*		.hover :hover {
-					background: red;
-				}*/
-
 	</style>
 
 }
@@ -59,13 +54,12 @@
 <div class="index-header">
 	<h2>我的訂單</h2>
 </div>
-<hr/>
+<label>Start:</label>
+<input type="date" v-model="startDate">
+<label>End:</label>
+<input type="date" v-model="endDate">
+<button v-on:click="resetFilter">Reset</button>
 <div id="app" class="hover">
-	<label>Start:</label>
-	<input type="date" v-model="startDate">
-	<label>End:</label>
-	<input type="date" v-model="endDate">
-	<button v-on:click="resetFilter">Reset</button>
 	<template>
 		<div>
 			<div class="shadow-sm my-5 p-2 pb-0 row mx-auto hover" style="border: 1px solid #ccc; border-radius: 6px;" v-for="item in filteredOrders.slice(pageStart, pageEnd)" :key="item.orderId">
@@ -131,7 +125,7 @@
 								<td></td>
 								<td></td>
 								<td st>總金額</td>
-								<td>{{item.orderQuantity*item.productPrice}}</td>
+								<td>{{totalAmount}}</td>
 							</tr>
 						</table>
 					</div>
@@ -170,6 +164,7 @@
 				perpage: 8,
 				startDate: null,
 				endDate: null
+				totalAmount:0
 			},
 			methods: {
 				resetFilter() {
@@ -194,6 +189,13 @@
 							this.$set(this.Details, item.orderId, response.data);
 							this.Details = response.data[0].orderDetail;
 							console.log(this.Details);
+
+							let totalAmount = 0;
+							this.Details.forEach(detail => {
+								totalAmount += detail.orderQuantity * detail.productPrice;
+							});
+
+							this.totalAmount = totalAmount;
 						});
 					}
 				},

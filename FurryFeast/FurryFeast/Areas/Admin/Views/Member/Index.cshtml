@@ -141,7 +141,7 @@
 							</div>
 							<div class="form-group">
 								<label class="form-label" for="memberPhone">手機號碼:</label>
-								<input class="form-control" v-model="editmember.memberPhone" id="memberPhone" maxlength="10" type="text" required />
+								<input class="form-control" v-model="editmember.memberPhone" id="memberPhone" maxlength="10" type="text" pattern="^09\d{8}$" title="手機號碼須符合台灣的手機號碼格式" required />
 							</div>
 							<div class="form-group">
 								<label class="form-label" for="memberAdress">地址:</label>
@@ -159,7 +159,7 @@
 					</div>
 				</div>
 			</div>
-			<paginate :page-count="5"
+@*			<paginate :page-count="5"
 					  :click-handler="ChangePage"
 					  :prev-text="'前一頁'"
 					  :next-text="'下一頁'"
@@ -170,7 +170,7 @@
 					  :next-class="'page-item'"
 					  :next-class-link="'page-link'"
 					  :container-class="'className'">
-			</paginate>
+			</paginate>*@
 		</div>
 	</div>
 </div>

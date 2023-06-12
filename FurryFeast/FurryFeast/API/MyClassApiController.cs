@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
+using System.Security.Claims;
 
 namespace FurryFeast.API
 {
@@ -17,22 +19,30 @@ namespace FurryFeast.API
             _context = context;
         }
 
-        [Authorize]
-        public object GetPetClass()
+        [HttpGet]
+        public  IActionResult GetMyClass()
         {
+          
             var id = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
-            return _context.ClassReservetions.Include(x=>x.PetClass).Where(x => x.MemberId == id).Select(x => new
+            var data= _context.ClassReservetions.Where(x => x.MemberId == id).Select(x => new
+
             {
-                x.PetClassId,
+                //petClass = new
+
+                a=x.PetClassId,
                 x.ClassReservetionDate,
                 x.ClassReservetionId,
                 x.ClassReservetionState,
+
                 x.PetClass.PetClassInformation,
                 x.PetClass.PetClassDate,
                 x.PetClass.PetClassName,
                 x.PetClass.PetClassPrice,
- 
-            });
+
+
+
+            }).FirstOrDefault();
+            return Ok(data);
         }
     }
 }

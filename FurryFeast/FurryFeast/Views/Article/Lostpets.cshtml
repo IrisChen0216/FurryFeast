@@ -81,6 +81,7 @@
 				<div v-on:click="selectOneData(item)" class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + selectData.晶片號碼">
 					<div class="square-img-container">
 						<img v-if="item.PICTURE == ''" src="~/image/no-pictures.png" alt="">
+						<img v-if="isImage(item)" src="~/image/no-pictures.png" alt="">
 						<img v-else v-bind:src="item.PICTURE" alt="照片遺失">
 					</div>
 					<div class="card-body-new">
@@ -136,7 +137,7 @@
 			data: {
 				sys: {
 					count: 100000,
-					top: 200,
+					top: 20,
 					skip: 0
 				},
 				options: {
@@ -179,7 +180,7 @@
 			mounted: function () {
 				let self = this;
 				self.loadData(self.sys.top, self.sys.skip);
-				self.sys.skip += 200;
+				self.sys.skip += 20;
 
 				var d = document.getElementById('loadimg');
 				const obs = new IntersectionObserver(function () {
@@ -231,8 +232,20 @@
 				},
 				reSearch: function () {
 				},
+				// 選擇某筆資料跳出 modal
 				selectOneData: function (item) {
 					this.selectData = item;
+				},
+				// 判斷圖片回傳的 content-type
+				isImage: function (item) {
+					let url = item.PICTURE;
+
+					// 被 CROS 擋
+					//axios.get(url).then(response => {
+					//	console.log(response.data);
+					//})
+
+					return false;
 				}
 			}
 		});

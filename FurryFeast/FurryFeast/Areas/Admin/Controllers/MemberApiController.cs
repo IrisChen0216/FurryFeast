@@ -71,8 +71,8 @@ namespace FurryFeast.Areas.Admin.Controllers
 		{
 			try
 			{
-				var member = await _context.Members.FindAsync(id);
-				if (member == null) return "刪除失敗";
+				var member =await _context.Members.FindAsync(id);
+				if (member == null) return "失敗";
 				_context.Members.Remove(member);
 				await _context.SaveChangesAsync();
 				return "刪除成功";
