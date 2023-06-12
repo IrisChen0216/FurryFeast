@@ -54,7 +54,7 @@
 					<p class="memberTitle">生日</p>
 				</td>
 				<td class="text-start">
-					<datepicker class="passwordText" style=" margin-top: 12px;" v-model="EditMember.memberBirthday"></datepicker>
+					<datepicker class="passwordText" style=" margin-top: 12px;" v-model="EditMember.memberBirthday" disable></datepicker>
 				</td>
 			</tr>
 			<tr>
@@ -64,9 +64,9 @@
 				<td class="text-start">
 					<div style="margin-top: 12px; padding: 10px;">
 						<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender"/>
-						<label class="me-3">男</label>
+						<label class="me-3">女</label>
 						<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender"/>
-						<label>女</label>
+						<label>男</label>
 					</div>
 				</td>
 			</tr>
@@ -75,7 +75,7 @@
 					<p class="memberTitle">手機號碼</p>
 				</td>
 				<td class="text-start">
-					<input class="passwordText" v-model="EditMember.memberPhone">
+					<input type="text" class="passwordText" v-model="EditMember.memberPhone" onkeyup="value=value.replace(/[^\d]/g,'') " required>
 				</td>
 			</tr>
 			<tr>
@@ -83,7 +83,7 @@
 					<p class="memberTitle" style="font-weight: 400;">Email</p>
 				</td>
 				<td class=" text-start">
-					<input class="passwordText" id="mail" v-model="EditMember.memberEmail">
+					<input class="passwordText" id="mail" v-model="EditMember.memberEmail" required>
 				</td>
 			</tr>
 			<tr>

@@ -54,16 +54,23 @@
 <div class="index-header">
 	<h2>我的訂單</h2>
 </div>
-<label>Start:</label>
-<input type="date" v-model="startDate">
-<label>End:</label>
-<input type="date" v-model="endDate">
-<button v-on:click="resetFilter">Reset</button>
-<div id="app" class="hover">
-	<template>
+
+<div id="app" >
+	<template v-if="allMyOrders.length != 0">
+		<div class="col-6 p-5 row mx-auto" style="border: 1px solid #ccc; border-radius: 6px;">
+			<div>Oops!</div>
+			<div>目前沒有訂單資料</div>
+		</div>
+	</template>
+	<template v-else>
+		<label>Start:</label>
+		<input type="date" v-model="startDate">
+		<label>End:</label>
+		<input type="date" v-model="endDate">
+		<button v-on:click="resetFilter">Reset</button>
 		<div>
-			<div class="shadow-sm my-5 p-2 pb-0 row mx-auto hover" style="border: 1px solid #ccc; border-radius: 6px;" v-for="item in filteredOrders.slice(pageStart, pageEnd)" :key="item.orderId">
-				<table class="col-8 mx-auto table table-striped myorder " style="margin: 0;">
+			<div class="shadow-sm my-5 p-2 pb-0 row mx-auto" style="border: 1px solid #ccc; border-radius: 6px;" v-for="item in filteredOrders.slice(pageStart, pageEnd)" :key="item.orderId">
+				<table class="col-8 mx-auto table table-striped " style="margin: 0;">
 					<tr class="title th">
 						<th class="mx-3">訂單編號</th>
 						<th>訂單日期</th>
@@ -133,7 +140,7 @@
 			</div>
 		</div>
 	</template>
-	<ul class="pagination">
+	<ul class="pagination" v-if="allMyOrders>0">
 		<li class="page-item" v-on:click.prevent="setPage(currentPage-1)">
 			<a class="page-link" href="#" aria-label="Previous">
 				<span aria-hidden="true">&laquo;</span>
@@ -159,84 +166,132 @@
 			data: {
 				orders: [],
 				Details: {},
-				url: "/Member/OrderDetail/",
 				currentPage: 1,
 				perpage: 8,
 				startDate: null,
-				endDate: null
-				totalAmount:0
+				endDate: null,
+				totalAmount:0,
+				MemberId:0,
+				allMyOrders:[]
 			},
 			methods: {
+				// 篩選功能reset
 				resetFilter() {
 					this.startDate = null;
 					this.endDate = null;
 					this.currentPage = 1;
 				},
-				getOrder: function(item) {
-					this.orders.forEach(order => {
-						if (order.orderId !== item.orderId) {
-							order.isCollapsed = false;
-							order.isActive = false;
+
+				//取得當前會員id
+				getUserId: function () {
+					const _this = this;
+					axios('/api/recipes/GetUserData').then(response => {
+						if (response.status) {
+							_this.MemberId = response.data.data.memberId;
+						}
+						if (_this.MemberId) {
+							console.log(_this.MemberId);
 						}
 					});
+				},
 
+				getOrder: function () {
+					this.orders.forEach(item => {
+						if (item.memberId !== memberID) {
+							console.log("1." + item.memberId);
+							order.isCollapsed = false;
+							order.isActive = false;
+
+
+						} else {
+							console.log("2");
+						}
+					});
 					item.isCollapsed = !item.isCollapsed;
 					item.isActive = !item.isActive;
+					console.log(item.memberId);
 
 					if (!this.Details[item.orderId]) {
 						this.Details = {};
-						axios.get(`/api/orders/GetData/${item.orderId}`).then(response => {
+						axios.get(`/api/orders/GetMemberOrder/${item.MemberId}`).then(response => {
 							this.$set(this.Details, item.orderId, response.data);
 							this.Details = response.data[0].orderDetail;
 							console.log(this.Details);
+							
 
-							let totalAmount = 0;
-							this.Details.forEach(detail => {
-								totalAmount += detail.orderQuantity * detail.productPrice;
-							});
+							if (this.Details.length > 0) {
+								let totalAmount = 0;
+								this.Details.forEach(detail => {
+									totalAmount += detail.orderQuantity * detail.productPrice;
+								});
+							} else {
+								console.log('您尚未有訂單');
+							}
 
 							this.totalAmount = totalAmount;
 						});
 					}
 				},
-				getDetails: function() {
-					const _this = this;
-					_this.orders.forEach(item => {
-						console.log(item.productName);
-					});
-				},
+
+				//更改時間規格
 				format: function(date) {
 					return moment(date).format("YYYY-MM-DD HH:mm:ss");
 				},
+				// 分頁功能 上一頁
 				nextPage() {
 					if (this.currentPage < this.totalPages) {
 						this.currentPage += 1;
 					}
 				},
+				// 分頁功能 下一頁
 				previousPage() {
 					if (this.currentPage > 1) {
 						this.currentPage -= 1;
 					}
 				},
-				getData: function() {
+
+				// 取得所有的訂單 -> 篩選成會員id的訂單
+				getAllData: function () {
 					const self = this;
-					axios('/api/myorder/getmyorder').then(res => {
-							self.orders = res.data.map(order => {
-								return {
-									...order,
+
+					// 取得當前登入會員的id
+					self.getUserId();
+
+					//取得所有的訂單
+					axios('/api/MyOrder/GetMyOrder').then(res => {
+						self.orders = res.data.map(order => {
+							return { 
+								...order,
+									// 加上兩個屬性(控制明細按鈕)
 									isCollapsed: false,
 									isActive: false
-								};
-							});
+							};
+						});
 
-							console.log(self.orders);
+						// 篩選出與登入會員id相同的訂單
+						// id 相同的就塞進陣列裡
+						self.orders.forEach(item => {
+							if (item.memberId == self.MemberId) {
+								item.isCollapsed = false;
+								item.isActive = false;
+
+								let tempArr = [];
+								tempArr.push(item);
+
+								self.allMyOrders = tempArr;
+							} 
+						});
+
+						//item.isCollapsed = !item.isCollapsed;
+						//item.isActive = !item.isActive;
 
 						})
 						.catch(error => {
 							console.error(error);
-							// Handle error
 						});
 				},
+
+				// 分頁功能
 				setPage(page) {
 					if (page <= 0 || page > this.totalPage) {
 						return;
@@ -245,9 +300,10 @@
 				}
 			},
 			mounted: function(){
-				this.getData();
+				this.getAllData();
 			},
 			computed: {
+				// 分頁功能
 				totalPage() {
 					return Math.ceil(this.filteredOrders.length / this.perpage);
 				},
@@ -261,12 +317,12 @@
 					if (this.startDate && this.endDate) {
 						let start = new Date(this.startDate);
 						let end = new Date(this.endDate);
-						return this.orders.filter(order => {
+						return this.allMyOrders.filter(order => {
 							let orderDate = new Date(order.orderCreateDate);
 							return orderDate >= start && orderDate <= end;
 						});
 					} else {
-						return this.orders;
+						return this.allMyOrders;
 					}
 				}
 			}

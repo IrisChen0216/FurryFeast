@@ -37,22 +37,15 @@
 	var gender = "";
 	var mail = "";
 	var Add = "";
-	if (Model.MemberAdress == null || Model.MemberEmail == null || Model.MemberGender == null)
+	if (Model.MemberAdress == "" || Model.MemberEmail == "" )
 	{
-		mail = Add = "尚未填寫";
+		mail= "尚未填寫";
+		Add = "尚未填寫";
 	}
 	else
 	{
 		mail = Model.MemberEmail;
 		Add = Model.MemberAdress;
-		if (Model.MemberGender == 0)
-		{
-			gender = "男";
-		}
-		else
-		{
-			gender = "女";
-		}
 	}
 
 }
@@ -80,7 +73,7 @@
 				<p class="memberTitle">性別</p>
 			</td>
 			<td class="text-start">
-				<p id="gender" class="memberText">@gender</p>
+				<p id="gender" class="memberText">@((Model.MemberGender == 0) ? "男" : "女")</p>
 			</td>
 		</tr>
 		<tr>
@@ -115,7 +108,7 @@
 @section Scripts{
 
 	<script>
-		document.getElementById("gender").textContent = (@Model.MemberGender == 0) ? "女" : "男";
+		//document.getElementById("gender").textContent = (@Model.MemberGender == 0) ? "女" : "男";
 
 	</script>
 }

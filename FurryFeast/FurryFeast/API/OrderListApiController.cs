@@ -85,7 +85,9 @@ namespace FurryFeast.API
 		        }).ToList();
         }
 
-        [HttpPost]
+       
+
+		[HttpPost]
         public object Update([FromBody]OrdersListViewModel model)
         {
 	        try
