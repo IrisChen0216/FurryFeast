@@ -69,7 +69,7 @@
 									</div>
 								</div>
 
-								<table class="table align-items-center mb-0 strap" v-if="showData.length > 0">
+								<table class="table align-items-center mb-0 strap" v-if="spinner">
 									<thead>
 										<tr>
 											<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">編號</th>
@@ -149,6 +149,7 @@
 				flag_classOutline: false,
 				classOutlineShow: "input-group input-group-outline mt-2 focused is-focused is-filled",
 				classOutlineOff: "input-group input-group-outline mt-2",
+				spinner: false,
 			},
 			mounted: function () {
 				this.StockMeasureUnits();
@@ -157,12 +158,13 @@
 
 			},
 			methods: {
-				StockMeasureUnits: function () {
+				StockMeasureUnits: async function () {
 					let _this = this;
-					axios.get(`/api/StockMeasureUnitsApi/GetAll`).then(response => {
+					await axios.get(`/api/StockMeasureUnitsApi/GetAll`).then(response => {
 						_this.Source.StockMeasureUnitsData = response.data;
 						_this.showData = _this.Source.StockMeasureUnitsData;
 					});
+					this.spinner = true;
 				},
 				// 搜尋產品
 				productFilter: function () {
@@ -187,25 +189,35 @@
 				insertData: async function () {
 					let _this = this;
 					this.choseTableData.measureUnitsId = 0;
-					await axios.post(`/api/StockMeasureUnitsApi/PostData`, _this.choseTableData).then(response => {
-						Swal.fire({
-							title: `新增成功!`,
-							text: response.data,
-							icon: 'success',
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: `確認`,
-						});
-					}).catch(error => {
-						Swal.fire({
-							title: `錯誤!`,
-							text: error.response.data,
-							icon: 'error',
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: `確認`,
-						});
+
+					// didOpen() = 異步鉤子, showLoading() = 轉圈圈
+					Swal.fire({
+						title: `新增中...`,
+						html: `<b>編號: ${this.choseTableData.measureUnitsCode}, 描述: ${this.choseTableData.measureUnitsDescription}.</b>`,
+						didOpen: async () => {
+							Swal.showLoading()
+							await axios.post(`/api/StockMeasureUnitsApi/PostData`, _this.choseTableData).then(response => {
+								Swal.fire({
+									title: `新增成功!`,
+									text: response.data,
+									icon: 'success',
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: `確認`,
+								});
+							}).catch(error => {
+								Swal.fire({
+									title: `錯誤!`,
+									text: error.response.data,
+									icon: 'error',
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: `確認`,
+								});
+							});
+							this.spinner = false;
+							this.StockMeasureUnits();
+							this.cleanData();
+						},
 					});
-					this.StockMeasureUnits();
-					this.cleanData();
 				},
 				// 刪除確認
 				deleteCheck: function () {
@@ -227,47 +239,67 @@
 				// 刪除資料 請求改成同步
 				deleteData: async function () {
 					let _this = this;
-					await axios.delete(`/api/StockMeasureUnitsApi/DeleteData/${this.choseTableData.measureUnitsCode}`).then(response => {
-						Swal.fire({
-							title: `刪除成功!`,
-							text: response.data,
-							icon: 'success',
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: `確認`,
-						})
-					}).catch(error => {
-						Swal.fire({
-							title: `錯誤!`,
-							text: error.response.data,
-							icon: 'error',
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: `確認`,
-						});
+
+					// didOpen() = 異步鉤子, showLoading() = 轉圈圈
+					Swal.fire({
+						title: `刪除中...`,
+						html: `<b>編號: ${this.choseTableData.measureUnitsCode}, 描述: ${this.choseTableData.measureUnitsDescription}.</b>`,
+						didOpen: async () => {
+							Swal.showLoading()
+							await axios.delete(`/api/StockMeasureUnitsApi/DeleteData/${this.choseTableData.measureUnitsCode}`).then(response => {
+								Swal.fire({
+									title: `刪除成功!`,
+									text: response.data,
+									icon: 'success',
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: `確認`,
+								})
+							}).catch(error => {
+								Swal.fire({
+									title: `錯誤!`,
+									text: error.response.data,
+									icon: 'error',
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: `確認`,
+								});
+							});
+							this.spinner = false;
+							this.StockMeasureUnits();
+							this.cleanData();
+						},
 					});
-					this.StockMeasureUnits();
-					this.cleanData();
 				},
 				// 更新資料 請求改成同步
 				patchData: async function () {
 					let _this = this;
-					await axios.patch(`/api/StockMeasureUnitsApi/PatchData`, _this.choseTableData).then(response => {
-						Swal.fire({
-							title: `更新成功!`,
-							text: response.data,
-							icon: 'success',
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: `確認`,
-						});
-					}).catch(error => {
-						Swal.fire({
-							title: `錯誤!`,
-							text: error.response.data,
-							icon: 'error',
-							confirmButtonColor: '#3085d6',
-							confirmButtonText: `確認`,
-						});
+
+					// didOpen() = 異步鉤子, showLoading() = 轉圈圈
+					Swal.fire({
+						title: `更新中...`,
+						html: `<b>編號: ${this.choseTableData.measureUnitsCode}, 描述: ${this.choseTableData.measureUnitsDescription}.</b>`,
+						didOpen: async () => {
+							Swal.showLoading()
+							await axios.patch(`/api/StockMeasureUnitsApi/PatchData`, _this.choseTableData).then(response => {
+								Swal.fire({
+									title: `更新成功!`,
+									text: response.data,
+									icon: 'success',
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: `確認`,
+								});
+							}).catch(error => {
+								Swal.fire({
+									title: `錯誤!`,
+									text: error.response.data,
+									icon: 'error',
+									confirmButtonColor: '#3085d6',
+									confirmButtonText: `確認`,
+								});
+							});
+							this.spinner = false;
+							this.StockMeasureUnits();
+						},
 					});
-					this.StockMeasureUnits();
 				},
 			},
 		});
