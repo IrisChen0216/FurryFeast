@@ -143,7 +143,10 @@ namespace FurryFeast.Controllers {
 		}
 
 		public IActionResult GetMail() { return View(); }
+
+		[HttpGet]
 		public IActionResult Login() {
+
 			return View();
 		}
 
@@ -151,13 +154,12 @@ namespace FurryFeast.Controllers {
 		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null) {
 			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
-			if (Member == null) {
+			if (Member == null)
+			{
 
-                ViewBag.Error = "帳號密碼錯誤";
-                return View("Login");
-            }
-
-			
+				ViewBag.Error = "帳號密碼錯誤!請再輸入一次";
+				return View("Login");
+			}
 
 			var ClaimList = new List<Claim>() {
 			new Claim(ClaimTypes.Name, Member.MemberName),

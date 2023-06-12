@@ -1,9 +1,6 @@
 ﻿@{
 	ViewData["Title"] = "Login";
-	if (ViewBag.Error != "")
-	{
-		<h1>@ViewBag.Error</h1>
-	}
+	
 }
 
 
@@ -67,6 +64,10 @@
 			text-align: left;
 		}
 
+		.errorMessage{
+			color:red;
+			text-align:left;
+		}
 	</style>
 }
 <div class="index-header">
@@ -84,6 +85,7 @@
 		<div class="col-6">
 			<form asp-action="Login" asp-controller="Member" method="post" asp-route-typeID="@Context.Request.Query["typeID"]" asp-route-recipeID="@Context.Request.Query["recipeID"]">
 				<div class="Login">
+					
 					<div class="form-container">
 						<h6 class="label">帳號</h6>
 						<input class="form-input form-control" placeholder="請輸入帳號" id="input" type="email" name="MemberAccount" required>
@@ -92,6 +94,10 @@
 						<h6 class="label">密碼</h6>
 						<input class="form-input form-control" placeholder="請輸入密碼" id="pwd" type="password" name="MemberPassord" required>
 					</div>
+					@if (ViewBag.Error != "")
+					{
+						<h6 class="errorMessage">@ViewBag.Error</h6>
+					}
 					<div>
 						<button class="button button-primary button-primary button-zakaria button-size" type="submit">登入</button>
 						<a asp-action="RegisterIndex" type="button" class="button button-primary button-primary button-zakaria button-size register">註冊</a>

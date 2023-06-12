@@ -34,7 +34,7 @@ namespace FurryFeast {
 				AddCookie(opt => {
 					opt.LoginPath = "/Member/MemberIndex";
 					opt.AccessDeniedPath = "/Home/AcessDenied";
-					opt.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+					opt.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 				})
 				.AddFacebook(facebookOptions =>
 				{
