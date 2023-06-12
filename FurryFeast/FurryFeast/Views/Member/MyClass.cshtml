@@ -24,7 +24,8 @@
         <tr v-for="(item,index) in myClass" :key="index">
             <td>{{item.classReservetionId}}</td>
             <td>{{item.petClassName}}</td>
-            <td></td>
+            <td>{{item.productPrice}}</td>
+            <td>{{item.product.productPrice}}</td>
             <td>{{item.classReservetionDate}}</td>
             <td>{{item.classReservetionState}}</td>
         </tr>
@@ -42,9 +43,9 @@
             mounted:function(){
                 alert('d')
                 let self = this;
-                axios(`/api/myclass/getclass`).then(res => {
+                axios(`/api/myclass/getmyclass`).then(res => {
                     console.log(res.data);
-                    this.myClass = res.data
+                    self.myClass = res.data
                 })
             }
 

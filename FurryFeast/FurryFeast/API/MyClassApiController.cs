@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using System.Security.Claims;
 
 namespace FurryFeast.API
@@ -19,28 +20,26 @@ namespace FurryFeast.API
         }
 
         [HttpGet]
-        public IActionResult GetClass()
+        public  IActionResult GetMyClass()
         {
-            var id = User.FindFirstValue("Id");
-            //var id = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
-            var data= _context.ClassReservetions.Where(x => x.MemberId == int.Parse(id)).Select(x => new
+          
+            var id = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id").Value);
+            var data= _context.ClassReservetions.Where(x => x.MemberId == id).Select(x => new
 
             {
-                petclass = new
-                {
-                    x.PetClassId,
-                    //x.ClassReservetionDate,
-                    //x.ClassReservetionId,
-                    //x.ClassReservetionState,
+                //petClass = new
 
-                }
+                a=x.PetClassId,
+                x.ClassReservetionDate,
+                x.ClassReservetionId,
+                x.ClassReservetionState,
+
+                x.PetClass.PetClassInformation,
+                x.PetClass.PetClassDate,
+                x.PetClass.PetClassName,
+                x.PetClass.PetClassPrice,
 
 
-
-                //x.PetClass.PetClassInformation,
-                //x.PetClass.PetClassDate,
-                //x.PetClass.PetClassName,
-                //x.PetClass.PetClassPrice,
 
             }).FirstOrDefault();
             return Ok(data);

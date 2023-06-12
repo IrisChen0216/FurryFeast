@@ -151,7 +151,13 @@ namespace FurryFeast.Controllers {
 		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null) {
 			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
-			if (Member == null) return View("Login");
+			if (Member == null) {
+
+                ViewBag.Error = "帳號密碼錯誤";
+                return View("Login");
+            }
+
+			
 
 			var ClaimList = new List<Claim>() {
 			new Claim(ClaimTypes.Name, Member.MemberName),
@@ -171,9 +177,11 @@ namespace FurryFeast.Controllers {
 
 				}
 			} else {
+				
 				return RedirectToAction("Index", "Home");
 
 			}
+			
 
 		}
 
