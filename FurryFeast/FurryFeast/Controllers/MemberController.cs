@@ -22,6 +22,7 @@ using System.Net;
 using System.Text.Json;
 using FurryFeast.Services;
 using System.Web;
+using System.Security.Cryptography;
 
 namespace FurryFeast.Controllers {
 	public class MemberController : Controller {
@@ -58,9 +59,8 @@ namespace FurryFeast.Controllers {
 		}
 
 		[Authorize]
-		public IActionResult OrderDetail([FromRoute]int id)
-		{
-			
+		public IActionResult OrderDetail([FromRoute] int id) {
+
 			return View(id);
 		}
 
@@ -87,12 +87,20 @@ namespace FurryFeast.Controllers {
 
 			var verifyDate = DateTime.Now;
 
+			var oriPassword = list.MemberPassord;
+
+			// 加點鹽, 亂數
+			var strSalt = GetSalt();
+			// SHA-256
+			var passWord = GetNewHash(oriPassword, strSalt);
+
 			// DB 的 MemberPhone 是 string, viewModel 送到後端 ModelState 會是 True
 			// viewModel 驗證, 出生日期不能大於註冊日
 			if (ModelState.IsValid && list.MemberBirthday <= verifyDate) {
 				_context.Members.Add(new Member() {
 					MemberAccount = list.MemberAccount,
-					MemberPassord = list.MemberPassord,
+					MemberPassord = passWord,
+					Salt = strSalt,
 					MemberName = list.MemberName,
 					MemberEmail = list.MemberAccount,
 					MemberPhone = list.MemberPhone,
@@ -128,6 +136,33 @@ namespace FurryFeast.Controllers {
 			return View();
 		}
 
+		// 會員密碼跟鹽尬再一起雜湊
+		private string GetNewHash(string oriPassword, string strSalt) {
+			// 先把密碼跟鹽尬再一起
+			string messageString = strSalt + oriPassword;
+
+			// 轉成 byte
+			byte[] messageBytes = Encoding.UTF8.GetBytes(messageString);
+
+			// 雜湊 SHA 256
+			byte[] hashValue = SHA256.HashData(messageBytes);
+
+			// 轉回字串
+			string passWord = Convert.ToHexString(hashValue);
+
+			return passWord;
+		}
+
+		// 加點鹽, 亂數
+		public string GetSalt() {
+			var byte16 = new byte[16];
+			// 亂數產生器
+			var rng = new RNGCryptoServiceProvider();
+			rng.GetBytes(byte16);
+			string strSalt = Convert.ToBase64String(byte16);
+			return strSalt;
+		}
+
 		public async Task<IActionResult> Enable(string code) {
 
 			var str = encrypt.AesDecryptToString(code);
@@ -137,10 +172,10 @@ namespace FurryFeast.Controllers {
 			}
 			var user = _context.Members.FirstOrDefault(x => x.MemberAccount == obj.MemberAccount);
 			if (user != null) {
-				 _context.SaveChanges();
+				_context.SaveChanges();
 			}
 			//return Ok($@"code:{code}  str:{str}");
-			 return RedirectToAction("Index","Home");
+			return RedirectToAction("Index", "Home");
 		}
 
 		public IActionResult GetMail() { return View(); }
@@ -153,10 +188,17 @@ namespace FurryFeast.Controllers {
 
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null, [FromQuery] int marketID = -1) {
-			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
-			if (Member == null)
-			{
+			// 找到登入者的鹽
+			var memberLogin = _context.Members.FirstOrDefault(s => s.MemberAccount == list.MemberAccount);
+			var salt = memberLogin.Salt;
+
+			var oriPassword = list.MemberPassord;
+			var password = GetNewHash(oriPassword, salt);
+
+			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == password);
+
+			if (Member == null) {
 
 				ViewBag.Error = "帳號密碼錯誤!請再輸入一次";
 				return View("Login");
@@ -181,27 +223,23 @@ namespace FurryFeast.Controllers {
 
 				}
 			}
-			if(marketID==1)
-			{
+			if (marketID == 1) {
 				return RedirectToAction("IndexNewOne", "Products");
 			}
-			if (marketID == 2)
-			{
+			if (marketID == 2) {
 				return RedirectToAction("PetClassIndexNew", "PetClasses");
 			}
-			if (marketID == 3)
-			{
+			if (marketID == 3) {
 				return RedirectToAction("Donate", "Products");
-			}
-			else {
+			} else {
 				return RedirectToAction("Index", "Home");
 
 			}
-			
+
 
 		}
 
-		
+
 		public IActionResult GoogleLogin() {
 			var prop = new AuthenticationProperties {
 				RedirectUri = Url.Action("GoogleResponse")
