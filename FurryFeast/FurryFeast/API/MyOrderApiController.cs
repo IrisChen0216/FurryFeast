@@ -17,33 +17,6 @@ public class MyOrderApiController : ControllerBase
     }
 
     [Authorize]
-    //public object GetMyOrder()
-    //{
-    //    var myId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id")!.Value);
-
-    //    return _context.Orders.Include(x => x.OrderDetails).ThenInclude(x=>x.Product).Where(x => x.MemberId == myId ).Select(x => new
-    //    {
-    //        x.MemberId,
-    //        x.OrderId,
-    //        x.OrderShipDate,
-    //        x.OrderStatus,
-    //        x.OrderTotalPrice,
-    //        x.OrderCreateDate,
-
-    //        OrderDetail = x.OrderDetails.Select(x => new
-    //        {
-    //            x.OrderId,
-    //            x.ProductId,
-    //            x.Product.ProductName,
-    //            x.Product.ProductPrice,
-    //            x.Product.ProductType,
-    //            x.OrderPrice,
-    //        })
-
-    //    });
-
-    //}
-
     [HttpGet]
     public IActionResult GetMyOrder()
     {

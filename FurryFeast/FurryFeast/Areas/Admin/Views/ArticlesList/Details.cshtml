@@ -37,7 +37,7 @@
 				<span style="
 				             padding-right: 10px;
 				             vertical-align: initial;">發表時間</span>
-				<input class="inputbox" type="text" v-model="item.articleDate" disabled />
+				<input class="inputbox" type="text" v-model="formatDate(item.articleDate)" disabled />
 			</div>
 			<div class="col">
 				<span style ="padding-right: 10px;vertical-align: initial;">作者</span>
@@ -118,6 +118,9 @@
 
 					});
 				},
+				formatDate: function (dateString) {
+					return moment(dateString).format('YYYY/MM/DD h:mm:ss a');
+				}
 			}
 		});
 

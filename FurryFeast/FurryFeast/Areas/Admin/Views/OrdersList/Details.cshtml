@@ -1,73 +1,71 @@
-﻿@model FurryFeast.Models.Order
+﻿@model Order
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = "Details";
 }
 
 @section Style
-	{
+{
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 	<style>
 
 		.inputbox {
-			font-size: 14px;
-			letter-spacing: 0.5px;
-			border: none;
 			background: none;
-			height: 50px;
+			border: none;
 			border-bottom: 1px dashed #ccc;
+			font-size: 14px;
+			height: 50px;
+			letter-spacing: 0.5px;
 		}
 
 		.inputbox:focus {
+			border-color: gray;
 			outline: none;
-			border-color: gray
 		}
 
-		.btn-secondary:hover {
-			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-		}
+		.btn-secondary:hover { box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-/*		tbody tr:last-of-type {
+		/*		tbody tr:last-of-type {
 			border-bottom: 1px solid #f0f2f5;
 		}*/
 
 		.btn-typeId {
 			border: 1px solid black;
-			color: black;
 			border-radius: 6px;
+			color: black;
 			margin-right: 5px;
 		}
 
 		.h1Header > h4 {
-			position: relative;
 			padding-bottom: 17px;
+			position: relative;
 		}
 
 		.h1Header > h4:before {
-			content: "";
-			position: absolute;
-			left: 25px;
-			bottom: 6px;
-			width: 100%;
-			height: 4px;
 			background: #ccc;
+			bottom: 6px;
+			content: "";
+			height: 4px;
+			left: 25px;
+			position: absolute;
+			width: 100%;
 		}
 
 		.box {
 			background: white;
-			border-radius: 1rem;
-			padding-bottom: 10px;
-			padding: 15px 20px;
 			border: 1px solid rgb(235 235 235);
+			border-radius: 1rem;
 			font-size: 14px;
+			padding: 15px 20px;
+			padding-bottom: 10px;
 		}
 
 		.title {
-			vertical-align: initial;
-			font-weight: bold;
-			font-size: 15px;
 			display: block;
+			font-size: 15px;
+			font-weight: bold;
 			text-align: right;
+			vertical-align: initial;
 		}
 
 		.text {
@@ -75,15 +73,13 @@
 			letter-spacing: 2px;
 		}
 
-		.orderTable {
-			width: 100%;
-		}
+		.orderTable { width: 100%; }
 
 		.nBtn {
 			background: none;
-			padding: 10px;
-			font-size: 14px;
 			border-radius: 6px;
+			font-size: 14px;
+			padding: 10px;
 		}
 
 		.btn_gray {
@@ -93,21 +89,21 @@
 		}
 
 		.btn_gray:hover {
-			border: 1px solid black;
 			background: white;
+			border: 1px solid black;
 			color: black;
 		}
 
 		.btn_green {
-			padding: 10px 20px;
-			border: 1px solid yellowgreen;
 			background: yellowgreen;
+			border: 1px solid yellowgreen;
 			color: white;
+			padding: 10px 20px;
 		}
 
 		.btn_green:hover {
-			border: 1px solid yellowgreen;
 			background: white;
+			border: 1px solid yellowgreen;
 			color: black;
 		}
 
@@ -115,15 +111,15 @@
 }
 
 
-<div class="container m-3" style="width:95%" id="app">
+<div class="container m-3" style="width: 95%" id="app">
 	<div class="mx-2 row">
 		<div class=" h1Header col">
 			<h4 style="display: inline-block;" class="ms-1 m-0">Order</h4>
 			<h2 style="display: inline-block;" class="mt-3 mx-2">Details</h2>
 		</div>
 	</div>
-	<div class="text-end">
-		<button class="nBtn btn_gray mb-3" :href="'index'">回到訂單列表</button>
+	<div class="text-end mb-3">
+		<a class="nBtn btn_gray" href="/Admin/OrdersList/Index">回到訂單列表</a>
 	</div>
 
 	<div class="box row" v-for="item in orderData">
@@ -132,16 +128,26 @@
 			<div class="box mb-4 mt-3 ">
 				<table class="orderTable">
 					<tr>
-						<td><span class="title">訂單編號</span></td>
-						<td><input class="inputbox ms-3" type="text" v-model="item.orderId" disabled /></td>
+						<td>
+							<span class="title">訂單編號</span>
+						</td>
+						<td>
+							<input class="inputbox ms-3" type="text" v-model="item.orderId" disabled/>
+						</td>
 					</tr>
 					<tr>
-						<td><span class="title">訂單成立時間</span></td>
-						<td><input class="inputbox ms-3" type="text" v-model="OrderCreateDate" disabled /></td>
+						<td>
+							<span class="title">訂單成立時間</span>
+						</td>
+						<td>
+							<input class="inputbox ms-3" type="text" v-model="OrderCreateDate" disabled/>
+						</td>
 					</tr>
 					<tr>
-						<td><span class="title">出貨時間</span></td>
-						<td><input class="inputbox ms-3" type="text" v-model="OrderShipDate" disabled />
+						<td >
+							<span class="title">出貨時間</span>
+						</td>
+						<td><input class="inputbox ms-3" type="text" v-model="OrderShipDate" disabled/>
 					</tr>
 				</table>
 			</div>
@@ -151,18 +157,28 @@
 			<div class="box mb-4 mt-3">
 				<table class="orderTable">
 					<tbody>
-						<tr>
-							<td><span class="title">會員編號</span></td>
-							<td><input class="inputbox ms-3" type="text" v-model="item.memberId" disabled></td>
-						</tr>
-						<tr>
-							<td><span class="title">會員名稱</span></td>
-							<td><input class="inputbox ms-3" type="text" v-model="item.memberName" disabled/></td>
-						</tr>
-						<tr>
-							<td><span class="title">會員帳號</span></td>
-							<td><input class="inputbox ms-3" type="text" v-model="item.memberAccount" disabled/>
-						</tr>
+					<tr>
+						<td>
+							<span class="title">會員編號</span>
+						</td>
+						<td>
+							<input class="inputbox ms-3" type="text" v-model="item.memberId" disabled>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span class="title">會員名稱</span>
+						</td>
+						<td>
+							<input class="inputbox ms-3" type="text" v-model="item.memberName" disabled/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span class="title">會員帳號</span>
+						</td>
+						<td><input class="inputbox ms-3" type="text" v-model="item.memberAccount" disabled/>
+					</tr>
 					</tbody>
 				</table>
 			</div>
@@ -198,7 +214,7 @@
 							<span class="text-secondary font-weight-bold">{{item.orderPrice}}</span>
 						</td>
 					</tr >
-					<tr style="height: 50px; font-size: 25px;">
+					<tr style="font-size: 25px; height: 50px;">
 						<td colspan="3"></td>
 						<td class="align-middle text-center">
 							<span class="text-secondary font-weight-bold">總計</span>
@@ -224,15 +240,21 @@
 				<table v-for="item in orderData">
 					<tr>
 						<td class=" font-weight-bolder opacity-7 text-center" style="width: 10%">收件者</td>
-						<td><input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipient" v-bind:disabled="isDisabled"/></td>
+						<td>
+							<input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipient" v-bind:disabled="isDisabled"/>
+						</td>
 					</tr>
 					<tr>
 						<td class=" font-weight-bolder opacity-7 text-center">收件者地址</td>
-						<td><input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipientAdress" v-bind:disabled="isDisabled"/></td>
+						<td>
+							<input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipientAdress" v-bind:disabled="isDisabled"/>
+						</td>
 					</tr>
 					<tr>
 						<td class=" font-weight-bolder opacity-7 text-center">收件者電話</td>
-						<td><input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipientPhone" v-bind:disabled="isDisabled"/></td>
+						<td>
+							<input class="inputbox ms-2" style="width: 50%;" type="text" v-model="editingRecipientPhone" v-bind:disabled="isDisabled"/>
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -258,13 +280,13 @@
 				OrderShipDate: ""
 			},
 			mounted: function() {
-				let _this = this;
+				const _this = this;
 				_this.orderDetail();
 			},
 			methods: {
 				orderDetail: function() {
-					let _this = this;
-					let ID = @ViewBag.orderId;
+					const _this = this;
+					const ID = @ViewBag.orderId;
 					axios.get(`/api/orders/GetData/${ID}`).then(response => {
 						_this.orderData = response.data;
 						console.log(_this.orderData);
@@ -283,13 +305,13 @@
 				},
 
 				edit: function() {
-					let _this = this;
+					const _this = this;
 					_this.isEdit = true;
 					_this.isDisabled = false;
 				},
 
 				cancel: function() {
-					let _this = this;
+					const _this = this;
 					_this.isEdit = false;
 					_this.isDisabled = true;
 
@@ -299,19 +321,19 @@
 
 				},
 				update: function() {
-					let _this = this;
+					const _this = this;
 					_this.isEdit = false;
 					_this.isDisabled = true;
-					
+
 					_this.orderData.orderRecipientName = _this.editingRecipient;
 					_this.orderData.orderRecipientAdress = _this.editingRecipientAdress;
 					_this.orderData.orderRecipientPhone = _this.editingRecipientPhone;
 
-					var request = {
-							OrderId: _this.orderData[0].orderId,
-							OrderRecipientName: _this.orderData.orderRecipientName,
-							OrderRecipientAdress: _this.orderData.orderRecipientAdress,
-							OrderRecipientPhone: _this.orderData.orderRecipientPhone
+					const request = {
+						OrderId: _this.orderData[0].orderId,
+						OrderRecipientName: _this.orderData.orderRecipientName,
+						OrderRecipientAdress: _this.orderData.orderRecipientAdress,
+						OrderRecipientPhone: _this.orderData.orderRecipientPhone
 					};
 
 					axios.post(`/api/orders/Update/`, request).then(response => {
@@ -325,28 +347,29 @@
 						//	1500);
 					});
 
+				},
+				Success: function() {
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: '更新收件者資料成功',
+						text: '回到列表',
+						showConfirmButton: false,
+						timer: 1500
+					});
+				},
+				Errorrrr: function() {
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: '您未更新任何資料',
+						text: '請重新編輯',
+						showConfirmButton: false,
+						timer: 2000
+					});
 				}
-			}, 
-			Success: function() {
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: '更新收件者資料成功',
-				text: '回到列表',
-				showConfirmButton: false,
-				timer: 1500
-			});
-			}, 
-			Errorrrr: function() { 
-				Swal.fire({ 
-					position: 'center', 
-					icon: 'warning', 
-					title: '您未更新任何資料', 
-					text: '請重新編輯', 
-					showConfirmButton: false, 
-					timer: 2000
-				});
 			}
+
 		});
 	</script>
 }

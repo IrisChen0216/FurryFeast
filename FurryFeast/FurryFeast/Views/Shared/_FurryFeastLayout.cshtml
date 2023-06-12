@@ -1,257 +1,243 @@
-﻿@using Microsoft.AspNetCore.Http;
-@using System;
-@inject IHttpContextAccessor HttpContextAccessor;
+﻿@inject IHttpContextAccessor HttpContextAccessor;
 @{
-    // 取得當前 controller 和 index 名稱, 把 / 去掉
-    var temp = HttpContextAccessor.HttpContext.Request.Path.Value.Replace("/", "");    
+	// 取得當前 controller 和 index 名稱, 把 / 去掉
+	var temp = HttpContextAccessor.HttpContext.Request.Path.Value.Replace("/", "");
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+	<meta charset="utf-8"/>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="apple-touch-icon" sizes="76x76" href="~/image/kitty.png">
-    <link rel="icon" type="image/png" href="~/image/kitty.png">
-    <title>FurryFeast</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="apple-touch-icon" sizes="76x76" href="~/image/kitty.png">
+	<link rel="icon" type="image/png" href="~/image/kitty.png">
+	<title>FurryFeast</title>
 
-    @*原生 css*@
-    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />*@
+	@*原生 css*@
+	@*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />*@
 
-    @*???*@
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	@*???*@
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 
-    @*<link rel="stylesheet" href="~/css/footers.min.css" asp-append-version="true" />*@
-    @* <link rel="stylesheet" href="~/css/features.min.css" asp-append-version="true" />*@
+	@*???*@
+	@*<link rel="stylesheet" href="~/css/bootstrap/bootstrap.css" asp-append-version="true" />*@
 
-    @*???*@
-    @*<link rel="stylesheet" href="~/css/bootstrap/bootstrap.css" asp-append-version="true" />*@
+	<!-- 引入 Bootstrap Icons CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Anton&display=swap">
 
-    <!-- 引入 Bootstrap Icons CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Anton&display=swap">
+	@*Iris_template*@
+	<link href="~/css/petclass/bootstrap.min.css" rel="stylesheet"/>
+	<link href="~/css/petclass/style.css" rel="stylesheet"/>
 
-    @*Iris_template*@
-    <link href="~/css/petclass/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/css/petclass/style.css" rel="stylesheet" />
-    
-    @*Alfie_navBar*@
-    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+	@*Alfie_navBar*@
+	<link rel="stylesheet" href="~/css/style.css" asp-append-version="true"/>
 
-    <!-- vue 2 開發版 -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+	<!-- vue 2 開發版 -->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
 
-    @*vue 2 生產版*@
-    @*<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>*@
+	@*vue 2 生產版*@
+	@*<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>*@
 
-    @await RenderSectionAsync("Style", required: false)
-    
+	@await RenderSectionAsync("Style", false)
+
 </head>
 <body>
 
-    @await RenderSectionAsync("IndexHead", required: false)
+@await RenderSectionAsync("IndexHead", false)
 
-    @*測試頁面字串*@
-    @*<div>@temp</div>*@
+@*測試頁面字串*@
+@*<div>@temp</div>*@
 
-    <div id="menubar" class="menubar shadow-sm">
-        <div class="container d-flex align-items-center justify-content-lg-between">
-            <p class="logo me-auto me-lg-0"></p>
-            <nav id="navbar" class="navbar order-last order-lg-0">
-                <ul>
-                    <li><a class="nav-link scrollto @Html.Raw(temp == ""? "active" :"")" asp-controller="Home" asp-action="index">首頁</a></li>
+<div id="menubar" class="menubar shadow-sm">
+	<div class="container d-flex align-items-center justify-content-lg-between">
+		<p class="logo me-auto me-lg-0"></p>
+		<nav id="navbar" class="navbar order-last order-lg-0">
+			<ul>
+				<li>
+					<a class="nav-link scrollto @Html.Raw(temp == "" ? "active" : "")" asp-controller="Home" asp-action="index">首頁</a>
+				</li>
 
-                    <li><a class="nav-link scrollto @Html.Raw(temp == "ArticleNews"? "active" :"")" asp-controller="Article" asp-action="News">最新消息</a></li>
-                    </li>
-                    <li class="dropdown">
-                        <a class="@Html.Raw(temp == "Products"? "active" :"")" asp-area="" asp-controller="Products" asp-action="IndexNewOne"><span>寵物商城</span><i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a asp-controller="Products" asp-action="IndexNewOne">寵物商城</a></li>
-                            <li><a asp-controller="Products" asp-action="Donate">愛心捐糧專區</a></li>
-                        </ul>
+				<li>
+					<a class="nav-link scrollto @Html.Raw(temp == "ArticleNews" ? "active" : "")" asp-controller="Article" asp-action="News">最新消息</a>
+				</li>
+				<li class="dropdown">
+					<a class="@Html.Raw(temp == "Products" ? "active" : "")" asp-area="" asp-controller="Products" asp-action="IndexNewOne">
+						<span>寵物商城</span><i class="bi bi-chevron-down"></i>
+					</a>
+					<ul>
+						<li>
+							<a asp-controller="Products" asp-action="IndexNewOne">寵物商城</a>
+						</li>
+						<li>
+							<a asp-controller="Products" asp-action="Donate">愛心捐糧專區</a>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="">
+						<span>尋找浪浪</span><i class="bi bi-chevron-down"></i>
+					</a>
+					<ul>
+						<li>
+							<a asp-controller="Article" asp-action="Shelter">全台動物收容所資訊</a>
+						</li>
+						<li>
+							<a asp-controller="Article" asp-action="Donates">糧食捐贈</a>
+						</li>
+						<li>
+							<a asp-controller="Article" asp-action="Lostpets">寵物遺失啟事</a>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="">
+						<span>寵物鮮食</span><i class="bi bi-chevron-down"></i>
+					</a>
+					<ul>
+						<li class="dropdown">
+							<a class="" asp-controller="Recipes" asp-action="Recipes">
+								<span>鮮食食譜</span>
+							</a>
+						</li>
+						<li>
+							<a calss="" asp-controller="Cal" asp-action="CalIndex">每日熱量計算機</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a class="nav-link scrollto @Html.Raw(temp == "PetFriendlyMapPetFriendlyMap" ? "active" : "")" asp-controller="PetFriendlyMap" asp-action="PetFriendlyMap">寵物友善地圖</a>
+				</li>
+				<li>
+					<a class="nav-link scrollto @Html.Raw(temp == "ArticleFAQ" ? "active" : "")" asp-controller="Article" asp-action="FAQ">FAQ</a>
+				</li>
+				<li>
+					<a class="nav-link scrollto @Html.Raw(temp == "ArticleContactUs" ? "active" : "")" asp-controller="Article" asp-action="ContactUs">聯絡我們</a>
+				</li>
 
-                    </li>
-                    <li class="dropdown">
-                        <a class=""><span>尋找浪浪</span><i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a asp-controller="Article" asp-action="Shelter">全台動物收容所資訊</a></li>
-                            <li><a asp-controller="Article" asp-action="Donates">糧食捐贈</a></li>
-                            <li><a asp-controller="Article" asp-action="Lostpets">寵物遺失啟事</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a class=""><span>寵物鮮食</span><i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li class="dropdown"><a class="" asp-controller="Recipes" asp-action="Recipes"><span>鮮食食譜</span></a></li>
-	                        <li><a calss="" asp-controller="Cal" asp-action="CalIndex">每日熱量計算機</a></li>
-	                       @* <li><a href="#">鮮食課程報名</a></li>*@
-                            <i class="bi bi-1-circle-fill"></i>
-                        </ul>
-                    </li>
+				<li>
+					<a class="nav-link scrollto @Html.Raw(temp == "PetClasses" ? "active" : "")" asp-area="" asp-controller="PetClasses" asp-action="PetClassIndexNew">寵物課程</a>
+				</li>
+			</ul>
+		</nav>
 
-                    <li><a class="nav-link scrollto @Html.Raw(temp == "PetFriendlyMapPetFriendlyMap"? "active" :"")" asp-controller="PetFriendlyMap" asp-action="PetFriendlyMap">寵物友善地圖</a></li>
-                    <li><a class="nav-link scrollto @Html.Raw(temp == "ArticleFAQ"? "active" :"")" asp-controller="Article" asp-action="FAQ">FAQ</a></li>
-                    <li><a class="nav-link scrollto @Html.Raw(temp == "ArticleContactUs"? "active" :"")" asp-controller="Article" asp-action="ContactUs">聯絡我們</a></li>
+		<!-- navbar-login -->
+		<div id="appMember" class="row" style="margin: 0">
+			<ul class="navbar-nav">
+				@if (User.Identity.IsAuthenticated)
+				{
+					<div class="p-1 " style="position: relative;">
+						<div class=" col">
+							<form class="col" id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCartNew" method="post">
+								<button id="btnCart" class="btn btn-dark">
+									<i class="bi bi-cart"></i>
+								</button>
+							</form>
+						</div>
+						<div class=" col" v-on:click="showDropdown">
+							<button id="btnshowDropdown" class="btn btn-dark">
+								<i class="bi bi-person-circle"></i>
+							</button>
+							<transition name="slide" v-if="showOptions">
 
-@*                    <li class="dropdown">
-                        <a class="" asp-area="" asp-controller="StockArticles" asp-action="Index"><span>後臺管理</span><i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li class="dropdown"><a class="" asp-area="" asp-controller="StockMeasureUnits" asp-action="Index"><span>StockMeasureUnits</span></a></li>
-                            <li><a class="" asp-area="admin" asp-controller="home" asp-action="Index">StockSuppliersGroups</a></li>
-                            <li><a class="" asp-area="" asp-controller="StockSuppliers" asp-action="Index">StockSuppliers</a></li>
-                            <li><a class="" asp-area="" asp-controller="StockWarehouseGroups" asp-action="Index">StockWarehouseGroups</a></li>
-                            <li><a class="" asp-area="" asp-controller="StockWarehouses" asp-action="Index">StockWarehouses</a></li>
-                            <li><a class="" asp-area="" asp-controller="StockGroups" asp-action="Index">StockGroups</a></li>
-                            <li><a class="" asp-area="" asp-controller="StockArticles" asp-action="Index">StockArticles</a></li>
-                            <li><a class="" asp-area="" asp-controller="StockImages" asp-action="Index">StockImages</a></li>
-                            <i class="bi bi-1-circle-fill"></i>
-                        </ul>
-                    </li>*@
+								<div class="state-drawer">
+									<ul class="drawer-list">
+										<li class="drawer-list-item">
+											<a asp-controller="Member" asp-action="MemberIndex"> 會員資料</a>
+										</li>
+										<li class="drawer-list-item">
+											<a asp-controller="Member" asp-action="MyOrder">我的訂單</a>
+										</li>
+										<li class="drawer-list-item">
+											<a asp-controller="Member" asp-action="MyClass">我的課程</a>
+										</li>
+									</ul>
+								</div>
+							</transition>
+						</div>
+						<div class="col ">
+							<form class="col" id="Logout" asp-controller="Member" asp-action="Logout">
+								<button id="btnLogout" class="btn btn-dark">
+									<i class="bi bi-door-open"></i>
+								</button>
+							</form>
+						</div>
+					</div>
+				}
+				else
+				{
+					<div class="p-1">
+						<form id="Cart" class="col" name="ProductCart" asp-controller="Products" asp-action="ProductCartNew" method="post">
+							<button class="btn btn-dark" type="submit">
+								<i class="bi bi-cart"></i>
+							</button>
+						</form>
+						<form id="Login" class="col" asp-controller="Member" asp-action="Login" method="get">
+							<button id="btn" class="btn btn-dark" controller="Member" action="Login">
+								<i class="bi bi-person-circle"></i>
+							</button>
+						</form>
+					</div>
+				}
+			</ul>
+		</div>
 
-                    <li><a class="nav-link scrollto @Html.Raw(temp == "PetClasses"? "active" :"")" asp-area="" asp-controller="PetClasses" asp-action="PetClassIndexNew">寵物課程</a></li>
+	</div>
+</div>
 
+<div class="container">
+	<main role="main" class="pb-3">
+		@*TODO*@
+		@*麵包屑屑*@
+		@*            <ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="">首頁</a></li>
+			<li class="breadcrumb-item"><a href="">部門</a></li>
+			<li class="breadcrumb-item active">研發</li>
+			</ol>*@
 
-                    <li><a class="nav-link scrollto" asp-area="Admin" asp-controller="Home" asp-action="SignIn">後臺管理</a></li>
-                </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
-            </nav>
+		@RenderBody()
+	</main>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="~/js/navbar.js"></script>
+<script src="~/js/swiper.js"></script>
+<script src="~/js/bootstrap.bundle.js"></script>
 
-            <!-- navbar-login -->
-            <ul class="navbar-nav">
-                @if (User.Identity.IsAuthenticated)
-                { <nav class="p-1">
-@*                    <li class="dropdown">
-                        <a class=""><span>會員中心</span><i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a asp-controller="Member" asp-action="MemberIndex">會員資料</a></li>
-                            <li><a asp-controller="Member" asp-action="MyOrder">我的訂單</a></li>
-                            <li><a asp-controller="Member" asp-action="MyClass">我的課程</a></li>
-                        </ul>
-                    </li*@@*>*@
-                        <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCartNew" method="post">
-                            <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
-                        </form>
- 
-                        <form id="Logout" asp-controller="Member" asp-action="Logout">
-                            <button id="list1" class="btn btn-dark" controller="Member" action="Logout"> <i class="bi bi-door-open"></i></button>
-                        </form>
-                    </nav>
-                }
-                else
-                {
-                    <nav class="p-1">
-                        <form id="Cart" name="ProductCart" asp-controller="Products" asp-action="ProductCartNew" method="post">
-                            <button class="btn btn-dark" type="submit"><i class="bi bi-cart"></i></button>
-                        </form>
-                        <form id="Login" asp-controller="Member" asp-action="Login" method="get">
-                            <button id="btn" class="btn btn-dark" controller="Member" action="Login"><i class="bi bi-person-circle"></i></button>
-                        </form>
-                    </nav>
-                }
-            </ul>
-        </div>
-    </div>
-    
-	<div class="container">
-        <main role="main" class="pb-3">
+@*axios*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-            @*TODO
-            @*麵包屑屑*@
-@*            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="">首頁</a></li>
-                <li class="breadcrumb-item"><a href="">部門</a></li>
-                <li class="breadcrumb-item active">研發</li>
-            </ol>*@
+@*sweetalert2*@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            @RenderBody()
-        </main>
-    </div>
+@*momentjs*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
-   @* <footer class="footer mt-auto bg-light">
-        <div class="container">
-            <ul class="nav justify-content-center border-top ">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
-            </ul>
-        </div>
-    </footer>*@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-@*<script>
-        $(document).ready(function () {
-            var navbar = $(".header");
-            var footer = $(".footer");
-            var navbarOffset = navbar.offset().top;
+<script>
+	new Vue({
+		el: '#appMember',
+		data: {
+			showOptions: false // 初始值
+		},
+		methods: {
+			showDropdown: function() {
+				const _this = this;
+				if (_this.showOptions === false) {
+					_this.showOptions = true;
+				} else {
+					_this.showOptions = false;
+				}
+				console.log(_this.showOptions);
+			}
+		}
+	});
+</script>
+@await RenderSectionAsync("Scripts", false)
 
-            $(window).scroll(function () {
-                if ($(window).scrollTop() < navbarOffset) {
-                    navbar.removeClass("sticky-top");
-                    navbar.addClass("sticky-bottom");
-                } else {
-                    navbar.removeClass("sticky-bottom");
-                    navbar.addClass("sticky-top");
-                }
-            });
-
-            $(window).scroll(function () {
-                if ($(window).scrollTop() < navbarOffset / 2) {
-                    footer.removeClass("fixed-bottom")
-                } else {
-                    footer.addClass("fixed-bottom")
-                }
-            })
-        });
-    </script>*@
-	<script src="~/js/navbar.js"></script>
-    <script src="~/js/swiper.js"></script>
-    <script src="~/js/bootstrap.bundle.js"></script>
-
-    @*axios*@
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    @*sweetalert2*@
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    @*momentjs*@
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-
-@*    <script>
-        document.getElementById('Login').addEventListener('submit', function () {
-            window.location.href= this.action;
-        })
-        document.getElementById('Cart').addEventListener('submit', function () {
-            window.location.href = this.action;
-        })
-    </script>*@
-
-
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-@section Scripts{
-    <script>
-        var app = new Vue({
-            el:"#app",
-            data:{
-                showOptions:false
-            },
-            methods:{
-                showDropdown:function(){
-                    this.showOptions:true;
-                },
-                hideDropdown:function(){
-                    this.showOptiions:false;
-                }
-            }
-        })
-
-    </script>
-}

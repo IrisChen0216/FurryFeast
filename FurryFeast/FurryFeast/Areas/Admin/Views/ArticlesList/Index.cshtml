@@ -68,23 +68,7 @@
 	<div class="row">
 		<div class="col-12">
 			<div class="my-4" style="background: white; border-radius: 1rem; padding-bottom: 10px; padding: 10px 0px 10px 0px; border: 1px solid rgb(235 235 235);">
-
-				@*				<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-					<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 ">
-						<h6 class="text-white text-capitalize ps-3">文章管理</h6>
-					</div>
-				</div>*@
 				<div class="row m-0 p-0">
-
-
-					@*<div class="dropdown mx-3 mt-2 col-1">
-						<button class="btn btn-secondary dropdown-toggle drop" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-							文章管理
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							<li><button class="dropdown-item" type="button">全部文章</button></li>
-						</ul>
-					</div>*@
 					<div class="form-group m-4 col-2">
 						@*新增按鍵*@
 						<button type="button" class="btn mb-0 " style="background:lightpink" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -96,10 +80,16 @@
 					@*搜尋欄*@
 					<div class="ms-md-auto pe-md-3 d-flex align-items-center col-3 mx-4">
 						<div class="input-group input-group-outline">
+							<label class="form-label">請輸入文章編號或標題</label>
+							<input id="search" type="text" class="form-control h-100" v-on:keyup="searchBar" v-model="keyword">
+						</div>
+					</div>
+@*					<div class="ms-md-auto pe-md-3 d-flex align-items-center col-3 mx-4">
+						<div class="input-group input-group-outline">
 							<label class="form-label">Search ...</label>
 							<input type="text" class="form-control h-100">
 						</div>
-					</div>
+					</div>*@
 
 				</div>
 
@@ -128,7 +118,7 @@
 										<span class="text-secondary text-xs font-weight-bold">{{item.adminAccount}}</span>
 									</td>
 									<td class="align-middle text-center text-sm">
-										<span class="text-secondary text-xs font-weight-bold">{{item.articleDate}}</span>
+										<span class="text-secondary text-xs font-weight-bold">{{formatDate(item.articleDate)}}</span>
 									</td>
 									<td class="text-center pe-3">
 										<button class="btn mb-0" style="background: dodgerblue"><a style="color: white" :href="'Edit?id='+item.articleId">編輯</a></button>
@@ -144,57 +134,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade " id="insertPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label class="form-label">商品名稱:</label>
-						<input class="form-control" required/>
-					</div>
-					<div class="form-group">
-						<label class="form-label">商品售價:</label>
-						<input class="form-control"required/>
-					</div>
-					<div class="form-group">
-						<label class="form-label">上架數量:</label>
-						<input class="form-control" required/>
-					</div>
-					<div class="form-group">
-						<label class="form-label">商品描述:</label>
-						<input class="form-control"/>
-					</div>
-					<div class="form-group">
-						<label class="form-label">商品類型:</label>
-
-						<select>
-							<option value="0">鮮食</option>
-							<option value="1">狗狗</option>
-							<option value="2">貓咪</option>
-						</select>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-					<button type="button" class="btn btn-primary">新增</button>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 
 @section Scripts
 {
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		var app = new Vue({
 			el: '#app',
 			data: {
-				aticlesData: {}
+				aticlesData: {},
+				keyword: "",
+				originalData: [],
+				moment: ""
 			},
 			mounted: function() {
 				let _this = this;
@@ -206,7 +157,9 @@
 					let _this = this;
 					axios.get('/api/articles/GetModel').then(response => {
 						_this.aticlesData = response.data;
+						_this.originalData = [...response.data];
 						console.log(_this.aticlesData);
+
 						let Data = [];
 
 						for (let i = 0; i < _this.aticlesData.length; i++) {
@@ -220,6 +173,7 @@
 							}
 						}
 						_this.aticlesData = Data;
+
 					}).catch(error => { console.error(error); });
 				},
 				deleteCheck: function(item) {
@@ -235,23 +189,37 @@
 					}).then((result) => {
 						if (result.isConfirmed) {
 							_this.deleteAticle(item);
-							Swal.fire(
-								'Deleted!',
-								'Your file has been deleted.',
-								'success'
-							);
+							console.log(item);
 						}
 					});
 				},
 				deleteAticle: function(ID) {
 					let _this = this;
-					axios.delete(`/api/articles/DeleteAticle/${ID}`).then(response => {
-						_this.getData();
-
+					axios.delete(`/api/articles/DeleteArticle/${ID}`).then(response => {
+						if (response.data == "刪除文章成功!") {
+							Swal.fire(
+								'Deleted!',
+								'Your file has been deleted.',
+								'success'
+							);
+							_this.getData();
+						}
 					});
+				},
+				searchBar: function() {
+					let _this = this;
+					if (_this.keyword !== "") {
+						_this.aticlesData = _this.originalData.filter(item => item.articleId == _this.keyword || item.articleTitle.includes(_this.keyword));
+					} else {
+						_this.aticlesData = [..._this.originalData];
+					}
+				},
+				formatDate: function (dateString) {
+					return moment(dateString).format('YYYY/MM/DD h:mm:ss a');
+
 				}
 			}
 
-		})	
+		});
 	</script>
 }

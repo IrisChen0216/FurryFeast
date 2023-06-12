@@ -1,120 +1,209 @@
-﻿@model IEnumerable<FurryFeast.Models.Order>
+﻿@model IEnumerable<Order>
 
 @{
 	ViewData["Title"] = "MyOrder";
 }
 
 @section Style{
+	
+	<link href="~/css/animation.css" rel="stylesheet" />
 	<style>
 		.title {
 			background-color: #ffe607;
-			color:aliceblue;
+			color: black;
 		}
 
-		th{
-			color:white;
-		}
+		.th { line-height: 1.5; }
+
+		th { color: black; }
 
 		.table-striped > tbody > tr:nth-of-type(odd) {
 			--bs-table-accent-bg: #ffd33b6b;
 			color: var(--bs-table-striped-color);
 		}
 
+		.table > :not(caption) > * > * { border: none; }
+
+		.table { margin: 0px }
+
+		.productTxet {
+			border-bottom: 1px dashed #ccc;
+			line-height: 4;
+		}
+
+		tbody :last-child {
+			border: none;
+		}
+
+		
+		element.style {
+			padding: 5px 10px;
+		}
+		tbody :last-child {
+			border: none;
+		}
+
+		element.style {
+			padding: 5px 10px;
+		}
+		tbody :last-child {
+			border: none;
+		}
+		.button-zakaria.active {
+			background: black;
+			color: white;
+			border: 2px solid #ffe607;
+		}
+
+/*		.hover :hover {
+			background: red;
+		}*/
+
 	</style>
 
 }
+
 <div class="index-header">
 	<h2>我的訂單</h2>
 </div>
-<hr />
+<hr/>
 
-<div id="app">
-	<table class="table table-striped myorder">
-		<tr class="title">
-			<th>訂單編號</th>
-			<th>訂單成立日期</th>
-			<th>訂單出貨日期</th>
-			<th>訂單金額</th>
-			<th>訂單明細</th>
-		</tr>
-		<tr v-for="order in orders">
-			<td>
-				{{order.orderId}}
-			</td>
-			<td>
-				{{order.orderCreateDate}}
-			</td>
-			<td>
-				{{order.orderShipDate}}
-			</td>
-@*			<td>
-				{{order.orderPrice}}
-			</td>*@
-			<td>
-				{{order.orderTotalPrice}}
-			</td>
-			<td>
-				@*{{State}}*@
-				<a :href="url+order.orderId" class="button button-lg button-primary button-zakaria" v-on:click="getOrder(order.orderId)">訂單明細</a>
-			</td>
-		</tr>
-	</table>
+<div id="app" class="hover">
+	<div class="shadow-sm my-5 p-2 pb-0 row mx-auto hover" style="border: 1px solid #ccc; border-radius: 6px;" v-for="(item, index) in orders" :key="item.orderId">
+		<table class="col-8 mx-auto table table-striped myorder " style="margin: 0;">
+			<tr class="title th">
+				<th class="mx-3">訂單編號</th>
+				<th>訂單日期</th>
+				<th>訂單出貨日期</th>
+				<th>訂單金額</th>
+				<th colspan="2">明細</th>
+				
+			</tr>
+			<tr style="vertical-align: baseline;">
+				<td>
+					{{item.orderId}}
+				</td>
+				<td>
+					{{format(item.orderCreateDate)}}
+				</td>
+				<td>
+					{{format(item.orderShipDate)}}
+				</td>
+				<td>
+					{{item.orderTotalPrice}}
+				</td>
+				<td colsapn="2">
+					@*{{State}}*@
+					<a role="button" class="button button-primary button-zakaria" :class="{active: item.isActive}" style="padding: 5px 10px;" v-on:click="getOrder(item)">訂單明細</a>
+					@*{{State}}*@
+					<a role="button" data-bs-toggle="collapse" class="m-0 button button-primary button-zakaria" :class="{active: item.isActive}" style="padding: 5px 10px; border: 2px solid #ffd33b;" v-on:click="getOrder(item)">其他</a>
+				</td>
+			</tr>
+		</table>
+		<template v-if="item.isCollapsed">
+			<div class="my-2 " style="border: 1px solid #ccc; border-radius: 6px; background: white;">
+				<table style="width: 100%;">
+					<tr style=" line-height: 3; border-bottom: 1px solid #ccc;">
+						<th>
+							商品編號
+						</th>
+						<th>
+							商品名稱
+						</th>
+						<th>
+							商品單價
+						</th>
+						<th>
+							購買數量
+						</th>
+						<th>
+							價格
+						</th>
+					</tr>
+					<tr class="productTxet" v-for="item in Details">
+						<td>{{item.productId}}</td>
+						<td>{{item.productName}}</td>
+						<td>{{item.productPrice}}</td>
+						<td>{{item.orderQuantity}}</td>
+						<td>{{item.orderQuantity*item.productPrice}}</td>
+					</tr>
+					<tr style="line-height: 3; font-size: larger; font-weight: bolder;">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td st>總金額</td>
+						<td>{{item.orderQuantity*item.productPrice}}</td>
+					</tr>
+				</table>
+			</div>
+		</template>
+	</div>
 </div>
 
 
-
-
 @section Scripts{
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
-
-
-
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 	<script>
 
 		let app = new Vue({
 			el: "#app",
 			data: {
 				orders: [],
-				state: "",
-				orderdetails: [],
+				Details: {},
 				url: "/Member/OrderDetail/"
 			},
 			methods: {
-				getOrder: function (orderId) {
-					let self = this;
-					axios.get(`/api/orders/GetData/${orderId}`).then(response => {
-
-						console.log(response.data);
-
+				getOrder: function(item) {
+					this.orders.forEach(order => {
+						if (order.orderId !== item.orderId) {
+							order.isCollapsed = false;
+							order.isActive = false;
+						}
 					});
 
+					item.isCollapsed = !item.isCollapsed;
+					item.isActive = !item.isActive;
 
+					if (!this.Details[item.orderId]) {
+						this.Details = {};
+						axios.get(`/api/orders/GetData/${item.orderId}`).then(response => {
+							this.$set(this.Details, item.orderId, response.data);
+							this.Details = response.data[0].orderDetail;
+							console.log(this.Details);
+						});
+					}
+				},
+				getDetails: function() {
+					const _this = this;
+					_this.orders.forEach(item => {
+						console.log(item.productName);
+					});
+				},
+				format: function(date) {
+					return moment(date).format("YYYY-MM-DD HH:mm:ss");
+				}
+			},
+			mounted:
+				function() {
+					const self = this;
+					axios('/api/myorder/getmyorder').then(res => {
+							self.orders = res.data.map(order => {
+								return {
+									...order,
+									isCollapsed: false,
+									isActive: false
+								};
+							});
 
+							console.log(self.orders);
+
+						})
+						.catch(error => {
+							console.error(error);
+							// Handle error
+						});
 				}
 
-			},
-
-			mounted: function () {
-				let self = this;
-				axios('/api/myorder/getmyorder').then(res => {
-					console.log(res);
-					self.orders = res.data
-				
-				});
-
-			},
-			computed: {
-				//State:function(){
-				//    if (self.orders.orderStatus == 0) {
-				//        self.state = "未付款";
-				//    }
-				//}
-			}
-			//document.getElementById("status").textContent = ({{ order.orderStatus }} == 0) ?"未付款" : "已付款"
 		});
 	</script>
 }
-
-
-
-

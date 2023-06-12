@@ -1,83 +1,145 @@
 ﻿@{
 	ViewData["Title"] = "UpdateMemberData";
 }
+
 @section Style{
-	<link href="~/css/button.css" rel="stylesheet" />
+	<link href="~/css/button.css" rel="stylesheet"/>
 }
+
+<style>
+	.memberTitle {
+		font-size: medium;
+		font-weight: bold;
+		padding: 15px 20px 15px 30px;
+	}
+
+	.memberText {
+		font-size: medium;
+		padding: 10px;
+		position: relative;
+		width: 80%;
+	}
+
+	.passwordText {
+		font-size: medium;
+		padding: 5px;
+		position: relative;
+		border-radius: 6px;
+		border: 1px solid #ccc;
+		width: 70%;
+	}
+
+	.passwordText:active {
+		border: 1px solid #000;
+	}
+
+</style>
+
 <div class="index-header">
 	<h2>修改會員資料</h2>
 </div>
-<div id="app">
-	<div v-for="item in getMemberData">
-		<div>
-			<label>姓名</label>
-			<input type="text" v-model="EditMember.memberName" />
+<div id="appQ">
+	<form class="py-5 mb-3 row mx-auto" style="border: 1px solid #ccc; border-radius: 6px; width: 50%;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+		<table class="" style="position: relative;">
+			<tr>
+				<td class="text-end">
+					<p class="memberTitle">姓名</p>
+				</td>
+				<td class="text-start ">
+					<input class="passwordText" v-model="EditMember.memberName">
+				</td>
+			</tr>
+			<tr>
+				<td class=" text-end">
+					<p class="memberTitle">生日</p>
+				</td>
+				<td class="text-start">
+					<datepicker class="passwordText" style=" margin-top: 12px;" v-model="EditMember.memberBirthday"></datepicker>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-end">
+					<p class="memberTitle">性別</p>
+				</td>
+				<td class="text-start">
+					<div style="margin-top: 12px; padding: 10px;">
+						<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender"/>
+						<label class="me-3">男</label>
+						<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender"/>
+						<label>女</label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-end">
+					<p class="memberTitle">手機號碼</p>
+				</td>
+				<td class="text-start">
+					<input class="passwordText" v-model="EditMember.memberPhone">
+				</td>
+			</tr>
+			<tr>
+				<td class=" text-end">
+					<p class="memberTitle" style="font-weight: 400;">Email</p>
+				</td>
+				<td class=" text-start">
+					<input class="passwordText" id="mail" v-model="EditMember.memberEmail">
+				</td>
+			</tr>
+			<tr>
+				<td class="text-end">
+					<p class="memberTitle">地址</p>
+				</td>
+				<td class="text-start">
+					<input stype="width:60%" class="passwordText" v-model="EditMember.memberAdress">
+				</td>
+			</tr>
+		</table>
 
-		</div>
-		<div>
-			<label>性別</label>
-			<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender" />
-			<label>男</label>
-			<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender" />
-			<label>女</label>
-		</div>
-		<div>
-			<label>生日</label>
-			@*<input type="datetime" name=" UpdateBirth" v-model="item.updatemember.memberBirthday" />*@
-			<datepicker v-model="EditMember.memberBirthday"></datepicker>
-		</div>
-		<div>
-			<label>手機號碼</label>
-			<input type="text" name="MemberPhone" maxlength="10" v-model="EditMember.memberPhone" pattern="^09\d{8}$" title="手機號碼須符合台灣的手機號碼格式" />
-		</div>
-		<div>
-			<label>Email</label>
-			<input type="email" name="UpdateEmail" v-model="EditMember.memberEmail" />
-		</div>
-		<div>
-			<label>住址</label>
-			<input type="text" name="MemberAdress" v-model="EditMember.memberAdress" />
-		</div>
-		<div>
-			<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="Update()">修改資料</button>
-		</div>
-		<hr />
-		<br />
-		<div>
-			<label>輸入原密碼</label>
-			<input type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
-		</div>
-		<div>
-			<label>輸入新密碼</label>
-			<input type="password" name="newPassord" v-model="EditPassord.newPassord" placeholder="請輸入密碼" pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$" title="密碼必須包含英文字母和數字，並且最少為8個字符" />
-		</div>
-	</div>
-	<div>
-		<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="Edit()">更新密碼</button>
-	</div>
-</div>
-<div>
-	<form asp-action="MemberIndex">
-		<button class="button button-lg button-primary button-zakaria">回到上一頁</button>
 	</form>
-</div>
 
+	<div>
+		<button class="me-3 button button-lg button-primary button-zakaria" type="submit" v-on:click="Update">修改資料</button>
+		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</a>
+
+	</div>
+	<div class="index-header mt-3">
+		<h2>變更密碼</h2>
+	</div>
+	<div class="col-6 mx-auto py-4 mb-3" style="border: 1px solid #ccc; border-radius: 6px;">
+		<div>
+			<label class="text-end memberTitle" >輸入原密碼</label>
+			<input class="input passwordText" style="width: auto;" type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
+		</div>
+
+		<div>
+			<label class="memberTitle">輸入新密碼</label>
+			<input class="input passwordText" style="width: auto;" type="password" name="newPassord" v-model="EditPassord.newPassord" />
+		</div>
+	</div>
+
+	<div class="col">
+		<button class="me-3 button button-lg button-primary button-zakaria" type="submit" v-on:click="Edit">更新密碼</button>
+		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</a>
+	</div>
+</div>
 
 
 @section Scripts{
 
 	<script>
-		Vue.component('datepicker', {
-			template: `<input v-bind:value="value" v-on:input="updateValue($event.target.value)" type="date">`,
-			props: ['value'],
-			methods: {
-				updateValue: function (value) {
-					this.$emit('input', value);
+		Vue.component('datepicker',
+			{
+				template: `<input v-bind:value="value" v-on:input="updateValue($event.target.value)" type="date">`,
+				props: ['value'],
+				methods: {
+					updateValue: function(value) {
+						this.$emit('input', value);
+					}
 				}
-			}
-		});
-		var app = new Vue({
-			el: "#app",
+			});
+		var appQ = new Vue({
+			el: "#appQ",
 			data: {
 				getMemberData: "",
 				EditMember: {
@@ -86,17 +148,19 @@
 					memberAdress: "",
 					memberGender: 0,
 					memberEmail: "",
-					memberBirthday: null,
+					memberBirthday: null
 
 				},
-				EditPassord:{
-					checkPassord:"",
-					newPassord:""
+				isActive : false,
+
+				EditPassord: {
+					checkPassord: "",
+					newPassord: ""
 				}
 
 			},
-			mounted: function () {
-				let self = this;
+			mounted: function() {
+				const self = this;
 				axios('/api/member/one').then(res => {
 					self.getMemberData = res.data;
 					self.getMemberData[0].updatemember.memberBirthday = res.data[0].updatemember.memberBirthday.slice(0, 10);
@@ -107,12 +171,12 @@
 					self.EditMember.memberEmail = self.getMemberData[0].updatemember.memberEmail;
 					self.EditMember.memberBirthday = self.getMemberData[0].updatemember.memberBirthday;
 				});
-				
+
 			},
 			methods: {
-				Update: function () {
-					let self = this;
-					let request = {
+				Update: function() {
+					const self = this;
+					const request = {
 						MemberAdress: self.EditMember.memberAdress,
 						MemberGender: self.EditMember.memberGender,
 						MemberPhone: self.EditMember.memberPhone,
@@ -122,53 +186,53 @@
 					};
 					axios.put('/api/member/edit', request).then(res => {
 						//if(res.data == "good"){
-							Swal.fire('修改成功')
+						Swal.fire('修改成功');
 						//}
 						//else{
 						//	Swal.fire('修改失敗')
 						//}
-							//self.EditMember.memberName = "",
-							//	self.EditMember.memberPhone = "",
-							//	self.EditMember.memberAdress = "",
-							//	self.EditMember.memberGender = 0,
-							//	self.EditMember.memberEmail = "",
-							//	self.EditMember.memberBirthday = new Date().toISOString();
-						})
-			},
-			//Edit: function () {
-			//	let self = this;
-			//	axios.post('/api/member/edit', self.EditMember).then(res => {
-			//		self.EditMember.memberName = "",
-			//			self.EditMember.memberPhone = "",
-			//			self.EditMember.memberAdress = "",
-			//			self.EditMember.memberGender = 0,
-			//			self.EditMember.memberEmail = "",
-			//			self.EditMember.memberBirthday = new Date().toISOString();
-			//	})
-			//},
-			//EditComfirm: function (item) {
-			//	this.EditMember.memberName = item.updatemember.memberName
-			//	this.EditMember.memberPhone = item.updatemember.memberPhone
-			//	this.EditMember.memberAdress = item.updatemember.memberAdress
-			//	this.EditMember.memberGender = item.updatemember.memberGender
-			//	this.EditMember.memberEmail = item.updatemember.memberEmail
-			//	this.EditMember.memberBirthday = item.updatemember.memberBirthday
+						//self.EditMember.memberName = "",
+						//	self.EditMember.memberPhone = "",
+						//	self.EditMember.memberAdress = "",
+						//	self.EditMember.memberGender = 0,
+						//	self.EditMember.memberEmail = "",
+						//	self.EditMember.memberBirthday = new Date().toISOString();
+					});
+				},
+				//Edit: function () {
+				//	let self = this;
+				//	axios.post('/api/member/edit', self.EditMember).then(res => {
+				//		self.EditMember.memberName = "",
+				//			self.EditMember.memberPhone = "",
+				//			self.EditMember.memberAdress = "",
+				//			self.EditMember.memberGender = 0,
+				//			self.EditMember.memberEmail = "",
+				//			self.EditMember.memberBirthday = new Date().toISOString();
+				//	})
+				//},
+				//EditComfirm: function (item) {
+				//	this.EditMember.memberName = item.updatemember.memberName
+				//	this.EditMember.memberPhone = item.updatemember.memberPhone
+				//	this.EditMember.memberAdress = item.updatemember.memberAdress
+				//	this.EditMember.memberGender = item.updatemember.memberGender
+				//	this.EditMember.memberEmail = item.updatemember.memberEmail
+				//	this.EditMember.memberBirthday = item.updatemember.memberBirthday
 
-			//}
-			Edit:function(){
-				let self = this;
-				let request = {
+				//}
+				Edit: function() {
+					const self = this;
+					const request = {
 						checkPassord: self.EditPassord.checkPassord,
 						newPassord: self.EditPassord.newPassord
+					};
+					axios.put('/api/member/editpassord', request).then(res => {
+						Swal.fire('修改成功');
+
+					});
 				}
-				axios.put('/api/member/editpassord',request).then(res=>{
-							Swal.fire('修改成功');
 
-				})
 			}
-
-		}
-				})
+		});
 	</script>
 
 
