@@ -17,20 +17,65 @@ public class MyOrderApiController : ControllerBase
     }
 
     [Authorize]
-    public object GetMyOrder()
+    //public object GetMyOrder()
+    //{
+    //    var myId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id")!.Value);
+
+    //    return _context.Orders.Include(x => x.OrderDetails).ThenInclude(x=>x.Product).Where(x => x.MemberId == myId ).Select(x => new
+    //    {
+    //        x.MemberId,
+    //        x.OrderId,
+    //        x.OrderShipDate,
+    //        x.OrderStatus,
+    //        x.OrderTotalPrice,
+    //        x.OrderCreateDate,
+
+    //        OrderDetail = x.OrderDetails.Select(x => new
+    //        {
+    //            x.OrderId,
+    //            x.ProductId,
+    //            x.Product.ProductName,
+    //            x.Product.ProductPrice,
+    //            x.Product.ProductType,
+    //            x.OrderPrice,
+    //        })
+
+    //    });
+
+    //}
+
+    [HttpGet]
+    public IActionResult GetMyOrder()
     {
-        var myId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == "Id")!.Value);
-        return _context.Orders.Include(x => x.OrderDetails).Where(x => x.MemberId == myId).Select(x => new
-        {
-            x.OrderId,
-            x.OrderShipDate,
-            x.OrderStatus,
-            x.OrderTotalPrice,
-           
-       
-        });
+        return Ok(_context.Orders
+            .Include(x => x.Member)
+            .Include(x => x.OrderDetails)
+                .ThenInclude(od => od.Product)
+            .Select(x => new
+            {
+                x.Member.MemberName,
+                x.Member.MemberAccount,
+                x.MemberId,
+                x.OrderId,
+                x.OrderCreateDate,
+                x.OrderRecipientAdress,
+                x.OrderRecipientName,
+                x.OrderRecipientPhone,
+                x.OrderShipDate,
+                x.OrderTotalPrice,
+                x.OrderStatus,
+                OrderDetail = x.OrderDetails.Select(y => new
+                {
+                    y.OrderId,
+                    y.ProductId,
+                    y.OrderDetailId,
+                    y.OrderPrice,
+                    y.OrderQuantity,
+                    y.Product.ProductName,
+                    y.Product.ProductPrice
+                    //y.Product.ProductPics
+                }).ToList()
+            }).ToList());
     }
 
-   
-    
 }

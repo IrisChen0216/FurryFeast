@@ -62,7 +62,7 @@
 				</div>
 				<div>
 					<h6 class="label">密碼:</h6>
-					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" placeholder="請輸入密碼帳號" name="MemberPassord" data-constraints="Required" Required>
+					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="password" placeholder="請輸入密碼" name="MemberPassord" pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$" title="密碼必須包含英文字母和數字，並且最少為8個字符" data-constraints="Required" Required>
 				</div>
 				<div>
 					<h6 class="label">姓名: </h6>
@@ -83,7 +83,9 @@
 				</div>
 				<div>
 					<h6 class="label">手機號碼: </h6>
-					<input class="form-input form-control-has-validation" id="contact-first-name-2" type="tel" placeholder="請輸入手機號碼" name="MemberPhone" data-constraints="Required" maxlength="10" Required pattern="[0]{1}[9]{1}[0-9]{8}">
+					<input class="form-input form-control-has-validation" id="contact-first-name-2"
+					type="tel" placeholder="請輸入手機號碼" name="MemberPhone" data-constraints="Required" maxlength="10" 
+					pattern="^09\d{8}$" title="手機號碼須符合台灣的手機號碼格式" Required>
 				</div>
 				<div class="btn">
 					<button class="button button-primary button-primary button-zakaria" type="submit">註冊</button>
@@ -94,4 +96,4 @@
 </div>
 
 
-
+@*pattern="[0]{1}[9]{1}[0-9]{8}"*@

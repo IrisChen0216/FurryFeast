@@ -58,9 +58,10 @@ namespace FurryFeast.Controllers {
 		}
 
 		[Authorize]
-		public IActionResult OrderDetail()
+		public IActionResult OrderDetail([FromRoute]int id)
 		{
-			return View();
+			
+			return View(id);
 		}
 
 		[Authorize]
@@ -121,7 +122,7 @@ namespace FurryFeast.Controllers {
 					sm.Credentials = new NetworkCredential("thm101777@gmail.com", "krzjbxvibrueypdy");
 					sm.Send(Mail);
 				}
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("GetMail", "Member");
 			}
 			ViewBag.regFail = "註冊資料錯誤!";
 			return View();
@@ -141,7 +142,7 @@ namespace FurryFeast.Controllers {
 			return Ok($@"code:{code}  str:{str}");
 		}
 
-
+		public IActionResult GetMail() { return View(); }
 		public IActionResult Login() {
 			return View();
 		}
@@ -150,7 +151,13 @@ namespace FurryFeast.Controllers {
 		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null) {
 			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
-			if (Member == null) return View("Login");
+			if (Member == null) {
+
+                ViewBag.Error = "帳號密碼錯誤";
+                return View("Login");
+            }
+
+			
 
 			var ClaimList = new List<Claim>() {
 			new Claim(ClaimTypes.Name, Member.MemberName),
@@ -171,9 +178,11 @@ namespace FurryFeast.Controllers {
 
 				}
 			} else {
+				
 				return RedirectToAction("Index", "Home");
 
 			}
+			
 
 		}
 

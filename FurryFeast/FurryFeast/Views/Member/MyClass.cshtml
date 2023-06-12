@@ -3,25 +3,31 @@
 @{
     ViewData["Title"] = "MyClass";
 }
+@section Style{
+    <link href="~/css/button.css" rel="stylesheet" />
+}
+<div class="index-header">
+    <h2 >我的課程</h2>
+</div>
 
-<h2 class="index-header">我的課程</h2>
 <hr />
 
 <div id="app">
     <table>
         <tr>
-            <th>課程代碼</th>
+            <th>課程預定編號</th>
             <th>課程名稱</th>
-            <th>課程價格</th>
+            <th></th>
             <th>課程日期</th>
-            <th>課程資訊</th>
+            <th>課程狀態</th>
         </tr>
-        <tr v-for="item in myClass">
-            <td>{{item.PetClassId}}</td>
-            <td>{{item.PetClassName}}</td>
-            <td>{{item.PetClassPrice}}</td>
-            <td>{{item.PetClassDate}}</td>
-            <td>{{item.PetClassInformation}}</td>
+        <tr v-for="(item,index) in myClass" :key="index">
+            <td>{{item.classReservetionId}}</td>
+            <td>{{item.petClassName}}</td>
+            <td>{{item.productPrice}}</td>
+            <td>{{item.product.productPrice}}</td>
+            <td>{{item.classReservetionDate}}</td>
+            <td>{{item.classReservetionState}}</td>
         </tr>
    </table>
         
@@ -32,11 +38,15 @@
         let app = new Vue({
             el:"#app",
             data:{
-                myClass:[],
+                myClass:"",
             },
             mounted:function(){
+                alert('d')
                 let self = this;
-                axios('/api/myclass/two').then(res=> self.myClass = res.data)
+                axios(`/api/myclass/getmyclass`).then(res => {
+                    console.log(res.data);
+                    self.myClass = res.data
+                })
             }
 
         })
