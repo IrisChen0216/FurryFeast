@@ -151,6 +151,7 @@ namespace FurryFeast.Controllers {
 		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null) {
 			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
+			
 			if (Member == null) {
 
                 ViewBag.Error = "帳號密碼錯誤";
