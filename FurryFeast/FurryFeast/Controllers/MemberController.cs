@@ -148,7 +148,7 @@ namespace FurryFeast.Controllers {
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null) {
+		public async Task<IActionResult> Login(LoginViewModel list, [FromQuery] string typeID = null, [FromQuery] string recipeID = null, [FromQuery] int marketID = -1) {
 			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == list.MemberPassord);
 
 			if (Member == null) {
@@ -177,8 +177,20 @@ namespace FurryFeast.Controllers {
 					return View();
 
 				}
-			} else {
-				
+			}
+			if(marketID==1)
+			{
+				return RedirectToAction("IndexNewOne", "Products");
+			}
+			if (marketID == 2)
+			{
+				return RedirectToAction("PetClassIndexNew", "PetClasses");
+			}
+			if (marketID == 3)
+			{
+				return RedirectToAction("Donate", "Products");
+			}
+			else {
 				return RedirectToAction("Index", "Home");
 
 			}
@@ -186,6 +198,7 @@ namespace FurryFeast.Controllers {
 
 		}
 
+		
 		public IActionResult GoogleLogin() {
 			var prop = new AuthenticationProperties {
 				RedirectUri = Url.Action("GoogleResponse")
