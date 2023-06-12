@@ -71,8 +71,8 @@
 		<hr class="horizontal light mt-0 mb-2">
 		<div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
 			<ul class="navbar-nav">
-				<li class="nav-item">
-					@*根據 controller 和 action 名稱加上 active class*@
+				@*<li class="nav-item">
+					根據 controller 和 action 名稱加上 active class
 					<a class="accordion-link nav-link text-white @Html.Raw(temp == "AdminHomeDashboard" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="Home" asp-action="Dashboard">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">dashboard</i>
@@ -87,23 +87,23 @@
 						</div>
 						<span class="nav-link-text ms-1">Tables</span>
 					</a>
-				</li>
+				</li>*@
 				<li class="nav-item">
 					<a class="nav-link text-white @Html.Raw(temp == "AdminProductsIndex" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="Products" asp-action="Index">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">table_view</i>
 						</div>
-						<span class="nav-link-text ms-1">寵物商城商品</span>
+						<span class="nav-link-text ms-1">商城商品管理</span>
 					</a>
 				</li>
-				<li class="nav-item">
+				@*<li class="nav-item">
 					<a class="nav-link text-white @Html.Raw(temp == "AdminHomeBilling" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="Home" asp-action="Billing">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 							<i class="material-icons opacity-10">receipt_long</i>
 						</div>
 						<span class="nav-link-text ms-1">Billing</span>
 					</a>
-				</li>
+				</li>*@
 				<li class="nav-item">
 					<a class="nav-link text-white @Html.Raw(temp == "AdminArticlesListIndex" ? "active bg-gradient-primary" : "")" asp-area="Admin" asp-controller="ArticlesList" asp-action="Index">
 						<div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -257,15 +257,15 @@
 		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
 			<div class="container-fluid py-1 px-3">
 				@*麵包屑*@
-				<nav aria-label="breadcrumb">
+				@*<nav aria-label="breadcrumb">
 					<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
 						<li class="breadcrumb-item text-sm">
 							<a class="opacity-5 text-dark" href="javascript:;">Pages</a>
 						</li>
 						<li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
 					</ol>
-					@*<h6 class="font-weight-bolder mb-0">Dashboard</h6>*@
-				</nav>
+					<h6 class="font-weight-bolder mb-0">Dashboard</h6>
+				</nav>*@
 				<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
 					@*右上搜尋欄*@
 					@*<div class="ms-md-auto pe-md-3 d-flex align-items-center">

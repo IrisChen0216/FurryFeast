@@ -22,6 +22,7 @@ namespace FurryFeast.Models
         public string MemberPassord { get; set; } = null!;
         public int? ConponId { get; set; }
         public bool Active { get; set; }
+        public string? Salt { get; set; }
 
         public virtual Conpon? Conpon { get; set; }
         public virtual ICollection<MsgBoard> MsgBoards { get; set; }
