@@ -132,7 +132,7 @@
 						<td></td>
 						<td></td>
 						<td st>總金額</td>
-						<td>{{item.orderQuantity*item.productPrice}}</td>
+						<td>{{totalAmount}}</td>
 					</tr>
 				</table>
 			</div>
@@ -150,7 +150,8 @@
 			data: {
 				orders: [],
 				Details: {},
-				url: "/Member/OrderDetail/"
+				url: "/Member/OrderDetail/",
+				totalAmount:0
 			},
 			methods: {
 				getOrder: function(item) {
@@ -170,6 +171,13 @@
 							this.$set(this.Details, item.orderId, response.data);
 							this.Details = response.data[0].orderDetail;
 							console.log(this.Details);
+
+							let totalAmount = 0;
+							this.Details.forEach(detail => {
+								totalAmount += detail.orderQuantity * detail.productPrice;
+							});
+
+							this.totalAmount = totalAmount;
 						});
 					}
 				},
