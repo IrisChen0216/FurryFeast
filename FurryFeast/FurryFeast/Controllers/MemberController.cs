@@ -133,13 +133,14 @@ namespace FurryFeast.Controllers {
 			var str = encrypt.AesDecryptToString(code);
 			var obj = JsonSerializer.Deserialize<AesValidationDto>(str);
 			if (DateTime.Now > obj.ExpiredDate) {
-				return BadRequest("過期");
+				return View();
 			}
 			var user = _context.Members.FirstOrDefault(x => x.MemberAccount == obj.MemberAccount);
 			if (user != null) {
-				_context.SaveChanges();
+				 _context.SaveChanges();
 			}
-			return Ok($@"code:{code}  str:{str}");
+			//return Ok($@"code:{code}  str:{str}");
+			 return RedirectToAction("Index","Home");
 		}
 
 		public IActionResult GetMail() { return View(); }
