@@ -5,8 +5,8 @@
 }
 
 @section Style{
-	
-	<link href="~/css/animation.css" rel="stylesheet" />
+
+	<link href="~/css/animation.css" rel="stylesheet"/>
 	<style>
 		.title {
 			background-color: #ffe607;
@@ -31,33 +31,26 @@
 			line-height: 4;
 		}
 
-		tbody :last-child {
-			border: none;
-		}
+		tbody :last-child { border: none; }
 
-		
-		element.style {
-			padding: 5px 10px;
-		}
-		tbody :last-child {
-			border: none;
-		}
 
-		element.style {
-			padding: 5px 10px;
-		}
-		tbody :last-child {
-			border: none;
-		}
+		element.style { padding: 5px 10px; }
+
+		tbody :last-child { border: none; }
+
+		element.style { padding: 5px 10px; }
+
+		tbody :last-child { border: none; }
+
 		.button-zakaria.active {
 			background: black;
+			border: 2px solid black;
 			color: white;
-			border: 2px solid #ffe607;
 		}
 
-/*		.hover :hover {
-			background: red;
-		}*/
+	/*		.hover :hover {
+					background: red;
+				}*/
 
 	</style>
 
@@ -67,82 +60,104 @@
 	<h2>我的訂單</h2>
 </div>
 <hr/>
-
 <div id="app" class="hover">
-	<div class="shadow-sm my-5 p-2 pb-0 row mx-auto hover" style="border: 1px solid #ccc; border-radius: 6px;" v-for="(item, index) in orders" :key="item.orderId">
-		<table class="col-8 mx-auto table table-striped myorder " style="margin: 0;">
-			<tr class="title th">
-				<th class="mx-3">訂單編號</th>
-				<th>訂單日期</th>
-				<th>訂單出貨日期</th>
-				<th>訂單金額</th>
-				<th colspan="2">明細</th>
-				
-			</tr>
-			<tr style="vertical-align: baseline;">
-				<td>
-					{{item.orderId}}
-				</td>
-				<td>
-					{{format(item.orderCreateDate)}}
-				</td>
-				<td>
-					{{format(item.orderShipDate)}}
-				</td>
-				<td>
-					{{item.orderTotalPrice}}
-				</td>
-				<td colsapn="2">
-					@*{{State}}*@
-					<a role="button" class="button button-primary button-zakaria" :class="{active: item.isActive}" style="padding: 5px 10px;" v-on:click="getOrder(item)">訂單明細</a>
-					@*{{State}}*@
-					<a role="button" data-bs-toggle="collapse" class="m-0 button button-primary button-zakaria" :class="{active: item.isActive}" style="padding: 5px 10px; border: 2px solid #ffd33b;" v-on:click="getOrder(item)">其他</a>
-				</td>
-			</tr>
-		</table>
-		<template v-if="item.isCollapsed">
-			<div class="my-2 " style="border: 1px solid #ccc; border-radius: 6px; background: white;">
-				<table style="width: 100%;">
-					<tr style=" line-height: 3; border-bottom: 1px solid #ccc;">
-						<th>
-							商品編號
-						</th>
-						<th>
-							商品名稱
-						</th>
-						<th>
-							商品單價
-						</th>
-						<th>
-							購買數量
-						</th>
-						<th>
-							價格
-						</th>
+	<label>Start:</label>
+	<input type="date" v-model="startDate">
+	<label>End:</label>
+	<input type="date" v-model="endDate">
+	<button v-on:click="resetFilter">Reset</button>
+	<template>
+		<div>
+			<div class="shadow-sm my-5 p-2 pb-0 row mx-auto hover" style="border: 1px solid #ccc; border-radius: 6px;" v-for="item in filteredOrders.slice(pageStart, pageEnd)" :key="item.orderId">
+				<table class="col-8 mx-auto table table-striped myorder " style="margin: 0;">
+					<tr class="title th">
+						<th class="mx-3">訂單編號</th>
+						<th>訂單日期</th>
+						<th>訂單出貨日期</th>
+						<th>訂單金額</th>
+						<th colspan="2">明細</th>
+
 					</tr>
-					<tr class="productTxet" v-for="item in Details">
-						<td>{{item.productId}}</td>
-						<td>{{item.productName}}</td>
-						<td>{{item.productPrice}}</td>
-						<td>{{item.orderQuantity}}</td>
-						<td>{{item.orderQuantity*item.productPrice}}</td>
-					</tr>
-					<tr style="line-height: 3; font-size: larger; font-weight: bolder;">
-						<td></td>
-						<td></td>
-						<td></td>
-						<td st>總金額</td>
-						<td>{{item.orderQuantity*item.productPrice}}</td>
+					<tr style="vertical-align: baseline;">
+						<td>
+							{{item.orderId}}
+						</td>
+						<td>
+							{{format(item.orderCreateDate)}}
+						</td>
+						<td>
+							{{format(item.orderShipDate)}}
+						</td>
+						<td>
+							{{item.orderTotalPrice}}
+						</td>
+						<td colsapn="2">
+							@*{{State}}*@
+							<a role="button" class="button button-primary button-zakaria" :class="{active: item.isActive}" style="padding: 5px 10px;" v-on:click="getOrder(item)">訂單明細</a>
+							@*{{State}}*@
+							<a role="button" data-bs-toggle="collapse" class="m-0 button button-primary button-zakaria" :class="{active: item.isActive}" style="border: 2px solid #ffd33b; padding: 5px 10px;" v-on:click="getOrder(item)">其他</a>
+						</td>
 					</tr>
 				</table>
+				<template v-if="item.isCollapsed">
+					<div class="my-2 " style="background: white; border: 1px solid #ccc; border-radius: 6px;">
+						<table style="width: 100%;">
+							<tr style="border-bottom: 1px solid #ccc; line-height: 3;">
+								<th>
+									商品編號
+								</th>
+								<th>
+									商品名稱
+								</th>
+								<th>
+									商品單價
+								</th>
+								<th>
+									購買數量
+								</th>
+								<th>
+									價格
+								</th>
+							</tr>
+							<tr class="productTxet" v-for="item in Details">
+								<td>{{item.productId}}</td>
+								<td>{{item.productName}}</td>
+								<td>{{item.productPrice}}</td>
+								<td>{{item.orderQuantity}}</td>
+								<td>{{item.orderQuantity*item.productPrice}}</td>
+							</tr>
+							<tr style="font-size: larger; font-weight: bolder; line-height: 3;">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td st>總金額</td>
+								<td>{{item.orderQuantity*item.productPrice}}</td>
+							</tr>
+						</table>
+					</div>
+				</template>
 			</div>
-		</template>
-	</div>
+		</div>
+	</template>
+	<ul class="pagination">
+		<li class="page-item" v-on:click.prevent="setPage(currentPage-1)">
+			<a class="page-link" href="#" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+		<li class="page-item" v-for="(n, index) in totalPage" :key="index" v-on:click.prevent="setPage(n)"> <a class="page-link" href="#">{{ n }}</a>
+		</li>
+		<li class="page-item" v-on:click.prevent="setPage(currentPage+1)">
+			<a class="page-link" href="#" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+	</ul>
 </div>
 
 
 @section Scripts{
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 	<script>
 
 		let app = new Vue({
@@ -150,9 +165,18 @@
 			data: {
 				orders: [],
 				Details: {},
-				url: "/Member/OrderDetail/"
+				url: "/Member/OrderDetail/",
+				currentPage: 1,
+				perpage: 8,
+				startDate: null,
+				endDate: null
 			},
 			methods: {
+				resetFilter() {
+					this.startDate = null;
+					this.endDate = null;
+					this.currentPage = 1;
+				},
 				getOrder: function(item) {
 					this.orders.forEach(order => {
 						if (order.orderId !== item.orderId) {
@@ -181,10 +205,18 @@
 				},
 				format: function(date) {
 					return moment(date).format("YYYY-MM-DD HH:mm:ss");
-				}
-			},
-			mounted:
-				function() {
+				},
+				nextPage() {
+					if (this.currentPage < this.totalPages) {
+						this.currentPage += 1;
+					}
+				},
+				previousPage() {
+					if (this.currentPage > 1) {
+						this.currentPage -= 1;
+					}
+				},
+				getData: function() {
 					const self = this;
 					axios('/api/myorder/getmyorder').then(res => {
 							self.orders = res.data.map(order => {
@@ -202,7 +234,40 @@
 							console.error(error);
 							// Handle error
 						});
+				},
+				setPage(page) {
+					if (page <= 0 || page > this.totalPage) {
+						return;
+					}
+					this.currentPage = page;
 				}
+			},
+			mounted: function(){
+				this.getData();
+			},
+			computed: {
+				totalPage() {
+					return Math.ceil(this.filteredOrders.length / this.perpage);
+				},
+				pageStart() {
+					return (this.currentPage - 1) * this.perpage;
+				},
+				pageEnd() {
+					return Math.min(this.currentPage * this.perpage, this.filteredOrders.length);
+				},
+				filteredOrders() {
+					if (this.startDate && this.endDate) {
+						let start = new Date(this.startDate);
+						let end = new Date(this.endDate);
+						return this.orders.filter(order => {
+							let orderDate = new Date(order.orderCreateDate);
+							return orderDate >= start && orderDate <= end;
+						});
+					} else {
+						return this.orders;
+					}
+				}
+			}
 
 		});
 	</script>
