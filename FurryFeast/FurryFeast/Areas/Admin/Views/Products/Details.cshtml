@@ -167,10 +167,11 @@
 											<td>
 												<span>
 													<select v-model="selected">
-														<option :value="backendProduct.productTypeId">--請選擇--</option>
-														<option value="1">狗用</option>
-														<option value="2">貓用</option>
-														<option value="3">鮮食</option>
+														<option >--請選擇--</option>
+														<option value="1">DogProducts</option>
+														<option value="2">CatProducts</option>
+														<option value="3">FreshFoods</option>
+														<option value="4">DonateProduct</option>
 													</select>
 												</span>
 											</td>
@@ -252,7 +253,6 @@
 			mounted: function () {
 				let _this = this;
 				_this.ProductDetail();
-
 			},
 			methods: {
 				//網頁載入就會掛載全部商品資料的方法
@@ -272,6 +272,7 @@
 					_this.originalProductAmount = _this.backendProduct.productAmount;
 					_this.originalProductPrice = _this.backendProduct.productPrice;
 					_this.originalSelected = _this.backendProduct.productTypeId;
+					_this.selected = _this.backendProduct.productTypeId;
 				},
 				cancel: function () {
 					let _this = this;
@@ -279,6 +280,7 @@
 					_this.backendProduct.productName = _this.originalProductName;
 					_this.backendProduct.productAmount = _this.originalProductAmount;
 					_this.backendProduct.productPrice = _this.originalProductPrice;
+					_this.selected = _this.originalSelected
 				},
 				update: function () {
 					//alert("update");
@@ -299,10 +301,10 @@
 						ProductTypeName: _this.backendProduct.productTypeName
 					};
 					axios.put(`/api/products/PutProduct/`, request).then(response => {
+						_this.ProductDetail();
 						if (response.data == "success") {
 							Swal.fire('更新商品成功');
-						}
-						_this.ProductDetail();
+						}						
 						_this.cancel();
 					});
 

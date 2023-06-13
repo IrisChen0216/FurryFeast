@@ -109,7 +109,7 @@ namespace FurryFeast.Controllers {
 					MemberId = list.MemberId,
 				});
 				_context.SaveChanges();
-				var obj = new AesValidationDto(list.MemberPhone, DateTime.Now.AddDays(3));
+				var obj = new AesValidationDto(list.MemberAccount, DateTime.Now.AddDays(3));
 				var jstring = JsonSerializer.Serialize(obj);
 				var code = encrypt.AesEncryptToBase64(jstring);
 				string encodedStr = HttpUtility.UrlEncode(code);
@@ -172,6 +172,7 @@ namespace FurryFeast.Controllers {
 			}
 			var user = _context.Members.FirstOrDefault(x => x.MemberAccount == obj.MemberAccount);
 			if (user != null) {
+				user.Active = true;
 				_context.SaveChanges();
 			}
 			//return Ok($@"code:{code}  str:{str}");
@@ -196,7 +197,7 @@ namespace FurryFeast.Controllers {
 			var oriPassword = list.MemberPassord;
 			var password = GetNewHash(oriPassword, salt);
 
-			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == password);
+			var Member = _context.Members.FirstOrDefault(x => x.MemberAccount == list.MemberAccount && x.MemberPassord == password && x.Active==true);
 
 			if (Member == null) {
 
