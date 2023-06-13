@@ -39,7 +39,7 @@
 	<h2>修改會員資料</h2>
 </div>
 <div id="appQ">
-	<form class="py-5 mb-3 row mx-auto" style="border: 1px solid #ccc; border-radius: 6px; width: 50%;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+	<form class="py-5 mb-3 row mx-auto" style="border: 2px solid #ffd33b; border-radius: 6px; width: 50%;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
 		<table class="" style="position: relative;">
 			<tr>
 				<td class="text-end">
@@ -83,7 +83,7 @@
 					<p class="memberTitle" style="font-weight: 400;">Email</p>
 				</td>
 				<td class=" text-start">
-					<input class="passwordText" id="mail" v-model="EditMember.memberEmail">
+					<input class="passwordText" id="mail" v-model="EditMember.memberEmail" type="email">
 				</td>
 			</tr>
 			<tr>
@@ -100,13 +100,13 @@
 
 	<div>
 		<button class="me-3 button button-lg button-primary button-zakaria" type="submit" v-on:click="Update">修改資料</button>
-		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</a>
+		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">返回上一頁</a>
 
 	</div>
 	<div class="index-header mt-3">
 		<h2>變更密碼</h2>
 	</div>
-	<div class="col-6 mx-auto py-4 mb-3" style="border: 1px solid #ccc; border-radius: 6px;">
+	<div class="col-6 mx-auto py-4 mb-3" style="border: 2px solid #ffd33b; border-radius: 6px;">
 		<div>
 			<label class="text-end memberTitle" >輸入原密碼</label>
 			<input class="input passwordText" style="width: auto;" type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
@@ -120,7 +120,7 @@
 
 	<div class="col">
 		<button class="me-3 button button-lg button-primary button-zakaria" type="submit" v-on:click="Edit">更新密碼</button>
-		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</a>
+		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">返回上一頁</a>
 	</div>
 </div>
 
@@ -185,40 +185,13 @@
 						MemberBirthday: self.EditMember.memberBirthday
 					};
 					axios.put('/api/member/edit', request).then(res => {
-						//if(res.data == "good"){
+						
 						Swal.fire('修改成功');
-						//}
-						//else{
-						//	Swal.fire('修改失敗')
-						//}
-						//self.EditMember.memberName = "",
-						//	self.EditMember.memberPhone = "",
-						//	self.EditMember.memberAdress = "",
-						//	self.EditMember.memberGender = 0,
-						//	self.EditMember.memberEmail = "",
-						//	self.EditMember.memberBirthday = new Date().toISOString();
+					
+						}
+				
 					});
 				},
-				//Edit: function () {
-				//	let self = this;
-				//	axios.post('/api/member/edit', self.EditMember).then(res => {
-				//		self.EditMember.memberName = "",
-				//			self.EditMember.memberPhone = "",
-				//			self.EditMember.memberAdress = "",
-				//			self.EditMember.memberGender = 0,
-				//			self.EditMember.memberEmail = "",
-				//			self.EditMember.memberBirthday = new Date().toISOString();
-				//	})
-				//},
-				//EditComfirm: function (item) {
-				//	this.EditMember.memberName = item.updatemember.memberName
-				//	this.EditMember.memberPhone = item.updatemember.memberPhone
-				//	this.EditMember.memberAdress = item.updatemember.memberAdress
-				//	this.EditMember.memberGender = item.updatemember.memberGender
-				//	this.EditMember.memberEmail = item.updatemember.memberEmail
-				//	this.EditMember.memberBirthday = item.updatemember.memberBirthday
-
-				//}
 				Edit: function() {
 					const self = this;
 					const request = {
