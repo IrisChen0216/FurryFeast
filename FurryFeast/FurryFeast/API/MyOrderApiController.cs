@@ -16,39 +16,23 @@ public class MyOrderApiController : ControllerBase
         _context = context;
     }
 
-    [Authorize]
+    
     [HttpGet]
-    public IActionResult GetMyOrder()
+    public object GetMyOrder()
     {
-        return Ok(_context.Orders
-            .Include(x => x.Member)
-            .Include(x => x.OrderDetails)
-                .ThenInclude(od => od.Product)
-            .Select(x => new
+        var id = int.Parse(User.Claims.FirstOrDefault(x=>x.Type == "Id").Value);
+        return _context.Orders.Include(x => x.OrderDetails).Where(x => x.MemberId == id)
+			.Select(x => new
             {
-                x.Member.MemberName,
-                x.Member.MemberAccount,
-                x.MemberId,
+
                 x.OrderId,
                 x.OrderCreateDate,
-                x.OrderRecipientAdress,
-                x.OrderRecipientName,
-                x.OrderRecipientPhone,
                 x.OrderShipDate,
                 x.OrderTotalPrice,
-                x.OrderStatus,
-                OrderDetail = x.OrderDetails.Select(y => new
-                {
-                    y.OrderId,
-                    y.ProductId,
-                    y.OrderDetailId,
-                    y.OrderPrice,
-                    y.OrderQuantity,
-                    y.Product.ProductName,
-                    y.Product.ProductPrice
-                    //y.Product.ProductPics
-                }).ToList()
-            }).ToList());
+
+
+            });
+        //return Ok(data);
     }
 
 }
