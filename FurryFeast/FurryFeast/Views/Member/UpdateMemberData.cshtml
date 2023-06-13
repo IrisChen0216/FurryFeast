@@ -38,7 +38,7 @@
 <div class="index-header">
 	<h2>修改會員資料</h2>
 </div>
-<div id="appQ">
+<div id="app">
 	<form class="py-5 mb-3 row mx-auto" style="border: 2px solid #ffd33b; border-radius: 6px; width: 50%;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
 		<table class="" style="position: relative;">
 			<tr>
@@ -91,7 +91,7 @@
 					<p class="memberTitle">地址</p>
 				</td>
 				<td class="text-start">
-					<input stype="width:60%" class="passwordText" v-model="EditMember.memberAdress">
+					<input stype="width:60%" class="passwordText" v-model="EditMember.memberAdress" id="adress" >
 				</td>
 			</tr>
 		</table>
@@ -138,8 +138,8 @@
 					}
 				}
 			});
-		var appQ = new Vue({
-			el: "#appQ",
+		var app = new Vue({
+			el: "#app",
 			data: {
 				getMemberData: "",
 				EditMember: {
@@ -160,7 +160,8 @@
 
 			},
 			mounted: function() {
-				const self = this;
+				let self = this;
+				
 				axios('/api/member/one').then(res => {
 					self.getMemberData = res.data;
 					self.getMemberData[0].updatemember.memberBirthday = res.data[0].updatemember.memberBirthday.slice(0, 10);
@@ -171,12 +172,12 @@
 					self.EditMember.memberEmail = self.getMemberData[0].updatemember.memberEmail;
 					self.EditMember.memberBirthday = self.getMemberData[0].updatemember.memberBirthday;
 				});
-
+				this.getAdress();
 			},
 			methods: {
 				Update: function() {
-					const self = this;
-					const request = {
+					let self = this;
+					let request = {
 						MemberAdress: self.EditMember.memberAdress,
 						MemberGender: self.EditMember.memberGender,
 						MemberPhone: self.EditMember.memberPhone,
@@ -188,13 +189,13 @@
 						
 						Swal.fire('修改成功');
 					
-						}
+						
 				
 					});
 				},
 				Edit: function() {
-					const self = this;
-					const request = {
+					let self = this;
+					let request = {
 						checkPassord: self.EditPassord.checkPassord,
 						newPassord: self.EditPassord.newPassord
 					};
@@ -202,9 +203,23 @@
 						Swal.fire('修改成功');
 
 					});
-				}
+				},
+				getAdress:function(){
+					//let self = this;
+					if(this.EditMember.memberAdress === ""){
+						this.EditMember.memberAdress ="尚未填寫";
+					}
+				},
 
-			}
+			},
+			watch: {
+				'EditMember.memberAdress': function (newValue) {
+					if (newValue === "") {
+						this.getAdress();
+					}
+				}
+			},
+
 		});
 	</script>
 

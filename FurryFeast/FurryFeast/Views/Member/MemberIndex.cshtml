@@ -34,17 +34,15 @@
 	<h2>會員資訊</h2>
 </div>
 <!-- RD Mailform-->
-@{
+@*@{
 	var gender = "";
-	var mail = "";
 	var Add = "";
-	if (Model.MemberAdress == null || Model.MemberEmail == null || Model.MemberGender == null)
+	if (Model.MemberAdress == null )
 	{
-		mail = Add = "尚未填寫";
+		Add = "尚未填寫";
 	}
 	else
 	{
-		mail = Model.MemberEmail;
 		Add = Model.MemberAdress;
 		if (Model.MemberGender == 0)
 		{
@@ -56,7 +54,7 @@
 		}
 	}
 
-}
+}*@
 
 <form class="py-5 mb-4 row mx-auto" style="border: 2px solid #ffd33b; border-radius: 6px; width: 50%;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
 	<table class="" style="position: relative;">
@@ -81,7 +79,7 @@
 				<p class="memberTitle">性別</p>
 			</td>
 			<td class="text-start">
-				<p id="gender" class="memberText">@gender</p>
+				<p id="gender" class="memberText">@Model.MemberGender</p>
 			</td>
 		</tr>
 		<tr>
@@ -97,7 +95,7 @@
 				<p class="memberTitle" >Email</p>
 			</td>
 			<td class=" text-start">
-				<p class="memberText" id="mail">@mail</p>
+				<p class="memberText" id="mail">@Model.MemberEmail</p>
 			</td>
 		</tr>
 		<tr>
@@ -105,7 +103,7 @@
 				<p class="memberTitle">地址</p>
 			</td>
 			<td class="text-start">
-				<p class="memberText">@Add</p>
+				<p class="memberText" id="adress" >@Model.MemberAdress</p>
 			</td>
 		</tr>
 	</table>
@@ -116,7 +114,11 @@
 @section Scripts{
 
 	<script>
-		document.getElementById("gender").textContent = (@Model.MemberGender == 0) ? "女" : "男";
+		var gender = "@Model.MemberGender";
+		var adress = "@Model.MemberAdress";
+		document.getElementById("gender").textContent = (gender == 0) ? "女" : "男";
+		if (adress == "") { document.getElementById("adress").textContent = "尚未填寫"; }
+		
 
 	</script>
 }
