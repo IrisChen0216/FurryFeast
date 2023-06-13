@@ -3,7 +3,7 @@
 }
 
 @section Style{
-	<link href="~/css/button.css" rel="stylesheet"/>
+	<link href="~/css/button.css" rel="stylesheet" />
 }
 
 <style>
@@ -29,9 +29,9 @@
 		width: 70%;
 	}
 
-	.passwordText:active {
-		border: 1px solid #000;
-	}
+		.passwordText:active {
+			border: 1px solid #000;
+		}
 
 </style>
 
@@ -63,9 +63,9 @@
 				</td>
 				<td class="text-start">
 					<div style="margin-top: 12px; padding: 10px;">
-						<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender"/>
+						<input type="radio" name="UpdateGender" :value="1" v-model="EditMember.memberGender" />
 						<label class="me-3">男</label>
-						<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender"/>
+						<input type="radio" name="UpdateGender" :value="0" v-model="EditMember.memberGender" />
 						<label>女</label>
 					</div>
 				</td>
@@ -108,7 +108,7 @@
 	</div>
 	<div class="col-6 mx-auto py-4 mb-3" style="border: 1px solid #ccc; border-radius: 6px;">
 		<div>
-			<label class="text-end memberTitle" >輸入原密碼</label>
+			<label class="text-end memberTitle">輸入原密碼</label>
 			<input class="input passwordText" style="width: auto;" type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
 		</div>
 
@@ -133,7 +133,7 @@
 				template: `<input v-bind:value="value" v-on:input="updateValue($event.target.value)" type="date">`,
 				props: ['value'],
 				methods: {
-					updateValue: function(value) {
+					updateValue: function (value) {
 						this.$emit('input', value);
 					}
 				}
@@ -151,7 +151,7 @@
 					memberBirthday: null
 
 				},
-				isActive : false,
+				isActive: false,
 
 				EditPassord: {
 					checkPassord: "",
@@ -159,7 +159,7 @@
 				}
 
 			},
-			mounted: function() {
+			mounted: function () {
 				const self = this;
 				axios('/api/member/one').then(res => {
 					self.getMemberData = res.data;
@@ -174,7 +174,7 @@
 
 			},
 			methods: {
-				Update: function() {
+				Update: function () {
 					const self = this;
 					const request = {
 						MemberAdress: self.EditMember.memberAdress,
@@ -219,18 +219,30 @@
 				//	this.EditMember.memberBirthday = item.updatemember.memberBirthday
 
 				//}
-				Edit: function() {
+				Edit: function () {
 					const self = this;
 					const request = {
 						checkPassord: self.EditPassord.checkPassord,
 						newPassord: self.EditPassord.newPassord
 					};
 					axios.put('/api/member/editpassord', request).then(res => {
-						Swal.fire('修改成功');
-
+						Swal.fire({
+							title: `修改成功!`,
+							text: res.data,
+							icon: 'success',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						})
+					}).catch(error => {
+						Swal.fire({
+							title: `錯誤!`,
+							text: error.response.data,
+							icon: 'error',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: `確認`,
+						});
 					});
 				}
-
 			}
 		});
 	</script>
