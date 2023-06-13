@@ -36,7 +36,7 @@ namespace FurryFeast.Controllers
 			var person = _context.Members.FirstOrDefault(x => x.MemberId == userID);
 			List<CartItem> cartItems = SessionHelper.GetProductCartSession<List<CartItem>>(HttpContext.Session, "cart");
 			int Total = cartItems.Sum(x => x.Subtotal);
-			var memberOrder = _context.Orders.Include(x => x.Member).Where(x => x.MemberId == userID).Select(x => new CartOrderViewModel
+			var memberOrder = _context.Members.Where(x => x.MemberId == userID).Select(x => new CartOrderViewModel
 			{
 				Order = new Order
 				{
@@ -46,9 +46,9 @@ namespace FurryFeast.Controllers
 				},
 				Member = new Member
 				{
-					MemberName = x.Member.MemberName,
-					MemberEmail = x.Member.MemberEmail,
-					MemberPhone = x.Member.MemberPhone,
+					MemberName = x.MemberName,
+					MemberEmail = x.MemberEmail,
+					MemberPhone = x.MemberPhone,
 
 				}
 
