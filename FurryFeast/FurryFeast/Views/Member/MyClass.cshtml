@@ -5,6 +5,26 @@
 }
 @section Style{
     <link href="~/css/button.css" rel="stylesheet" />
+    <style>
+        .title {
+            background-color: #ffe607;
+            color: aliceblue;
+        }
+
+        th {
+            color: black;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            --bs-table-accent-bg: #ffd33b6b;
+            color: var(--bs-table-striped-color);
+        }
+
+        .ml-2 {
+            margin-right: 70px;
+        }
+
+    </style>
 }
 <div class="index-header">
     <h2 >我的課程</h2>
@@ -12,22 +32,21 @@
 
 <hr />
 
-<div id="app">
-    <table>
-        <tr>
-            <th>課程預定編號</th>
-            <th>課程名稱</th>
-            <th></th>
-            <th>課程日期</th>
-            <th>課程狀態</th>
+<div id="app" class="text-center">
+    <table class="table table-striped mx-auto table-header">
+        <tr class="title">
+            <th class="col-1">課程編號</th>
+            <th class="col-2">課程名稱</th>
+            <th class="col-2">課程時間</th>
+            <th class="col-1">課程價格</th>
+            <th class="col-6">課程資訊</th>
         </tr>
-        <tr v-for="(item,index) in myClass" :key="index">
+        <tr v-for="(item,index) in myclass" :key="index">
             <td>{{item.classReservetionId}}</td>
-            <td>{{item.petClassName}}</td>
-            <td>{{item.productPrice}}</td>
-            <td>{{item.product.productPrice}}</td>
-            <td>{{item.classReservetionDate}}</td>
-            <td>{{item.classReservetionState}}</td>
+           <td>{{item.petClassName}}</td>
+            <td>{{item.petClassDate}}</td>
+            <td>{{item.petClassPrice}}</td>
+            <td>{{item.petClassInformation}}</td>
         </tr>
    </table>
         
@@ -38,16 +57,16 @@
         let app = new Vue({
             el:"#app",
             data:{
-                myClass:"",
+                myclass:[],
             },
             mounted:function(){
                 alert('d')
                 let self = this;
-                axios(`/api/myclass/getmyclass`).then(res => {
-                    console.log(res.data);
-                    self.myClass = res.data
-                })
-            }
+                axios('/api/class/getclass').then(res=> self.myclass = res.data)
+               
+   
+            },
+           
 
         })
     </script>
