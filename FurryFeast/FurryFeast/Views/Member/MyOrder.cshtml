@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Order>
+﻿@model IEnumerable<FurryFeast.Models.Order>
 
 @{
 	ViewData["Title"] = "MyOrder";
@@ -15,7 +15,7 @@
 
 		.th { line-height: 1.5; }
 
-		th { color: black; }
+		th { color:black; }
 
 		.table-striped > tbody > tr:nth-of-type(odd) {
 			--bs-table-accent-bg: #ffd33b6b;
@@ -68,8 +68,8 @@
 </div>
 <hr/>
 
-<div id="app" class="hover">
-	<div class="shadow-sm my-5 p-2 pb-0 row mx-auto hover" style="border: 1px solid #ccc; border-radius: 6px;" v-for="(item, index) in orders" :key="item.orderId">
+<div id="app" >
+	<div class="shadow-sm my-5 p-2 pb-0 row mx-auto hover" style="border: 1px solid #ccc; border-radius: 6px;" v-for="(order,index) in orders" :key="index">
 		<table class="col-8 mx-auto table table-striped myorder " style="margin: 0;">
 			<tr class="title th">
 				<th class="mx-3">訂單編號</th>
@@ -81,137 +81,57 @@
 			</tr>
 			<tr style="vertical-align: baseline;">
 				<td>
-					{{item.orderId}}
+					{{order.orderId}}
 				</td>
 				<td>
-					{{format(item.orderCreateDate)}}
+					{{order.orderCreateDate}}
 				</td>
 				<td>
-					{{format(item.orderShipDate)}}
+					{{order.orderShipDate}}
 				</td>
 				<td>
-					{{item.orderTotalPrice}}
+					{{order.orderTotalPrice}}
 				</td>
 				<td colsapn="2">
-					@*{{State}}*@
-					<a role="button" class="button button-primary button-zakaria" :class="{active: item.isActive}" style="padding: 5px 10px;" v-on:click="getOrder(item)">訂單明細</a>
-					@*{{State}}*@
-					<a role="button" data-bs-toggle="collapse" class="m-0 button button-primary button-zakaria" :class="{active: item.isActive}" style="padding: 5px 10px; border: 2px solid #ffd33b;" v-on:click="getOrder(item)">其他</a>
+					
+					<a :href="url+order.orderId" class="button button-lg button-primary button-zakaria" v-on:click="getOrder(order.orderId)">訂單明細</a>
+
 				</td>
 			</tr>
 		</table>
-		<template v-if="item.isCollapsed">
-			<div class="my-2 " style="border: 1px solid #ccc; border-radius: 6px; background: white;">
-				<table style="width: 100%;">
-					<tr style=" line-height: 3; border-bottom: 1px solid #ccc;">
-						<th>
-							商品編號
-						</th>
-						<th>
-							商品名稱
-						</th>
-						<th>
-							商品單價
-						</th>
-						<th>
-							購買數量
-						</th>
-						<th>
-							價格
-						</th>
-					</tr>
-					<tr class="productTxet" v-for="item in Details">
-						<td>{{item.productId}}</td>
-						<td>{{item.productName}}</td>
-						<td>{{item.productPrice}}</td>
-						<td>{{item.orderQuantity}}</td>
-						<td>{{item.orderQuantity*item.productPrice}}</td>
-					</tr>
-					<tr style="line-height: 3; font-size: larger; font-weight: bolder;">
-						<td></td>
-						<td></td>
-						<td></td>
-						<td st>總金額</td>
-						<td>{{totalAmount}}</td>
-					</tr>
-				</table>
-			</div>
-		</template>
+	
 	</div>
 </div>
 
 
 @section Scripts{
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+	@*<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />*@
 	<script>
-
 		let app = new Vue({
 			el: "#app",
 			data: {
 				orders: [],
-				Details: {},
+				orderdetals: [],
 				url: "/Member/OrderDetail/",
-				totalAmount:0
+
 			},
 			methods: {
-				getOrder: function(item) {
-					this.orders.forEach(order => {
-						if (order.orderId !== item.orderId) {
-							order.isCollapsed = false;
-							order.isActive = false;
-						}
-					});
+				getOrder: function (orderId) {
+					let self = this;
+					axios.get(`/api/orders/GetData/${orderId}`).then(res => self.orders = res.data)
 
-					item.isCollapsed = !item.isCollapsed;
-					item.isActive = !item.isActive;
-
-					if (!this.Details[item.orderId]) {
-						this.Details = {};
-						axios.get(`/api/orders/GetData/${item.orderId}`).then(response => {
-							this.$set(this.Details, item.orderId, response.data);
-							this.Details = response.data[0].orderDetail;
-							console.log(this.Details);
-
-							let totalAmount = 0;
-							this.Details.forEach(detail => {
-								totalAmount += detail.orderQuantity * detail.productPrice;
-							});
-
-							this.totalAmount = totalAmount;
-						});
-					}
 				},
-				getDetails: function() {
-					const _this = this;
-					_this.orders.forEach(item => {
-						console.log(item.productName);
-					});
-				},
-				format: function(date) {
+				format: function (date) {
 					return moment(date).format("YYYY-MM-DD HH:mm:ss");
-				}
+				},
 			},
-			mounted:
-				function() {
-					const self = this;
-					axios('/api/myorder/getmyorder').then(res => {
-							self.orders = res.data.map(order => {
-								return {
-									...order,
-									isCollapsed: false,
-									isActive: false
-								};
-							});
-
-							console.log(self.orders);
-
-						})
-						.catch(error => {
-							console.error(error);
-							// Handle error
-						});
-				}
-
-		});
+			mounted: function () {
+				let self = this;
+				axios('/api/myorder/getmyorder').then(res => {
+					console.log(res);
+					self.orders = res.data
+				})
+			}
+		})
 	</script>
 }

@@ -11,13 +11,19 @@
         }
 
         th {
-            color: white;
+            color: black;
         }
 
         .table-striped > tbody > tr:nth-of-type(odd) {
             --bs-table-accent-bg: #ffd33b6b;
             color: var(--bs-table-striped-color);
         }
+
+        .ml-2 {
+            margin-right:70px;
+        }
+
+
     </style>
 }
 
@@ -26,16 +32,23 @@
 </div>
 <hr />
 
-<div id="app">
-    <table class="table table-striped" >
+<div id="app" class="text-center">
+    <table class="table table-striped mx-auto">
         <tr class="title">
+          
+            <th></th>
+            <th></th>
             <th>商品名稱</th>
             <th>商品價格</th>
             <th>商品數量</th>
-            <th>訂單總額</th>
+            <th>商品總額</th>
+            <th></th>
         </tr>
        
             <tr v-for="(order,index) in orderdetails.orderDetail" :key="index">
+            <td></td>
+            <td></td>
+            
             <td>
                 {{order.productName}}
             </td>
@@ -45,13 +58,23 @@
             <td>
                 {{order.orderQuantity}}
             </td>
-            <td>
-                {{order.productPrice*order.orderQuantity}}
-            </td>
+            <td> {{order.productPrice*order.orderQuantity}}</td>
+            <td></td>
             <tr>
             <td :colspan="4"></td>
-            <td class="total-amount">總金額:</td>
-            <td class="total-amount">{{ getTotalPrice }}</td>
+            
+           <td></td>
+
+            <td >
+                <div class="ml-2 ms-2">總金額:&nbsp;&nbsp;&nbsp;&nbsp;{{ getTotalPrice }}</div>
+            </td>
+               
+           
+
+
+
+
+
             </tr>
  
 
