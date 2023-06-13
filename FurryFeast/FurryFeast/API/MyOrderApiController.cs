@@ -18,10 +18,10 @@ public class MyOrderApiController : ControllerBase
 
     
     [HttpGet]
-    public object GetMyOrder()
+    public IActionResult GetMyOrder()
     {
         var id = int.Parse(User.Claims.FirstOrDefault(x=>x.Type == "Id").Value);
-        return _context.Orders.Include(x => x.OrderDetails).Where(x => x.MemberId == id)
+        var data = _context.Orders.Include(x => x.OrderDetails).Where(x => x.MemberId == id)
 			.Select(x => new
             {
 
@@ -32,7 +32,7 @@ public class MyOrderApiController : ControllerBase
 
 
             });
-        //return Ok(data);
+        return Ok(data);
     }
 
 }

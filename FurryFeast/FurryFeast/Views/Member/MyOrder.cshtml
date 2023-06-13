@@ -71,7 +71,7 @@
 <div id="app" >
 	<div class="ms-md-auto mt-2 pe-md-3 d-flex align-items-center col-3 mx-3">
 		<div class="input-group input-group-outline">
-			<label class="form-label">Search Order...</label>
+			<label class="form-label">Search Date...</label>
 			<input type="text" class="form-control" v-model="keyword" @@keyup="filterorder">
 		</div>
 	</div>
@@ -119,30 +119,36 @@
 				orders: [],
 				orderdetals: [],
 				url: "/Member/OrderDetail/",
-				keyword:""
+				keyword:"",
+				originorder:[],
 			},
 			methods: {
-				getOrder: function (orderId) {
+				//getOrder: function (orderId) {
+				//	let self = this;
+				//	axios.get(`/api/orders/GetData/${orderId}`).then(res => self.orders = res.data)
+
+				//},
+				//format: function (date) {
+				//	return moment(date).format("YYYY-MM-DD HH:mm:ss");
+				//},
+				filterorder: function () {
 					let self = this;
-					axios.get(`/api/orders/GetData/${orderId}`).then(res => self.orders = res.data)
+					if(self.keyword.trim() == ""){
+						self.orders = self.originorder
+					}
+					else{
+						self.orders = self.orders.filter(x =>
+							x.orderCreateDate.includes(self.keyword))
+					}
 
 				},
-				format: function (date) {
-					return moment(date).format("YYYY-MM-DD HH:mm:ss");
-				},
-				filterorder:function(){
-					let self = this;
-					self.orders = self.orders.filter(x=>
-						(x.orderId &&x.orderId.includes(self.keyword)) 
-					);
-				}
 			},
 			mounted: function () {
-				alert("d")
+				
 				let self = this;
 				axios('/api/myorder/getmyorder').then(res => {
 					console.log(res);
-					self.orders = res.data
+					self.originorder = self.orders = res.data
 				})
 			}
 		})
