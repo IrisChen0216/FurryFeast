@@ -148,6 +148,15 @@
 			border-radius:4px;
 			height:30px;
 		}
+		.new-pic{
+			margin-bottom: 20px;
+			border-color: gray;
+			border: 1px solid;
+			width: 80%;
+			padding:5px;
+			margin-left:32px;
+			border-color: gray;
+		}
 	</style>
 }
 
@@ -380,18 +389,18 @@
 					<div class="form-group">
 						<label class="form-label new-title">商品名稱:</label>
 
-						<select v-model="selectedProductId">
+						<select v-model="selectedProductId" class="sele">
 							<option>--選擇--</option>
 							<option v-for="item in backendProducts" :value="item.backEndProduct.productId">{{item.backEndProduct.productName}}</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label class="form-label new-title">商品詳情圖片1:</label>
-						<input id="fileInput1" class="form-control" v-on:change="FileChange($event,0)" type="file" />
+						<input id="fileInput1" class="form-control new-pic" v-on:change="FileChange($event,0)" type="file" />
 						<label class="form-label new-title">商品詳情圖片2:</label>
-						<input id="fileInput2" class="form-control" v-on:change="FileChange($event,1)" type="file" />
+						<input id="fileInput2" class="form-control new-pic" v-on:change="FileChange($event,1)" type="file" />
 						<label class="form-label new-title">商品詳情圖片3:</label>
-						<input id="fileInput3" class="form-control" v-on:change="FileChange($event,2)" type="file" />
+						<input id="fileInput3" class="form-control new-pic" v-on:change="FileChange($event,2)" type="file" />
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -428,7 +437,7 @@
 				productPicImage: ["", "", ""],
 				selectedArticle: "",
 				originState: [],
-				selectedProductId: null,
+				selectedProductId: "",
 				maxCount: 5,
 				Page: 1,
 			},
