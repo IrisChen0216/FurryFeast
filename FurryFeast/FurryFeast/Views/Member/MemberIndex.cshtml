@@ -37,14 +37,12 @@
 	var gender = "";
 	var mail = "";
 	var Add = "";
-	if (Model.MemberAdress == "" || Model.MemberEmail == "" )
+	if (Model.MemberAdress == null)
 	{
-		mail= "尚未填寫";
 		Add = "尚未填寫";
 	}
 	else
 	{
-		mail = Model.MemberEmail;
 		Add = Model.MemberAdress;
 	}
 
@@ -89,7 +87,7 @@
 				<p class="memberTitle" style="font-weight: 400;">Email</p>
 			</td>
 			<td class=" text-start">
-				<p class="memberText" id="mail">@mail</p>
+				<p class="memberText" id="mail">@Model.MemberEmail</p>
 			</td>
 		</tr>
 		<tr>
