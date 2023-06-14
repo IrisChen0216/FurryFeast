@@ -38,8 +38,8 @@
 <div class="index-header">
 	<h2>修改會員資料</h2>
 </div>
-<div id="appQ">
-	<form class="py-5 mb-3 row mx-auto" style="border: 1px solid #ccc; border-radius: 6px; width: 50%;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
+<div id="app">
+	<form class="py-5 mb-3 row mx-auto" style="border: 2px solid #ffd33b; border-radius: 6px; width: 50%;" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
 		<table class="" style="position: relative;">
 			<tr>
 				<td class="text-end">
@@ -83,7 +83,7 @@
 					<p class="memberTitle" style="font-weight: 400;">Email</p>
 				</td>
 				<td class=" text-start">
-					<input class="passwordText" id="mail" v-model="EditMember.memberEmail">
+					<input class="passwordText" id="mail" v-model="EditMember.memberEmail" type="email">
 				</td>
 			</tr>
 			<tr>
@@ -91,7 +91,7 @@
 					<p class="memberTitle">地址</p>
 				</td>
 				<td class="text-start">
-					<input stype="width:60%" class="passwordText" v-model="EditMember.memberAdress">
+					<input stype="width:60%" class="passwordText" v-model="EditMember.memberAdress" id="adress" >
 				</td>
 			</tr>
 		</table>
@@ -100,13 +100,13 @@
 
 	<div>
 		<button class="me-3 button button-lg button-primary button-zakaria" type="submit" v-on:click="Update">修改資料</button>
-		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</a>
+		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">返回上一頁</a>
 
 	</div>
 	<div class="index-header mt-3">
 		<h2>變更密碼</h2>
 	</div>
-	<div class="col-6 mx-auto py-4 mb-3" style="border: 1px solid #ccc; border-radius: 6px;">
+	<div class="col-6 mx-auto py-4 mb-3" style="border: 2px solid #ffd33b; border-radius: 6px;">
 		<div>
 			<label class="text-end memberTitle">輸入原密碼</label>
 			<input class="input passwordText" style="width: auto;" type="password" v-model="EditPassord.checkPassord" name="checkPassord" />
@@ -114,13 +114,13 @@
 
 		<div>
 			<label class="memberTitle">輸入新密碼</label>
-			<input class="input passwordText" style="width: auto;" type="password" name="newPassord" v-model="EditPassord.newPassord" />
+			<input class="input passwordText" style="width: auto;" type="password" name="newPassord" v-model="EditPassord.newPassord" pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$" title="密碼必須包含英文字母和數字，並且最少為8個字符" />
 		</div>
 	</div>
 
 	<div class="col">
 		<button class="me-3 button button-lg button-primary button-zakaria" type="submit" v-on:click="Edit">更新密碼</button>
-		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">取消</a>
+		<a asp-controller="Member" asp-action="MemberIndex" class="m-0 button button-lg button-primary button-zakaria">返回上一頁</a>
 	</div>
 </div>
 
@@ -138,8 +138,8 @@
 					}
 				}
 			});
-		var appQ = new Vue({
-			el: "#appQ",
+		var app = new Vue({
+			el: "#app",
 			data: {
 				getMemberData: "",
 				EditMember: {
@@ -159,8 +159,9 @@
 				}
 
 			},
-			mounted: function () {
-				const self = this;
+			mounted: function() {
+				let self = this;
+				
 				axios('/api/member/one').then(res => {
 					self.getMemberData = res.data;
 					self.getMemberData[0].updatemember.memberBirthday = res.data[0].updatemember.memberBirthday.slice(0, 10);
@@ -171,12 +172,12 @@
 					self.EditMember.memberEmail = self.getMemberData[0].updatemember.memberEmail;
 					self.EditMember.memberBirthday = self.getMemberData[0].updatemember.memberBirthday;
 				});
-
+				this.getAdress();
 			},
 			methods: {
-				Update: function () {
-					const self = this;
-					const request = {
+				Update: function() {
+					let self = this;
+					let request = {
 						MemberAdress: self.EditMember.memberAdress,
 						MemberGender: self.EditMember.memberGender,
 						MemberPhone: self.EditMember.memberPhone,
@@ -185,43 +186,16 @@
 						MemberBirthday: self.EditMember.memberBirthday
 					};
 					axios.put('/api/member/edit', request).then(res => {
-						//if(res.data == "good"){
+						
 						Swal.fire('修改成功');
-						//}
-						//else{
-						//	Swal.fire('修改失敗')
-						//}
-						//self.EditMember.memberName = "",
-						//	self.EditMember.memberPhone = "",
-						//	self.EditMember.memberAdress = "",
-						//	self.EditMember.memberGender = 0,
-						//	self.EditMember.memberEmail = "",
-						//	self.EditMember.memberBirthday = new Date().toISOString();
+					
+						
+				
 					});
 				},
-				//Edit: function () {
-				//	let self = this;
-				//	axios.post('/api/member/edit', self.EditMember).then(res => {
-				//		self.EditMember.memberName = "",
-				//			self.EditMember.memberPhone = "",
-				//			self.EditMember.memberAdress = "",
-				//			self.EditMember.memberGender = 0,
-				//			self.EditMember.memberEmail = "",
-				//			self.EditMember.memberBirthday = new Date().toISOString();
-				//	})
-				//},
-				//EditComfirm: function (item) {
-				//	this.EditMember.memberName = item.updatemember.memberName
-				//	this.EditMember.memberPhone = item.updatemember.memberPhone
-				//	this.EditMember.memberAdress = item.updatemember.memberAdress
-				//	this.EditMember.memberGender = item.updatemember.memberGender
-				//	this.EditMember.memberEmail = item.updatemember.memberEmail
-				//	this.EditMember.memberBirthday = item.updatemember.memberBirthday
-
-				//}
-				Edit: function () {
-					const self = this;
-					const request = {
+				Edit: function() {
+					let self = this;
+					let request = {
 						checkPassord: self.EditPassord.checkPassord,
 						newPassord: self.EditPassord.newPassord
 					};
@@ -242,8 +216,23 @@
 							confirmButtonText: `確認`,
 						});
 					});
+				},
+				getAdress:function(){
+					//let self = this;
+					if(this.EditMember.memberAdress === ""){
+						this.EditMember.memberAdress ="尚未填寫";
+					}
+				},
+
+			},
+			watch: {
+				'EditMember.memberAdress': function (newValue) {
+					if (newValue === "") {
+						this.getAdress();
+					}
 				}
-			}
+			},
+
 		});
 	</script>
 
