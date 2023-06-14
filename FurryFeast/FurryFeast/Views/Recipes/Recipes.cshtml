@@ -196,11 +196,19 @@
 
 				}
 			},
-			beforeDestroy() {
-				const _this = this;
-				//window.removeEventListener('scroll', _this.checkIfTop(_this.scropTarget));
-			},
 			methods: {
+				return: async function() {
+					const _this = this;
+					await _this.allRecipes();
+					_this.getUserData();
+
+					if (_this.typeID != null && _this.recipeID != null) {
+						_this.chooseType(_this.typeID);
+						_this.getRecipe(_this.recipeID);
+
+					}
+				},
+
 				submitForm: function() {
 					let _this = this;
 					let typeID = _this.selectedRecipe.petTypesId;
@@ -336,6 +344,13 @@
 							console.log(response);
 							_this.addCommentSuccess(); // success feedback
 							_this.commentContent = ''; // empty content
+							let typeID = _this.selectedRecipe.petTypesId;
+							let recipeID = _this.selectedRecipeId;
+
+							let returnUrl = '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);
+
+							// 將 returnUrl 作為參數傳遞到登入頁面
+							window.location.href = '/Recipes/Recipes?' + returnUrl;
 						});
 
 				},
@@ -384,6 +399,14 @@
 					axios.post('/api/recipes/EditedMsg', editedMsgRecord)
 						.then(response => {
 							this.editCommentSuccess(response); // success feedback
+							let typeID = _this.selectedRecipe.petTypesId;
+							let recipeID = _this.selectedRecipeId;
+
+							let returnUrl = '&typeID=' + encodeURIComponent(typeID) + '&recipeID=' + encodeURIComponent(recipeID);
+
+							// 將 returnUrl 作為參數傳遞到登入頁面
+							window.location.href = '/Recipes/Recipes?' + returnUrl;
+
 						});
 
 				},
