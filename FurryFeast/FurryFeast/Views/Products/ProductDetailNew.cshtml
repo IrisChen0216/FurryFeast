@@ -9,20 +9,22 @@
 			margin: 0 auto;
 		}
 
-		h6+p {
-			margin-top:0px;
-		}
-		.item{
-			margin-top: 10px;
-			margin-bottom:10px;
+		h6 + p {
+			margin-top: 0px;
 		}
 
-	/*	.img-size{
+		.item {
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+
+		.img-size{
 			padding:30px;
-		}*/
+			width:45%;
+		}
 
 		.slick-product {
-			width:80%;
+			width: 80%;
 		}
 
 		.index-header {
@@ -35,7 +37,7 @@
 				height: auto;
 				max-height: 150px;
 				object-fit: cover;
-				object-position:top;
+				object-position: top;
 			}
 
 			.index-header h2 {
@@ -46,8 +48,8 @@
 				z-index: 1;
 			}
 
-		.empty{
-			height:20px;
+		.empty {
+			height: 20px;
 		}
 	</style>
 }
@@ -59,27 +61,20 @@
 <div class="container" id="app">
 	<div class="row row-30">
 		<div class="col-lg-6 img-size">
-			<div class="slick-vertical slick-product">
-				<!-- Slick Carousel-->
-				<div class="slick-slider carousel-parent" id="carousel-parent" data-items="1" data-swipe="true" data-child="#child-carousel" data-for="#child-carousel">
-					<div class="item">
-						<div class="slick-product-figure">
-							<img :src="'data:image/png;base64,'+ selectedImage" alt="" width="530" height="480" @@load="checkAllImagesLoaded" />
-						</div>
-					</div>
+			<div class="item">
 
-				</div>
+				<img :src="'data:image/png;base64,'+ selectedImage" alt="" width="530" height="480" />
 
-				<div class="slick-slider child-carousel slick-nav-1" id="child-carousel" data-arrows="true" data-items="3" data-sm-items="3" data-md-items="3" data-lg-items="3" data-xl-items="3" data-xxl-items="3" data-md-vertical="true" data-for="#carousel-parent">
-					<div class="item" v-for="(pic,idx) in ProductDetail.productPicImage" v-on:click="selectImage(pic)">
-						<div class="slick-product-figure">
-							<img :src="'data:image/png;base64,'+pic" alt="" width="530" height="480" @@load="checkAllImagesLoaded" />
-						</div>
-					</div>
+			</div>
+
+			<div class="row">
+				<div class="col-4" v-for="(pic,idx) in ProductDetail.productPicImage" v-on:click="selectImage(pic)">
+					<img :src="'data:image/png;base64,'+pic" alt="" width="175" height="160" />
 				</div>
 			</div>
+
 		</div>
-		<div class="col-lg-6">
+		<div class="col-lg-6" style="margin-top: 50px;">
 			<div class="single-product">
 				<h3 class="text-transform-none fw-medium">{{ProductDetail.productName}}</h3>
 				<div class="group-md group-middle">
@@ -105,15 +100,15 @@
 					<h6>商品數量: {{ProductDetail.productAmount}}</h6>
 					@*<p>{{ProductDetail.productAmount}}</p>*@
 				</div>
-				<div class="group-xs group-middle">					
-						<div class="product-stepper">
-							<input id="ProductAmount" class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
-							
-						</div>
+				<div class="group-xs group-middle">
+					<div class="product-stepper">
+						<input id="ProductAmount" class="form-input" type="number" data-zeros="true" value="1" min="1" max="1000">
+
+					</div>
 					<button class="button button-lg button-primary button-zakaria" type="submit" v-on:click="AddAmount(ProductDetail.productId)">加入購物車</button>
-					
+
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -123,8 +118,25 @@
 
 @section Scripts{
 
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
 	<script>
+
+		//$('.slider-for').slick({
+		//	slidesToShow: 1,
+		//	slidesToScroll: 1,
+		//	arrows: false,
+		//	fade: true,
+		//	asNavFor: '.slider-nav'
+		//});
+		//$('.slider-nav').slick({
+		//	slidesToShow: 3,
+		//	slidesToScroll: 1,
+		//	asNavFor: '.slider-for',
+		//	dots: true,
+		//	centerMode: true,
+		//	focusOnSelect: true
+		//});
 
 		let app = new Vue({
 			el: '#app',
