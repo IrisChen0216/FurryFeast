@@ -25,7 +25,8 @@ namespace FurryFeast.Controllers
 			MerchantID = "MS149054042",
 			HashKey = "YhMBZHNsbMbVVJtjhbV87gzFLApRblCV",
 			HashIV = "C0jt6somi3UVt0eP",
-			ReturnURL = "https://localhost:7110/PayMoney/FinishPay",
+			//ReturnURL = "https://localhost:7110/PayMoney/FinishPay",//local端
+			ReturnURL = "https://furryfeastweb.azurewebsites.net/PayMoney/FinishPay",//線上部屬URL
 
 			NotifyURL = "http://yourWebsitUrl/Bank/SpgatewayNotify",
 			CustomerURL = "http://yourWebsitUrl/Bank/SpgatewayCustomer",
@@ -35,7 +36,8 @@ namespace FurryFeast.Controllers
 
 		PayMoneyInfo PetClassPayMoneyInfo = new PayMoneyInfo
 		 {
-			ReturnURL = "https://localhost:7110/PayMoney/PetClassFinishPay",
+			//ReturnURL = "https://localhost:7110/PayMoney/PetClassFinishPay",//local端
+			ReturnURL = "https://furryfeastweb.azurewebsites.net/PayMoney/PetClassFinishPay",
 		};
 
 		[HttpPost]
