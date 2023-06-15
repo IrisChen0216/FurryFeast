@@ -75,15 +75,15 @@
 						<tbody>
 							<tr>
 								<td><span class="fw-medium">收件人姓名</span></td>
-								<td><span class="fw-medium"><input name="OrderRecipientName" /></span></td>
+								<td><span class="fw-medium"><input name="OrderRecipientName" type="text" required/></span></td>
 							</tr>
 							<tr>
 								<td><span class="fw-medium">收件人電話</span></td>
-								<td><span class="fw-medium"><input name="OrderRecipientPhone" /></span></td> @*待改*@
+								<td><span class="fw-medium"><input name="OrderRecipientPhone" type="text" required /></span></td> @*待改*@
 							</tr>
 							<tr>
 								<td><span class="fw-medium">收件人地址</span></td>
-								<td><span class="fw-medium"><input name="OrderRecipientAdress" /></span></td>
+								<td><span class="fw-medium"><input name="OrderRecipientAdress" type="text" required /></span></td>
 							</tr>
 						</tbody>
 					</table>
@@ -126,7 +126,7 @@
 					<div class="row send">
 						<input type="hidden" name="OrderTotalPrice" value="@Model.Order.OrderTotalPrice" />
 						<button class="button button-sm button-primary button-zakaria" type="submit">送出訂單</button>
-					</div>"
+					</div>
 				</div>
 			</div>
 		</div>
