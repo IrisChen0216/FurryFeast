@@ -2,6 +2,7 @@
 using FurryFeast.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace FurryFeast.Areas.Admin.Api {
@@ -86,9 +87,13 @@ namespace FurryFeast.Areas.Admin.Api {
 				return BadRequest($"Delete failed, ImagesCode: {code}");
 			}
 
-			_context.StockImages.Remove(result);
-			await _context.SaveChangesAsync();
-			return Ok($"Delete success, ImagesCode: {code}.");
+			try {
+				_context.StockImages.Remove(result);
+				await _context.SaveChangesAsync();
+				return Ok($"Delete success, ImagesCode: {code}.");
+			} catch (SqlException ex) {
+				return BadRequest("SqlException!");
+			}
 		}
 
 		// 更新一筆資料
