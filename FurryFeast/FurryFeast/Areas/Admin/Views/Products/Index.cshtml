@@ -301,6 +301,7 @@
 			</div>
 		</div>
 	</div>
+	<form method="post">
 	<div class="modal fade " id="insertPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 			<div class="modal-content">
@@ -313,15 +314,15 @@
 						<div class="col-6">
 							<div class="form-group">
 								<label class="form-label new-title">商品名稱:</label>
-								<input class="form-control new-product" v-model="productName" required />
+								<input class="form-control new-product" v-model="productName" type="text" required />
 							</div>
 							<div class="form-group">
 								<label class="form-label new-title">商品售價:</label>
-								<input class="form-control new-product" v-model="productPrice" required />
+								<input class="form-control new-product" v-model="productPrice" type="number" required />
 							</div>
 							<div class="form-group">
 								<label class="form-label new-title">上架數量:</label>
-								<input class="form-control new-product" v-model="productAmount" required />
+								<input class="form-control new-product" v-model="productAmount" type="number" required />
 							</div>
 						</div>
 						<div class="col-6">
@@ -371,12 +372,13 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn delete-btn" data-bs-dismiss="modal" v-on:click="CloseInsertPage">關閉</button>
-					<button type="button" class="btn btn-primary" v-on:click="AddProduct">新增</button>
+					<button type="submit" class="btn btn-primary" v-on:click="AddProduct">新增</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
+	</form>
 
 	<div class="modal fade " id="insertImgPage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" enctype="multipart/form-data">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
