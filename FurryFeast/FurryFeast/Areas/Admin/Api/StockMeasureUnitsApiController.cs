@@ -16,7 +16,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
         // 查詢所有資料
         [HttpGet]
-        public async Task<object> GetAll() {
+        public async Task<IActionResult> GetAll() {
             if (_context.StockMeasureUnits == null) {
                 return NotFound("StockMeasureUnits is null.");
             }
@@ -31,7 +31,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
         // 新增一筆資料
         [HttpPost]
-        public async Task<object> PostData([FromBody] StockMeasureUnitsViewModel data) {
+        public async Task<IActionResult> PostData([FromBody] StockMeasureUnitsViewModel data) {
             if (_context.StockMeasureUnits == null) {
                 return NotFound("StockMeasureUnits is null.");
             }
@@ -55,7 +55,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
         // 刪除一筆資料
         [HttpDelete("{code}")]
-        public async Task<object> DeleteData(string code) {
+        public async Task<IActionResult> DeleteData(string code) {
             if (_context.StockMeasureUnits == null) {
                 return NotFound("StockMeasureUnits is null");
             }
@@ -73,7 +73,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
         // 更新一筆資料
         [HttpPatch]
-        public async Task<object> PatchData([FromBody] StockMeasureUnitsViewModel data) {
+        public async Task<IActionResult> PatchData([FromBody] StockMeasureUnitsViewModel data) {
             if (_context.StockMeasureUnits == null) {
                 return NotFound("StockMeasureUnits is null");
             }

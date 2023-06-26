@@ -17,7 +17,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
 		// 查詢所有資料
 		[HttpGet]
-		public async Task<object> GetAll() {
+		public async Task<IActionResult> GetAll() {
 			if (_context.StockImages == null) {
 				return NotFound("StockImages is null.");
 			}
@@ -34,7 +34,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
 		// 查詢所有資料 但沒有圖片
 		[HttpGet]
-		public async Task<object> GetAllWithoutBitmap() {
+		public async Task<IActionResult> GetAllWithoutBitmap() {
 			if (_context.StockImages == null) {
 				return NotFound("StockImages is null.");
 			}
@@ -50,7 +50,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
 		// 新增一筆資料
 		[HttpPost]
-		public async Task<object> PostData([FromBody] StockImageViewModel data) {
+		public async Task<IActionResult> PostData([FromBody] StockImageViewModel data) {
 			if (_context.StockImages == null) {
 				return NotFound("StockImages is null.");
 			}
@@ -76,7 +76,7 @@ namespace FurryFeast.Areas.Admin.Api {
 
 		// 刪除一筆資料
 		[HttpDelete("{code}")]
-		public async Task<object> DeleteData(string code) {
+		public async Task<IActionResult> DeleteData(string code) {
 			if (_context.StockImages == null) {
 				return NotFound("StockImages is null");
 			}
@@ -91,14 +91,14 @@ namespace FurryFeast.Areas.Admin.Api {
 				_context.StockImages.Remove(result);
 				await _context.SaveChangesAsync();
 				return Ok($"Delete success, ImagesCode: {code}.");
-			} catch (SqlException ex) {
-				return BadRequest("SqlException!");
+			} catch (DbUpdateException ex) {
+				return BadRequest(ex.InnerException!.Message);
 			}
 		}
 
 		// 更新一筆資料
 		[HttpPatch]
-		public async Task<object> PatchData([FromBody] StockImageViewModel data) {
+		public async Task<IActionResult> PatchData([FromBody] StockImageViewModel data) {
 			if (_context.StockImages == null) {
 				return NotFound("StockImages is null");
 			}
