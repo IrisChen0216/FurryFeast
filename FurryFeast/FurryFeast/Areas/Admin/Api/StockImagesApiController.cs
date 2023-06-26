@@ -87,6 +87,8 @@ namespace FurryFeast.Areas.Admin.Api {
 				return BadRequest($"Delete failed, ImagesCode: {code}");
 			}
 
+
+			// 刪除時的FK錯誤
 			try {
 				_context.StockImages.Remove(result);
 				await _context.SaveChangesAsync();

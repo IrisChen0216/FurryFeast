@@ -91,64 +91,64 @@
 		<div class="container mt-3">
 			<div class="row">
 				<div v-for="item in allData" class="col-lg-4 col-md-4 col-6 mb-4">
-					@*<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + item.animal_id">*@
-					<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + item.動物的流水編號">
+					<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + item.animal_id">
+					@*<div class="card-new" style="background: white; box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.05)" data-bs-toggle="modal" v-bind:data-bs-target="'#qq' + item.動物的流水編號">*@
 						<div class="square-img-container">
-							@*<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">*@
-							<img v-if="item.圖片名稱 == ''" src="~/image/no-pictures.png" alt="">
-							@*<img v-else="" v-bind:src="item.album_file" alt="">*@
-							<img v-else="" v-bind:src="item.圖片名稱" alt="">
+							<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
+							@*<img v-if="item.圖片名稱 == ''" src="~/image/no-pictures.png" alt="">*@
+							<img v-else="" v-bind:src="item.album_file" alt="">
+							@*<img v-else="" v-bind:src="item.圖片名稱" alt="">*@
 						</div>
 						<div class="card-body-new">
-							@*<p class="card-title">{{item.animal_Variety}}</p>*@
-							<p class="card-title">{{item.動物品種}}</p>
-							@*<p class="card-text">{{item.animal_place}}</p>*@
-							<p class="card-text">{{item.動物的實際所在地}}</p>
-							<p class="card-text" v-if="item.動物性別 == 'F'">母</p>
-							<p class="card-text" v-if="item.動物性別 == 'M'">公</p>
-							<p class="card-text" v-if="item.動物性別 == 'N'">未知</p>
+							<p class="card-title">{{item.animal_Variety}}</p>
+							@*<p class="card-title">{{item.動物品種}}</p>*@
+							<p class="card-text">{{item.animal_place}}</p>
+							@*<p class="card-text">{{item.動物的實際所在地}}</p>*@
+							<p class="card-text" v-if="item.animal_sex == 'F'">母</p>
+							<p class="card-text" v-if="item.animal_sex == 'M'">公</p>
+							<p class="card-text" v-if="item.animal_sex == 'N'">未知</p>
 							@*<p class="card-text">{{item.animal_colour}}</p>*@
-							<p class="card-text" v-if="item.動物年紀 == 'CHILD'">幼年</p>
-							<p class="card-text" v-if="item.動物年紀 == 'ADULT'">成年</p>
+							<p class="card-text" v-if="item.animal_age == 'CHILD'">幼年</p>
+							<p class="card-text" v-if="item.animal_age == 'ADULT'">成年</p>
 						</div>
 					</div>
 
 					@*modal*@
-					@*<div class="modal fade" v-bind:id="'qq' + item.animal_id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">*@
-					<div class="modal fade" v-bind:id="'qq' + item.動物的流水編號" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal fade" v-bind:id="'qq' + item.animal_id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					@*<div class="modal fade" v-bind:id="'qq' + item.動物的流水編號" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">*@
 						<div class="modal-dialog modal-xl">
 							<div class="modal-content">
 								<div class="modal-header">
-									@*<h1 class="modal-title fs-5" id="qqq">{{item.animal_place}}</h1>*@
-									<h1 class="modal-title fs-5" id="qqq">{{item.動物的實際所在地}}</h1>
+									<h1 class="modal-title fs-5" id="qqq">{{item.animal_place}}</h1>
+									@*<h1 class="modal-title fs-5" id="qqq">{{item.動物的實際所在地}}</h1>*@
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									@*<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">*@
-									<img v-if="item.圖片名稱 == ''" src="~/image/no-pictures.png" alt="">
-									@*<img v-else="" v-bind:src="item.album_file" alt="">*@
-									<img v-else="" v-bind:src="item.圖片名稱" alt="">
+									<img v-if="item.album_file == ''" src="~/image/no-pictures.png" alt="">
+									@*<img v-if="item.圖片名稱 == ''" src="~/image/no-pictures.png" alt="">*@
+									<img v-else="" v-bind:src="item.album_file" alt="">
+									@*<img v-else="" v-bind:src="item.圖片名稱" alt="">*@
 
-									@*<p class="card-title">{{item.animal_Variety}}</p>*@
-									<p class="card-title">{{item.動物品種}}</p>
-									@*<p class="card-text">{{item.animal_place}}</p>*@
-									<p class="card-text">{{item.動物的實際所在地}}</p>
-									<p class="card-text" v-if="item.動物性別 == 'F'">母</p>
-									<p class="card-text" v-if="item.動物性別 == 'M'">公</p>
-									<p class="card-text" v-if="item.動物性別 == 'N'">未知</p>
+									<p class="card-title">{{item.animal_Variety}}</p>
+									@*<p class="card-title">{{item.動物品種}}</p>*@
+									<p class="card-text">{{item.animal_place}}</p>
+									@*<p class="card-text">{{item.動物的實際所在地}}</p>*@
+									<p class="card-text" v-if="item.animal_sex == 'F'">母</p>
+									<p class="card-text" v-if="item.animal_sex == 'M'">公</p>
+									<p class="card-text" v-if="item.animal_sex == 'N'">未知</p>
 									@*<p class="card-text">{{item.animal_colour}}</p>*@
-									<p class="card-text" v-if="item.動物年紀 == 'CHILD'">幼年</p>
-									<p class="card-text" v-if="item.動物年紀 == 'ADULT'">成年</p>
-									@*<p class="card-text">資料更新時間: {{item.cDate}}</p>*@
-									<p class="card-text">資料更新時間: {{item.資料更新時間}}</p>
-									@*<p class="card-text">動物尋獲地: {{item.animal_foundplace}}</p>*@
-									<p class="card-text">動物尋獲地: {{item.動物尋獲地}}</p>
-									@*<p class="card-text">動物狀態: {{item.animal_status}}</p>*@
-									<p class="card-text">動物狀態: {{item.動物狀態}}</p>
-									@*<p class="card-text">地址: {{item.shelter_address}}</p>*@
-									<p class="card-text">地址: {{item.地址}}</p>
-									@*<p class="card-text">連絡電話: {{item.shelter_tel}}</p>*@
-									<p class="card-text">連絡電話: {{item.連絡電話}}</p>
+									<p class="card-text" v-if="item.animal_age == 'CHILD'">幼年</p>
+									<p class="card-text" v-if="item.animal_age == 'ADULT'">成年</p>
+									<p class="card-text">資料更新時間: {{item.cDate}}</p>
+									@*<p class="card-text">資料更新時間: {{item.資料更新時間}}</p>*@
+									<p class="card-text">動物尋獲地: {{item.animal_foundplace}}</p>
+									@*<p class="card-text">動物尋獲地: {{item.動物尋獲地}}</p>*@
+									<p class="card-text">動物狀態: {{item.animal_status}}</p>
+									@*<p class="card-text">動物狀態: {{item.動物狀態}}</p>*@
+									<p class="card-text">地址: {{item.shelter_address}}</p>
+									@*<p class="card-text">地址: {{item.地址}}</p>*@
+									<p class="card-text">連絡電話: {{item.shelter_tel}}</p>
+									@*<p class="card-text">連絡電話: {{item.連絡電話}}</p>*@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-primary" data-bs-dismiss="modal">關閉</button>
