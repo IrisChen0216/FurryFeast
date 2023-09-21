@@ -1,4 +1,5 @@
-﻿namespace FurryFeast.Areas.Admin.ViewModels
+﻿
+namespace FurryFeast.Areas.Admin.ViewModels
 {
 	public class ContactUsViewModel
 	{
