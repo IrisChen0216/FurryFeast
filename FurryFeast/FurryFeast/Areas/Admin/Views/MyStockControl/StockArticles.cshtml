@@ -307,7 +307,7 @@
 					let _this = this;
 					this.showData = this.Source.StockArticleData.filter(data => data.articlesCode.includes(_this.keyWord) || data.articlesDescription.includes(_this.keyWord));
 				},
-				// 選擇產品 做深度拷貝 先轉成字串再轉回JSON 避免右邊資料影響左邊
+				// 選擇產品 做深度拷貝 先轉成字串再轉回JSON 避免右邊資料影響左邊 test
 				clickArticle: function (data) {
 					this.choseTableData = JSON.parse(JSON.stringify(data));
 					this.flag_classOutline = true;
